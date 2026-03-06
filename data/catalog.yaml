@@ -1,0 +1,85 @@
+datasets:
+  provided:
+    disease_mortality:
+      path: raw/provided/01_disease_mortality/
+      description: "Global disease burden and mortality by cause, age, sex"
+      key_variables: [daly_rate, yll_rate, yld_rate, death_rate, cause, age_group, sex]
+      dimensions: [D1, D2, D3]
+      temporal: "varies"
+
+    risk_factors:
+      path: raw/provided/02_risk_factors/
+      description: "Risk factor exposure data (PM2.5, smoking, diet, BMI, alcohol)"
+      key_variables: [pm25_exposure, smoking_prev, diet_quality, mean_bmi, alcohol_consumption]
+      dimensions: [D2, D1]
+      temporal: "varies"
+
+    nutrition_population:
+      path: raw/provided/03_nutrition_population/
+      description: "Nutrition indicators, population pyramids, fertility, immunization"
+      key_variables: [malnutrition_rate, population, fertility_rate, immunization_coverage]
+      dimensions: [D1, D2, D3]
+      temporal: "varies"
+
+    socioeconomic:
+      path: raw/provided/04_socioeconomic/
+      description: "GDP, education, urbanization, Gini coefficient"
+      key_variables: [gdp_pc, education_index, urbanization_rate, gini_coefficient]
+      dimensions: [D1, D2, D3]
+      temporal: "varies"
+
+    china_health:
+      path: raw/provided/05_china_health/
+      description: "China provincial health data (20 years)"
+      key_variables: [hospital_beds, physician_density, health_expenditure, disease_registry]
+      dimensions: [D3, D1]
+      temporal: "~2003-2023"
+
+  external:
+    ihme_gbd:
+      path: raw/external/ihme_gbd/
+      source: "https://vizhub.healthdata.org/gbd-results/"
+      description: "IHME GBD 2023: DALYs, YLLs, YLDs by cause/risk/location"
+      coverage: "204 countries, 1990-2023"
+
+    who_ghe:
+      path: raw/external/who_ghe/
+      source: "WHO Global Health Estimates"
+      description: "Cause-specific mortality, life expectancy"
+
+    worldbank_wdi:
+      path: raw/external/worldbank_wdi/
+      source: "World Bank WDI via wbgapi"
+      description: "Health expenditure, hospital beds, physicians, LE, GDP"
+
+    undp_hdi:
+      path: raw/external/undp_hdi/
+      source: "https://hdr.undp.org/data-center/human-development-index"
+      description: "HDI, education index, GNI per capita"
+
+    owid:
+      path: raw/external/owid/
+      source: "Our World in Data GitHub"
+      description: "PM2.5, smoking prevalence, vaccination, clean water"
+
+    china_nbs:
+      path: raw/external/china_nbs/
+      source: "China National Bureau of Statistics"
+      description: "Provincial health expenditure, beds, disease incidence"
+
+processed:
+  master_panel:
+    path: processed/master_panel.parquet
+    keys: [iso3, year]
+    description: "Country-year panel (~200 countries x 24 years x ~500 variables)"
+    window: "2000-2023"
+
+  china_panel:
+    path: processed/china_panel.parquet
+    keys: [province, year]
+    description: "China province-year panel (31 provinces x ~20 years)"
+    window: "2003-2023"
+
+  spatial:
+    path: processed/spatial/
+    description: "GeoJSON country polygons with data attributes"

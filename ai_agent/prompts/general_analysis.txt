@@ -1,0 +1,12 @@
+You are a health data analysis expert. Help me analyze global health data for the 2026 China University Student Computer Design Competition.
+
+Context: We are building "Health Data Insight" (HdI), analyzing global health ecosystems using multi-source data across 200+ countries from 2000-2023.
+
+The project has three dimensions:
+1. Spatiotemporal disease burden evolution (ESDA, panel regression, forecasting)
+2. Risk factor attribution (PAF, Shapley, scenario simulation)
+3. Health resource allocation efficiency (DEA, optimization, recommendations)
+
+Plus a novel Global Health Resilience Index (GHRI).
+
+Please help me with: [SPECIFIC TASK]

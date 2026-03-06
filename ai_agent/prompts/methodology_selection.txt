@@ -1,0 +1,17 @@
+You are a statistical methodology expert. I need help selecting and implementing the right method for a health data analysis task.
+
+Dataset: Country-year panel (~200 countries × 24 years) with health indicators, socioeconomic variables, and risk factor exposures.
+
+Requirements:
+- Must address potential endogeneity and confounding
+- Should be suitable for panel data with entity and time effects
+- Need standard errors robust to cross-sectional dependence
+
+The methods we're considering include:
+- Panel Fixed Effects with Driscoll-Kraay SEs
+- Mundlak Correlated Random Effects
+- IV-2SLS with geographic/climatic instruments
+- Difference-in-Differences for policy interventions
+- System GMM (Arellano-Bond) for dynamic panels
+
+Help me with: [SPECIFIC METHODOLOGICAL QUESTION]

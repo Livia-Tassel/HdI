@@ -1,0 +1,184 @@
+\documentclass[12pt,a4paper]{article}
+
+% ── Packages ──────────────────────────────────────────────────────────────────
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{geometry}
+\usepackage{hyperref}
+\usepackage{natbib}
+\usepackage{float}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{xcolor}
+\usepackage{enumitem}
+\usepackage{fancyhdr}
+
+\geometry{margin=2.5cm}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{Health Data Insight}
+\fancyhead[R]{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue!60!black,
+    citecolor=green!50!black,
+    urlcolor=blue!60!black,
+}
+
+% ── Title ─────────────────────────────────────────────────────────────────────
+\title{\textbf{Health Data Insight: Global Health Ecosystem Analysis} \\[0.5em]
+\large Disease Burden Evolution, Risk Factor Attribution, \\
+and Health Resource Allocation Optimization}
+\author{Team Name \\ University Name}
+\date{March 2026}
+
+\begin{document}
+\maketitle
+\begin{abstract}
+This study presents a comprehensive analysis of the global health ecosystem using multi-source data spanning 200+ countries over 24 years (2000--2023). We address three dimensions: (1) spatiotemporal disease burden evolution using spatial econometrics (LISA, Moran's I) and panel regression with Driscoll-Kraay standard errors; (2) risk factor attribution via Population Attributable Fractions, Shapley value decomposition, and 20-year policy scenario simulation with Monte Carlo uncertainty; (3) health resource allocation efficiency assessed through Data Envelopment Analysis, four-quadrant classification, and multi-objective optimization. We introduce the Global Health Resilience Index (GHRI), a novel PCA-weighted composite index measuring national health system performance across five pillars. Our causal inference toolkit---including instrumental variables, difference-in-differences, and mediation analysis---goes beyond correlations to identify actionable policy levers. Results provide evidence-based recommendations for intervention prioritization tailored to country income groups and efficiency quadrants.
+\end{abstract}
+
+\tableofcontents
+\newpage
+
+% ══════════════════════════════════════════════════════════════════════════════
+\section{Introduction}
+\label{sec:intro}
+
+\subsection{Background and Motivation}
+% Global health challenges, SDG 3, need for data-driven insights
+
+\subsection{Research Questions}
+\begin{enumerate}
+    \item How has the global disease burden evolved spatiotemporally, and what socioeconomic factors drive health outcomes?
+    \item What is the quantitative contribution of modifiable risk factors to disease burden, and what would future trajectories look like under different policy scenarios?
+    \item How efficiently are health resources allocated globally, and what reallocation would maximize health outcomes while reducing inequality?
+\end{enumerate}
+
+\subsection{Contributions}
+\begin{itemize}
+    \item Novel GHRI composite index with PCA-weighted geometric aggregation
+    \item Causal inference beyond correlations (IV, DiD, mediation)
+    \item Shapley value decomposition for fair risk factor attribution
+    \item Three optimization models for resource reallocation
+    \item System dynamics simulation with Monte Carlo uncertainty quantification
+\end{itemize}
+
+% ══════════════════════════════════════════════════════════════════════════════
+\section{Data and Methods}
+\label{sec:data}
+
+\subsection{Data Sources}
+% Table of 5 provided datasets + supplementary sources
+
+\subsection{Data Processing Pipeline}
+% Country code harmonization, temporal alignment, imputation strategy
+% Reference to master_panel.parquet
+
+\subsection{Analytical Framework}
+% Overview of three-dimensional framework
+
+% ══════════════════════════════════════════════════════════════════════════════
+\section{Dimension 1: Spatiotemporal Disease Burden Analysis}
+\label{sec:dim1}
+
+\subsection{Spatial Autocorrelation and Hot Spot Detection}
+% Moran's I, LISA cluster maps
+
+\subsection{Trend Analysis and Joinpoint Detection}
+% Mann-Kendall, Sen's slope, joinpoint regression
+
+\subsection{Health Indicator Determinants}
+% Panel FE with Driscoll-Kraay SEs
+% Mundlak CRE comparison
+% SHAP variable importance
+
+\subsection{Causal Analysis}
+% DAG specification, IV estimation, DiD, mediation
+
+\subsection{Forecasting}
+% ARIMA, Prophet, LSTM comparison
+
+% ══════════════════════════════════════════════════════════════════════════════
+\section{Dimension 2: Risk Factor Attribution}
+\label{sec:dim2}
+
+\subsection{PAF Decomposition}
+% Country-level PAF, joint PAF
+
+\subsection{Shapley Value Attribution}
+% Game-theoretic fair allocation
+
+\subsection{Dose-Response Modeling}
+% Spline regression, elasticity estimation
+
+\subsection{20-Year Policy Scenario Simulation}
+% System dynamics, 4 scenarios, Monte Carlo CI
+
+\subsection{Cost-Effective Intervention Prioritization}
+% ICER, principal contradiction analysis
+
+% ══════════════════════════════════════════════════════════════════════════════
+\section{Dimension 3: Health Resource Allocation}
+\label{sec:dim3}
+
+\subsection{Needs-Based Resource Gap Assessment}
+% Theoretical need formula, gap grading
+
+\subsection{Efficiency Evaluation Matrix}
+% DEA (VRS), four-quadrant classification
+% Malmquist productivity index
+
+\subsection{Optimization Models}
+% Max output, Rawlsian maximin, multi-objective Pareto
+
+\subsection{Tailored Recommendations}
+% Per-quadrant policy guidance
+
+% ══════════════════════════════════════════════════════════════════════════════
+\section{Global Health Resilience Index (GHRI)}
+\label{sec:ghri}
+
+\subsection{Index Construction}
+% 5 pillars, PCA weights, geometric aggregation
+
+\subsection{Country Rankings and Uncertainty}
+% Bootstrap CI for ranks
+
+\subsection{Validation Against Existing Indices}
+% Correlation with HDI, UHC coverage
+
+% ══════════════════════════════════════════════════════════════════════════════
+\section{Results and Discussion}
+\label{sec:results}
+
+\subsection{Key Findings}
+
+\subsection{Policy Implications}
+
+\subsection{Limitations}
+
+% ══════════════════════════════════════════════════════════════════════════════
+\section{Conclusion}
+\label{sec:conclusion}
+
+% ══════════════════════════════════════════════════════════════════════════════
+\section*{Acknowledgments}
+
+% ══════════════════════════════════════════════════════════════════════════════
+\bibliographystyle{apalike}
+\bibliography{references}
+
+% ══════════════════════════════════════════════════════════════════════════════
+\appendix
+\section{Supplementary Tables}
+\section{Additional Figures}
+\section{AI Agent Collaboration Log}
+
+\end{document}

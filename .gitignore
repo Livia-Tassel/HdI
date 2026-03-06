@@ -1,0 +1,50 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+dist/
+build/
+*.egg
+
+# Data (keep structure, not large files)
+data/raw/provided/**/*.csv
+data/raw/provided/**/*.xlsx
+data/raw/external/**/*.csv
+data/raw/external/**/*.zip
+data/interim/*.parquet
+data/interim/*.csv
+data/processed/*.parquet
+data/processed/.data_pipeline.stamp
+data/processed/spatial/*.geojson
+!data/raw/provided/.gitkeep
+!data/raw/external/.gitkeep
+
+# Jupyter
+.ipynb_checkpoints/
+*.ipynb_metadata
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Environment
+.env
+.venv/
+venv/
+
+# Reports (generated)
+reports/*.pdf
+reports/*.aux
+reports/*.log
+reports/*.out
+
+# API output (generated)
+api_output/**/*.json
+!api_output/**/.gitkeep
