@@ -1,197 +1,172 @@
-"""Dataset loading functions for all provided and external data sources."""
+"""Dataset loading helpers for raw, interim, and processed artifacts."""
 
 from __future__ import annotations
 
 import logging
 from pathlib import Path
-from typing import Optional
 
 import pandas as pd
 
 from hdi.config import (
+    API_OUTPUT,
+    CHINA_PANEL,
     DS_CHINA_HEALTH,
     DS_DISEASE_MORTALITY,
     DS_NUTRITION_POP,
     DS_RISK_FACTORS,
     DS_SOCIOECONOMIC,
-    EXT_IHME,
-    EXT_OWID,
-    EXT_UNDP,
-    EXT_WB,
-    EXT_WHO,
     INTERIM,
     MASTER_PANEL,
-    CHINA_PANEL,
+    PROCESSED,
+    RESOURCE_PANEL,
 )
 
 logger = logging.getLogger(__name__)
 
 
-def _read_auto(path: Path, **kwargs) -> pd.DataFrame:
-    """Read CSV or Excel file based on extension."""
-    suffix = path.suffix.lower()
-    if suffix == ".csv":
-        return pd.read_csv(path, **kwargs)
-    if suffix in (".xls", ".xlsx"):
-        if "sheet_name" in kwargs:
-            return pd.read_excel(path, **kwargs)
-
-        workbook = pd.read_excel(path, sheet_name=None, **kwargs)
-        if isinstance(workbook, dict):
-            if len(workbook) == 1:
-                return next(iter(workbook.values()))
-
-            frames = []
-            for sheet_name, frame in workbook.items():
-                frame = frame.copy()
-                frame["_source_sheet"] = sheet_name
-                frames.append(frame)
-            return pd.concat(frames, ignore_index=True)
-        return workbook
-    if suffix == ".parquet":
-        return pd.read_parquet(path, **kwargs)
-    raise ValueError(f"Unsupported file format: {suffix}")
+def _read_csv(path: Path, **kwargs) -> pd.DataFrame:
+    if not path.exists():
+        logger.warning("Missing file: %s", path)
+        return pd.DataFrame()
+    return pd.read_csv(path, **kwargs)
 
 
-def _iter_tabular_files(directory: Path) -> list[Path]:
+def _read_dir_csvs(directory: Path) -> pd.DataFrame:
     if not directory.exists():
-        return []
-
-    files = [
-        path
-        for path in directory.rglob("*")
-        if path.is_file()
-        and not path.name.startswith(".")
-        and path.suffix.lower() in (".csv", ".xls", ".xlsx", ".parquet")
-    ]
-    return sorted(files)
-
-
-def _load_dir(directory: Path, **kwargs) -> pd.DataFrame:
-    """Load and concatenate all tabular files in a directory tree."""
-    frames = []
-    if not directory.exists():
-        logger.warning("Directory not found: %s", directory)
+        logger.warning("Missing directory: %s", directory)
         return pd.DataFrame()
 
-    for path in _iter_tabular_files(directory):
-        logger.info("Loading %s", path.relative_to(directory))
-        frame = _read_auto(path, **kwargs)
+    frames = []
+    for path in sorted(directory.rglob("*.csv")):
+        if path.name.startswith("."):
+            continue
+        frame = pd.read_csv(path)
         if frame.empty:
             continue
         frame = frame.copy()
         frame["_source_file"] = path.relative_to(directory).as_posix()
         frames.append(frame)
-
     if not frames:
-        logger.warning("No data files found in %s", directory)
         return pd.DataFrame()
     return pd.concat(frames, ignore_index=True)
 
 
-# ── Provided datasets ────────────────────────────────────────────────────────
-
-def load_disease_mortality(**kwargs) -> pd.DataFrame:
-    """Load global disease and mortality data (Dataset 1)."""
-    return _load_dir(DS_DISEASE_MORTALITY, **kwargs)
+def load_disease_mortality() -> pd.DataFrame:
+    """Load raw dataset 1."""
+    return _read_dir_csvs(DS_DISEASE_MORTALITY)
 
 
-def load_risk_factors(**kwargs) -> pd.DataFrame:
-    """Load risk factor exposure data (Dataset 2)."""
-    return _load_dir(DS_RISK_FACTORS, **kwargs)
+def load_risk_factors() -> pd.DataFrame:
+    """Load raw dataset 2."""
+    return _read_dir_csvs(DS_RISK_FACTORS)
 
 
-def load_nutrition_population(**kwargs) -> pd.DataFrame:
-    """Load nutrition and population data (Dataset 3)."""
-    return _load_dir(DS_NUTRITION_POP, **kwargs)
-
-
-def load_socioeconomic(**kwargs) -> pd.DataFrame:
-    """Load socioeconomic indicators (Dataset 4)."""
-    return _load_dir(DS_SOCIOECONOMIC, **kwargs)
-
-
-def load_china_health(**kwargs) -> pd.DataFrame:
-    """Load China provincial health data (Dataset 5)."""
-    return _load_dir(DS_CHINA_HEALTH, **kwargs)
-
-
-# ── External datasets ────────────────────────────────────────────────────────
-
-def load_ihme_gbd(**kwargs) -> pd.DataFrame:
-    """Load IHME Global Burden of Disease data."""
-    return _load_dir(EXT_IHME, **kwargs)
-
-
-def load_who_ghe(**kwargs) -> pd.DataFrame:
-    """Load WHO Global Health Estimates."""
-    return _load_dir(EXT_WHO, **kwargs)
-
-
-def load_worldbank_wdi(
-    indicators: Optional[list[str]] = None,
-    years: Optional[range] = None,
-) -> pd.DataFrame:
-    """Load World Bank WDI data.
-
-    If cached parquet exists, load from disk. Otherwise, try wbgapi.
-    """
-    cache = EXT_WB / "wdi_panel.parquet"
-    if cache.exists():
-        df = pd.read_parquet(cache)
-        if years and "year" in df.columns:
-            df = df[df["year"].isin(list(years))]
-        if indicators:
-            cols = ["iso3", "year"] + [c for c in indicators if c in df.columns]
-            df = df[cols]
-        return df
-
-    df = _load_dir(EXT_WB, **{})
-    if years and "year" in df.columns:
-        df = df[df["year"].isin(list(years))]
-    if indicators:
-        cols = ["iso3", "year"] + [c for c in indicators if c in df.columns]
-        available = [col for col in cols if col in df.columns]
-        if available:
-            df = df[available]
+def load_nutrition_population() -> pd.DataFrame:
+    """Load raw dataset 3 main table."""
+    path = DS_NUTRITION_POP / "全球各国健康营养和人口统计数据" / "WB_HNP.csv"
+    df = _read_csv(path)
+    if not df.empty:
+        df["_source_file"] = path.name
     return df
 
 
-def load_undp_hdi(**kwargs) -> pd.DataFrame:
-    """Load UNDP Human Development Index data."""
-    return _load_dir(EXT_UNDP, **kwargs)
+def load_nutrition_glossary() -> pd.DataFrame:
+    path = DS_NUTRITION_POP / "全球各国健康营养和人口统计数据" / "Glossary-健康营养与人口统计.csv"
+    return _read_csv(path)
 
 
-def load_owid(**kwargs) -> pd.DataFrame:
-    """Load Our World in Data indicators."""
-    return _load_dir(EXT_OWID, **kwargs)
+def load_socioeconomic() -> pd.DataFrame:
+    """Load raw dataset 4 main indicator table."""
+    path = DS_SOCIOECONOMIC / "WDI_CSV" / "WDICSV.csv"
+    df = _read_csv(path)
+    if not df.empty:
+        df["_source_file"] = path.name
+    return df
 
 
-# ── Processed panels ─────────────────────────────────────────────────────────
-
-def load_master_panel() -> pd.DataFrame:
-    """Load the assembled country-year master panel."""
-    if not MASTER_PANEL.exists():
-        raise FileNotFoundError(
-            f"Master panel not found at {MASTER_PANEL}. "
-            "Run the data pipeline first (make data)."
-        )
-    return pd.read_parquet(MASTER_PANEL)
+def load_wdi_country_metadata() -> pd.DataFrame:
+    path = DS_SOCIOECONOMIC / "WDI_CSV" / "WDICountry.csv"
+    return _read_csv(path)
 
 
-def load_china_panel() -> pd.DataFrame:
-    """Load the assembled China province-year panel."""
-    if not CHINA_PANEL.exists():
-        raise FileNotFoundError(
-            f"China panel not found at {CHINA_PANEL}. "
-            "Run the data pipeline first (make data)."
-        )
-    return pd.read_parquet(CHINA_PANEL)
+def load_china_health() -> pd.DataFrame:
+    """Load raw dataset 5."""
+    return _read_dir_csvs(DS_CHINA_HEALTH)
+
+
+def load_ihme_gbd() -> pd.DataFrame:
+    return pd.DataFrame()
+
+
+def load_who_ghe() -> pd.DataFrame:
+    return pd.DataFrame()
+
+
+def load_worldbank_wdi() -> pd.DataFrame:
+    return pd.DataFrame()
+
+
+def load_undp_hdi() -> pd.DataFrame:
+    return pd.DataFrame()
+
+
+def load_owid() -> pd.DataFrame:
+    return pd.DataFrame()
 
 
 def load_interim(name: str) -> pd.DataFrame:
-    """Load an interim cleaned dataset by name."""
     path = INTERIM / f"{name}.parquet"
     if not path.exists():
         raise FileNotFoundError(f"Interim dataset not found: {path}")
     return pd.read_parquet(path)
+
+
+def load_disease_mortality_long() -> pd.DataFrame:
+    return load_interim("disease_mortality")
+
+
+def load_risk_attribution_long() -> pd.DataFrame:
+    return load_interim("risk_factors")
+
+
+def load_hnp_long() -> pd.DataFrame:
+    return load_interim("nutrition_population")
+
+
+def load_wdi_long() -> pd.DataFrame:
+    return load_interim("socioeconomic")
+
+
+def load_master_panel() -> pd.DataFrame:
+    if not MASTER_PANEL.exists():
+        raise FileNotFoundError(f"Master panel not found: {MASTER_PANEL}")
+    return pd.read_parquet(MASTER_PANEL)
+
+
+def load_resource_panel() -> pd.DataFrame:
+    if not RESOURCE_PANEL.exists():
+        raise FileNotFoundError(f"Resource panel not found: {RESOURCE_PANEL}")
+    return pd.read_parquet(RESOURCE_PANEL)
+
+
+def load_china_panel() -> pd.DataFrame:
+    if not CHINA_PANEL.exists():
+        raise FileNotFoundError(f"China panel not found: {CHINA_PANEL}")
+    return pd.read_parquet(CHINA_PANEL)
+
+
+def load_paf_results() -> pd.DataFrame:
+    path = API_OUTPUT / "dim2" / "paf.json"
+    if not path.exists():
+        return pd.DataFrame()
+    data = pd.read_json(path)
+    if "data" in data.columns:
+        return pd.DataFrame(data["data"].iloc[0])
+    return data
+
+
+def load_intervention_db() -> pd.DataFrame:
+    path = PROCESSED / "dim2_intervention_priority.parquet"
+    if path.exists():
+        return pd.read_parquet(path)
+    return pd.DataFrame()

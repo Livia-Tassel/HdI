@@ -1,94 +1,84 @@
-"""Schema validation using pandera."""
+"""Schema validation for processed panels."""
 
 from __future__ import annotations
 
 import pandera as pa
-from pandera import Column, Check, Index
+from pandera import Check, Column
 
-
-# ── Master panel schema ──────────────────────────────────────────────────────
 
 master_panel_schema = pa.DataFrameSchema(
     columns={
         "iso3": Column(
             str,
-            Check.str_length(3, 3),
+            Check(
+                lambda series: series.astype("string").str.fullmatch(r"[A-Z]{3}"),
+                "ISO alpha-3 country code",
+            ),
             nullable=False,
             description="ISO 3166-1 alpha-3 country code",
         ),
         "year": Column(
             int,
-            Check.in_range(1990, 2025),
+            Check.in_range(2000, 2023),
             nullable=False,
             description="Calendar year",
         ),
     },
-    # Additional columns are allowed (coerce=False by default)
     strict=False,
     description="Global country-year master panel",
 )
 
 
-# ── China panel schema ───────────────────────────────────────────────────────
-
 china_panel_schema = pa.DataFrameSchema(
     columns={
-        "province": Column(
-            str,
-            nullable=False,
-            description="Chinese province name",
-        ),
-        "year": Column(
-            int,
-            Check.in_range(2000, 2025),
-            nullable=False,
-            description="Calendar year",
-        ),
+        "province": Column(str, nullable=False, description="Chinese province or national scope"),
+        "year": Column(int, Check.in_range(2005, 2024), nullable=False),
+        "indicator": Column(str, nullable=False),
+        "value": Column(float, nullable=True),
     },
     strict=False,
-    description="China province-year panel",
+    description="China province-year long panel",
 )
 
 
-# ── Health indicators (non-negative) ────────────────────────────────────────
-
-def make_nonneg_check(col_name: str) -> Column:
-    """Create a Column schema for non-negative numeric values."""
-    return Column(
-        float,
-        Check.greater_than_or_equal_to(0),
-        nullable=True,
-        description=f"{col_name} (non-negative)",
-    )
+def _non_negative(nullable: bool = True) -> Column:
+    return Column(float, Check.greater_than_or_equal_to(0), nullable=nullable)
 
 
-# Common health indicator constraints
 HEALTH_INDICATOR_SCHEMAS = {
+    "total_deaths": _non_negative(),
+    "communicable_deaths": _non_negative(),
+    "ncd_deaths": _non_negative(),
+    "injury_deaths": _non_negative(),
+    "communicable_share": Column(float, Check.in_range(0, 1), nullable=True),
+    "ncd_share": Column(float, Check.in_range(0, 1), nullable=True),
+    "injury_share": Column(float, Check.in_range(0, 1), nullable=True),
     "life_expectancy": Column(float, Check.in_range(20, 100), nullable=True),
-    "daly_rate": make_nonneg_check("daly_rate"),
-    "yll_rate": make_nonneg_check("yll_rate"),
-    "yld_rate": make_nonneg_check("yld_rate"),
-    "mortality_rate": make_nonneg_check("mortality_rate"),
-    "gdp_pc": make_nonneg_check("gdp_pc"),
-    "health_exp_pct_gdp": Column(float, Check.in_range(0, 30), nullable=True),
-    "physicians_per_1000": Column(float, Check.in_range(0, 100), nullable=True),
-    "hospital_beds_per_1000": Column(float, Check.in_range(0, 200), nullable=True),
+    "infant_mortality": _non_negative(),
+    "under5_mortality": _non_negative(),
+    "adult_mortality_male": _non_negative(),
+    "adult_mortality_female": _non_negative(),
+    "physicians_per_1000": _non_negative(),
+    "beds_per_1000": _non_negative(),
+    "nurses_per_1000": _non_negative(),
+    "health_exp_pct_gdp": _non_negative(),
+    "health_exp_per_capita": _non_negative(),
+    "gdp_per_capita": _non_negative(),
+    "urban_population_pct": Column(float, Check.in_range(0, 100), nullable=True),
+    "basic_water_pct": Column(float, Check.in_range(0, 100), nullable=True),
+    "basic_sanitation_pct": Column(float, Check.in_range(0, 100), nullable=True),
+    "measles_immunization_pct": Column(float, Check.in_range(0, 100), nullable=True),
+    "fertility_rate": _non_negative(),
 }
 
 
 def validate_master_panel(df) -> None:
-    """Validate the master panel against its schema.
-
-    Raises pandera.errors.SchemaError on failure.
-    """
     schema = master_panel_schema
-    # Add known health indicator columns if present
-    for col_name, col_schema in HEALTH_INDICATOR_SCHEMAS.items():
-        if col_name in df.columns:
-            schema = schema.add_columns({col_name: col_schema})
+    for name, col_schema in HEALTH_INDICATOR_SCHEMAS.items():
+        if name in df.columns:
+            schema = schema.add_columns({name: col_schema})
     schema.validate(df, lazy=True)
 
 
 def validate_china_panel(df) -> None:
-    """Validate the China panel against its schema."""
     china_panel_schema.validate(df, lazy=True)

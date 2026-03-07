@@ -27,18 +27,19 @@ async def get_paf(
     disease: Optional[str] = Query(None),
     risk_factor: Optional[str] = Query(None),
 ):
-    """Get Population Attributable Fraction decomposition."""
+    """Get risk-attributable death contribution results."""
     data = _load_json(API_OUTPUT / "dim2" / "paf.json")
     if isinstance(data, dict) and "data" in data:
         records = data["data"]
         if country:
             records = [r for r in records if r.get("iso3") == country]
         if disease:
-            records = [r for r in records if r.get("disease") == disease]
+            records = [r for r in records if r.get("cause_name") == disease]
         if risk_factor:
             records = [r for r in records if r.get("risk_factor") == risk_factor]
         data["data"] = records
         data["meta"]["record_count"] = len(records)
+        data["meta"]["method"] = "attributable_share"
     return data
 
 
@@ -47,8 +48,14 @@ async def get_shapley(
     country: str = Query("global"),
     disease: Optional[str] = Query(None),
 ):
-    """Get Shapley value decomposition of disease burden."""
+    """Get a fair-share proxy of observed risk contributions."""
     return _load_json(API_OUTPUT / "dim2" / f"shapley_{country}.json")
+
+
+@router.get("/dim2/sankey", response_model=APIResponse)
+async def get_sankey():
+    """Get risk-to-region Sankey data built from attributable death flows."""
+    return _load_json(API_OUTPUT / "dim2" / "sankey.json")
 
 
 @router.get("/dim2/scenarios", response_model=APIResponse)
@@ -56,7 +63,7 @@ async def get_scenarios(
     scenario: Optional[str] = Query(None, description="A|B|C|D"),
     country: Optional[str] = Query(None),
 ):
-    """Get policy scenario simulation projections (2025-2045)."""
+    """Get policy scenario simulation projections."""
     data = _load_json(API_OUTPUT / "dim2" / "scenarios.json")
     if isinstance(data, dict) and "data" in data:
         records = data["data"]
@@ -71,8 +78,12 @@ async def get_scenarios(
 
 @router.get("/dim2/dose_response", response_model=APIResponse)
 async def get_dose_response(
-    risk_factor: str = Query("pm25"),
-    disease: str = Query("respiratory"),
+    risk_factor: str = Query("air_pollution"),
+    disease: str = Query("all_causes"),
 ):
-    """Get dose-response curve data."""
-    return _load_json(API_OUTPUT / "dim2" / f"dose_response_{risk_factor}_{disease}.json")
+    """Compatibility endpoint retained for legacy frontend expectations."""
+    return {
+        "status": "success",
+        "meta": {"available": False, "risk_factor": risk_factor, "disease": disease},
+        "data": [],
+    }

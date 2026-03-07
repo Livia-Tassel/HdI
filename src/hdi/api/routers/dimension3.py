@@ -25,7 +25,7 @@ def _load_json(path: Path) -> dict | list:
 async def get_resource_gap(
     year: Optional[int] = Query(None),
 ):
-    """Get needs-based resource allocation gaps (GeoJSON-compatible)."""
+    """Get needs-based resource allocation gaps."""
     data = _load_json(API_OUTPUT / "dim3" / "resource_gap.json")
     if isinstance(data, dict) and "data" in data and year:
         records = data["data"]
@@ -41,7 +41,7 @@ async def get_efficiency(
     year: Optional[int] = Query(None),
     quadrant: Optional[str] = Query(None),
 ):
-    """Get DEA efficiency scores and quadrant classification."""
+    """Get input-output efficiency scores and quadrant classification."""
     data = _load_json(API_OUTPUT / "dim3" / "efficiency.json")
     if isinstance(data, dict) and "data" in data:
         records = data["data"]
@@ -57,7 +57,7 @@ async def get_efficiency(
 
 @router.get("/dim3/optimization", response_model=APIResponse)
 async def get_optimization(
-    objective: str = Query("maximize_aggregate_output"),
+    objective: str = Query("maximize_need_weighted_health_output"),
     budget: Optional[float] = Query(None),
 ):
     """Get optimal resource allocation results."""
@@ -68,12 +68,9 @@ async def get_optimization(
 async def get_malmquist(
     country: Optional[str] = Query(None),
 ):
-    """Get Malmquist Productivity Index results."""
-    data = _load_json(API_OUTPUT / "dim3" / "malmquist.json")
-    if isinstance(data, dict) and "data" in data and country:
-        records = data["data"]
-        if isinstance(records, list):
-            records = [r for r in records if r.get("iso3") == country]
-            data["data"] = records
-            data["meta"]["record_count"] = len(records)
-    return data
+    """Compatibility endpoint retained for legacy frontend expectations."""
+    return {
+        "status": "success",
+        "meta": {"available": False, "country": country},
+        "data": [],
+    }

@@ -1,0 +1,703 @@
+"""Competition analysis pipeline built on the provided datasets."""
+
+from __future__ import annotations
+
+import json
+import logging
+from dataclasses import dataclass
+from pathlib import Path
+
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+import seaborn as sns
+import statsmodels.api as sm
+from matplotlib import font_manager as fm
+
+from hdi.api.serializers import (
+    export_dim1_forecasts,
+    export_dim1_spatiotemporal,
+    export_dim1_trends,
+    export_dim2_paf,
+    export_dim2_scenarios,
+    export_dim2_shapley,
+    export_dim3_efficiency,
+    export_dim3_optimization,
+    export_dim3_resource_gap,
+    export_ghri_unavailable,
+    export_metadata_countries,
+    export_metadata_indicators,
+    wrap_response,
+    write_json_artifact,
+)
+from hdi.config import (
+    API_OUTPUT,
+    FIGURES,
+    FORECAST_END_YEAR,
+    INDICATOR_SPECS,
+    MASTER_PANEL,
+    REPORTS,
+    RESOURCE_PANEL,
+    RISK_LABEL_MAP,
+    RISK_INTERVENTIONS,
+    TABLES,
+)
+from hdi.data.loaders import (
+    load_china_panel,
+    load_disease_mortality_long,
+    load_master_panel,
+    load_resource_panel,
+    load_risk_attribution_long,
+)
+
+logger = logging.getLogger(__name__)
+for font_path in (
+    Path("/System/Library/Fonts/STHeiti Light.ttc"),
+    Path("/System/Library/Fonts/STHeiti Medium.ttc"),
+    Path("/System/Library/Fonts/Hiragino Sans GB.ttc"),
+):
+    if font_path.exists():
+        plt.rcParams["font.family"] = fm.FontProperties(fname=str(font_path)).get_name()
+        break
+plt.rcParams["axes.unicode_minus"] = False
+sns.set_theme(style="whitegrid")
+
+_CAUSE_GROUP_EN = {
+    "传染性疾病": "Communicable",
+    "非传染性疾病": "NCD",
+    "伤害": "Injuries",
+}
+
+_GAP_GRADE_EN = {
+    "E_严重不足": "E_critical_shortage",
+    "D_不足": "D_shortage",
+    "C_匹配": "C_balanced",
+    "B_较充足": "B_relatively_adequate",
+    "A_富余": "A_surplus",
+}
+
+_PROVINCE_EN = {
+    "北京市": "Beijing",
+    "天津市": "Tianjin",
+    "河北省": "Hebei",
+    "山西省": "Shanxi",
+    "内蒙古自治区": "Inner Mongolia",
+    "辽宁省": "Liaoning",
+    "吉林省": "Jilin",
+    "黑龙江省": "Heilongjiang",
+    "上海市": "Shanghai",
+    "江苏省": "Jiangsu",
+    "浙江省": "Zhejiang",
+    "安徽省": "Anhui",
+    "福建省": "Fujian",
+    "江西省": "Jiangxi",
+    "山东省": "Shandong",
+    "河南省": "Henan",
+    "湖北省": "Hubei",
+    "湖南省": "Hunan",
+    "广东省": "Guangdong",
+    "广西壮族自治区": "Guangxi",
+    "海南省": "Hainan",
+    "重庆市": "Chongqing",
+    "四川省": "Sichuan",
+    "贵州省": "Guizhou",
+    "云南省": "Yunnan",
+    "西藏自治区": "Tibet",
+    "陕西省": "Shaanxi",
+    "甘肃省": "Gansu",
+    "青海省": "Qinghai",
+    "宁夏回族自治区": "Ningxia",
+    "新疆维吾尔自治区": "Xinjiang",
+    "全国": "China",
+}
+
+
+@dataclass
+class SimpleForecastResult:
+    method: str
+    country: str
+    indicator: str
+    historical: pd.DataFrame
+    forecast: pd.DataFrame
+    metrics: dict[str, float]
+
+
+def _ensure_dirs() -> None:
+    for path in (FIGURES, TABLES, API_OUTPUT / "dim1", API_OUTPUT / "dim2", API_OUTPUT / "dim3", API_OUTPUT / "metadata"):
+        path.mkdir(parents=True, exist_ok=True)
+
+
+def _save_figure(fig: plt.Figure, name: str) -> None:
+    path = FIGURES / f"{name}.png"
+    fig.savefig(path, dpi=300, bbox_inches="tight")
+    plt.close(fig)
+    logger.info("Saved figure: %s", path)
+
+
+def _save_table(df: pd.DataFrame, name: str) -> None:
+    csv_path = TABLES / f"{name}.csv"
+    tex_path = TABLES / f"{name}.tex"
+    df.to_csv(csv_path, index=False)
+    with open(tex_path, "w", encoding="utf-8") as handle:
+        handle.write(df.to_latex(index=False, float_format=lambda value: f"{value:.3f}" if isinstance(value, float) else str(value)))
+    logger.info("Saved table: %s", csv_path)
+
+
+def _standardize(series: pd.Series, invert: bool = False) -> pd.Series:
+    numeric = pd.to_numeric(series, errors="coerce")
+    if numeric.dropna().empty:
+        return pd.Series(np.nan, index=series.index)
+    scaled = (numeric - numeric.mean()) / (numeric.std(ddof=0) or 1.0)
+    if invert:
+        scaled = -scaled
+    return scaled
+
+
+def _select_countries(master: pd.DataFrame) -> list[str]:
+    preferred = ["CHN", "USA", "IND", "BRA", "ZAF", "DEU"]
+    available = set(master["iso3"])
+    selected = [iso3 for iso3 in preferred if iso3 in available]
+    if len(selected) >= 4:
+        return selected
+    coverage = (
+        master.groupby("iso3")["life_expectancy"]
+        .apply(lambda series: series.notna().sum())
+        .sort_values(ascending=False)
+        .head(6)
+        .index.tolist()
+    )
+    return coverage
+
+
+def _linear_forecast(series: pd.Series, country: str, indicator: str) -> SimpleForecastResult | None:
+    clean = series.dropna().sort_index()
+    if len(clean) < 8:
+        return None
+
+    x = clean.index.to_numpy(dtype=float)
+    y = clean.to_numpy(dtype=float)
+    slope, intercept = np.polyfit(x, y, 1)
+    fitted = intercept + slope * x
+    rmse = float(np.sqrt(np.mean((y - fitted) ** 2)))
+    mae = float(np.mean(np.abs(y - fitted)))
+    denom = np.where(np.abs(y) < 1e-6, 1.0, np.abs(y))
+    mape = float(np.mean(np.abs((y - fitted) / denom)) * 100)
+
+    years = np.arange(int(x.max()) + 1, FORECAST_END_YEAR + 1)
+    predicted = intercept + slope * years
+    forecast = pd.DataFrame(
+        {
+            "year": years.astype(int),
+            "predicted": predicted,
+            "ci_lower": predicted - 1.96 * rmse,
+            "ci_upper": predicted + 1.96 * rmse,
+        }
+    )
+    historical = pd.DataFrame({"year": x.astype(int), "value": y})
+    return SimpleForecastResult(
+        method="linear_trend",
+        country=country,
+        indicator=indicator,
+        historical=historical,
+        forecast=forecast,
+        metrics={"MAE": mae, "RMSE": rmse, "MAPE": mape},
+    )
+
+
+def _write_summary(summary: dict) -> None:
+    path = REPORTS / "analysis_summary.json"
+    with open(path, "w", encoding="utf-8") as handle:
+        json.dump(summary, handle, ensure_ascii=False, indent=2)
+
+
+def _risk_display_label(risk_code: str | None, risk_factor: str | None = None) -> str:
+    if risk_code and str(risk_code).strip():
+        return str(risk_code)
+    if risk_factor and str(risk_factor).strip():
+        return RISK_LABEL_MAP.get(str(risk_factor), str(risk_factor))
+    return "unknown_risk"
+
+
+def build_dimension1_outputs(master: pd.DataFrame, disease: pd.DataFrame) -> dict:
+    latest_year = int(master["year"].max())
+    deaths = disease[disease["measure"] == "deaths"].copy()
+    group_trends = (
+        deaths.groupby(["iso3", "country_name", "year", "cause_group"], as_index=False)["value"]
+        .sum()
+        .rename(columns={"value": "deaths"})
+    )
+    totals = group_trends.groupby(["iso3", "year"], as_index=False)["deaths"].sum().rename(columns={"deaths": "total_deaths"})
+    group_trends = group_trends.merge(totals, on=["iso3", "year"], how="left")
+    group_trends["share"] = group_trends["deaths"] / group_trends["total_deaths"].replace(0, np.nan)
+    export_dim1_trends(group_trends)
+
+    latest_snapshot = master[master["year"] == latest_year].copy()
+    dim1_latest = latest_snapshot[
+        [
+            "iso3",
+            "country_name",
+            "who_region",
+            "wb_income",
+            "year",
+            "life_expectancy",
+            "communicable_share",
+            "ncd_share",
+            "injury_share",
+            "gdp_per_capita",
+            "health_exp_pct_gdp",
+        ]
+    ].dropna(subset=["life_expectancy"])
+    export_dim1_spatiotemporal(dim1_latest, metric="life_expectancy", year=latest_year, filename="spatiotemporal_latest.json")
+    export_dim1_spatiotemporal(dim1_latest, metric="ncd_share", year=latest_year, filename=f"spatiotemporal_ncd_share_{latest_year}.json")
+    export_dim1_spatiotemporal(dim1_latest, metric="communicable_share", year=latest_year, filename=f"spatiotemporal_communicable_share_{latest_year}.json")
+
+    global_shares = (
+        group_trends.groupby(["year", "cause_group"], as_index=False)["deaths"]
+        .sum()
+    )
+    global_total = global_shares.groupby("year", as_index=False)["deaths"].sum().rename(columns={"deaths": "total"})
+    global_shares = global_shares.merge(global_total, on="year", how="left")
+    global_shares["share"] = global_shares["deaths"] / global_shares["total"]
+    global_shares["cause_group_en"] = global_shares["cause_group"].map(_CAUSE_GROUP_EN).fillna(global_shares["cause_group"])
+
+    fig, ax = plt.subplots(figsize=(9, 5))
+    sns.lineplot(data=global_shares, x="year", y="share", hue="cause_group_en", marker="o", ax=ax)
+    ax.set_title("Global Cause Structure Transition, 2000-2023")
+    ax.set_ylabel("Share of deaths")
+    ax.set_xlabel("Year")
+    _save_figure(fig, "fig01_global_disease_transition")
+
+    fig, ax = plt.subplots(figsize=(7, 5))
+    sns.regplot(data=latest_snapshot, x="communicable_share", y="life_expectancy", scatter_kws={"s": 24, "alpha": 0.6}, ax=ax)
+    ax.set_title(f"Life Expectancy vs Communicable Share, {latest_year}")
+    ax.set_xlabel("Communicable death share")
+    ax.set_ylabel("Life expectancy (years)")
+    _save_figure(fig, "fig02_life_expectancy_vs_communicable_share")
+
+    regression_cols = [
+        "life_expectancy",
+        "gdp_per_capita",
+        "health_exp_pct_gdp",
+        "physicians_per_1000",
+        "basic_water_pct",
+        "basic_sanitation_pct",
+        "communicable_share",
+        "ncd_share",
+    ]
+    reg_df = latest_snapshot[regression_cols].dropna().copy()
+    reg_df["log_gdp_per_capita"] = np.log(reg_df["gdp_per_capita"].clip(lower=1))
+    X = reg_df[["log_gdp_per_capita", "health_exp_pct_gdp", "physicians_per_1000", "basic_water_pct", "basic_sanitation_pct", "communicable_share", "ncd_share"]]
+    X = sm.add_constant(X)
+    model = sm.OLS(reg_df["life_expectancy"], X).fit()
+    coef_table = pd.DataFrame(
+        {
+            "variable": model.params.index,
+            "coef": model.params.values,
+            "p_value": model.pvalues.values,
+        }
+    )
+    _save_table(coef_table, "tab_dim1_life_expectancy_regression")
+
+    top_life = latest_snapshot.nlargest(10, "life_expectancy")[["country_name", "life_expectancy", "ncd_share", "communicable_share"]]
+    bottom_life = latest_snapshot.nsmallest(10, "life_expectancy")[["country_name", "life_expectancy", "ncd_share", "communicable_share"]]
+    _save_table(top_life, "tab_dim1_top_life_expectancy")
+    _save_table(bottom_life, "tab_dim1_bottom_life_expectancy")
+
+    forecasts: list[SimpleForecastResult] = []
+    for iso3 in _select_countries(master):
+        country_panel = master[master["iso3"] == iso3].set_index("year")
+        for indicator in ("life_expectancy", "ncd_share"):
+            result = _linear_forecast(country_panel[indicator], country=iso3, indicator=indicator)
+            if result is not None:
+                forecasts.append(result)
+    export_dim1_forecasts(forecasts)
+
+    plot_iso = _select_countries(master)[:4]
+    fig, axes = plt.subplots(2, 2, figsize=(10, 7), sharex=True)
+    for ax, iso3 in zip(axes.ravel(), plot_iso):
+        subset = next((item for item in forecasts if item.country == iso3 and item.indicator == "life_expectancy"), None)
+        if subset is None:
+            ax.axis("off")
+            continue
+        ax.plot(subset.historical["year"], subset.historical["value"], label="Observed", color="#1f77b4")
+        ax.plot(subset.forecast["year"], subset.forecast["predicted"], label="Forecast", color="#d62728")
+        ax.fill_between(subset.forecast["year"], subset.forecast["ci_lower"], subset.forecast["ci_upper"], alpha=0.2, color="#d62728")
+        ax.set_title(iso3)
+    axes[0, 0].legend()
+    fig.suptitle("Representative Country Forecasts: Life Expectancy")
+    fig.tight_layout()
+    _save_figure(fig, "fig03_dim1_forecasts")
+
+    return {
+        "latest_year": latest_year,
+        "global_ncd_share": float(global_shares[global_shares["year"] == latest_year].loc[lambda frame: frame["cause_group"] == "非传染性疾病", "share"].iloc[0]),
+        "top_life_expectancy_country": str(top_life.iloc[0]["country_name"]),
+        "bottom_life_expectancy_country": str(bottom_life.iloc[0]["country_name"]),
+        "regression_r2": float(model.rsquared),
+    }
+
+
+def build_dimension2_outputs(master: pd.DataFrame, risk: pd.DataFrame) -> dict:
+    latest_year = int(risk["year"].max())
+    risk_deaths = risk[risk["measure"] == "deaths"].copy()
+    paf_like = (
+        risk_deaths.groupby(
+            ["iso3", "country_name", "who_region", "wb_income", "year", "risk_factor", "risk_code", "cause_name"],
+            as_index=False,
+        )["value"]
+        .sum()
+        .rename(columns={"value": "attributable_deaths"})
+    )
+    totals = (
+        paf_like.groupby(["iso3", "year"], as_index=False)["attributable_deaths"]
+        .sum()
+        .rename(columns={"attributable_deaths": "country_total"})
+    )
+    paf_like = paf_like.merge(totals, on=["iso3", "year"], how="left")
+    paf_like["contribution_share"] = paf_like["attributable_deaths"] / paf_like["country_total"].replace(0, np.nan)
+    paf_like["rank"] = paf_like.groupby(["iso3", "year"])["attributable_deaths"].rank(method="dense", ascending=False)
+    paf_like["method"] = "attributable_share"
+    paf_like["paf"] = paf_like["contribution_share"]
+    export_dim2_paf(paf_like)
+
+    latest = paf_like[paf_like["year"] == latest_year].copy()
+    latest["risk_label"] = latest.apply(
+        lambda row: _risk_display_label(row.get("risk_code"), row.get("risk_factor")),
+        axis=1,
+    )
+    global_top = latest.groupby(["risk_factor", "risk_code"], as_index=False)["attributable_deaths"].sum().sort_values("attributable_deaths", ascending=False)
+    global_top["risk_label"] = global_top.apply(
+        lambda row: _risk_display_label(row.get("risk_code"), row.get("risk_factor")),
+        axis=1,
+    )
+    fig, ax = plt.subplots(figsize=(9, 5))
+    top10 = global_top.head(10).copy()
+    sns.barplot(data=top10, x="attributable_deaths", y="risk_label", hue="risk_label", palette="crest", legend=False, ax=ax)
+    ax.set_title(f"Global Leading Attributable Risks, {latest_year}")
+    ax.set_xlabel("Attributable deaths")
+    ax.set_ylabel("")
+    _save_figure(fig, "fig04_dim2_global_risk_bar")
+
+    region_heatmap = (
+        latest.groupby(["who_region", "risk_label"], as_index=False)["contribution_share"]
+        .mean()
+        .pivot(index="who_region", columns="risk_label", values="contribution_share")
+        .fillna(0)
+    )
+    fig, ax = plt.subplots(figsize=(12, 4))
+    sns.heatmap(region_heatmap, cmap="YlOrRd", ax=ax)
+    ax.set_title(f"WHO Region Risk Contribution Heatmap, {latest_year}")
+    ax.set_xlabel("Risk factor")
+    ax.set_ylabel("WHO region")
+    _save_figure(fig, "fig05_dim2_region_heatmap")
+
+    sankey_links = (
+        latest[latest["risk_label"].isin(global_top.head(8)["risk_label"])]
+        .groupby(["risk_label", "who_region"], as_index=False)["attributable_deaths"]
+        .sum()
+        .sort_values("attributable_deaths", ascending=False)
+    )
+    sankey_nodes = sankey_links["risk_label"].drop_duplicates().tolist() + sankey_links["who_region"].drop_duplicates().tolist()
+    sankey_index = {label: idx for idx, label in enumerate(sankey_nodes)}
+    sankey_payload = {
+        "title": f"Risk-to-region attributable death flow, {latest_year}",
+        "method": "risk_to_region_attributable_deaths",
+        "nodes": sankey_nodes,
+        "sources": [sankey_index[label] for label in sankey_links["risk_label"]],
+        "targets": [sankey_index[label] for label in sankey_links["who_region"]],
+        "values": sankey_links["attributable_deaths"].round(3).tolist(),
+    }
+    write_json_artifact(
+        wrap_response(sankey_payload, {"year": latest_year, "top_risks": 8}),
+        API_OUTPUT / "dim2" / "sankey.json",
+    )
+    try:
+        import plotly.graph_objects as go
+
+        sankey_fig = go.Figure(
+            data=[
+                go.Sankey(
+                    node=dict(
+                        pad=15,
+                        thickness=18,
+                        line=dict(color="rgba(80, 80, 80, 0.4)", width=0.5),
+                        label=sankey_payload["nodes"],
+                    ),
+                    link=dict(
+                        source=sankey_payload["sources"],
+                        target=sankey_payload["targets"],
+                        value=sankey_payload["values"],
+                    ),
+                )
+            ]
+        )
+        sankey_fig.update_layout(title_text=sankey_payload["title"], font_size=10, height=620)
+        sankey_fig.write_html(FIGURES / "fig05b_dim2_risk_region_sankey.html", include_plotlyjs="cdn")
+    except Exception as exc:  # pragma: no cover - optional visualization backend
+        logger.warning("Skipping Sankey HTML export: %s", exc)
+
+    shapley_proxy = global_top.head(10).copy()
+    shapley_proxy["shapley_value"] = shapley_proxy["attributable_deaths"]
+    shapley_proxy["shapley_pct"] = shapley_proxy["attributable_deaths"] / shapley_proxy["attributable_deaths"].sum() * 100
+    shapley_proxy = shapley_proxy.rename(columns={"risk_factor": "risk_factor_name"})
+    export_dim2_shapley(
+        shapley_proxy.rename(columns={"risk_factor_name": "risk_factor"})[
+            ["risk_factor", "shapley_value", "shapley_pct"]
+        ],
+        country="global",
+    )
+
+    top_risk_codes = global_top.head(3)["risk_code"].tolist()
+    scenario_years = np.arange(latest_year + 1, FORECAST_END_YEAR + 1)
+    baseline_trajectories: dict[str, np.ndarray] = {}
+    for risk_code in top_risk_codes:
+        series = (
+            paf_like[paf_like["risk_code"] == risk_code]
+            .groupby("year")["attributable_deaths"]
+            .sum()
+            .sort_index()
+        )
+        forecast = _linear_forecast(series, country="global", indicator=risk_code)
+        if forecast is None:
+            continue
+        baseline_trajectories[risk_code] = forecast.forecast.set_index("year")["predicted"].reindex(scenario_years).to_numpy()
+
+    total_baseline = np.sum(list(baseline_trajectories.values()), axis=0)
+    scenarios = {
+        "A_baseline": {
+            "country": "global",
+            "years": scenario_years,
+            "trajectories": {"total_attributable_deaths": total_baseline, **baseline_trajectories},
+        },
+        "B_moderate_intervention": {
+            "country": "global",
+            "years": scenario_years,
+            "trajectories": {
+                "total_attributable_deaths": total_baseline * np.linspace(1.0, 0.90, len(scenario_years)),
+            },
+        },
+        "C_aggressive_intervention": {
+            "country": "global",
+            "years": scenario_years,
+            "trajectories": {
+                "total_attributable_deaths": total_baseline * np.linspace(1.0, 0.80, len(scenario_years)),
+            },
+        },
+    }
+    export_dim2_scenarios(scenarios)
+
+    fig, ax = plt.subplots(figsize=(8, 5))
+    for scenario_name, payload in scenarios.items():
+        ax.plot(payload["years"], payload["trajectories"]["total_attributable_deaths"], label=scenario_name)
+    ax.set_title("Projected Attributable Deaths Under Intervention Scenarios")
+    ax.set_xlabel("Year")
+    ax.set_ylabel("Attributable deaths")
+    ax.legend()
+    _save_figure(fig, "fig06_dim2_scenarios")
+
+    region_priority_rows = []
+    for who_region, subset in latest.groupby("who_region"):
+        ordered = subset.groupby(["risk_factor", "risk_code", "risk_label"], as_index=False)["contribution_share"].mean().sort_values("contribution_share", ascending=False)
+        if ordered.empty:
+            continue
+        top1 = ordered.iloc[0]
+        top2 = ordered.iloc[1] if len(ordered) > 1 else ordered.iloc[0]
+        region_priority_rows.append(
+            {
+                "who_region": who_region,
+                "primary_risk": top1["risk_factor"],
+                "primary_risk_code": top1["risk_label"],
+                "primary_share": top1["contribution_share"],
+                "secondary_risk": top2["risk_factor"],
+                "secondary_risk_code": top2["risk_label"],
+                "secondary_share": top2["contribution_share"],
+                "recommended_intervention": RISK_INTERVENTIONS.get(str(top1["risk_code"]), "结合地区实际制定风险干预组合"),
+            }
+        )
+    region_priority = pd.DataFrame(region_priority_rows).sort_values("primary_share", ascending=False)
+    region_priority.to_parquet(Path(RESOURCE_PANEL).with_name("dim2_intervention_priority.parquet"), index=False)
+    _save_table(region_priority, "tab_dim2_region_priority")
+
+    return {
+        "latest_year": latest_year,
+        "top_global_risk": str(global_top.iloc[0]["risk_factor"]),
+        "top_global_risk_deaths": float(global_top.iloc[0]["attributable_deaths"]),
+    }
+
+
+def build_dimension3_outputs(master: pd.DataFrame, resource_panel: pd.DataFrame, china: pd.DataFrame) -> dict:
+    latest_year = int(resource_panel["year"].max())
+    latest = resource_panel[resource_panel["year"] == latest_year].copy()
+
+    latest["input_index"] = pd.concat(
+        [
+            _standardize(latest["physicians_per_1000"]),
+            _standardize(latest["beds_per_1000"]),
+            _standardize(latest["health_exp_pct_gdp"]),
+            _standardize(latest["health_exp_per_capita"]),
+        ],
+        axis=1,
+    ).mean(axis=1)
+    latest["output_index"] = pd.concat(
+        [
+            _standardize(latest["life_expectancy"]),
+            _standardize(latest["infant_mortality"], invert=True),
+            _standardize(latest["under5_mortality"], invert=True),
+        ],
+        axis=1,
+    ).mean(axis=1)
+    latest["theoretical_need"] = pd.concat(
+        [
+            _standardize(master.loc[master["year"] == latest_year, "communicable_share"]),
+            _standardize(latest["infant_mortality"]),
+            _standardize(latest["under5_mortality"]),
+            _standardize(latest["life_expectancy"], invert=True),
+        ],
+        axis=1,
+    ).mean(axis=1)
+    latest["actual_resource"] = latest["input_index"]
+    latest["gap"] = latest["actual_resource"] - latest["theoretical_need"]
+    latest["gap_grade"] = pd.qcut(latest["gap"], q=5, labels=["E_严重不足", "D_不足", "C_匹配", "B_较充足", "A_富余"])
+    latest["gap_grade_en"] = latest["gap_grade"].astype(str).map(_GAP_GRADE_EN).fillna(latest["gap_grade"].astype(str))
+
+    resource_gap = latest[
+        ["iso3", "country_name", "who_region", "wb_income", "year", "actual_resource", "theoretical_need", "gap", "gap_grade", "gap_grade_en"]
+    ].rename(columns={"actual_resource": "actual_resource_index", "theoretical_need": "theoretical_need_index"})
+    export_dim3_resource_gap(resource_gap)
+    _save_table(resource_gap.sort_values("gap").head(15), "tab_dim3_most_under_resourced")
+
+    input_median = latest["input_index"].median()
+    output_median = latest["output_index"].median()
+    latest["quadrant"] = np.select(
+        [
+            (latest["input_index"] >= input_median) & (latest["output_index"] >= output_median),
+            (latest["input_index"] < input_median) & (latest["output_index"] >= output_median),
+            (latest["input_index"] >= input_median) & (latest["output_index"] < output_median),
+            (latest["input_index"] < input_median) & (latest["output_index"] < output_median),
+        ],
+        ["Q1_high_input_high_output", "Q2_low_input_high_output", "Q3_high_input_low_output", "Q4_low_input_low_output"],
+        default="unclassified",
+    )
+    latest["efficiency"] = latest["output_index"] - latest["input_index"]
+    efficiency = latest[
+        ["iso3", "country_name", "who_region", "wb_income", "year", "efficiency", "quadrant", "input_index", "output_index"]
+    ]
+    export_dim3_efficiency(efficiency)
+
+    fig, ax = plt.subplots(figsize=(8, 6))
+    sns.scatterplot(data=efficiency, x="input_index", y="output_index", hue="quadrant", s=50, ax=ax)
+    ax.axvline(input_median, color="grey", linestyle="--", linewidth=1)
+    ax.axhline(output_median, color="grey", linestyle="--", linewidth=1)
+    ax.set_title(f"Health Resource Input-Output Quadrants, {latest_year}")
+    ax.set_xlabel("Input index")
+    ax.set_ylabel("Output index")
+    _save_figure(fig, "fig07_dim3_quadrant")
+
+    optimize_df = latest[["iso3", "country_name", "health_exp_per_capita", "theoretical_need"]].dropna().copy()
+    weights = optimize_df["theoretical_need"] - optimize_df["theoretical_need"].min() + 0.5
+    current = optimize_df["health_exp_per_capita"].clip(lower=1).to_numpy(dtype=float)
+    total_budget = float(current.sum())
+    lower = current * 0.8
+    upper = current * 1.2
+
+    optimal = total_budget * (weights / weights.sum()).to_numpy(dtype=float)
+    optimal = np.clip(optimal, lower, upper)
+    residual = total_budget - float(optimal.sum())
+    for _ in range(50):
+        if abs(residual) < 1e-6:
+            break
+        if residual > 0:
+            room = upper - optimal
+        else:
+            room = optimal - lower
+        eligible = room > 1e-9
+        if not eligible.any():
+            break
+        adjust = residual * room[eligible] / room[eligible].sum()
+        optimal[eligible] += adjust
+        optimal = np.clip(optimal, lower, upper)
+        residual = total_budget - float(optimal.sum())
+
+    allocation = optimize_df.assign(
+        current=current,
+        optimal=optimal,
+    )
+    allocation["change"] = allocation["optimal"] - allocation["current"]
+    allocation["change_pct"] = allocation["change"] / allocation["current"] * 100
+    export_dim3_optimization(
+        {
+            "objective": "maximize_need_weighted_health_output",
+            "status": "projected_need_weighted_allocation",
+            "objective_value": float(np.sum(weights.to_numpy() * np.log(optimal + 1))),
+            "optimal_allocation": allocation[["iso3", "country_name", "current", "optimal", "change", "change_pct"]],
+        }
+    )
+    _save_table(allocation.sort_values("change_pct", ascending=False).head(15), "tab_dim3_top_reallocation")
+
+    china_staff = china[china["indicator"] == "各省近20年卫生人员数量"].copy()
+    china_inst = china[china["indicator"] == "近20年各省医疗卫生机构数量"].copy()
+    if not china_staff.empty and not china_inst.empty:
+        china_staff["province_en"] = china_staff["province"].map(_PROVINCE_EN).fillna(china_staff["province"])
+        china_inst["province_en"] = china_inst["province"].map(_PROVINCE_EN).fillna(china_inst["province"])
+        latest_staff = china_staff[china_staff["year"] == china_staff["year"].max()].nlargest(5, "value")["province"].tolist()
+        plot_provinces = latest_staff
+        fig, axes = plt.subplots(1, 2, figsize=(12, 4), sharex=True)
+        sns.lineplot(data=china_staff[china_staff["province"].isin(plot_provinces)], x="year", y="value", hue="province_en", ax=axes[0])
+        axes[0].set_title("China: Health Personnel Trends in Selected Provinces")
+        axes[0].set_xlabel("Year")
+        axes[0].set_ylabel("Health personnel")
+        sns.lineplot(data=china_inst[china_inst["province"].isin(plot_provinces)], x="year", y="value", hue="province_en", ax=axes[1])
+        axes[1].set_title("China: Health Institution Trends in Selected Provinces")
+        axes[1].set_xlabel("Year")
+        axes[1].set_ylabel("Health institutions")
+        axes[1].legend_.remove()
+        _save_figure(fig, "fig08_china_province_trends")
+
+    return {
+        "latest_year": latest_year,
+        "largest_shortage_country": str(resource_gap.sort_values("gap").iloc[0]["country_name"]),
+        "best_quadrant_count": int((efficiency["quadrant"] == "Q2_low_input_high_output").sum()),
+    }
+
+
+def run_competition_pipeline() -> dict:
+    """Generate figures, tables, and JSON artifacts for all dimensions."""
+    _ensure_dirs()
+    master = load_master_panel()
+    resource_panel = load_resource_panel()
+    disease = load_disease_mortality_long()
+    risk = load_risk_attribution_long()
+    china = load_china_panel()
+
+    summary = {
+        "dimension1": build_dimension1_outputs(master, disease),
+        "dimension2": build_dimension2_outputs(master, risk),
+        "dimension3": build_dimension3_outputs(master, resource_panel, china),
+    }
+
+    export_metadata_countries(master)
+    export_metadata_indicators(
+        [
+            {
+                "code": code,
+                "name": spec["label"],
+                "description": f"{spec['label']}（候选原始指标：{', '.join(spec['candidates'])}）",
+                "dimension": spec["dimension"],
+                "unit": spec["unit"],
+            }
+            for code, spec in INDICATOR_SPECS.items()
+        ]
+    )
+    export_ghri_unavailable()
+    write_json_artifact(
+        wrap_response(summary, query_params={"source": "competition_pipeline"}),
+        API_OUTPUT / "metadata" / "summary.json",
+    )
+    _write_summary(summary)
+    logger.info("Competition pipeline finished.")
+    return summary
+
+
+if __name__ == "__main__":
+    logging.basicConfig(level=logging.INFO, format="%(levelname)s | %(message)s")
+    run_competition_pipeline()

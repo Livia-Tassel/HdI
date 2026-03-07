@@ -1,59 +1,80 @@
 # AI Agent Collaboration Workflow
 
-## Overview
+## 说明
+本文件记录 HdI 项目在真实赛题数据到位后的 AI 协作过程，覆盖需求理解、数据结构识别、代码重构、结果解释和交付整理等环节。项目遵循“数据优先”原则：先按 provided 数据的真实结构重写清洗和面板构建，再完成三大维度分析与报告收口。
 
-This document records the AI collaboration workflow used throughout the Health Data Insight (HdI) project, as required by the competition guidelines.
+## 本轮协作阶段
 
-## Phases
+### 1. 赛题对齐与约束确认
+- 重新阅读 `instruction.pdf`，确认比赛至少要求提交：
+  - 主题分析报告 PDF
+  - 数据处理源程序
+  - 展示视频
+  - 自增数据集（若有）
+  - AI 交互记录
+- 明确本轮工作范围：
+  - 完成除“视频录制”和“和鲸平台最终提交动作”之外的全部本地交付
+  - 报告统一用中文
+  - 默认不引入额外外部数据
 
-### Phase 1: Problem Framing (Days 1-3)
-- Literature review on global disease burden analysis
-- Brainstorm analytical angles for 3 competition dimensions
-- Discuss data source selection and supplementary dataset strategy
-- Define novel GHRI composite index methodology
+### 2. 真实数据结构辨识
+- AI 协助检查 `data/raw/provided` 下 5 类数据的真实目录结构、列名、年份范围与指标形态。
+- 识别出原脚手架的关键不匹配：
+  - 原代码把中文列名正则清洗为空列
+  - 原 country harmonization 会把 `俄罗斯`、`土耳其` 等中文名称误判成合法 3 字母代码
+  - 原 notebook 和 API 大量依赖虚构的 `daly_rate`、`GHRI`、`load_daly` 等字段/接口
 
-### Phase 2: Methodology Selection (Days 3-7)
-- Evaluate panel regression approaches (FE vs RE vs GMM)
-- Discuss causal inference strategy (DoWhy DAGs, IV instruments)
-- Select PAF/Shapley decomposition for risk attribution
-- Design DEA efficiency framework and optimization models
-- Review system dynamics modeling for scenario simulation
+### 3. 数据层重构
+- AI 协助设计并实现了分数据集清洗器：
+  - 疾病死亡数据
+  - 风险因素归因数据
+  - HNP 指标长表
+  - WDI 指标长表
+  - 中国省级卫生数据长表
+- 国家映射采用 World Bank 元数据 + Babel 中文地名 + 手工别名补丁，确保 provided 数据中的中文国家名能够稳定映射到 ISO3。
+- 构建并验证三个核心面板：
+  - `master_panel.parquet`
+  - `resource_panel.parquet`
+  - `china_panel.parquet`
 
-### Phase 3: Code Development (Days 7-18)
-- Develop data cleaning pipeline with country code harmonization
-- Implement panel regression with Driscoll-Kraay SEs
-- Build LISA spatial autocorrelation analysis
-- Debug DEA linear programming formulation
-- Implement Monte Carlo scenario simulation
-- Code review for optimization models
+### 4. 分析链路重写
+- **Dimension 1**
+  - 用真实死亡原因数据构建“传染性疾病 / 非传染性疾病 / 伤害”三大类趋势
+  - 用预期寿命、死亡率、卫生资源和社会经济指标完成解释与预测
+- **Dimension 2**
+  - 采用 provided 风险归因死亡结果做“归因死亡贡献分析”
+  - 保留 `/dim2/paf` 路由兼容名，但在结果元数据中明确标记方法是 `attributable_share`
+- **Dimension 3**
+  - 用资源投入指数、健康产出指数和需求指数构建资源缺口、效率象限与再分配模拟
+  - 用中国省级数据补充国内资源差异分析
 
-### Phase 4: Interpretation & Report Writing (Days 18-25)
-- Interpret regression coefficients and causal estimates
-- Draft report sections for each dimension
-- Generate publication-quality figures
-- Review and refine conclusions
+### 5. 交付物整理
+- 生成 API 输出：
+  - `api_output/dim1/*.json`
+  - `api_output/dim2/*.json`
+  - `api_output/dim3/*.json`
+  - `api_output/metadata/*.json`
+- 自动导出报告图表和表格至 `reports/figures` 与 `reports/tables`
+- 将原有 TODO notebook 重写为围绕真实产物的可复现 notebook 包装层
+- 用中文重写 `reports/report.tex`，移除虚构 GHRI/LSTM/严格 PAF 的正文叙述
 
-## Interaction Log Format
+## 智能体在本项目中的具体贡献
+1. **数据结构识别**：快速确认真实 provided 数据与原脚手架之间的偏差。
+2. **代码生成与重构**：完成清洗器、整合器、分析导出脚本、API 导出器等关键模块重写。
+3. **调试**：定位并修复中文列名清洗、国家代码误判、元数据回填顺序等关键 bug。
+4. **结果解释**：根据最新结果提炼出全球疾病谱转型、风险主次矛盾和资源短缺地区等核心结论。
+5. **交付整理**：帮助生成 notebook、报告源文件、图表、表格与 API 结果，确保本地提交包完整。
 
-Each interaction is saved as JSON in `interaction_logs/` with the following schema:
+## 交互记录格式
+本项目保留了 JSON 对话日志样例，目录为 `ai_agent/interaction_logs/`。建议在正式提交前从中挑选最能体现以下环节的若干条记录：
+- 需求理解
+- 方法选择
+- 代码修改
+- 调试定位
+- 结果解释
 
-```json
-{
-  "id": "001",
-  "timestamp": "2025-03-05T10:00:00Z",
-  "phase": "methodology_selection",
-  "topic": "Panel regression approach",
-  "user_query": "...",
-  "ai_response_summary": "...",
-  "outcome": "Selected FE with Driscoll-Kraay SEs",
-  "tools_used": ["literature_review", "code_generation"]
-}
-```
-
-## Key AI Contributions
-
-1. **Methodology guidance**: Recommended Driscoll-Kraay SEs over clustered SEs for panels with cross-sectional dependence
-2. **Code architecture**: Designed modular package structure with clear separation of concerns
-3. **Debugging**: Helped resolve DEA LP formulation issues with VRS constraints
-4. **Interpretation**: Assisted with E-value sensitivity analysis for unmeasured confounding
-5. **Visualization**: Suggested bivariate choropleth as novel visualization technique
+## 当前状态
+- 本地可复现的数据处理、分析结果、API 输出、图表和 notebook 已齐备。
+- 仍需用户手动完成的环节：
+  - 录制展示视频
+  - 在和鲸平台执行最终复现与生成作品链接

@@ -55,7 +55,7 @@ async def get_indicators(
 async def get_ghri(
     year: Optional[int] = Query(None, description="Year filter"),
 ):
-    """Get Global Health Resilience Index scores."""
+    """Get GHRI availability metadata."""
     data = _load_json(API_OUTPUT / "metadata" / "ghri.json")
     if isinstance(data, dict) and "data" in data and year:
         data["data"] = [r for r in data["data"] if r.get("year") == year]

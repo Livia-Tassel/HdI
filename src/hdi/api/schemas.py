@@ -75,9 +75,12 @@ class PAFDecomposition(BaseModel):
     iso3: str
     year: int
     risk_factor: str
-    disease: Optional[str] = None
+    risk_code: Optional[str] = None
+    cause_name: Optional[str] = None
     paf: float
-    attributable_burden: Optional[float] = None
+    attributable_deaths: Optional[float] = None
+    contribution_share: Optional[float] = None
+    method: Optional[str] = None
 
 
 class ShapleyValue(BaseModel):
@@ -90,10 +93,7 @@ class ScenarioTrajectory(BaseModel):
     scenario: str
     country: str
     year: int
-    total_daly: float
-    cvd_daly: Optional[float] = None
-    resp_daly: Optional[float] = None
-    cancer_daly: Optional[float] = None
+    total_attributable_deaths: float
     ci_lower: Optional[float] = None
     ci_upper: Optional[float] = None
 
@@ -103,10 +103,10 @@ class ScenarioTrajectory(BaseModel):
 class ResourceGap(BaseModel):
     iso3: str
     year: int
-    actual_expenditure: Optional[float] = None
-    theoretical_need: Optional[float] = None
+    actual_resource_index: Optional[float] = None
+    theoretical_need_index: Optional[float] = None
     gap: Optional[float] = None
-    gap_grade: str  # A through E
+    gap_grade: str
 
 
 class EfficiencyScore(BaseModel):
@@ -129,14 +129,5 @@ class OptimalAllocation(BaseModel):
 # ── Composite: GHRI ──────────────────────────────────────────────────────────
 
 class GHRIScore(BaseModel):
-    iso3: str
-    year: Optional[int] = None
-    ghri: float
-    ghri_rank: int
-    disease_burden: Optional[float] = None
-    risk_factor_control: Optional[float] = None
-    health_system_capacity: Optional[float] = None
-    socioeconomic_foundation: Optional[float] = None
-    resilience_equity: Optional[float] = None
-    rank_lo: Optional[int] = None
-    rank_hi: Optional[int] = None
+    available: bool
+    reason: Optional[str] = None

@@ -1,247 +1,212 @@
-"""Panel assembly and integration: build master_panel.parquet."""
+"""Build cleaned interim datasets and processed analysis panels."""
 
 from __future__ import annotations
 
 import logging
+from collections import OrderedDict
 
 import pandas as pd
 
 from hdi.config import (
+    CHINA_PANEL,
+    INDICATOR_SPECS,
     INTERIM,
     MASTER_PANEL,
-    CHINA_PANEL,
-    PROCESSED,
-    PANEL_KEY_GLOBAL,
     PANEL_KEY_CHINA,
-    YEAR_MIN,
-    YEAR_MAX,
-)
-from hdi.data.loaders import (
-    load_disease_mortality,
-    load_risk_factors,
-    load_nutrition_population,
-    load_socioeconomic,
-    load_china_health,
-    load_ihme_gbd,
-    load_worldbank_wdi,
-    load_undp_hdi,
-    load_owid,
+    PANEL_KEY_GLOBAL,
+    PROCESSED,
+    RESOURCE_PANEL,
 )
 from hdi.data.cleaners import (
-    clean_country_year_dataset,
-    clean_disease_mortality,
-    clean_risk_factors,
-    clean_nutrition_population,
-    clean_socioeconomic,
     clean_china_health,
+    clean_disease_mortality,
+    clean_nutrition_population,
+    clean_risk_factors,
+    clean_socioeconomic,
     interpolate_gaps,
-    add_who_region,
-    add_wb_income,
-    learn_metadata_maps,
 )
+from hdi.data.loaders import (
+    load_china_health,
+    load_disease_mortality,
+    load_nutrition_population,
+    load_risk_factors,
+    load_socioeconomic,
+)
+from hdi.data.validators import validate_china_panel, validate_master_panel
 
 logger = logging.getLogger(__name__)
 
+_KEY_CAUSES = OrderedDict(
+    [
+        ("心血管疾病", "cardiovascular_deaths"),
+        ("肿瘤", "cancer_deaths"),
+        ("糖尿病和肾病", "diabetes_kidney_deaths"),
+        ("慢性呼吸系统疾病", "respiratory_chronic_deaths"),
+        ("孕产妇和新生儿疾病", "maternal_neonatal_deaths"),
+    ]
+)
 
-def _save_interim(df: pd.DataFrame, name: str) -> None:
-    """Save a cleaned dataset to interim storage."""
+_RESOURCE_COLUMNS = [
+    "country_name",
+    "who_region",
+    "wb_income",
+    "life_expectancy",
+    "infant_mortality",
+    "under5_mortality",
+    "adult_mortality_male",
+    "adult_mortality_female",
+    "physicians_per_1000",
+    "beds_per_1000",
+    "nurses_per_1000",
+    "health_exp_pct_gdp",
+    "health_exp_per_capita",
+    "gdp_per_capita",
+    "basic_water_pct",
+    "basic_sanitation_pct",
+    "measles_immunization_pct",
+]
+
+
+def _save_interim(name: str, df: pd.DataFrame) -> None:
     INTERIM.mkdir(parents=True, exist_ok=True)
     path = INTERIM / f"{name}.parquet"
     df.to_parquet(path, index=False)
-    logger.info("Saved interim: %s (%d rows, %d cols)", path.name, len(df), len(df.columns))
+    logger.info("Saved interim %s with %d rows", path.name, len(df))
 
 
-def _merge_panel(
-    left: pd.DataFrame,
-    right: pd.DataFrame,
-    keys: list[str],
-    suffixes: tuple[str, str] = ("", "_dup"),
-) -> pd.DataFrame:
-    """Outer-merge two panels on keys, dropping duplicate columns."""
-    merged = left.merge(right, on=keys, how="outer", suffixes=suffixes)
-    dup_cols = [c for c in merged.columns if c.endswith("_dup")]
-    if dup_cols:
-        # prefer left values, fill with right
-        for dc in dup_cols:
-            orig = dc.replace("_dup", "")
-            if orig in merged.columns:
-                merged[orig] = merged[orig].fillna(merged[dc])
-        merged = merged.drop(columns=dup_cols)
-    return merged
-
-
-def _collapse_to_panel(
-    df: pd.DataFrame,
-    keys: list[str],
-    dataset_name: str,
-) -> pd.DataFrame:
-    """Collapse duplicate key rows before panel merges to avoid cartesian blow-ups."""
-    if df.empty or any(key not in df.columns for key in keys):
-        return df
-
-    dup_mask = df.duplicated(keys, keep=False)
-    if not dup_mask.any():
-        return df
-
-    numeric_cols = [
-        col
-        for col in df.columns
-        if col not in keys and pd.api.types.is_numeric_dtype(df[col])
-    ]
-    other_cols = [col for col in df.columns if col not in keys and col not in numeric_cols]
-
-    agg_spec = {col: "mean" for col in numeric_cols}
-    agg_spec.update({col: "first" for col in other_cols})
-    if not agg_spec:
-        return df[keys].drop_duplicates().reset_index(drop=True)
-
-    collapsed = (
-        df.groupby(keys, dropna=False)
-        .agg(agg_spec)
+def _disease_features(disease_long: pd.DataFrame) -> pd.DataFrame:
+    deaths = disease_long[disease_long["measure"] == "deaths"].copy()
+    grouped = (
+        deaths.groupby(["iso3", "year", "cause_group"], as_index=False)["value"]
+        .sum()
+        .pivot(index=PANEL_KEY_GLOBAL, columns="cause_group", values="value")
         .reset_index()
+        .rename_axis(columns=None)
+        .rename(
+            columns={
+                "传染性疾病": "communicable_deaths",
+                "非传染性疾病": "ncd_deaths",
+                "伤害": "injury_deaths",
+            }
+        )
     )
-    logger.warning(
-        "Collapsed %s from %d rows to %d unique %s rows before merge.",
-        dataset_name,
-        len(df),
-        len(collapsed),
-        "/".join(keys),
+
+    total = (
+        deaths.groupby(PANEL_KEY_GLOBAL, as_index=False)["value"]
+        .sum()
+        .rename(columns={"value": "total_deaths"})
     )
-    return collapsed
+
+    key_cause = (
+        deaths[deaths["cause_name"].isin(_KEY_CAUSES)]
+        .groupby(["iso3", "year", "cause_name"], as_index=False)["value"]
+        .sum()
+        .pivot(index=PANEL_KEY_GLOBAL, columns="cause_name", values="value")
+        .reset_index()
+        .rename_axis(columns=None)
+        .rename(columns=_KEY_CAUSES)
+    )
+
+    meta = (
+        deaths.groupby(PANEL_KEY_GLOBAL, as_index=False)
+        .agg(
+            country_name=("country_name", "first"),
+            who_region=("who_region", "first"),
+            wb_income=("wb_income", "first"),
+        )
+    )
+
+    panel = meta.merge(total, on=PANEL_KEY_GLOBAL, how="left")
+    panel = panel.merge(grouped, on=PANEL_KEY_GLOBAL, how="left")
+    panel = panel.merge(key_cause, on=PANEL_KEY_GLOBAL, how="left")
+
+    for col in ("communicable_deaths", "ncd_deaths", "injury_deaths"):
+        if col not in panel.columns:
+            panel[col] = pd.NA
+
+    denominator = panel["total_deaths"].replace(0, pd.NA)
+    panel["communicable_share"] = panel["communicable_deaths"] / denominator
+    panel["ncd_share"] = panel["ncd_deaths"] / denominator
+    panel["injury_share"] = panel["injury_deaths"] / denominator
+    return panel
+
+
+def _indicator_wide(hnp_long: pd.DataFrame, wdi_long: pd.DataFrame) -> pd.DataFrame:
+    combined = pd.concat(
+        [
+            hnp_long.assign(source_priority=0),
+            wdi_long.assign(source_priority=1),
+        ],
+        ignore_index=True,
+    )
+    combined = combined.dropna(subset=["iso3", "year", "indicator_code"])
+
+    base = combined[PANEL_KEY_GLOBAL].drop_duplicates().sort_values(PANEL_KEY_GLOBAL)
+    wide = base.copy()
+
+    for canonical, spec in INDICATOR_SPECS.items():
+        candidates = spec["candidates"]
+        subset = combined[combined["indicator_code"].isin(candidates)].copy()
+        if subset.empty:
+            continue
+        order = {code: idx for idx, code in enumerate(candidates)}
+        subset["candidate_order"] = subset["indicator_code"].map(order).fillna(len(order))
+        subset = subset.sort_values(
+            ["iso3", "year", "source_priority", "candidate_order"]
+        ).drop_duplicates(PANEL_KEY_GLOBAL, keep="first")
+        subset = subset[PANEL_KEY_GLOBAL + ["value"]].rename(columns={"value": canonical})
+        wide = wide.merge(subset, on=PANEL_KEY_GLOBAL, how="left")
+
+    return wide
 
 
 def build_master_panel() -> pd.DataFrame:
-    """Build the global country-year master panel from all data sources.
+    """Build interim tables and the global country-year master panel."""
+    logger.info("Building cleaned interim tables and master panel")
+    disease = clean_disease_mortality(load_disease_mortality())
+    risk = clean_risk_factors(load_risk_factors())
+    hnp = clean_nutrition_population(load_nutrition_population())
+    wdi = clean_socioeconomic(load_socioeconomic())
 
-    Pipeline:
-    1. Load & clean each provided dataset -> save to interim
-    2. Load & clean each external dataset -> save to interim
-    3. Merge all on (iso3, year)
-    4. Interpolate small gaps
-    5. Add metadata (WHO region, WB income)
-    6. Save to processed/master_panel.parquet
-    """
-    logger.info("=== Building master panel ===")
-    keys = PANEL_KEY_GLOBAL
-    panel = pd.DataFrame()
+    _save_interim("disease_mortality", disease)
+    _save_interim("risk_factors", risk)
+    _save_interim("nutrition_population", hnp)
+    _save_interim("socioeconomic", wdi)
 
-    # Step 1: Provided datasets
-    datasets = [
-        ("disease_mortality", load_disease_mortality, clean_disease_mortality),
-        ("risk_factors", load_risk_factors, clean_risk_factors),
-        ("nutrition_population", load_nutrition_population, clean_nutrition_population),
-        ("socioeconomic", load_socioeconomic, clean_socioeconomic),
+    master = _disease_features(disease)
+    indicators = _indicator_wide(hnp, wdi)
+    master = master.merge(indicators, on=PANEL_KEY_GLOBAL, how="left")
+
+    numeric_cols = [
+        col
+        for col in master.columns
+        if col not in (*PANEL_KEY_GLOBAL, "country_name", "who_region", "wb_income")
+        and pd.api.types.is_numeric_dtype(master[col])
     ]
+    if numeric_cols:
+        master = interpolate_gaps(master.sort_values(PANEL_KEY_GLOBAL), ["iso3"], numeric_cols)
 
-    for name, loader, cleaner in datasets:
-        try:
-            raw = loader()
-            if raw.empty:
-                logger.warning("Empty dataset: %s (skipping)", name)
-                continue
-            cleaned = cleaner(raw)
-            learn_metadata_maps(cleaned)
-            _save_interim(cleaned, name)
-            panel_ready = _collapse_to_panel(cleaned, keys, name)
-            if "iso3" in panel_ready.columns and "year" in panel_ready.columns:
-                if panel.empty:
-                    panel = panel_ready
-                else:
-                    panel = _merge_panel(panel, panel_ready, keys)
-            logger.info("Integrated: %s -> panel shape %s", name, panel.shape)
-        except Exception as e:
-            logger.error("Failed to process %s: %s", name, e)
-
-    # Step 2: External datasets
-    external_datasets = [
-        ("ihme_gbd", load_ihme_gbd),
-        ("worldbank_wdi", load_worldbank_wdi),
-        ("undp_hdi", load_undp_hdi),
-        ("owid", load_owid),
-    ]
-
-    for name, loader in external_datasets:
-        try:
-            raw = loader()
-            if raw.empty:
-                logger.warning("Empty external dataset: %s (skipping)", name)
-                continue
-            cleaned = clean_country_year_dataset(raw)
-            learn_metadata_maps(cleaned)
-            _save_interim(cleaned, f"ext_{name}")
-            panel_ready = _collapse_to_panel(cleaned, keys, f"ext_{name}")
-            if "iso3" in panel_ready.columns and "year" in panel_ready.columns:
-                if panel.empty:
-                    panel = panel_ready
-                else:
-                    panel = _merge_panel(panel, panel_ready, keys)
-            logger.info("Integrated external: %s -> panel shape %s", name, panel.shape)
-        except Exception as e:
-            logger.error("Failed to load external %s: %s", name, e)
-
-    if panel.empty:
-        logger.error("No data loaded. Check data/raw/ directories.")
-        return panel
-
-    # Step 3: Filter to analysis window
-    if "year" in panel.columns:
-        panel = panel[
-            (panel["year"] >= YEAR_MIN) & (panel["year"] <= YEAR_MAX)
-        ]
-
-    # Step 4: Interpolate small gaps
-    numeric_cols = panel.select_dtypes(include="number").columns.tolist()
-    value_cols = [c for c in numeric_cols if c != "year"]
-    if value_cols and "iso3" in panel.columns:
-        panel = panel.sort_values(keys)
-        panel = interpolate_gaps(panel, group_cols=["iso3"], value_cols=value_cols)
-
-    # Step 5: Metadata
-    panel = add_who_region(panel)
-    panel = add_wb_income(panel)
-
-    # Step 6: Save
+    validate_master_panel(master)
     PROCESSED.mkdir(parents=True, exist_ok=True)
-    panel.to_parquet(MASTER_PANEL, index=False)
-    logger.info(
-        "Master panel saved: %s (%d rows, %d cols)",
-        MASTER_PANEL, len(panel), len(panel.columns),
-    )
-    return panel
+    master.to_parquet(MASTER_PANEL, index=False)
+    logger.info("Saved master panel: %s", MASTER_PANEL)
+
+    resource_cols = [*PANEL_KEY_GLOBAL, *[col for col in _RESOURCE_COLUMNS if col in master.columns]]
+    resource_panel = master[resource_cols].copy()
+    resource_panel.to_parquet(RESOURCE_PANEL, index=False)
+    logger.info("Saved resource panel: %s", RESOURCE_PANEL)
+    return master
 
 
 def build_china_panel() -> pd.DataFrame:
-    """Build the China province-year panel from Dataset 5."""
-    logger.info("=== Building China panel ===")
-
-    try:
-        raw = load_china_health()
-        if raw.empty:
-            logger.warning("China health dataset is empty.")
-            return raw
-        cleaned = clean_china_health(raw)
-        _save_interim(cleaned, "china_health")
-    except Exception as e:
-        logger.error("Failed to load China health data: %s", e)
-        return pd.DataFrame()
-
-    panel = cleaned
-    if "province" in panel.columns and "year" in panel.columns:
-        panel = panel.sort_values(PANEL_KEY_CHINA)
-        numeric_cols = panel.select_dtypes(include="number").columns.tolist()
-        value_cols = [c for c in numeric_cols if c != "year"]
-        if value_cols:
-            panel = interpolate_gaps(
-                panel, group_cols=["province"], value_cols=value_cols
-            )
-
+    """Build the China province-year panel."""
+    china = clean_china_health(load_china_health())
+    _save_interim("china_health", china)
+    validate_china_panel(china)
     PROCESSED.mkdir(parents=True, exist_ok=True)
-    panel.to_parquet(CHINA_PANEL, index=False)
-    logger.info(
-        "China panel saved: %s (%d rows, %d cols)",
-        CHINA_PANEL, len(panel), len(panel.columns),
-    )
-    return panel
+    china.to_parquet(CHINA_PANEL, index=False)
+    logger.info("Saved China panel: %s", CHINA_PANEL)
+    return china
 
 
 if __name__ == "__main__":

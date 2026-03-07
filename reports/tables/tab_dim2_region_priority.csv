@@ -1,0 +1,7 @@
+who_region,primary_risk,primary_risk_code,primary_share,secondary_risk,secondary_risk_code,secondary_share,recommended_intervention
+EURO,高血压,high_systolic_bp,0.20529686298310035,饮食风险,dietary_risks,0.12970098133032568,基层筛查、高血压规范管理和药物可及性
+AMRO,高血压,high_systolic_bp,0.17718693887472486,高血糖,high_fasting_glucose,0.12674525143900184,基层筛查、高血压规范管理和药物可及性
+WPRO,高血压,high_systolic_bp,0.16853268387405423,饮食风险,dietary_risks,0.13118781095799642,基层筛查、高血压规范管理和药物可及性
+EMRO,高血压,high_systolic_bp,0.16832787320877482,饮食风险,dietary_risks,0.10652683527969475,基层筛查、高血压规范管理和药物可及性
+SEARO,高血压,high_systolic_bp,0.1617323440074283,空气污染,air_pollution,0.14892399578070944,基层筛查、高血压规范管理和药物可及性
+AFRO,儿童和孕产妇营养不良,child_maternal_malnutrition,0.16161654252430538,空气污染,air_pollution,0.1340544201645757,孕产妇营养补充、儿童早期营养支持

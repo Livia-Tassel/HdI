@@ -1,0 +1,19 @@
+{
+  "dimension1": {
+    "latest_year": 2023,
+    "global_ncd_share": 0.7456821453438303,
+    "top_life_expectancy_country": "Japan",
+    "bottom_life_expectancy_country": "Chad",
+    "regression_r2": 0.9064078806055618
+  },
+  "dimension2": {
+    "latest_year": 2023,
+    "top_global_risk": "高血压",
+    "top_global_risk_deaths": 10835185.521292662
+  },
+  "dimension3": {
+    "latest_year": 2023,
+    "largest_shortage_country": "Somalia, Fed. Rep.",
+    "best_quadrant_count": 26
+  }
+}

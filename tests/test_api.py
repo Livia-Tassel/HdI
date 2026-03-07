@@ -45,6 +45,10 @@ class TestDimension2:
         response = client.get("/api/v1/dim2/paf")
         assert response.status_code == 200
 
+    def test_sankey_endpoint(self):
+        response = client.get("/api/v1/dim2/sankey")
+        assert response.status_code == 200
+
     def test_scenarios_endpoint(self):
         response = client.get("/api/v1/dim2/scenarios")
         assert response.status_code == 200
