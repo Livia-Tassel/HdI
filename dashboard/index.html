@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Health Data Insight Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Noto+Sans+SC:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="page-shell">
+      <div class="ambient ambient-a"></div>
+      <div class="ambient ambient-b"></div>
+      <header class="masthead card">
+        <div class="masthead-main">
+          <p class="eyebrow">Health Data Insight</p>
+          <h1>全球健康风险与资源配置交互式仪表盘</h1>
+          <p class="masthead-copy">
+            同一屏内联动展示疾病谱、风险归因与资源缺口。点击任意国家，地图、排行和趋势会同步刷新。
+          </p>
+        </div>
+        <div class="summary-strip" id="summary-strip"></div>
+      </header>
+
+      <section class="control-bar card">
+        <div class="dimension-switch" id="dimension-switch">
+          <button class="dimension-chip is-active" data-dimension="dim1">疾病谱演变</button>
+          <button class="dimension-chip" data-dimension="dim2">风险归因</button>
+          <button class="dimension-chip" data-dimension="dim3">资源配置</button>
+        </div>
+        <div class="control-cluster">
+          <label class="control-field">
+            <span>指标</span>
+            <select id="metric-select"></select>
+          </label>
+          <label class="control-field" id="risk-field">
+            <span>风险因素</span>
+            <select id="risk-select"></select>
+          </label>
+          <label class="control-field search-field">
+            <span>国家跳转</span>
+            <input id="country-search" list="country-list" placeholder="输入国家英文名或 ISO3" />
+            <datalist id="country-list"></datalist>
+          </label>
+          <button class="jump-button" id="country-jump">定位国家</button>
+        </div>
+      </section>
+
+      <main class="dashboard-grid">
+        <section class="card map-card">
+          <div class="card-topline">
+            <div>
+              <p class="section-kicker" id="map-kicker">全球地图</p>
+              <h2 id="map-title">全球健康版图</h2>
+            </div>
+            <div class="inline-note" id="map-note"></div>
+          </div>
+          <div id="map-chart" class="plot plot-map"></div>
+        </section>
+
+        <aside class="card insight-card">
+          <div class="card-topline compact">
+            <div>
+              <p class="section-kicker">国家画像</p>
+              <h2 id="country-title">China</h2>
+            </div>
+            <span class="micro-pill" id="country-tag">WPRO / UMC</span>
+          </div>
+          <div class="metric-grid" id="country-metrics"></div>
+          <div class="ranking-block">
+            <div class="subhead">
+              <h3>当前地图 Top 10</h3>
+              <span id="ranking-caption"></span>
+            </div>
+            <div class="ranking-list" id="ranking-list"></div>
+          </div>
+        </aside>
+
+        <section class="card chart-card">
+          <div class="card-topline compact">
+            <div>
+              <p class="section-kicker">国家维度</p>
+              <h2 id="detail-title">国家趋势</h2>
+            </div>
+            <span class="micro-pill" id="detail-pill"></span>
+          </div>
+          <div id="detail-chart" class="plot"></div>
+        </section>
+
+        <section class="card chart-card">
+          <div class="card-topline compact">
+            <div>
+              <p class="section-kicker">全球参照</p>
+              <h2 id="companion-title">全局对照</h2>
+            </div>
+            <span class="micro-pill" id="companion-pill"></span>
+          </div>
+          <div id="companion-chart" class="plot"></div>
+        </section>
+
+        <section class="card context-card">
+          <div class="card-topline compact">
+            <div>
+              <p class="section-kicker">重点观察</p>
+              <h2 id="context-title">区域对照与策略提示</h2>
+            </div>
+            <span class="micro-pill">High Density</span>
+          </div>
+          <div id="context-panel" class="context-panel"></div>
+        </section>
+      </main>
+
+      <footer class="footnote">
+        数据源为赛题 provided 数据集，站点数据由本仓库分析管线生成。推荐从 `dashboard/` 目录静态服务访问。
+      </footer>
+    </div>
+
+    <script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
+    <script src="./app.js"></script>
+  </body>
+</html>

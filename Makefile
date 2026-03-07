@@ -1,4 +1,4 @@
-.PHONY: data analysis notebooks deliverables clean report api test setup
+.PHONY: data analysis notebooks dashboard dashboard-serve deliverables clean report api test setup
 
 PYTHON ?= python
 PIP ?= pip
@@ -23,12 +23,19 @@ analysis: $(DATA_STAMP)
 notebooks: analysis
 	$(PYTHON) scripts/generate_notebooks.py
 
-deliverables: notebooks
+dashboard: analysis
+	$(RUN) -m hdi.analysis.dashboard
+
+dashboard-serve: dashboard
+	$(PYTHON) scripts/serve_dashboard.py
+
+deliverables: notebooks dashboard
 
 clean:
 	rm -rf data/interim/*.parquet data/interim/*.csv
 	rm -rf data/processed/*.parquet data/processed/spatial/*.geojson
 	rm -rf api_output/dim1/*.json api_output/dim2/*.json api_output/dim3/*.json api_output/metadata/*.json
+	rm -rf dashboard/data/*.json
 	rm -rf reports/figures/*.png reports/tables/*.csv reports/tables/*.tex reports/analysis_summary.json
 	find . -type d -name __pycache__ -exec rm -rf {} + 2>/dev/null || true
 	find . -name "*.pyc" -delete 2>/dev/null || true

@@ -20,6 +20,8 @@ API_OUTPUT = ROOT / "api_output"
 REPORTS = ROOT / "reports"
 FIGURES = REPORTS / "figures"
 TABLES = REPORTS / "tables"
+DASHBOARD = ROOT / "dashboard"
+DASHBOARD_DATA = DASHBOARD / "data"
 
 # ── Dataset sub-paths ────────────────────────────────────────────────────────
 DS_DISEASE_MORTALITY = RAW_PROVIDED / "01_disease_mortality"

@@ -1,0 +1,703 @@
+{
+  "summary": {
+    "dimension1": {
+      "latest_year": 2023,
+      "global_ncd_share": 0.7456821453438303,
+      "top_life_expectancy_country": "Japan",
+      "bottom_life_expectancy_country": "Chad",
+      "regression_r2": 0.9064078806055618
+    },
+    "dimension2": {
+      "latest_year": 2023,
+      "top_global_risk": "高血压",
+      "top_global_risk_deaths": 10835185.521292662
+    },
+    "dimension3": {
+      "latest_year": 2023,
+      "largest_shortage_country": "Somalia, Fed. Rep.",
+      "best_quadrant_count": 26
+    }
+  },
+  "global_disease_trends": [
+    {
+      "year": 2000,
+      "communicable_share": 0.2973297812922132,
+      "ncd_share": 0.6128262593976079,
+      "injury_share": 0.08984395931017886
+    },
+    {
+      "year": 2001,
+      "communicable_share": 0.2913505090209521,
+      "ncd_share": 0.6194202191928756,
+      "injury_share": 0.08922927178617227
+    },
+    {
+      "year": 2002,
+      "communicable_share": 0.2853597205792764,
+      "ncd_share": 0.6257296368349693,
+      "injury_share": 0.08891064258575426
+    },
+    {
+      "year": 2003,
+      "communicable_share": 0.27974969065586086,
+      "ncd_share": 0.6311846358186317,
+      "injury_share": 0.08906567352550736
+    },
+    {
+      "year": 2004,
+      "communicable_share": 0.27491953766694427,
+      "ncd_share": 0.6324785634060621,
+      "injury_share": 0.09260189892699372
+    },
+    {
+      "year": 2005,
+      "communicable_share": 0.26903266414179694,
+      "ncd_share": 0.6417585299419201,
+      "injury_share": 0.089208805916283
+    },
+    {
+      "year": 2006,
+      "communicable_share": 0.26282649285970094,
+      "ncd_share": 0.6491598802395615,
+      "injury_share": 0.0880136269007375
+    },
+    {
+      "year": 2007,
+      "communicable_share": 0.2555837415348934,
+      "ncd_share": 0.6571319271944942,
+      "injury_share": 0.08728433127061246
+    },
+    {
+      "year": 2008,
+      "communicable_share": 0.24762007401047584,
+      "ncd_share": 0.6621089291581564,
+      "injury_share": 0.09027099683136772
+    },
+    {
+      "year": 2009,
+      "communicable_share": 0.24315676643250086,
+      "ncd_share": 0.6709277525202859,
+      "injury_share": 0.08591548104721318
+    },
+    {
+      "year": 2010,
+      "communicable_share": 0.23611616178745534,
+      "ncd_share": 0.6746828556715473,
+      "injury_share": 0.08920098254099736
+    },
+    {
+      "year": 2011,
+      "communicable_share": 0.2319860989484545,
+      "ncd_share": 0.683505060543304,
+      "injury_share": 0.08450884050824158
+    },
+    {
+      "year": 2012,
+      "communicable_share": 0.2230899329872308,
+      "ncd_share": 0.6925265979442993,
+      "injury_share": 0.08438346906847001
+    },
+    {
+      "year": 2013,
+      "communicable_share": 0.21649140466455666,
+      "ncd_share": 0.6992021731440609,
+      "injury_share": 0.08430642219138254
+    },
+    {
+      "year": 2014,
+      "communicable_share": 0.2110472348261223,
+      "ncd_share": 0.7049060449403246,
+      "injury_share": 0.0840467202335531
+    },
+    {
+      "year": 2015,
+      "communicable_share": 0.20378953050505252,
+      "ncd_share": 0.7131815471653254,
+      "injury_share": 0.08302892232962196
+    },
+    {
+      "year": 2016,
+      "communicable_share": 0.19690055081592597,
+      "ncd_share": 0.7210771839384429,
+      "injury_share": 0.08202226524563117
+    },
+    {
+      "year": 2017,
+      "communicable_share": 0.19122182202450522,
+      "ncd_share": 0.7275439589434228,
+      "injury_share": 0.08123421903207192
+    },
+    {
+      "year": 2018,
+      "communicable_share": 0.18714806412232185,
+      "ncd_share": 0.7324278129531807,
+      "injury_share": 0.08042412292449738
+    },
+    {
+      "year": 2019,
+      "communicable_share": 0.18397779425103364,
+      "ncd_share": 0.7356759120707305,
+      "injury_share": 0.08034629367823579
+    },
+    {
+      "year": 2020,
+      "communicable_share": 0.25000356440261046,
+      "ncd_share": 0.6761018803619165,
+      "injury_share": 0.0738945552354729
+    },
+    {
+      "year": 2021,
+      "communicable_share": 0.28377131294554714,
+      "ncd_share": 0.6459213484352765,
+      "injury_share": 0.07030733861917632
+    },
+    {
+      "year": 2022,
+      "communicable_share": 0.1961360206836851,
+      "ncd_share": 0.7256604482584414,
+      "injury_share": 0.0782035310578734
+    },
+    {
+      "year": 2023,
+      "communicable_share": 0.17306662101229792,
+      "ncd_share": 0.7456825266600684,
+      "injury_share": 0.08125085232763375
+    }
+  ],
+  "global_top_risks": [
+    {
+      "risk_code": "high_systolic_bp",
+      "risk_name": "高血压",
+      "attributable_deaths": 10835185.521292662
+    },
+    {
+      "risk_code": "air_pollution",
+      "risk_name": "空气污染",
+      "attributable_deaths": 7775104.382993133
+    },
+    {
+      "risk_code": "tobacco",
+      "risk_name": "烟草烟雾",
+      "attributable_deaths": 7298397.351294848
+    },
+    {
+      "risk_code": "dietary_risks",
+      "risk_name": "饮食风险",
+      "attributable_deaths": 7216153.9917096915
+    },
+    {
+      "risk_code": "high_fasting_glucose",
+      "risk_name": "高血糖",
+      "attributable_deaths": 5251008.208891637
+    },
+    {
+      "risk_code": "kidney_dysfunction",
+      "risk_name": "肾脏功能受损",
+      "attributable_deaths": 3630822.6391806193
+    },
+    {
+      "risk_code": "high_bmi",
+      "risk_name": "高BMI指数",
+      "attributable_deaths": 3618911.2799110785
+    },
+    {
+      "risk_code": "high_ldl",
+      "risk_name": "高低密度脂蛋白胆固醇",
+      "attributable_deaths": 3587745.8953113654
+    },
+    {
+      "risk_code": "other_environmental",
+      "risk_name": "其他环境危险因素",
+      "attributable_deaths": 3508264.192678162
+    },
+    {
+      "risk_code": "child_maternal_malnutrition",
+      "risk_name": "儿童和孕产妇营养不良",
+      "attributable_deaths": 2454371.9305849066
+    },
+    {
+      "risk_code": "non_optimal_temperature",
+      "risk_name": "体温",
+      "attributable_deaths": 1850509.498741797
+    },
+    {
+      "risk_code": "alcohol_use",
+      "risk_name": "饮酒",
+      "attributable_deaths": 1271125.8782287422
+    }
+  ],
+  "region_priority": [
+    {
+      "who_region": "AFRO",
+      "primary_risk": "儿童和孕产妇营养不良",
+      "primary_share": 0.16161654252430538,
+      "secondary_risk": "空气污染",
+      "secondary_share": 0.1340544201645757,
+      "tertiary_risk": "高血压",
+      "tertiary_share": 0.11787679870172449
+    },
+    {
+      "who_region": "AMRO",
+      "primary_risk": "高血压",
+      "primary_share": 0.17718693887472486,
+      "secondary_risk": "高血糖",
+      "secondary_share": 0.12674525143900184,
+      "tertiary_risk": "饮食风险",
+      "tertiary_share": 0.11987233009371273
+    },
+    {
+      "who_region": "EMRO",
+      "primary_risk": "高血压",
+      "primary_share": 0.16832787320877482,
+      "secondary_risk": "饮食风险",
+      "secondary_share": 0.10652683527969475,
+      "tertiary_risk": "高BMI指数",
+      "tertiary_share": 0.10621155956693
+    },
+    {
+      "who_region": "EURO",
+      "primary_risk": "高血压",
+      "primary_share": 0.20529686298310035,
+      "secondary_risk": "饮食风险",
+      "secondary_share": 0.12970098133032568,
+      "tertiary_risk": "烟草烟雾",
+      "tertiary_share": 0.1166807465224166
+    },
+    {
+      "who_region": "SEARO",
+      "primary_risk": "高血压",
+      "primary_share": 0.1617323440074283,
+      "secondary_risk": "空气污染",
+      "secondary_share": 0.14892399578070944,
+      "tertiary_risk": "烟草烟雾",
+      "tertiary_share": 0.11960707559735666
+    },
+    {
+      "who_region": "WPRO",
+      "primary_risk": "高血压",
+      "primary_share": 0.16853268387405423,
+      "secondary_risk": "饮食风险",
+      "secondary_share": 0.13118781095799642,
+      "tertiary_risk": "烟草烟雾",
+      "tertiary_share": 0.12403687641315897
+    }
+  ],
+  "resource_highlights": {
+    "under_resourced": [
+      {
+        "iso3": "SOM",
+        "country_name": "Somalia, Fed. Rep.",
+        "who_region": "AFRO",
+        "gap": -3.5851789442,
+        "gap_grade_en": "E_critical_shortage"
+      },
+      {
+        "iso3": "TCD",
+        "country_name": "Chad",
+        "who_region": "AFRO",
+        "gap": -3.5249197283,
+        "gap_grade_en": "E_critical_shortage"
+      },
+      {
+        "iso3": "NGA",
+        "country_name": "Nigeria",
+        "who_region": "AFRO",
+        "gap": -3.454629353,
+        "gap_grade_en": "E_critical_shortage"
+      },
+      {
+        "iso3": "NER",
+        "country_name": "Niger",
+        "who_region": "AFRO",
+        "gap": -3.144567469,
+        "gap_grade_en": "E_critical_shortage"
+      },
+      {
+        "iso3": "MLI",
+        "country_name": "Mali",
+        "who_region": "AFRO",
+        "gap": -2.97695759,
+        "gap_grade_en": "E_critical_shortage"
+      },
+      {
+        "iso3": "GIN",
+        "country_name": "Guinea",
+        "who_region": "AFRO",
+        "gap": -2.9393184533,
+        "gap_grade_en": "E_critical_shortage"
+      },
+      {
+        "iso3": "BEN",
+        "country_name": "Benin",
+        "who_region": "AFRO",
+        "gap": -2.8273948137,
+        "gap_grade_en": "E_critical_shortage"
+      },
+      {
+        "iso3": "SSD",
+        "country_name": "South Sudan",
+        "who_region": "AFRO",
+        "gap": -2.6435147437,
+        "gap_grade_en": "E_critical_shortage"
+      },
+      {
+        "iso3": "GNQ",
+        "country_name": "Equatorial Guinea",
+        "who_region": "AFRO",
+        "gap": -2.6218226521,
+        "gap_grade_en": "E_critical_shortage"
+      },
+      {
+        "iso3": "CIV",
+        "country_name": "Côte d'Ivoire",
+        "who_region": "AFRO",
+        "gap": -2.6024950409,
+        "gap_grade_en": "E_critical_shortage"
+      },
+      {
+        "iso3": "COD",
+        "country_name": "Congo, Democratic Republic of",
+        "who_region": "AFRO",
+        "gap": -2.5934700862,
+        "gap_grade_en": "E_critical_shortage"
+      },
+      {
+        "iso3": "SLE",
+        "country_name": "Sierra Leone",
+        "who_region": "AFRO",
+        "gap": -2.5471352011,
+        "gap_grade_en": "E_critical_shortage"
+      }
+    ],
+    "efficient": [
+      {
+        "iso3": "QAT",
+        "country_name": "Qatar",
+        "who_region": "EMRO",
+        "efficiency": 1.5850230665,
+        "quadrant": "Q2_low_input_high_output"
+      },
+      {
+        "iso3": "TUR",
+        "country_name": "Türkiye",
+        "who_region": "EURO",
+        "efficiency": 1.4158519147,
+        "quadrant": "Q2_low_input_high_output"
+      },
+      {
+        "iso3": "LKA",
+        "country_name": "Sri Lanka",
+        "who_region": "SEARO",
+        "efficiency": 1.3879217914,
+        "quadrant": "Q2_low_input_high_output"
+      },
+      {
+        "iso3": "BHR",
+        "country_name": "Bahrain",
+        "who_region": "EMRO",
+        "efficiency": 1.3493572473,
+        "quadrant": "Q2_low_input_high_output"
+      },
+      {
+        "iso3": "MYS",
+        "country_name": "Malaysia",
+        "who_region": "WPRO",
+        "efficiency": 1.3233745842,
+        "quadrant": "Q2_low_input_high_output"
+      },
+      {
+        "iso3": "THA",
+        "country_name": "Thailand",
+        "who_region": "WPRO",
+        "efficiency": 1.2628096568,
+        "quadrant": "Q2_low_input_high_output"
+      },
+      {
+        "iso3": "BRN",
+        "country_name": "Brunei Darussalam",
+        "who_region": "WPRO",
+        "efficiency": 1.2590447509,
+        "quadrant": "Q2_low_input_high_output"
+      },
+      {
+        "iso3": "OMN",
+        "country_name": "Oman",
+        "who_region": "EMRO",
+        "efficiency": 1.2368892946,
+        "quadrant": "Q2_low_input_high_output"
+      },
+      {
+        "iso3": "KAZ",
+        "country_name": "Kazakhstan",
+        "who_region": "EURO",
+        "efficiency": 1.2156630074,
+        "quadrant": "Q2_low_input_high_output"
+      },
+      {
+        "iso3": "CHN",
+        "country_name": "China",
+        "who_region": "WPRO",
+        "efficiency": 1.2018730935,
+        "quadrant": "Q2_low_input_high_output"
+      },
+      {
+        "iso3": "KWT",
+        "country_name": "Kuwait",
+        "who_region": "EMRO",
+        "efficiency": 1.1289540971,
+        "quadrant": "Q2_low_input_high_output"
+      },
+      {
+        "iso3": "LBY",
+        "country_name": "Libya",
+        "who_region": "EMRO",
+        "efficiency": 0.9974114764,
+        "quadrant": "Q2_low_input_high_output"
+      }
+    ],
+    "reallocation": [
+      {
+        "iso3": "AFG",
+        "country_name": "Afghanistan",
+        "change": 16.13032074,
+        "change_pct": 20.0
+      },
+      {
+        "iso3": "MYS",
+        "country_name": "Malaysia",
+        "change": 91.643927002,
+        "change_pct": 20.0
+      },
+      {
+        "iso3": "MLI",
+        "country_name": "Mali",
+        "change": 5.94858551,
+        "change_pct": 20.0
+      },
+      {
+        "iso3": "MMR",
+        "country_name": "Myanmar",
+        "change": 11.593751526,
+        "change_pct": 20.0
+      },
+      {
+        "iso3": "MNG",
+        "country_name": "Mongolia",
+        "change": 89.648425292,
+        "change_pct": 20.0
+      },
+      {
+        "iso3": "MOZ",
+        "country_name": "Mozambique",
+        "change": 9.89459076,
+        "change_pct": 20.0
+      },
+      {
+        "iso3": "MRT",
+        "country_name": "Mauritania",
+        "change": 18.083081054,
+        "change_pct": 20.0
+      },
+      {
+        "iso3": "MUS",
+        "country_name": "Mauritius",
+        "change": 118.187145996,
+        "change_pct": 20.0
+      },
+      {
+        "iso3": "MWI",
+        "country_name": "Malawi",
+        "change": 7.931982422,
+        "change_pct": 20.0
+      },
+      {
+        "iso3": "NAM",
+        "country_name": "Namibia",
+        "change": 81.118786622,
+        "change_pct": 20.0
+      },
+      {
+        "iso3": "MHL",
+        "country_name": "Marshall Islands",
+        "change": 151.689746094,
+        "change_pct": 20.0
+      },
+      {
+        "iso3": "NER",
+        "country_name": "Niger",
+        "change": 5.301363372,
+        "change_pct": 20.0
+      }
+    ]
+  },
+  "sankey": {
+    "title": "Risk-to-region attributable death flow, 2023",
+    "method": "risk_to_region_attributable_deaths",
+    "nodes": [
+      "high_systolic_bp",
+      "tobacco",
+      "air_pollution",
+      "dietary_risks",
+      "high_fasting_glucose",
+      "high_ldl",
+      "kidney_dysfunction",
+      "high_bmi",
+      "WPRO",
+      "SEARO",
+      "EURO",
+      "AMRO",
+      "AFRO",
+      "EMRO"
+    ],
+    "sources": [
+      0,
+      1,
+      2,
+      3,
+      2,
+      0,
+      0,
+      4,
+      3,
+      1,
+      3,
+      5,
+      1,
+      0,
+      6,
+      4,
+      2,
+      4,
+      0,
+      7,
+      4,
+      3,
+      5,
+      7,
+      0,
+      1,
+      7,
+      5,
+      6,
+      2,
+      6,
+      2,
+      6,
+      3,
+      7,
+      7,
+      1,
+      3,
+      4,
+      2,
+      5,
+      4,
+      6,
+      5,
+      6,
+      7,
+      1,
+      5
+    ],
+    "targets": [
+      8,
+      8,
+      8,
+      8,
+      9,
+      10,
+      9,
+      8,
+      9,
+      9,
+      10,
+      8,
+      10,
+      11,
+      8,
+      9,
+      12,
+      10,
+      13,
+      10,
+      11,
+      11,
+      10,
+      11,
+      12,
+      11,
+      8,
+      9,
+      10,
+      13,
+      11,
+      10,
+      9,
+      13,
+      9,
+      13,
+      13,
+      12,
+      13,
+      11,
+      11,
+      12,
+      13,
+      13,
+      12,
+      12,
+      12,
+      12
+    ],
+    "values": [
+      4037416.433,
+      3325575.037,
+      2878057.189,
+      2508940.978,
+      2346683.704,
+      2171178.003,
+      1839482.132,
+      1607219.861,
+      1526284.437,
+      1400739.98,
+      1351787.039,
+      1219013.352,
+      1161923.601,
+      1147372.683,
+      1131851.016,
+      1089543.791,
+      921971.613,
+      907421.338,
+      885965.988,
+      878193.955,
+      873847.229,
+      848329.134,
+      815154.158,
+      793471.346,
+      753770.283,
+      722253.886,
+      722236.61,
+      655513.497,
+      635533.878,
+      620445.865,
+      617670.576,
+      613889.987,
+      596007.675,
+      541504.329,
+      461206.407,
+      461077.205,
+      452029.079,
+      439308.075,
+      427808.255,
+      394056.025,
+      393551.194,
+      345167.737,
+      333547.161,
+      331170.643,
+      316212.333,
+      302725.757,
+      235875.769,
+      173343.051
+    ]
+  }
+}
