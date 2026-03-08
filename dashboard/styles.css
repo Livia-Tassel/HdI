@@ -55,6 +55,7 @@ html {
 }
 
 html, body {
+  width: 100%;
   min-height: 100%;
   background: var(--bg);
   color: var(--ink);
@@ -64,7 +65,7 @@ html, body {
 }
 
 body {
-  overflow-x: hidden;
+  overflow-x: clip;
   position: relative;
 }
 
@@ -202,7 +203,8 @@ body {
 .page-shell {
   position: relative;
   z-index: 1;
-  width: min(1560px, calc(100vw - 32px));
+  width: min(1560px, calc(100% - 32px));
+  max-width: calc(100% - 32px);
   margin: 20px auto 32px;
   display: grid;
   gap: 14px;
@@ -1222,7 +1224,8 @@ body.ready .context-card { animation-delay: 480ms; }
 
 @media (max-width: 760px) {
   .page-shell {
-    width: min(100vw - 16px, 100%);
+    width: calc(100% - 16px);
+    max-width: calc(100% - 16px);
     margin: 8px auto 20px;
   }
 
