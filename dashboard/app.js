@@ -32,57 +32,57 @@ const DIMENSIONS = {
 const METRIC_META = {
   life_expectancy: {
     label: "预期寿命",
-    colorscale: "YlGnBu",
+    colorscale: [[0, "#0c1929"], [0.25, "#0e3a5e"], [0.5, "#0d6577"], [0.75, "#17a2b8"], [1, "#22d3ee"]],
     formatter: (value) => (value == null ? "—" : `${value.toFixed(1)} 岁`),
     accessor: (row) => row.life_expectancy,
   },
   ncd_share: {
     label: "非传染性疾病占比",
-    colorscale: "Viridis",
+    colorscale: [[0, "#0c1929"], [0.25, "#1a2747"], [0.5, "#2e4070"], [0.75, "#6366f1"], [1, "#a78bfa"]],
     formatter: (value) => formatShare(value),
     accessor: (row) => row.ncd_share,
   },
   communicable_share: {
     label: "传染性疾病占比",
-    colorscale: "OrRd",
+    colorscale: [[0, "#1a1308"], [0.25, "#4a3010"], [0.5, "#7a5518"], [0.75, "#d4941a"], [1, "#fbbf24"]],
     formatter: (value) => formatShare(value),
     accessor: (row) => row.communicable_share,
   },
   health_exp_pct_gdp: {
     label: "卫生支出占 GDP 比重",
-    colorscale: "Tealgrn",
+    colorscale: [[0, "#071a17"], [0.25, "#0c3a32"], [0.5, "#12705f"], [0.75, "#1db99a"], [1, "#2dd4bf"]],
     formatter: (value) => formatPercentValue(value),
     accessor: (row) => row.health_exp_pct_gdp,
   },
   share: {
     label: "风险归因占比",
-    colorscale: "Plasma",
+    colorscale: [[0, "#0c1929"], [0.25, "#2a1a4e"], [0.5, "#6b21a8"], [0.75, "#9333ea"], [1, "#c084fc"]],
     formatter: (value) => formatShare(value),
     accessor: (row) => row.share,
   },
   attributable_deaths: {
     label: "风险归因死亡数",
-    colorscale: "Turbo",
+    colorscale: [[0, "#0c1929"], [0.25, "#1e3a5f"], [0.5, "#0d6577"], [0.75, "#22d3ee"], [1, "#fbbf24"]],
     formatter: (value) => formatCompact(value),
     accessor: (row) => row.attributable_deaths,
   },
   gap: {
     label: "资源缺口",
-    colorscale: "RdBu",
+    colorscale: [[0, "#fb7185"], [0.25, "#4a1525"], [0.5, "#111827"], [0.75, "#0c3a32"], [1, "#2dd4bf"]],
     formatter: (value) => formatSigned(value),
     accessor: (row) => row.gap,
     diverging: true,
   },
   efficiency: {
     label: "投入产出效率",
-    colorscale: "Picnic",
+    colorscale: [[0, "#fb7185"], [0.25, "#4a1525"], [0.5, "#111827"], [0.75, "#0c3a32"], [1, "#2dd4bf"]],
     formatter: (value) => formatSigned(value),
     accessor: (row) => row.efficiency,
     diverging: true,
   },
   change_pct: {
     label: "建议再分配变化",
-    colorscale: "Spectral",
+    colorscale: [[0, "#fb7185"], [0.25, "#4a1525"], [0.5, "#111827"], [0.75, "#1e3a5f"], [1, "#38bdf8"]],
     formatter: (value) => formatSignedPercent(value),
     accessor: (row) => row.change_pct,
     diverging: true,
@@ -90,14 +90,18 @@ const METRIC_META = {
 };
 
 const THEME = {
-  ink: "#10212b",
-  muted: "#5a6b72",
-  teal: "#0f766e",
-  cobalt: "#1d4ed8",
-  amber: "#b45309",
-  rose: "#be185d",
-  card: "rgba(255,255,255,0.05)",
-  grid: "rgba(16,33,43,0.10)",
+  ink: "#e2e8f0",
+  muted: "#94a3b8",
+  dim: "#64748b",
+  cyan: "#22d3ee",
+  teal: "#2dd4bf",
+  blue: "#38bdf8",
+  amber: "#fbbf24",
+  rose: "#fb7185",
+  violet: "#a78bfa",
+  card: "rgba(15,23,42,0.80)",
+  grid: "rgba(148,163,184,0.06)",
+  hover: "rgba(15,23,42,0.94)",
 };
 
 const state = {
@@ -236,6 +240,13 @@ function populateCountryDatalist() {
 }
 
 function renderAll() {
+  const grid = document.querySelector(".dashboard-grid");
+  if (grid) {
+    grid.classList.add("dim-transition");
+    requestAnimationFrame(() => {
+      setTimeout(() => grid.classList.remove("dim-transition"), 150);
+    });
+  }
   syncControls();
   renderSummaryStrip();
   renderMap();
@@ -244,6 +255,10 @@ function renderAll() {
 
 function renderPanels() {
   syncSearchField();
+  const titleEl = document.getElementById("country-title");
+  titleEl.classList.remove("country-flash");
+  void titleEl.offsetWidth;
+  titleEl.classList.add("country-flash");
   renderCountryPanel();
   renderRankingList();
   renderDetailChart();
@@ -332,13 +347,17 @@ function renderMap() {
     text: records.map((record) => countryLabel(record)),
     hovertext: records.map((record) => buildHoverText(record)),
     colorscale: metric.colorscale,
-    marker: { line: { color: "rgba(16,33,43,0.35)", width: 0.35 } },
+    marker: { line: { color: "rgba(148,163,184,0.18)", width: 0.4 } },
     colorbar: {
       title: metric.label,
-      thickness: 14,
-      len: 0.74,
-      tickfont: { family: "Space Grotesk, sans-serif", size: 11 },
-      titlefont: { family: "Noto Sans SC, sans-serif", size: 12 },
+      thickness: 12,
+      len: 0.68,
+      x: 0.02,
+      xanchor: "left",
+      tickfont: { family: "DM Mono, monospace", size: 11, color: "#94a3b8" },
+      titlefont: { family: "Noto Sans SC, sans-serif", size: 12, color: "#94a3b8" },
+      outlinewidth: 0,
+      borderwidth: 0,
     },
     hovertemplate,
     zmin: zBounds.zmin,
@@ -355,14 +374,19 @@ function renderMap() {
       projection: { type: "natural earth", scale: 1.08 },
       showframe: false,
       showcountries: true,
-      countrycolor: "rgba(16,33,43,0.18)",
+      countrycolor: "rgba(148,163,184,0.18)",
       showcoastlines: false,
-      landcolor: "rgba(255,255,255,0.22)",
+      landcolor: "rgba(30,41,59,0.90)",
       bgcolor: "rgba(0,0,0,0)",
-      lakecolor: "rgba(255,255,255,0.05)",
+      lakecolor: "rgba(0,0,0,0)",
       showlakes: false,
     },
     font: { family: "Noto Sans SC, sans-serif", color: THEME.ink },
+    hoverlabel: {
+      bgcolor: THEME.hover,
+      bordercolor: "rgba(34,211,238,0.25)",
+      font: { family: "Noto Sans SC, sans-serif", color: "#e2e8f0", size: 13 },
+    },
   };
 
   Plotly.react("map-chart", [trace], layout, {
@@ -426,38 +450,38 @@ function renderCountryPanel() {
   let items = [];
   if (state.dimension === "dim1") {
     items = [
-      ["预期寿命", METRIC_META.life_expectancy.formatter(latest.life_expectancy)],
-      ["传染性疾病占比", METRIC_META.communicable_share.formatter(latest.communicable_share)],
-      ["非传染性疾病占比", METRIC_META.ncd_share.formatter(latest.ncd_share)],
-      ["人均 GDP", formatCurrency(latest.gdp_per_capita)],
-      ["卫生支出/GDP", formatPercentValue(latest.health_exp_pct_gdp)],
-      ["医生密度", formatDecimal(latest.physicians_per_1000)],
+      ["预期寿命", METRIC_META.life_expectancy.formatter(latest.life_expectancy), "cyan"],
+      ["传染性疾病占比", METRIC_META.communicable_share.formatter(latest.communicable_share), "amber"],
+      ["非传染性疾病占比", METRIC_META.ncd_share.formatter(latest.ncd_share), "violet"],
+      ["人均 GDP", formatCurrency(latest.gdp_per_capita), "teal"],
+      ["卫生支出/GDP", formatPercentValue(latest.health_exp_pct_gdp), "blue"],
+      ["医生密度", formatDecimal(latest.physicians_per_1000), "rose"],
     ];
   } else if (state.dimension === "dim2") {
     const selectedRisk = store.riskIndex.get(`${state.country}|${state.risk}`) ?? {};
     items = [
-      ["主导风险", latest.top_risk_name ?? "—"],
-      ["主导风险占比", formatShare(latest.top_risk_share)],
-      ["主导风险归因死亡", formatCompact(latest.top_risk_deaths)],
-      ["当前选择风险", selectedRisk.risk_name ?? getRiskName(state.risk)],
-      ["当前选择占比", formatShare(selectedRisk.share)],
-      ["当前选择归因死亡", formatCompact(selectedRisk.attributable_deaths)],
+      ["主导风险", latest.top_risk_name ?? "—", "cyan"],
+      ["主导风险占比", formatShare(latest.top_risk_share), "teal"],
+      ["主导风险归因死亡", formatCompact(latest.top_risk_deaths), "rose"],
+      ["当前选择风险", selectedRisk.risk_name ?? getRiskName(state.risk), "violet"],
+      ["当前选择占比", formatShare(selectedRisk.share), "amber"],
+      ["当前选择归因死亡", formatCompact(selectedRisk.attributable_deaths), "blue"],
     ];
   } else {
     items = [
-      ["资源缺口", formatSigned(latest.gap)],
-      ["缺口等级", latest.gap_grade_en ?? "—"],
-      ["投入产出效率", formatSigned(latest.efficiency)],
-      ["效率象限", formatQuadrant(latest.quadrant)],
-      ["建议变动", formatSignedPercent(latest.change_pct)],
-      ["优化后人均支出", formatCurrency(latest.optimal)],
+      ["资源缺口", formatSigned(latest.gap), "rose"],
+      ["缺口等级", latest.gap_grade_en ?? "—", "amber"],
+      ["投入产出效率", formatSigned(latest.efficiency), "teal"],
+      ["效率象限", formatQuadrant(latest.quadrant), "cyan"],
+      ["建议变动", formatSignedPercent(latest.change_pct), "blue"],
+      ["优化后人均支出", formatCurrency(latest.optimal), "violet"],
     ];
   }
 
   document.getElementById("country-metrics").innerHTML = items
     .map(
-      ([label, value]) =>
-        `<article class="metric-tile"><span>${escapeHtml(label)}</span><strong>${escapeHtml(value ?? "—")}</strong></article>`,
+      ([label, value, accent]) =>
+        `<article class="metric-tile" data-accent="${accent}"><span>${escapeHtml(label)}</span><strong>${escapeHtml(value ?? "—")}</strong></article>`,
     )
     .join("");
 }
@@ -482,19 +506,23 @@ function renderRankingList() {
   }
   document.getElementById("ranking-caption").textContent = caption;
 
-  document.getElementById("ranking-list").innerHTML = records
-    .slice(0, 10)
+  const top10 = records.slice(0, 10);
+  const maxVal = Math.max(...top10.map((r) => Math.abs(metric.accessor(r) ?? 0)), 1e-9);
+
+  document.getElementById("ranking-list").innerHTML = top10
     .map((record, index) => {
       const iso3 = record.iso3;
       const isSelected = iso3 === state.country;
+      const rawVal = Math.abs(metric.accessor(record) ?? 0);
+      const progress = Math.round((rawVal / maxVal) * 100);
       return `
-        <button class="ranking-row ${isSelected ? "is-selected" : ""}" data-country="${iso3}">
-          <strong>${String(index + 1).padStart(2, "0")}</strong>
-          <span>
+        <button class="ranking-row ${isSelected ? "is-selected" : ""}" data-country="${iso3}" data-rank="${index + 1}" style="--progress:${progress}%;animation-delay:${index * 40}ms">
+          <span class="rank-badge">${index + 1}</span>
+          <span class="row-info">
             <b>${escapeHtml(countryLabel(record))}</b><br />
             <small>${escapeHtml(record.who_region ?? "NA")} / ${escapeHtml(record.wb_income ?? "NA")}</small>
           </span>
-          <b>${escapeHtml(metric.formatter(metric.accessor(record)))}</b>
+          <span class="row-value">${escapeHtml(metric.formatter(metric.accessor(record)))}</span>
         </button>
       `;
     })
@@ -541,7 +569,7 @@ function renderDimension1Detail(profile) {
       y: trend.map((item) => item.life_expectancy),
       name: "预期寿命",
       mode: "lines+markers",
-      line: { color: THEME.cobalt, width: 3 },
+      line: { color: THEME.cyan, width: 3 },
       marker: { size: 5 },
     },
     {
@@ -558,7 +586,7 @@ function renderDimension1Detail(profile) {
       name: "非传染性疾病占比",
       mode: "lines",
       yaxis: "y2",
-      line: { color: THEME.teal, width: 2.5 },
+      line: { color: THEME.violet, width: 2.5 },
     },
   ];
   Plotly.react("detail-chart", traces, baseLayout({
@@ -582,6 +610,7 @@ function renderDimension2Detail(profile) {
       orientation: "h",
       marker: {
         color: risks.map((_, index) => interpolateColor(index / Math.max(risks.length - 1, 1))),
+        cornerradius: 4,
       },
       customdata: risks.map((item) => item.attributable_deaths),
       hovertemplate: "<b>%{y}</b><br>占比: %{x:.2f}%<br>归因死亡: %{customdata:.0f}<extra></extra>",
@@ -607,7 +636,7 @@ function renderDimension3Detail(profile) {
     name,
     line: {
       width: 3,
-      color: [THEME.teal, THEME.cobalt, THEME.amber][index],
+      color: [THEME.teal, THEME.blue, THEME.amber][index],
     },
   }));
   Plotly.react("detail-chart", traces, baseLayout({
@@ -655,16 +684,16 @@ function renderRiskSankey() {
       label: sankey.nodes,
       pad: 16,
       thickness: 18,
-      line: { color: "rgba(16,33,43,0.18)", width: 0.5 },
-      color: sankey.nodes.map((node) => (node.includes("RO") || node.includes("PRO") ? "rgba(29,78,216,0.68)" : "rgba(15,118,110,0.74)")),
+      line: { color: "rgba(148,163,184,0.12)", width: 0.5 },
+      color: sankey.nodes.map((node) => (node.includes("RO") || node.includes("PRO") ? "rgba(167,139,250,0.75)" : "rgba(34,211,238,0.75)")),
     },
     link: {
       source: sankey.sources,
       target: sankey.targets,
       value: sankey.values,
-      color: "rgba(16, 33, 43, 0.18)",
+      color: "rgba(148,163,184,0.08)",
     },
-    hoverlabel: { font: { family: "Noto Sans SC, sans-serif" } },
+    hoverlabel: { font: { family: "Noto Sans SC, sans-serif", color: "#e2e8f0" }, bgcolor: "rgba(15,23,42,0.94)" },
   };
   Plotly.react("companion-chart", [trace], baseLayout({
     margin: { l: 12, r: 12, t: 10, b: 10 },
@@ -678,7 +707,7 @@ function renderReallocationBar() {
     x: rows.map((item) => item.change_pct),
     y: rows.map((item) => countryLabel(item)),
     orientation: "h",
-    marker: { color: rows.map((item) => (item.change_pct >= 0 ? THEME.teal : THEME.rose)) },
+    marker: { color: rows.map((item) => (item.change_pct >= 0 ? THEME.teal : THEME.rose)), cornerradius: 4 },
     hovertemplate: "<b>%{y}</b><br>建议变动: %{x:.1f}%<extra></extra>",
   };
   Plotly.react("companion-chart", [trace], baseLayout({
@@ -717,9 +746,9 @@ function renderDim1Context() {
     .sort((a, b) => b.communicable_share - a.communicable_share)
     .slice(0, 6);
   document.getElementById("context-panel").innerHTML = renderContextColumns([
-    { title: "寿命最高", items: topLife.map((item) => `${countryLabel(item)} · ${formatDecimal(item.life_expectancy)} 岁`) },
-    { title: "寿命最低", items: bottomLife.map((item) => `${countryLabel(item)} · ${formatDecimal(item.life_expectancy)} 岁`) },
-    { title: "传染性疾病负担最高", items: communicable.map((item) => `${countryLabel(item)} · ${formatShare(item.communicable_share)}`) },
+    { title: "寿命最高", items: topLife.map((item) => ({ name: countryLabel(item), value: `${formatDecimal(item.life_expectancy)} 岁` })) },
+    { title: "寿命最低", items: bottomLife.map((item) => ({ name: countryLabel(item), value: `${formatDecimal(item.life_expectancy)} 岁` })) },
+    { title: "传染性疾病负担最高", items: communicable.map((item) => ({ name: countryLabel(item), value: formatShare(item.communicable_share) })) },
   ]);
 }
 
@@ -729,9 +758,9 @@ function renderDim2Context() {
     rows.map((row) => ({
       title: row.who_region,
       items: [
-        `1. ${row.primary_risk} · ${formatShare(row.primary_share)}`,
-        `2. ${row.secondary_risk} · ${formatShare(row.secondary_share)}`,
-        row.tertiary_risk ? `3. ${row.tertiary_risk} · ${formatShare(row.tertiary_share)}` : "3. —",
+        { name: `1. ${row.primary_risk}`, value: formatShare(row.primary_share) },
+        { name: `2. ${row.secondary_risk}`, value: formatShare(row.secondary_share) },
+        { name: row.tertiary_risk ? `3. ${row.tertiary_risk}` : "3. —", value: row.tertiary_share ? formatShare(row.tertiary_share) : "—" },
       ],
     })),
   );
@@ -742,15 +771,15 @@ function renderDim3Context() {
   document.getElementById("context-panel").innerHTML = renderContextColumns([
     {
       title: "缺口最严重",
-      items: highlights.under_resourced.slice(0, 6).map((item) => `${countryLabel(item)} · ${formatSigned(item.gap)}`),
+      items: highlights.under_resourced.slice(0, 6).map((item) => ({ name: countryLabel(item), value: formatSigned(item.gap) })),
     },
     {
       title: "低投入高产出",
-      items: highlights.efficient.slice(0, 6).map((item) => `${countryLabel(item)} · ${formatSigned(item.efficiency)}`),
+      items: highlights.efficient.slice(0, 6).map((item) => ({ name: countryLabel(item), value: formatSigned(item.efficiency) })),
     },
     {
       title: "再分配优先",
-      items: highlights.reallocation.slice(0, 6).map((item) => `${countryLabel(item)} · ${formatSignedPercent(item.change_pct)}`),
+      items: highlights.reallocation.slice(0, 6).map((item) => ({ name: countryLabel(item), value: formatSignedPercent(item.change_pct) })),
     },
   ]);
 }
@@ -760,9 +789,14 @@ function renderContextColumns(columns) {
     .map(
       (column) => `
       <section class="context-column">
-        <h3>${escapeHtml(column.title)}</h3>
+        <div class="col-header"><span class="col-dot"></span><h3>${escapeHtml(column.title)}</h3></div>
         ${column.items
-          .map((item) => `<div class="context-item"><strong>${escapeHtml(item)}</strong></div>`)
+          .map((item) => {
+            if (typeof item === "string") {
+              return `<div class="context-item"><span class="ctx-name">${escapeHtml(item)}</span></div>`;
+            }
+            return `<div class="context-item"><span class="ctx-name">${escapeHtml(item.name)}</span><span class="ctx-value">${escapeHtml(item.value)}</span></div>`;
+          })
           .join("")}
       </section>`,
     )
@@ -787,18 +821,20 @@ function baseLayout(extra = {}) {
     paper_bgcolor: "rgba(0,0,0,0)",
     plot_bgcolor: "rgba(0,0,0,0)",
     margin: { l: 46, r: 28, t: 8, b: 42 },
-    font: { family: "Noto Sans SC, sans-serif", color: THEME.ink },
+    font: { family: "Noto Sans SC, sans-serif", color: THEME.muted },
     xaxis: {
       gridcolor: THEME.grid,
-      zerolinecolor: THEME.grid,
+      zerolinecolor: "rgba(148,163,184,0.12)",
       linecolor: THEME.grid,
       ticks: "",
+      tickfont: { family: "DM Mono, monospace", size: 11, color: THEME.dim },
     },
     yaxis: {
       gridcolor: THEME.grid,
-      zerolinecolor: THEME.grid,
+      zerolinecolor: "rgba(148,163,184,0.12)",
       linecolor: THEME.grid,
       ticks: "",
+      tickfont: { family: "DM Mono, monospace", size: 11, color: THEME.dim },
     },
     legend: {
       orientation: "h",
@@ -806,6 +842,12 @@ function baseLayout(extra = {}) {
       y: 1.03,
       xanchor: "left",
       x: 0,
+      font: { color: THEME.muted, size: 12 },
+    },
+    hoverlabel: {
+      bgcolor: THEME.hover,
+      bordercolor: "rgba(34,211,238,0.20)",
+      font: { family: "Noto Sans SC, sans-serif", color: "#e2e8f0", size: 13 },
     },
     transition: { duration: 420, easing: "cubic-in-out" },
     ...extra,
@@ -844,12 +886,12 @@ function normalizeSeries(values) {
 
 function interpolateColor(ratio) {
   const palette = [
-    "#1d4ed8",
-    "#2563eb",
-    "#0f766e",
-    "#10b981",
-    "#b45309",
-    "#be185d",
+    "#22d3ee",
+    "#38bdf8",
+    "#2dd4bf",
+    "#a78bfa",
+    "#fbbf24",
+    "#fb7185",
   ];
   const index = Math.min(palette.length - 1, Math.round(ratio * (palette.length - 1)));
   return palette[index];
