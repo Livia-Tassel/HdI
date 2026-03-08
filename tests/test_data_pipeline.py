@@ -136,3 +136,48 @@ class TestValidators:
             }
         )
         validate_china_panel(df)
+
+
+class TestDashboardOptimizationParsing:
+    def test_extract_optimization_lab_supports_multi_scenario_payload(self):
+        from hdi.analysis.dashboard import _extract_optimization_lab
+
+        parsed = _extract_optimization_lab(
+            {
+                "data": {
+                    "default_scenario": "max_output__budget_1p0",
+                    "scenario_options": {"budget_multipliers": [0.9, 1.0, 1.1]},
+                    "scenarios": [
+                        {
+                            "scenario_id": "max_output__budget_1p0",
+                            "objective": "max_output",
+                            "budget_multiplier": 1.0,
+                            "summary": {"predicted_output_gain_pct": 2.3},
+                            "allocation": [{"iso3": "USA", "change_pct": -1.0}],
+                        }
+                    ],
+                }
+            }
+        )
+
+        assert parsed["default_scenario"] == "max_output__budget_1p0"
+        assert parsed["scenario_options"]["budget_multipliers"] == [0.9, 1.0, 1.1]
+        assert len(parsed["scenarios"]) == 1
+        assert parsed["default_allocation"][0]["iso3"] == "USA"
+
+    def test_extract_optimization_lab_falls_back_for_legacy_payload(self):
+        from hdi.analysis.dashboard import _extract_optimization_lab
+
+        parsed = _extract_optimization_lab(
+            {
+                "data": {
+                    "objective": "maximize_need_weighted_health_output",
+                    "status": "legacy",
+                    "allocation": [{"iso3": "CHN", "change_pct": 5.0}],
+                }
+            }
+        )
+
+        assert parsed["default_scenario"] == "legacy_default"
+        assert parsed["scenarios"][0]["objective"] == "maximize_need_weighted_health_output"
+        assert parsed["default_allocation"][0]["iso3"] == "CHN"

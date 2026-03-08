@@ -1,85 +1,182 @@
+catalog_version: 2026-03-08
+catalog_scope: "HdI 提交版数据目录，仅描述当前主线交付与相关展示资产。"
+
+principles:
+  - "主线分析以赛题 provided 数据为核心。"
+  - "仓库中的 data/raw/external/* 目录当前仅为扩展占位，不是本次 shipped pipeline 的必需输入。"
+  - "不把 GHRI、DEA、LISA、疾病特异性 PAF 等未正式交付的方法写成已产出的数据资产。"
+
 datasets:
   provided:
     disease_mortality:
-      path: raw/provided/01_disease_mortality/
-      description: "Global disease burden and mortality by cause, age, sex"
-      key_variables: [daly_rate, yll_rate, yld_rate, death_rate, cause, age_group, sex]
-      dimensions: [D1, D2, D3]
-      temporal: "varies"
+      path: data/raw/provided/01_disease_mortality/全球主要国家死亡原因/
+      files: "2000.csv 至 2023.csv"
+      description: "赛题提供的全球主要国家死亡原因年度数据，用于疾病谱三大类聚合、寿命差异解释和 Dimension 3 需求代理。"
+      header_examples:
+        - Population
+        - 地理位置
+        - 年份
+        - 年龄
+        - 性别
+        - 死亡或受伤原因
+        - 测量
+        - 数值
+      dimensions: [D1, D3]
+      temporal: "2000-2023"
 
     risk_factors:
-      path: raw/provided/02_risk_factors/
-      description: "Risk factor exposure data (PM2.5, smoking, diet, BMI, alcohol)"
-      key_variables: [pm25_exposure, smoking_prev, diet_quality, mean_bmi, alcohol_consumption]
-      dimensions: [D2, D1]
-      temporal: "varies"
+      path: data/raw/provided/02_risk_factors/全球各国健康风险因素数据/
+      files: "2000.csv 至 2023.csv"
+      description: "赛题提供的风险因素归因死亡结果，用于全球风险排序、WHO 地区主导风险识别和情景模拟。"
+      header_examples:
+        - Population
+        - 地理位置
+        - 年份
+        - 年龄
+        - 性别
+        - 死亡或受伤原因
+        - 风险因素
+        - 测量
+        - 数值
+      dimensions: [D2]
+      temporal: "2000-2023"
 
     nutrition_population:
-      path: raw/provided/03_nutrition_population/
-      description: "Nutrition indicators, population pyramids, fertility, immunization"
-      key_variables: [malnutrition_rate, population, fertility_rate, immunization_coverage]
-      dimensions: [D1, D2, D3]
-      temporal: "varies"
+      path: data/raw/provided/03_nutrition_population/全球各国健康营养和人口统计数据/WB_HNP.csv
+      companion_files:
+        - data/raw/provided/03_nutrition_population/全球各国健康营养和人口统计数据/Glossary-健康营养与人口统计.csv
+      description: "HNP 长表原始数据，补充预期寿命、婴儿死亡率、人口和卫生系统相关指标。"
+      header_examples:
+        - REF_AREA
+        - REF_AREA_LABEL
+        - INDICATOR
+        - INDICATOR_LABEL
+        - TIME_PERIOD
+        - OBS_VALUE
+      dimensions: [D1, D3]
+      temporal: "随指标而异，主分析使用 2000-2023"
 
     socioeconomic:
-      path: raw/provided/04_socioeconomic/
-      description: "GDP, education, urbanization, Gini coefficient"
-      key_variables: [gdp_pc, education_index, urbanization_rate, gini_coefficient]
-      dimensions: [D1, D2, D3]
-      temporal: "varies"
+      path: data/raw/provided/04_socioeconomic/WDI_CSV/WDICSV.csv
+      companion_files:
+        - data/raw/provided/04_socioeconomic/WDI_CSV/WDICountry.csv
+        - data/raw/provided/04_socioeconomic/WDI_CSV/WDISeries.csv
+        - data/raw/provided/04_socioeconomic/WDI_CSV/WDIcountry-series.csv
+        - data/raw/provided/04_socioeconomic/WDI_CSV/WDIfootnote.csv
+        - data/raw/provided/04_socioeconomic/WDI_CSV/WDIseries-time.csv
+      description: "WDI 原始表，补充人均 GDP、卫生支出、供水卫生等社会经济背景。"
+      header_examples:
+        - Country Name
+        - Country Code
+        - Indicator Name
+        - Indicator Code
+        - "1960-2024 年度列"
+      dimensions: [D1, D3]
+      temporal: "随指标而异，主分析使用 2000-2023"
 
     china_health:
-      path: raw/provided/05_china_health/
-      description: "China provincial health data (20 years)"
-      key_variables: [hospital_beds, physician_density, health_expenditure, disease_registry]
-      dimensions: [D3, D1]
-      temporal: "~2003-2023"
+      path: data/raw/provided/05_china_health/全国近20年卫生数据-国家统计局/
+      files:
+        - 各省近20年卫生人员数量.csv
+        - 近20年各省医疗卫生机构数量.csv
+        - 近20年我国人口出生率死亡率自然增长率及平均预期寿命.csv
+      description: "中国近 20 年卫生统计数据，用于省级资源配置差异与趋势补充分析。"
+      header_examples:
+        - 地区
+        - 指标
+        - "2005-2024 年度列"
+      dimensions: [D3]
+      temporal: "约 2005-2024"
 
-  external:
-    ihme_gbd:
-      path: raw/external/ihme_gbd/
-      source: "https://vizhub.healthdata.org/gbd-results/"
-      description: "IHME GBD 2023: DALYs, YLLs, YLDs by cause/risk/location"
-      coverage: "204 countries, 1990-2023"
-
-    who_ghe:
-      path: raw/external/who_ghe/
-      source: "WHO Global Health Estimates"
-      description: "Cause-specific mortality, life expectancy"
-
-    worldbank_wdi:
-      path: raw/external/worldbank_wdi/
-      source: "World Bank WDI via wbgapi"
-      description: "Health expenditure, hospital beds, physicians, LE, GDP"
-
-    undp_hdi:
-      path: raw/external/undp_hdi/
-      source: "https://hdr.undp.org/data-center/human-development-index"
-      description: "HDI, education index, GNI per capita"
-
-    owid:
-      path: raw/external/owid/
-      source: "Our World in Data GitHub"
-      description: "PM2.5, smoking prevalence, vaccination, clean water"
-
-    china_nbs:
-      path: raw/external/china_nbs/
-      source: "China National Bureau of Statistics"
-      description: "Provincial health expenditure, beds, disease incidence"
+  external_placeholders:
+    path: data/raw/external/
+    used_in_shipped_pipeline: false
+    directories:
+      - data/raw/external/ihme_gbd
+      - data/raw/external/who_ghe
+      - data/raw/external/worldbank_wdi
+      - data/raw/external/undp_hdi
+      - data/raw/external/owid
+      - data/raw/external/china_nbs
+    note: "上述目录当前仅保留占位文件，不作为本次正式主线分析输入。"
 
 processed:
   master_panel:
-    path: processed/master_panel.parquet
+    path: data/processed/master_panel.parquet
     keys: [iso3, year]
-    description: "Country-year panel (~200 countries x 24 years x ~500 variables)"
+    description: "全球国家-年份主分析面板，整合死亡原因、HNP 与 WDI 指标。"
     window: "2000-2023"
 
-  china_panel:
-    path: processed/china_panel.parquet
-    keys: [province, year]
-    description: "China province-year panel (31 provinces x ~20 years)"
-    window: "2003-2023"
+  resource_panel:
+    path: data/processed/resource_panel.parquet
+    keys: [iso3, year]
+    description: "Dimension 3 专用资源-产出-需求面板，用于资源缺口、效率象限与再分配分析。"
+    window: "2000-2023"
 
-  spatial:
-    path: processed/spatial/
-    description: "GeoJSON country polygons with data attributes"
+  dim2_intervention_priority:
+    path: data/processed/dim2_intervention_priority.parquet
+    keys: [iso3, year, risk]
+    description: "风险因素优先级与干预建议中间表，主要服务于最新截面和情景整理。"
+    window: "主要使用 2023 年最新截面"
+
+  china_panel:
+    path: data/processed/china_panel.parquet
+    keys: [province, year]
+    description: "中国省级卫生资源补充分析面板。"
+    window: "约 2005-2024"
+
+artifacts:
+  api_output:
+    path: api_output/
+    description: "静态 API JSON 结果，覆盖 D1、D2、D3 与元数据汇总。"
+    key_files:
+      - api_output/dim1/trends.json
+      - api_output/dim1/forecasts.json
+      - api_output/dim1/spatiotemporal_latest.json
+      - api_output/dim2/paf.json
+      - api_output/dim2/scenarios.json
+      - api_output/dim2/sankey.json
+      - api_output/dim2/shapley_global.json
+      - api_output/dim3/resource_gap.json
+      - api_output/dim3/efficiency.json
+      - api_output/dim3/optimization.json
+      - api_output/metadata/summary.json
+      - api_output/metadata/ghri.json
+    notes:
+      - "api_output/dim2/paf.json 文件名保留兼容名，但当前主口径是 attributable_share。"
+      - "api_output/metadata/ghri.json 当前仅为兼容占位文件，available=false。"
+      - "api_output/dim3/optimization.json 是 Dimension 3 再分配结果与 Optimization Lab 扩展的交接资产。"
+
+  dashboard_data:
+    path: dashboard/data/
+    description: "英文静态仪表盘所需的聚合数据与国家画像数据。"
+    key_files:
+      - dashboard/data/overview.json
+      - dashboard/data/global_story.json
+      - dashboard/data/country_profiles.json
+      - dashboard/data/risk_latest.json
+    note: "网站界面为英文，作为中文报告与视频的展示层补充。"
+
+  report_assets:
+    path: reports/
+    description: "报告图表、表格与 LaTeX 源文件。"
+    key_files:
+      - reports/report.tex
+      - reports/figures/fig01_global_disease_transition.png
+      - reports/figures/fig02_life_expectancy_vs_communicable_share.png
+      - reports/figures/fig03_dim1_forecasts.png
+      - reports/figures/fig04_dim2_global_risk_bar.png
+      - reports/figures/fig05_dim2_region_heatmap.png
+      - reports/figures/fig05b_dim2_risk_region_sankey.html
+      - reports/figures/fig06_dim2_scenarios.png
+      - reports/figures/fig07_dim3_quadrant.png
+      - reports/figures/fig08_china_province_trends.png
+      - reports/tables/tab_dim1_top_life_expectancy.tex
+      - reports/tables/tab_dim1_bottom_life_expectancy.tex
+      - reports/tables/tab_dim1_life_expectancy_regression.tex
+      - reports/tables/tab_dim2_region_priority.tex
+      - reports/tables/tab_dim3_most_under_resourced.tex
+      - reports/tables/tab_dim3_top_reallocation.tex
+    notes:
+      - "fig05b_dim2_risk_region_sankey.html 为交互式补充资产，不直接嵌入 PDF。"
+      - "报告语言为中文，dashboard 界面为英文。"

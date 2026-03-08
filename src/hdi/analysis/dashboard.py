@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import copy
 import json
 import logging
 from datetime import datetime, timezone
@@ -15,14 +16,65 @@ from hdi.data.loaders import load_master_panel, load_risk_attribution_long
 
 logger = logging.getLogger(__name__)
 
+_METRIC_LABELS = {
+    "life_expectancy": "Life Expectancy",
+    "ncd_share": "NCD Share",
+    "communicable_share": "Communicable Disease Share",
+    "health_exp_pct_gdp": "Health Expenditure (% GDP)",
+    "share": "Risk Attribution Share",
+    "attributable_deaths": "Attributable Deaths",
+    "gap": "Resource Gap",
+    "efficiency": "Input-Output Efficiency",
+    "change_pct": "Scenario Reallocation",
+}
+
+_RISK_CODE_LABELS = {
+    "unsafe_sex": "Unsafe sex",
+    "unsafe_wash": "Unsafe water, sanitation, and handwashing",
+    "intimate_partner_violence": "Intimate partner violence",
+    "low_bone_density": "Low bone mineral density",
+    "non_optimal_temperature": "Non-optimal temperature",
+    "child_maternal_malnutrition": "Child and maternal malnutrition",
+    "child_maltreatment": "Child maltreatment",
+    "other_environmental": "Other environmental risks",
+    "tobacco": "Tobacco",
+    "drug_use": "Drug use",
+    "air_pollution": "Air pollution",
+    "occupational_risks": "Occupational risks",
+    "kidney_dysfunction": "Kidney dysfunction",
+    "low_physical_activity": "Low physical activity",
+    "alcohol_use": "Alcohol use",
+    "dietary_risks": "Dietary risks",
+    "high_bmi": "High BMI",
+    "high_ldl": "High LDL cholesterol",
+    "high_systolic_bp": "High systolic blood pressure",
+    "high_fasting_glucose": "High fasting glucose",
+    "other_risk": "Other risk",
+}
+
+_GAP_GRADE_LABELS = {
+    "E_严重不足": "E_critical_shortage",
+    "D_不足": "D_shortage",
+    "C_匹配": "C_balanced",
+    "B_较充足": "B_relatively_adequate",
+    "A_富余": "A_surplus",
+}
+
 
 def _ensure_dirs() -> None:
     DASHBOARD_DATA.mkdir(parents=True, exist_ok=True)
 
 
 def _read_json(path: Path) -> dict[str, Any] | list[Any]:
-    with open(path, "r", encoding="utf-8") as handle:
-        return json.load(handle)
+    if not path.exists():
+        logger.warning("Dashboard asset source missing: %s", path)
+        return {}
+    try:
+        with open(path, "r", encoding="utf-8") as handle:
+            return json.load(handle)
+    except json.JSONDecodeError:
+        logger.exception("Dashboard asset source is not valid JSON: %s", path)
+        return {}
 
 
 def _payload_data(path: Path) -> Any:
@@ -30,6 +82,14 @@ def _payload_data(path: Path) -> Any:
     if isinstance(payload, dict) and "data" in payload:
         return payload["data"]
     return payload
+
+
+def _frame_from_records(records: Any, columns: list[str]) -> pd.DataFrame:
+    frame = pd.DataFrame(records if isinstance(records, list) else [])
+    for column in columns:
+        if column not in frame.columns:
+            frame[column] = None
+    return frame[columns] if columns else frame
 
 
 def _normalize_value(value: Any) -> Any:
@@ -55,6 +115,151 @@ def _write_json(data: Any, path: Path) -> None:
     logger.info("Wrote dashboard asset: %s", path)
 
 
+def _has_cjk(text: Any) -> bool:
+    return any("\u4e00" <= char <= "\u9fff" for char in str(text or ""))
+
+
+def _risk_display_name(risk_code: Any, risk_name: Any = None) -> str | None:
+    code = str(risk_code or "").strip()
+    if code in _RISK_CODE_LABELS:
+        return _RISK_CODE_LABELS[code]
+    raw = str(risk_name or "").strip()
+    if raw and not _has_cjk(raw):
+        return raw
+    if code:
+        return code.replace("_", " ").strip().title()
+    if raw:
+        return raw if not _has_cjk(raw) else "Other risk"
+    return None
+
+
+def _gap_grade_label(gap_grade: Any, gap_grade_en: Any = None) -> str | None:
+    preferred = str(gap_grade_en or "").strip()
+    if preferred:
+        return preferred
+    raw = str(gap_grade or "").strip()
+    if not raw:
+        return None
+    return _GAP_GRADE_LABELS.get(raw, raw)
+
+
+def _english_metric_bundle(codes: list[str], kind: str) -> list[dict[str, Any]]:
+    type_map = {
+        "life_expectancy": "continuous",
+        "ncd_share": "continuous",
+        "communicable_share": "continuous",
+        "health_exp_pct_gdp": "continuous",
+        "share": "continuous",
+        "attributable_deaths": "continuous",
+        "gap": "diverging",
+        "efficiency": "diverging",
+        "change_pct": "pct_diverging",
+    }
+    format_map = {
+        "life_expectancy": "year",
+        "ncd_share": "pct",
+        "communicable_share": "pct",
+        "health_exp_pct_gdp": "pct",
+        "share": "pct",
+        "attributable_deaths": "number",
+        "gap": "decimal",
+        "efficiency": "decimal",
+        "change_pct": "pct",
+    }
+    return [
+        {
+            "code": code,
+            "label": _METRIC_LABELS[code],
+            "type": type_map[code],
+            "format": format_map[code],
+            "dimension": kind,
+        }
+        for code in codes
+    ]
+
+
+def _translate_summary(summary: Any, top_global_risk: str | None = None) -> dict[str, Any]:
+    if not isinstance(summary, dict):
+        return {}
+    translated = copy.deepcopy(summary)
+    dimension2 = translated.get("dimension2")
+    if isinstance(dimension2, dict):
+        dimension2["top_global_risk"] = top_global_risk or _risk_display_name(None, dimension2.get("top_global_risk"))
+    return translated
+
+
+def _translate_sankey(payload: Any) -> Any:
+    if not isinstance(payload, dict):
+        return payload
+    nodes = payload.get("nodes")
+    if isinstance(nodes, list):
+        payload = dict(payload)
+        payload["nodes"] = [_risk_display_name(node, node) or node for node in nodes]
+    return payload
+
+
+def _extract_optimization_lab(payload: Any) -> dict[str, Any]:
+    data = payload.get("data", payload) if isinstance(payload, dict) else {}
+    if not isinstance(data, dict):
+        return {"default_scenario": None, "scenario_options": {}, "scenarios": [], "default_allocation": []}
+
+    scenarios = data.get("scenarios")
+    if not isinstance(scenarios, list):
+        allocation = data.get("allocation")
+        if isinstance(allocation, list):
+            scenarios = [{
+                "scenario_id": "legacy_default",
+                "objective": data.get("objective", "legacy"),
+                "objective_label": str(data.get("objective", "Legacy")),
+                "budget_multiplier": 1.0,
+                "status": data.get("status"),
+                "objective_value": data.get("objective_value"),
+                "summary": {},
+                "allocation": allocation,
+            }]
+        else:
+            scenarios = []
+
+    default_scenario = data.get("default_scenario")
+    if not default_scenario and scenarios:
+        default_scenario = scenarios[0].get("scenario_id")
+
+    scenario_entries = []
+    default_allocation: list[dict[str, Any]] = []
+    for scenario in scenarios:
+        if not isinstance(scenario, dict):
+            continue
+        allocation = scenario.get("allocation")
+        allocation_rows = allocation if isinstance(allocation, list) else []
+        summary = scenario.get("summary") if isinstance(scenario.get("summary"), dict) else {}
+        entry = {
+            "scenario_id": scenario.get("scenario_id"),
+            "objective": scenario.get("objective"),
+            "objective_label": scenario.get("objective_label"),
+            "budget_multiplier": scenario.get("budget_multiplier"),
+            "status": scenario.get("status"),
+            "objective_value": scenario.get("objective_value"),
+            "summary": summary,
+            "allocation": allocation_rows,
+        }
+        scenario_entries.append(entry)
+        if entry["scenario_id"] == default_scenario:
+            default_allocation = allocation_rows
+
+    if not default_allocation and scenario_entries:
+        default_allocation = scenario_entries[0]["allocation"]
+
+    return {
+        "default_scenario": default_scenario,
+        "scenario_options": data.get("scenario_options", {
+            "objectives": data.get("available_objectives", []),
+            "budget_multipliers": data.get("budget_options", []),
+        }),
+        "scenarios": scenario_entries,
+        "default_allocation": default_allocation,
+    }
+
+
 def build_dashboard_assets() -> dict[str, Any]:
     _ensure_dirs()
 
@@ -64,11 +269,23 @@ def build_dashboard_assets() -> dict[str, Any]:
     latest_year = int(master["year"].max())
     overview_latest = master[master["year"] == latest_year].copy()
 
-    summary = _read_json(REPORTS / "analysis_summary.json")
-    resource_gap = pd.DataFrame(_payload_data(API_OUTPUT / "dim3" / "resource_gap.json"))
-    efficiency = pd.DataFrame(_payload_data(API_OUTPUT / "dim3" / "efficiency.json"))
-    allocation = pd.DataFrame(_payload_data(API_OUTPUT / "dim3" / "optimization.json")["allocation"])
-    sankey = _payload_data(API_OUTPUT / "dim2" / "sankey.json")
+    summary = _read_json(REPORTS / "analysis_summary.json") or {}
+    resource_gap = _frame_from_records(
+        _payload_data(API_OUTPUT / "dim3" / "resource_gap.json"),
+        ["iso3", "actual_resource_index", "theoretical_need_index", "gap", "gap_grade", "gap_grade_en", "country_name", "who_region"],
+    )
+    efficiency = _frame_from_records(
+        _payload_data(API_OUTPUT / "dim3" / "efficiency.json"),
+        ["iso3", "efficiency", "quadrant", "input_index", "output_index", "country_name", "who_region"],
+    )
+    optimization_lab = _extract_optimization_lab(_read_json(API_OUTPUT / "dim3" / "optimization.json"))
+    allocation = _frame_from_records(
+        optimization_lab["default_allocation"],
+        ["iso3", "current", "optimal", "change", "change_pct", "country_name", "who_region", "wb_income", "rank"],
+    )
+    sankey = _translate_sankey(
+        _payload_data(API_OUTPUT / "dim2" / "sankey.json") or {"nodes": [], "sources": [], "targets": [], "values": []}
+    )
 
     risk_deaths = risk[risk["measure"] == "deaths"].copy()
     latest_risk = (
@@ -76,6 +293,10 @@ def build_dashboard_assets() -> dict[str, Any]:
         .groupby(["iso3", "country_name", "who_region", "wb_income", "risk_code", "risk_factor"], as_index=False)["value"]
         .sum()
         .rename(columns={"value": "attributable_deaths", "risk_factor": "risk_name"})
+    )
+    latest_risk["risk_name"] = latest_risk.apply(
+        lambda row: _risk_display_name(row.get("risk_code"), row.get("risk_name")),
+        axis=1,
     )
     latest_risk["country_total"] = latest_risk.groupby("iso3")["attributable_deaths"].transform("sum")
     latest_risk["share"] = latest_risk["attributable_deaths"] / latest_risk["country_total"]
@@ -96,6 +317,11 @@ def build_dashboard_assets() -> dict[str, Any]:
 
     world_latest = overview_latest.merge(dominant_risk, on="iso3", how="left")
     if not resource_gap.empty:
+        resource_gap["gap_grade"] = resource_gap.apply(
+            lambda row: _gap_grade_label(row.get("gap_grade"), row.get("gap_grade_en")),
+            axis=1,
+        )
+        resource_gap["gap_grade_en"] = resource_gap["gap_grade"]
         world_latest = world_latest.merge(
             resource_gap[["iso3", "actual_resource_index", "theoretical_need_index", "gap", "gap_grade", "gap_grade_en"]],
             on="iso3",
@@ -114,26 +340,35 @@ def build_dashboard_assets() -> dict[str, Any]:
             how="left",
         )
 
+    global_trends = (
+        master.groupby("year", as_index=False)[["communicable_deaths", "ncd_deaths", "injury_deaths", "total_deaths"]]
+        .sum()
+        .assign(
+            communicable_share=lambda frame: frame["communicable_deaths"] / frame["total_deaths"],
+            ncd_share=lambda frame: frame["ncd_deaths"] / frame["total_deaths"],
+            injury_share=lambda frame: frame["injury_deaths"] / frame["total_deaths"],
+        )
+    )
+
+    global_top_risks = (
+        latest_risk.groupby(["risk_code", "risk_name"], as_index=False)["attributable_deaths"]
+        .sum()
+        .sort_values("attributable_deaths", ascending=False)
+        .head(12)
+    )
+    translated_summary = _translate_summary(
+        summary,
+        top_global_risk=_normalize_value(global_top_risks.iloc[0]["risk_name"]) if not global_top_risks.empty else None,
+    )
+
     overview = {
         "generated_at": datetime.now(timezone.utc).isoformat(),
         "latest_year": latest_year,
-        "summary": summary,
+        "summary": translated_summary,
         "metrics": {
-            "dim1": [
-                {"code": "life_expectancy", "label": "预期寿命", "type": "continuous", "format": "year"},
-                {"code": "ncd_share", "label": "非传染性疾病占比", "type": "continuous", "format": "pct"},
-                {"code": "communicable_share", "label": "传染性疾病占比", "type": "continuous", "format": "pct"},
-                {"code": "health_exp_pct_gdp", "label": "卫生支出占GDP比重", "type": "continuous", "format": "pct"},
-            ],
-            "dim2": [
-                {"code": "share", "label": "风险归因占比", "type": "continuous", "format": "pct"},
-                {"code": "attributable_deaths", "label": "风险归因死亡", "type": "continuous", "format": "number"},
-            ],
-            "dim3": [
-                {"code": "gap", "label": "资源缺口", "type": "diverging", "format": "decimal"},
-                {"code": "efficiency", "label": "投入产出效率", "type": "diverging", "format": "decimal"},
-                {"code": "change_pct", "label": "建议再分配变化", "type": "pct_diverging", "format": "pct"},
-            ],
+            "dim1": _english_metric_bundle(["life_expectancy", "ncd_share", "communicable_share", "health_exp_pct_gdp"], "dim1"),
+            "dim2": _english_metric_bundle(["share", "attributable_deaths"], "dim2"),
+            "dim3": _english_metric_bundle(["gap", "efficiency", "change_pct"], "dim3"),
         },
         "countries": _records(
             world_latest[
@@ -196,23 +431,6 @@ def build_dashboard_assets() -> dict[str, Any]:
         ),
     }
 
-    global_trends = (
-        master.groupby("year", as_index=False)[["communicable_deaths", "ncd_deaths", "injury_deaths", "total_deaths"]]
-        .sum()
-        .assign(
-            communicable_share=lambda frame: frame["communicable_deaths"] / frame["total_deaths"],
-            ncd_share=lambda frame: frame["ncd_deaths"] / frame["total_deaths"],
-            injury_share=lambda frame: frame["injury_deaths"] / frame["total_deaths"],
-        )
-    )
-
-    global_top_risks = (
-        latest_risk.groupby(["risk_code", "risk_name"], as_index=False)["attributable_deaths"]
-        .sum()
-        .sort_values("attributable_deaths", ascending=False)
-        .head(12)
-    )
-
     region_priority = (
         latest_risk.groupby(["who_region", "risk_code", "risk_name"], as_index=False)["share"]
         .mean()
@@ -242,10 +460,10 @@ def build_dashboard_assets() -> dict[str, Any]:
         efficient_countries = efficiency[efficiency["quadrant"] == "Q2_low_input_high_output"].sort_values("efficiency", ascending=False).head(12)
     else:
         efficient_countries = pd.DataFrame()
-    top_reallocation = allocation.sort_values("change_pct", ascending=False).head(12) if not allocation.empty else pd.DataFrame()
+    top_reallocation = allocation.sort_values(["change_pct", "change"], ascending=False).head(12) if not allocation.empty else pd.DataFrame()
 
     global_story = {
-        "summary": summary,
+        "summary": translated_summary,
         "global_disease_trends": _records(global_trends[["year", "communicable_share", "ncd_share", "injury_share"]]),
         "global_top_risks": _records(global_top_risks),
         "region_priority": region_priority_rows,
@@ -261,6 +479,11 @@ def build_dashboard_assets() -> dict[str, Any]:
             ),
         },
         "sankey": sankey,
+        "optimization_lab": {
+            "default_scenario": optimization_lab["default_scenario"],
+            "scenario_options": optimization_lab["scenario_options"],
+            "scenarios": optimization_lab["scenarios"],
+        },
     }
 
     country_profiles: dict[str, Any] = {}
@@ -280,6 +503,10 @@ def build_dashboard_assets() -> dict[str, Any]:
         risk_deaths.groupby(["iso3", "year", "risk_code", "risk_factor"], as_index=False)["value"]
         .sum()
         .rename(columns={"value": "attributable_deaths", "risk_factor": "risk_name"})
+    )
+    risk_history_base["risk_name"] = risk_history_base.apply(
+        lambda row: _risk_display_name(row.get("risk_code"), row.get("risk_name")),
+        axis=1,
     )
     risk_history_base["country_total"] = risk_history_base.groupby(["iso3", "year"])["attributable_deaths"].transform("sum")
     risk_history_base["share"] = risk_history_base["attributable_deaths"] / risk_history_base["country_total"]

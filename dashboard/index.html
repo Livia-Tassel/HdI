@@ -1,125 +1,173 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Health Data Insight Dashboard</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;700&family=Noto+Sans+SC:wght@400;500;700&display=swap"
-      rel="stylesheet"
-    />
     <link rel="stylesheet" href="./styles.css" />
   </head>
   <body>
     <div class="page-shell">
-      <div class="ambient ambient-a"></div>
-      <div class="ambient ambient-b"></div>
-      <header class="masthead card">
-        <div class="masthead-brand">HdI</div>
+      <header class="masthead glass-card">
+        <div class="masthead-brand"><span>H</span><small>d</small><span>I</span></div>
         <div class="masthead-identity">
           <p class="eyebrow">Health Data Insight</p>
-          <h1>全球健康风险与资源配置交互式仪表盘</h1>
+          <h1 class="gradient-text">Global Health Risk &amp; Resource Allocation Dashboard</h1>
         </div>
         <div class="masthead-spacer"></div>
         <div class="summary-strip" id="summary-strip"></div>
       </header>
 
-      <section class="control-bar card">
+      <section class="control-bar glass-card">
         <div class="dimension-switch" id="dimension-switch">
-          <button class="dimension-chip is-active" data-dimension="dim1">疾病谱演变</button>
-          <button class="dimension-chip" data-dimension="dim2">风险归因</button>
-          <button class="dimension-chip" data-dimension="dim3">资源配置</button>
+          <button class="dimension-chip is-active" data-dimension="dim1">Disease Spectrum</button>
+          <button class="dimension-chip" data-dimension="dim2">Risk Attribution</button>
+          <button class="dimension-chip" data-dimension="dim3">Optimization Lab</button>
         </div>
         <div class="control-cluster">
           <label class="control-field">
-            <span>指标</span>
+            <span>Metric</span>
             <select id="metric-select"></select>
           </label>
           <label class="control-field" id="risk-field">
-            <span>风险因素</span>
+            <span>Risk Factor</span>
             <select id="risk-select"></select>
           </label>
+          <label class="control-field" id="objective-field">
+            <span>Objective</span>
+            <select id="objective-select"></select>
+          </label>
+          <label class="control-field" id="budget-field">
+            <span>Budget</span>
+            <select id="budget-select"></select>
+          </label>
           <label class="control-field search-field">
-            <span>国家跳转</span>
-            <input id="country-search" list="country-list" placeholder="输入国家英文名或 ISO3" />
+            <span>Go to Country</span>
+            <input id="country-search" list="country-list" placeholder="Enter country name or ISO3 code" />
             <datalist id="country-list"></datalist>
           </label>
-          <button class="jump-button" id="country-jump">定位国家</button>
+          <button class="jump-button" id="country-jump" type="button">Locate</button>
         </div>
+        <p class="control-note" id="control-note">
+          Static dashboard built from competition analysis artifacts.
+        </p>
       </section>
 
       <main class="dashboard-grid">
-        <section class="card map-card">
+        <section class="glass-card map-card glow-border">
           <div class="card-topline">
             <div>
-              <p class="section-kicker" id="map-kicker">全球地图</p>
-              <h2 id="map-title">全球健康版图</h2>
+              <p class="section-kicker" id="map-kicker">Global Map</p>
+              <h2 id="map-title">Global Health Landscape</h2>
             </div>
             <div class="inline-note" id="map-note"></div>
           </div>
           <div id="map-chart" class="plot plot-map"></div>
         </section>
 
-        <aside class="card insight-card">
+        <aside class="glass-card insight-card">
           <div class="card-topline compact">
             <div>
-              <p class="section-kicker">国家画像</p>
-              <h2 id="country-title">China</h2>
+              <p class="section-kicker">Country Profile</p>
+              <h2 id="country-title" class="country-title-anim">China</h2>
             </div>
             <span class="micro-pill" id="country-tag">WPRO / UMC</span>
           </div>
           <div class="metric-grid" id="country-metrics"></div>
           <div class="ranking-block">
             <div class="subhead">
-              <h3>当前地图 Top 10</h3>
+              <h3>Current Map Top 10</h3>
               <span id="ranking-caption"></span>
             </div>
             <div class="ranking-list" id="ranking-list"></div>
           </div>
         </aside>
 
-        <section class="card chart-card">
+        <section class="glass-card chart-card">
           <div class="card-topline compact">
             <div>
-              <p class="section-kicker">国家维度</p>
-              <h2 id="detail-title">国家趋势</h2>
+              <p class="section-kicker">Country Dimension</p>
+              <h2 id="detail-title">Country Trends</h2>
             </div>
             <span class="micro-pill" id="detail-pill"></span>
           </div>
           <div id="detail-chart" class="plot"></div>
         </section>
 
-        <section class="card chart-card">
+        <section class="glass-card chart-card">
           <div class="card-topline compact">
             <div>
-              <p class="section-kicker">全球参照</p>
-              <h2 id="companion-title">全局对照</h2>
+              <p class="section-kicker">Global Reference</p>
+              <h2 id="companion-title">Global Comparison</h2>
             </div>
             <span class="micro-pill" id="companion-pill"></span>
           </div>
           <div id="companion-chart" class="plot"></div>
         </section>
 
-        <section class="card context-card">
+        <section class="glass-card context-card">
           <div class="card-topline compact">
             <div>
-              <p class="section-kicker">重点观察</p>
-              <h2 id="context-title">区域对照与策略提示</h2>
+              <p class="section-kicker">Key Insights</p>
+              <h2 id="context-title">Regional Comparison &amp; Strategy</h2>
             </div>
-            <span class="micro-pill">High Density</span>
+            <span class="micro-pill" id="context-pill">Static Build</span>
           </div>
           <div id="context-panel" class="context-panel"></div>
         </section>
       </main>
 
       <footer class="footnote">
-        数据源为赛题 provided 数据集，站点数据由本仓库分析管线生成。推荐从 `dashboard/` 目录静态服务访问。
+        Data sourced from competition-provided datasets. Dashboard assets are generated by the
+        analysis pipeline and can be served statically from <code>dashboard/</code>.
       </footer>
     </div>
 
-    <script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
+    <div class="spotlight-backdrop" id="spotlight-backdrop" aria-hidden="true"></div>
+    <section
+      class="spotlight-modal"
+      id="spotlight-modal"
+      role="dialog"
+      aria-modal="true"
+      aria-hidden="true"
+      aria-labelledby="spotlight-name"
+      tabindex="-1"
+    >
+      <button class="spotlight-close" id="spotlight-close" type="button" aria-label="Close dialog">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+          <line x1="4" y1="4" x2="14" y2="14"></line>
+          <line x1="14" y1="4" x2="4" y2="14"></line>
+        </svg>
+      </button>
+      <div class="spotlight-header">
+        <div class="spotlight-flag-wrap">
+          <div class="spotlight-flag-fallback" id="spotlight-flag-fallback"></div>
+        </div>
+        <div class="spotlight-identity">
+          <h2 class="spotlight-name" id="spotlight-name"></h2>
+          <div class="spotlight-badges" id="spotlight-badges"></div>
+        </div>
+      </div>
+      <div class="spotlight-divider"></div>
+      <div class="spotlight-metrics" id="spotlight-metrics"></div>
+      <div class="spotlight-divider"></div>
+      <div class="spotlight-chart-section">
+        <p class="spotlight-section-label">Historical Trends</p>
+        <div id="spotlight-chart"></div>
+      </div>
+      <div class="spotlight-divider"></div>
+      <div class="spotlight-risks-section">
+        <p class="spotlight-section-label">Risk Attribution</p>
+        <div class="spotlight-risk-bars" id="spotlight-risks"></div>
+      </div>
+      <div class="spotlight-divider"></div>
+      <div class="spotlight-footer">
+        <p class="spotlight-section-label">Scenario Allocation</p>
+        <div class="spotlight-allocation" id="spotlight-allocation"></div>
+      </div>
+    </section>
+
+    <script src="./vendor/plotly.min.js"></script>
     <script src="./app.js"></script>
   </body>
 </html>

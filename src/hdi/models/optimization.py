@@ -141,6 +141,8 @@ def optimize_allocation_max_output(
     input_col: str,
     entity_col: str = "iso3",
     budget_multiplier: float = 1.0,
+    min_ratio: float = 0.5,
+    max_ratio: float = 2.0,
 ) -> OptimizationResult:
     """Maximize aggregate health output subject to total budget constraint.
 
@@ -148,38 +150,31 @@ def optimize_allocation_max_output(
 
     Uses CVXPY for convex optimization with concave production functions.
     """
-    import cvxpy as cp
-
     data = df[[entity_col, input_col, output_col]].dropna()
-    n = len(data)
+    if data.empty:
+        return OptimizationResult(
+            objective="max_output",
+            status="no_data",
+            optimal_allocation=pd.DataFrame(columns=[entity_col, "current", "optimal", "change", "change_pct"]),
+            objective_value=0.0,
+        )
     current_inputs = data[input_col].values
     current_outputs = data[output_col].values
-
     total_budget = current_inputs.sum() * budget_multiplier
+    a_coef, b_coef = _fit_log_production(current_inputs, current_outputs)
+    lower = current_inputs * min_ratio
+    upper = current_inputs * max_ratio
 
-    # Estimate concave production function parameters (log model)
-    # output = a * log(input) + b
-    log_inputs = np.log(current_inputs + 1)
-    from numpy.polynomial.polynomial import polyfit
-    b_coef, a_coef = polyfit(log_inputs, current_outputs, 1)
-
-    # Optimization
-    x = cp.Variable(n, nonneg=True)
-
-    # Objective: maximize sum of estimated outputs
-    # Using concave approximation: a * log(x) + b
-    objective = cp.Maximize(cp.sum(a_coef * cp.log(x + 1) + b_coef))
-
-    constraints = [
-        cp.sum(x) <= total_budget,
-        x >= current_inputs * 0.5,  # min 50% of current
-        x <= current_inputs * 2.0,  # max 200% of current
-    ]
-
-    prob = cp.Problem(objective, constraints)
-    prob.solve()
-
-    optimal = x.value if x.value is not None else current_inputs
+    optimal, status = _solve_constrained_problem(
+        current_inputs=current_inputs,
+        total_budget=total_budget,
+        lower=lower,
+        upper=upper,
+        objective="max_output",
+        a_coef=a_coef,
+        b_coef=b_coef,
+    )
+    objective_value = float(np.sum(_project_outputs(optimal, a_coef, b_coef)))
 
     result_df = pd.DataFrame({
         entity_col: data[entity_col].values,
@@ -190,10 +185,10 @@ def optimize_allocation_max_output(
     })
 
     return OptimizationResult(
-        objective="maximize_aggregate_output",
-        status=prob.status,
+        objective="max_output",
+        status=status,
         optimal_allocation=result_df,
-        objective_value=prob.value if prob.value else 0.0,
+        objective_value=objective_value,
     )
 
 
@@ -203,41 +198,38 @@ def optimize_allocation_maximin(
     input_col: str,
     entity_col: str = "iso3",
     budget_multiplier: float = 1.0,
+    min_ratio: float = 0.3,
+    max_ratio: float = 2.0,
 ) -> OptimizationResult:
     """Rawlsian maximin: maximize the minimum health output.
 
     max min_i {f_i(x_i)} s.t. sum_i x_i <= B, x_i >= 0
     """
-    import cvxpy as cp
-
     data = df[[entity_col, input_col, output_col]].dropna()
-    n = len(data)
+    if data.empty:
+        return OptimizationResult(
+            objective="maximin",
+            status="no_data",
+            optimal_allocation=pd.DataFrame(columns=[entity_col, "current", "optimal", "change", "change_pct"]),
+            objective_value=0.0,
+        )
     current_inputs = data[input_col].values
-
     total_budget = current_inputs.sum() * budget_multiplier
-
-    log_inputs = np.log(current_inputs + 1)
     current_outputs = data[output_col].values
-    from numpy.polynomial.polynomial import polyfit
-    b_coef, a_coef = polyfit(log_inputs, current_outputs, 1)
+    a_coef, b_coef = _fit_log_production(current_inputs, current_outputs)
+    lower = current_inputs * min_ratio
+    upper = current_inputs * max_ratio
 
-    x = cp.Variable(n, nonneg=True)
-    z = cp.Variable()  # auxiliary for min
-
-    objective = cp.Maximize(z)
-
-    constraints = [
-        cp.sum(x) <= total_budget,
-        x >= current_inputs * 0.3,
-    ]
-    # z <= f_i(x_i) for all i
-    for i in range(n):
-        constraints.append(z <= a_coef * cp.log(x[i] + 1) + b_coef)
-
-    prob = cp.Problem(objective, constraints)
-    prob.solve()
-
-    optimal = x.value if x.value is not None else current_inputs
+    optimal, status = _solve_constrained_problem(
+        current_inputs=current_inputs,
+        total_budget=total_budget,
+        lower=lower,
+        upper=upper,
+        objective="maximin",
+        a_coef=a_coef,
+        b_coef=b_coef,
+    )
+    objective_value = float(np.min(_project_outputs(optimal, a_coef, b_coef)))
 
     result_df = pd.DataFrame({
         entity_col: data[entity_col].values,
@@ -249,10 +241,119 @@ def optimize_allocation_maximin(
 
     return OptimizationResult(
         objective="maximin",
-        status=prob.status,
+        status=status,
         optimal_allocation=result_df,
-        objective_value=prob.value if prob.value else 0.0,
+        objective_value=objective_value,
     )
+
+
+def _fit_log_production(current_inputs: np.ndarray, current_outputs: np.ndarray) -> tuple[float, float]:
+    """Fit a monotonic log production curve used by the allocation optimizers."""
+    log_inputs = np.log(np.clip(current_inputs, 0.0, None) + 1.0)
+    from numpy.polynomial.polynomial import polyfit
+
+    b_coef, a_coef = polyfit(log_inputs, current_outputs, 1)
+    if not np.isfinite(a_coef):
+        a_coef = 1e-6
+    if not np.isfinite(b_coef):
+        b_coef = 0.0
+    return float(max(a_coef, 1e-6)), float(b_coef)
+
+
+def _project_outputs(inputs: np.ndarray, a_coef: float, b_coef: float) -> np.ndarray:
+    return a_coef * np.log(np.clip(inputs, 0.0, None) + 1.0) + b_coef
+
+
+def _rebalance_to_budget(values: np.ndarray, lower: np.ndarray, upper: np.ndarray, total_budget: float) -> np.ndarray:
+    """Project a candidate allocation onto box constraints and an exact total budget."""
+    bounded = np.clip(values.astype(float), lower, upper)
+    feasible_budget = float(np.clip(total_budget, lower.sum(), upper.sum()))
+    residual = feasible_budget - float(bounded.sum())
+
+    for _ in range(200):
+        if abs(residual) < 1e-8:
+            break
+        if residual > 0:
+            room = upper - bounded
+        else:
+            room = bounded - lower
+        eligible = room > 1e-10
+        if not eligible.any():
+            break
+        step = residual * room[eligible] / room[eligible].sum()
+        bounded[eligible] += step
+        bounded = np.clip(bounded, lower, upper)
+        residual = feasible_budget - float(bounded.sum())
+
+    return bounded
+
+
+def _waterfill_box_budget(lower: np.ndarray, upper: np.ndarray, total_budget: float) -> np.ndarray:
+    """Solve sum(log(x_i + 1)) with box constraints by equalizing uncapped allocations.
+
+    With a shared concave log response curve, the aggregate-output optimum reduces to a
+    capped water-filling problem over the per-entity allocations.
+    """
+    feasible_budget = float(np.clip(total_budget, lower.sum(), upper.sum()))
+    lo = float(np.min(lower))
+    hi = float(np.max(upper))
+
+    for _ in range(200):
+        mid = (lo + hi) / 2.0
+        trial = np.clip(np.full_like(lower, mid, dtype=float), lower, upper)
+        if float(trial.sum()) < feasible_budget:
+            lo = mid
+        else:
+            hi = mid
+
+    trial = np.clip(np.full_like(lower, (lo + hi) / 2.0, dtype=float), lower, upper)
+    return _rebalance_to_budget(trial, lower, upper, feasible_budget)
+
+
+def _solve_constrained_problem(
+    current_inputs: np.ndarray,
+    total_budget: float,
+    lower: np.ndarray,
+    upper: np.ndarray,
+    objective: str,
+    a_coef: float,
+    b_coef: float,
+) -> tuple[np.ndarray, str]:
+    """Solve the resource allocation problem with SciPy SLSQP and a safe fallback."""
+    from scipy.optimize import minimize
+
+    feasible_budget = float(np.clip(total_budget, lower.sum(), upper.sum()))
+    start = _rebalance_to_budget(current_inputs * (feasible_budget / max(current_inputs.sum(), 1e-9)), lower, upper, feasible_budget)
+
+    if objective == "max_output":
+        return _waterfill_box_budget(lower, upper, feasible_budget), "optimal_waterfill"
+
+    def objective_fn(vector: np.ndarray) -> float:
+        return -float(vector[-1])
+
+    constraints = [{"type": "eq", "fun": lambda vector: float(np.sum(vector[:-1]) - feasible_budget)}]
+    for index in range(len(current_inputs)):
+        constraints.append(
+            {
+                "type": "ineq",
+                "fun": lambda vector, idx=index: float(_project_outputs(np.array([vector[idx]]), a_coef, b_coef)[0] - vector[-1]),
+            }
+        )
+
+    start_with_floor = np.concatenate([start, [float(np.min(_project_outputs(start, a_coef, b_coef)))]])
+    result = minimize(
+        objective_fn,
+        start_with_floor,
+        method="SLSQP",
+        bounds=[*list(zip(lower, upper, strict=False)), (None, None)],
+        constraints=constraints,
+        options={"maxiter": 800, "ftol": 1e-9},
+    )
+    if result.success and result.x is not None:
+        allocation = _rebalance_to_budget(result.x[:-1], lower, upper, feasible_budget)
+        return allocation, "optimal_slsqp"
+    logger.warning("Falling back from maximin optimization: %s", result.message if result else "unknown error")
+    return start, "fallback_starting_point"
 
 
 def malmquist_index(

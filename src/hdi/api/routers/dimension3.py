@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import copy
 import json
 from pathlib import Path
 from typing import Optional
@@ -57,11 +58,41 @@ async def get_efficiency(
 
 @router.get("/dim3/optimization", response_model=APIResponse)
 async def get_optimization(
-    objective: str = Query("maximize_need_weighted_health_output"),
+    objective: Optional[str] = Query(None),
+    budget_multiplier: Optional[float] = Query(None),
     budget: Optional[float] = Query(None),
 ):
     """Get optimal resource allocation results."""
-    return _load_json(API_OUTPUT / "dim3" / "optimization.json")
+    data = copy.deepcopy(_load_json(API_OUTPUT / "dim3" / "optimization.json"))
+    if not (isinstance(data, dict) and isinstance(data.get("data"), dict)):
+        return data
+
+    payload = data["data"]
+    target_budget = budget_multiplier if budget_multiplier is not None else budget
+    normalized_budget = None
+    if target_budget is not None:
+        try:
+            normalized_budget = float(target_budget)
+        except (TypeError, ValueError):
+            normalized_budget = None
+    scenarios = payload.get("scenarios")
+    if isinstance(scenarios, list):
+        filtered = scenarios
+        if objective:
+            filtered = [row for row in filtered if row.get("objective") == objective]
+        if normalized_budget is not None:
+            filtered = [
+                row for row in filtered
+                if row.get("budget_multiplier") is not None and abs(float(row["budget_multiplier"]) - normalized_budget) < 1e-9
+            ]
+        payload["scenarios"] = filtered
+        if isinstance(data.get("meta"), dict):
+            data["meta"]["record_count"] = len(filtered)
+            data["meta"]["query_params"] = {
+                "objective": objective,
+                "budget_multiplier": normalized_budget,
+            }
+    return data
 
 
 @router.get("/dim3/malmquist", response_model=APIResponse)

@@ -96,7 +96,16 @@ def export_dim1_forecasts(forecast_results: list[Any]) -> None:
 
 
 def export_dim2_paf(paf_df: pd.DataFrame) -> None:
-    write_json_artifact(wrap_response(paf_df), API_OUTPUT / "dim2" / "paf.json")
+    payload = wrap_response(paf_df)
+    if isinstance(payload.get("meta"), dict):
+        payload["meta"].update(
+            {
+                "method": "attributable_share",
+                "compatibility_endpoint": "paf",
+                "note": "赛题第二类数据为归因死亡结果；当前接口返回归因死亡贡献占比，而非基于暴露率与RR的严格PAF。",
+            }
+        )
+    write_json_artifact(payload, API_OUTPUT / "dim2" / "paf.json")
 
 
 def export_dim2_shapley(shapley_df: pd.DataFrame, country: str = "global") -> None:
@@ -120,9 +129,9 @@ def export_dim3_efficiency(efficiency_df: pd.DataFrame) -> None:
 
 def export_dim3_optimization(optimization_result: dict | Any) -> None:
     if isinstance(optimization_result, dict):
-        payload = optimization_result.copy()
-        if "optimal_allocation" in payload:
-            payload["allocation"] = _normalize_payload(payload.pop("optimal_allocation"))
+        payload = _normalize_payload(optimization_result)
+        if isinstance(payload, dict) and "optimal_allocation" in payload:
+            payload["allocation"] = payload.pop("optimal_allocation")
     else:
         payload = {
             "objective": optimization_result.objective,

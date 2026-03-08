@@ -49,7 +49,16 @@ async def get_shapley(
     disease: Optional[str] = Query(None),
 ):
     """Get a fair-share proxy of observed risk contributions."""
-    return _load_json(API_OUTPUT / "dim2" / f"shapley_{country}.json")
+    data = _load_json(API_OUTPUT / "dim2" / f"shapley_{country}.json")
+    if isinstance(data, dict):
+        meta = data.setdefault("meta", {})
+        if disease:
+            meta["supports_disease_filter"] = False
+            meta["ignored_filters"] = ["disease"]
+            meta["query_params"] = {"country": country, "disease": disease}
+        else:
+            meta["supports_disease_filter"] = False
+    return data
 
 
 @router.get("/dim2/sankey", response_model=APIResponse)

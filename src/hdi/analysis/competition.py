@@ -49,6 +49,11 @@ from hdi.data.loaders import (
     load_resource_panel,
     load_risk_attribution_long,
 )
+from hdi.models.optimization import optimize_allocation_maximin, optimize_allocation_max_output
+from hdi.models.optimization import (
+    optimize_allocation_max_output,
+    optimize_allocation_maximin,
+)
 
 logger = logging.getLogger(__name__)
 for font_path in (
@@ -109,6 +114,20 @@ _PROVINCE_EN = {
     "宁夏回族自治区": "Ningxia",
     "新疆维吾尔自治区": "Xinjiang",
     "全国": "China",
+}
+
+_OPTIMIZATION_BUDGETS = [0.9, 1.0, 1.1]
+_OPTIMIZATION_OBJECTIVES = {
+    "max_output": {
+        "label": "Maximize Aggregate Health Output",
+        "description": "Prioritize total modeled health output under a fixed budget.",
+        "solver": optimize_allocation_max_output,
+    },
+    "maximin": {
+        "label": "Protect Lowest-Outcome Countries",
+        "description": "Maximize the minimum modeled outcome across countries.",
+        "solver": optimize_allocation_maximin,
+    },
 }
 
 
@@ -208,6 +227,92 @@ def _write_summary(summary: dict) -> None:
     path = REPORTS / "analysis_summary.json"
     with open(path, "w", encoding="utf-8") as handle:
         json.dump(summary, handle, ensure_ascii=False, indent=2)
+
+
+def _fit_output_curve(inputs: np.ndarray, outputs: np.ndarray) -> tuple[float, float]:
+    log_inputs = np.log(np.clip(inputs, 0.0, None) + 1.0)
+    b_coef, a_coef = np.polynomial.polynomial.polyfit(log_inputs, outputs, 1)
+    if not np.isfinite(a_coef):
+        a_coef = 1e-6
+    if not np.isfinite(b_coef):
+        b_coef = 0.0
+    return float(max(a_coef, 1e-6)), float(b_coef)
+
+
+def _project_output_curve(inputs: np.ndarray, a_coef: float, b_coef: float) -> np.ndarray:
+    return a_coef * np.log(np.clip(inputs, 0.0, None) + 1.0) + b_coef
+
+
+def _scenario_id(objective: str, budget_multiplier: float) -> str:
+    return f"{objective}_budget_{int(round(budget_multiplier * 100)):03d}"
+
+
+def _build_optimization_scenario(
+    optimize_base: pd.DataFrame,
+    result,
+    objective: str,
+    budget_multiplier: float,
+    a_coef: float,
+    b_coef: float,
+) -> dict:
+    objective_meta = _OPTIMIZATION_OBJECTIVES[objective]
+    allocation = result.optimal_allocation.merge(
+        optimize_base[
+            [
+                "iso3",
+                "country_name",
+                "who_region",
+                "wb_income",
+                "quadrant",
+                "theoretical_need",
+                "gap",
+                "efficiency",
+                "output_index",
+            ]
+        ],
+        on="iso3",
+        how="left",
+    )
+    allocation["projected_output_current"] = _project_output_curve(allocation["current"].to_numpy(dtype=float), a_coef, b_coef)
+    allocation["projected_output_optimal"] = _project_output_curve(allocation["optimal"].to_numpy(dtype=float), a_coef, b_coef)
+    allocation["projected_output_delta"] = allocation["projected_output_optimal"] - allocation["projected_output_current"]
+    allocation = allocation.sort_values("change_pct", ascending=False).reset_index(drop=True)
+
+    recipients = allocation.nlargest(5, "change_pct")[
+        ["iso3", "country_name", "who_region", "change", "change_pct", "projected_output_delta"]
+    ]
+    donors = allocation.nsmallest(5, "change_pct")[
+        ["iso3", "country_name", "who_region", "change", "change_pct", "projected_output_delta"]
+    ]
+    current_total = float(allocation["current"].sum())
+    optimal_total = float(allocation["optimal"].sum())
+    projected_current = float(allocation["projected_output_current"].sum())
+    projected_optimal = float(allocation["projected_output_optimal"].sum())
+    projected_gain_pct = ((projected_optimal - projected_current) / abs(projected_current) * 100.0) if abs(projected_current) > 1e-9 else 0.0
+
+    return {
+        "scenario_id": _scenario_id(objective, budget_multiplier),
+        "objective": objective,
+        "objective_label": objective_meta["label"],
+        "objective_description": objective_meta["description"],
+        "budget_multiplier": budget_multiplier,
+        "budget_change_pct": (budget_multiplier - 1.0) * 100.0,
+        "status": result.status,
+        "objective_value": float(result.objective_value),
+        "summary": {
+            "country_count": int(len(allocation)),
+            "current_budget": current_total,
+            "optimal_budget": optimal_total,
+            "projected_output_current": projected_current,
+            "projected_output_optimal": projected_optimal,
+            "projected_output_gain_pct": projected_gain_pct,
+            "recipient_count": int((allocation["change_pct"] > 0).sum()),
+            "donor_count": int((allocation["change_pct"] < 0).sum()),
+            "top_recipients": recipients.to_dict(orient="records"),
+            "top_donors": donors.to_dict(orient="records"),
+        },
+        "allocation": allocation.to_dict(orient="records"),
+    }
 
 
 def _risk_display_label(risk_code: str | None, risk_factor: str | None = None) -> str:
@@ -593,46 +698,125 @@ def build_dimension3_outputs(master: pd.DataFrame, resource_panel: pd.DataFrame,
     ax.set_ylabel("Output index")
     _save_figure(fig, "fig07_dim3_quadrant")
 
-    optimize_df = latest[["iso3", "country_name", "health_exp_per_capita", "theoretical_need"]].dropna().copy()
-    weights = optimize_df["theoretical_need"] - optimize_df["theoretical_need"].min() + 0.5
-    current = optimize_df["health_exp_per_capita"].clip(lower=1).to_numpy(dtype=float)
-    total_budget = float(current.sum())
-    lower = current * 0.8
-    upper = current * 1.2
-
-    optimal = total_budget * (weights / weights.sum()).to_numpy(dtype=float)
-    optimal = np.clip(optimal, lower, upper)
-    residual = total_budget - float(optimal.sum())
-    for _ in range(50):
-        if abs(residual) < 1e-6:
-            break
-        if residual > 0:
-            room = upper - optimal
-        else:
-            room = optimal - lower
-        eligible = room > 1e-9
-        if not eligible.any():
-            break
-        adjust = residual * room[eligible] / room[eligible].sum()
-        optimal[eligible] += adjust
-        optimal = np.clip(optimal, lower, upper)
-        residual = total_budget - float(optimal.sum())
-
-    allocation = optimize_df.assign(
-        current=current,
-        optimal=optimal,
+    optimize_base = latest[
+        [
+            "iso3",
+            "country_name",
+            "who_region",
+            "wb_income",
+            "health_exp_per_capita",
+            "output_index",
+            "theoretical_need",
+            "gap",
+            "efficiency",
+            "quadrant",
+        ]
+    ].dropna(subset=["health_exp_per_capita", "output_index"]).copy()
+    optimize_base["health_exp_per_capita"] = optimize_base["health_exp_per_capita"].clip(lower=1)
+    a_coef, b_coef = _fit_output_curve(
+        optimize_base["health_exp_per_capita"].to_numpy(dtype=float),
+        optimize_base["output_index"].to_numpy(dtype=float),
     )
-    allocation["change"] = allocation["optimal"] - allocation["current"]
-    allocation["change_pct"] = allocation["change"] / allocation["current"] * 100
+
+    scenario_rows: list[dict[str, object]] = []
+    default_scenario_id = _scenario_id("max_output", 1.0)
+    default_allocation = pd.DataFrame()
+
+    for objective_code, meta in _OPTIMIZATION_OBJECTIVES.items():
+        for budget_multiplier in _OPTIMIZATION_BUDGETS:
+            try:
+                result = meta["solver"](
+                    optimize_base,
+                    output_col="output_index",
+                    input_col="health_exp_per_capita",
+                    budget_multiplier=budget_multiplier,
+                )
+                scenario_payload = _build_optimization_scenario(
+                    optimize_base=optimize_base,
+                    result=result,
+                    objective=objective_code,
+                    budget_multiplier=budget_multiplier,
+                    a_coef=a_coef,
+                    b_coef=b_coef,
+                )
+            except Exception as exc:
+                logger.exception("Optimization scenario failed: %s / %.1f", objective_code, budget_multiplier)
+                fallback_result = optimize_base.assign(
+                    current=optimize_base["health_exp_per_capita"],
+                    optimal=optimize_base["health_exp_per_capita"],
+                    change=0.0,
+                    change_pct=0.0,
+                )
+                scenario_payload = {
+                    "scenario_id": _scenario_id(objective_code, budget_multiplier),
+                    "objective": objective_code,
+                    "objective_label": meta["label"],
+                    "objective_description": meta["description"],
+                    "budget_multiplier": float(budget_multiplier),
+                    "budget_change_pct": float((budget_multiplier - 1.0) * 100.0),
+                    "status": f"error: {exc}",
+                    "objective_value": 0.0,
+                    "summary": {
+                        "country_count": int(len(fallback_result)),
+                        "current_budget": float(fallback_result["current"].sum()),
+                        "optimal_budget": float(fallback_result["optimal"].sum()),
+                        "projected_output_current": float(np.sum(_project_output_curve(fallback_result["current"].to_numpy(dtype=float), a_coef, b_coef))),
+                        "projected_output_optimal": float(np.sum(_project_output_curve(fallback_result["optimal"].to_numpy(dtype=float), a_coef, b_coef))),
+                        "projected_output_gain_pct": 0.0,
+                        "recipient_count": 0,
+                        "donor_count": 0,
+                        "top_recipients": [],
+                        "top_donors": [],
+                    },
+                    "allocation": fallback_result[
+                        [
+                            "iso3",
+                            "country_name",
+                            "who_region",
+                            "wb_income",
+                            "quadrant",
+                            "theoretical_need",
+                            "gap",
+                            "efficiency",
+                            "output_index",
+                            "current",
+                            "optimal",
+                            "change",
+                            "change_pct",
+                        ]
+                    ].to_dict(orient="records"),
+                }
+
+            if scenario_payload["scenario_id"] == default_scenario_id:
+                default_allocation = pd.DataFrame(scenario_payload["allocation"])
+            scenario_rows.append(scenario_payload)
+
     export_dim3_optimization(
         {
-            "objective": "maximize_need_weighted_health_output",
-            "status": "projected_need_weighted_allocation",
-            "objective_value": float(np.sum(weights.to_numpy() * np.log(optimal + 1))),
-            "optimal_allocation": allocation[["iso3", "country_name", "current", "optimal", "change", "change_pct"]],
+            "latest_year": latest_year,
+            "default_scenario": default_scenario_id,
+            "scenario_options": {
+                "objectives": [
+                    {"code": code, "label": meta["label"], "description": meta["description"]}
+                    for code, meta in _OPTIMIZATION_OBJECTIVES.items()
+                ],
+                "budget_multipliers": _OPTIMIZATION_BUDGETS,
+            },
+            "available_objectives": [
+                {"code": code, "label": meta["label"], "description": meta["description"]}
+                for code, meta in _OPTIMIZATION_OBJECTIVES.items()
+            ],
+            "budget_options": _OPTIMIZATION_BUDGETS,
+            "scenarios": scenario_rows,
         }
     )
-    _save_table(allocation.sort_values("change_pct", ascending=False).head(15), "tab_dim3_top_reallocation")
+
+    top_reallocation = (
+        default_allocation.sort_values(["change_pct", "change"], ascending=False).head(15)
+        if not default_allocation.empty
+        else pd.DataFrame()
+    )
+    _save_table(top_reallocation, "tab_dim3_top_reallocation")
 
     china_staff = china[china["indicator"] == "各省近20年卫生人员数量"].copy()
     china_inst = china[china["indicator"] == "近20年各省医疗卫生机构数量"].copy()

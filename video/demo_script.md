@@ -1,67 +1,89 @@
-# Demo Video Script
+# 作品展示视频脚本
 
-## Duration: 5-8 minutes
+## 建议时长
+5 分钟到 7 分钟
 
----
+## 总体结构
+- 只展示当前主线交付与扩展模块，不展示 GHRI、DEA、LISA、疾病特异性 PAF 等未纳入本次提交的旧设想。
 
-### Opening (0:00 - 0:30)
-- Title card: "Health Data Insight: Global Health Ecosystem Analysis"
-- Team introduction
-- Brief overview: "We analyze global health data across 200+ countries to uncover disease burden patterns, risk factor contributions, and resource allocation efficiency."
+### 片头（0:00 - 0:25）
+- 标题页：健康数据洞察
+- 队伍名称与成员信息
+- 一句话概述：基于赛题提供的 5 类数据，分析全球疾病谱演变、风险归因与卫生资源配置，并构建可交互的资源优化实验室
 
-### Section 1: Data Pipeline (0:30 - 1:30)
-- Show data sources (5 provided + external)
-- Demonstrate Heywhale notebook execution
-- Show master_panel.parquet assembly
-- Quick EDA: panel dimensions, missing data visualization
+### 第一部分：数据与复现流程（0:25 - 1:10）
+- 展示项目目录结构
+- 简述 5 类赛题数据及处理后的三个核心面板：
+  - `master_panel.parquet`
+  - `resource_panel.parquet`
+  - `china_panel.parquet`
+- 演示 `python -m hdi.data.integrator` 与 `python -m hdi.analysis.competition` 的复现链路
+- 强调：
+  - 全流程使用 Python 源程序可复现
+  - 图表、表格、API JSON 与 dashboard 数据由同一分析管线导出
 
-### Section 2: Dimension 1 - Spatiotemporal Analysis (1:30 - 3:00)
-- Animated choropleth: DALY rate evolution 2000-2023
-- LISA cluster map: hot spots / cold spots
-- Mann-Kendall trend heatmap
-- Panel regression results table (Driscoll-Kraay SEs)
-- SHAP beeswarm plot
-- Causal DAG visualization
-- Forecast fan charts for representative countries
+### 第二部分：维度一 疾病谱演变与健康差异（1:10 - 2:15）
+- 展示全球疾病谱结构变化图：
+  - 非传染性疾病占比持续上升
+  - 2023 年全球非传染性疾病死亡占比达到 74.57%
+- 展示预期寿命与传染性疾病占比散点图：
+  - 对比日本、乍得等代表国家
+- 展示寿命预测图：
+  - 说明采用线性趋势外推作为稳健基线
+- 口播重点：
+  - 全球疾病谱已明显转向慢性病主导
+  - 低寿命国家依然面临更高传染性疾病负担
 
-### Section 3: Dimension 2 - Risk Attribution (3:00 - 4:30)
-- PAF stacked bar chart by WHO region
-- Shapley waterfall plot for China
-- Sankey diagram: Risk → Disease → Outcome
-- Scenario simulator: show 4 scenarios for China
-- Monte Carlo fan charts with 95% CI
-- Cost-effectiveness frontier
+### 第三部分：维度二 风险归因与干预优先级（2:15 - 3:20）
+- 展示全球主要风险因素归因死亡柱状图
+- 展示 WHO 地区风险热力图
+- 展示风险因素到 WHO 地区的 Sankey 流向图
+- 展示三种干预情景曲线：
+  - 基准
+  - 温和干预
+  - 强化干预
+- 口播重点：
+  - 2023 年全球首要风险因素为高血压
+  - 不同地区的主导风险不同，干预优先级也应不同
 
-### Section 4: Dimension 3 - Resource Allocation (4:30 - 6:00)
-- Diverging choropleth: resource surplus/deficit
-- Four-quadrant scatter plot (interactive)
-- DEA efficiency rankings
-- Optimization results: current vs optimal allocation
-- Reallocation Sankey
-- Per-quadrant recommendation cards
+### 第四部分：维度三 资源缺口、效率与优化实验室（3:20 - 4:50）
+- 展示资源缺口地图与投入产出四象限图
+- 点出资源最短缺国家与“低投入高产出”国家
+- 进入英文 dashboard 的 Optimization Lab：
+  - 切换不同优化目标
+  - 切换不同预算情景
+  - 演示地图、国家面板和 donor/recipient 排名联动变化
+- 口播重点：
+  - 我们没有停留在静态缺口识别，而是进一步做了资源重分配模拟
+  - 该实验室可以帮助比较不同政策目标和预算约束下的再分配结果
 
-### Section 5: GHRI Index (6:00 - 7:00)
-- Radar chart: compare G7, BRICS countries
-- GHRI world map
-- Rank table with bootstrap CI
-- Comparison with HDI
+### 第五部分：智能体协作与技术亮点（4:50 - 5:35）
+- 展示 `ai_agent/workflow.md`、`ai_agent/submission_record.md` 与 `ai_agent/log_index.json`
+- 展示部分 JSON 交互记录文件名
+- 说明智能体实际参与的环节：
+  - 赛题理解
+  - 数据结构辨识
+  - 方法建议
+  - 代码重构与调试
+  - 结果解释与交付整理
+- 展示 FastAPI 静态 JSON 输出与 dashboard 数据文件
 
-### Section 6: Technical Innovation (7:00 - 7:30)
-- Bivariate choropleth showcase
-- API architecture diagram
-- Show FastAPI docs page
-- Code quality: pandera validation, modular design
+### 结尾（5:35 - 6:00）
+- 总结三点核心结论：
+  - 全球疾病谱显著转向非传染性疾病主导
+  - 风险归因存在明显地区差异
+  - 卫生资源优化需要同时考虑效率与公平
+- 结束语：本作品提供了可复现的数据分析程序、可解释的研究结论与可展示的交互系统
 
-### Closing (7:30 - 8:00)
-- Summary of key findings
-- Policy implications
-- Future directions
-- Thank you
-
----
-
-## Production Notes
-- Screen recording: Heywhale notebook execution + visualization website demo
-- Use OBS Studio or similar
-- Export at 1080p, H.264
-- Add captions for accessibility
+## 录制提示
+- 优先展示真实运行结果，不展示未交付功能
+- 视频语言建议使用中文，与分析报告保持一致
+- dashboard 演示时突出英文界面中的 Optimization Lab 控件切换效果
+- 若讲到 AI 协作记录，要明确说明 JSON 日志为摘要证据，不是逐字聊天全文
+- 录制顺序建议：
+  - 先录屏 dashboard 和分析结果
+  - 再补录代码与目录结构
+- 导出格式建议：
+  - 1080p
+  - H.264
+  - mp4

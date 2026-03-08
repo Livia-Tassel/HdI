@@ -66,3 +66,39 @@ class TestDimension3:
     def test_optimization_endpoint(self):
         response = client.get("/api/v1/dim3/optimization")
         assert response.status_code == 200
+
+    def test_optimization_endpoint_filters_scenarios(self, monkeypatch):
+        from hdi.api.routers import dimension3
+
+        payload = {
+            "status": "success",
+            "meta": {"query_params": {}, "record_count": 2},
+            "data": {
+                "default_scenario": "max_output__budget_1p0",
+                "scenarios": [
+                    {
+                        "scenario_id": "max_output__budget_1p0",
+                        "objective": "max_output",
+                        "budget_multiplier": 1.0,
+                        "summary": {},
+                        "allocation": [],
+                    },
+                    {
+                        "scenario_id": "maximin__budget_1p1",
+                        "objective": "maximin",
+                        "budget_multiplier": 1.1,
+                        "summary": {},
+                        "allocation": [],
+                    },
+                ],
+            },
+        }
+
+        monkeypatch.setattr(dimension3, "_load_json", lambda _: payload)
+
+        response = client.get("/api/v1/dim3/optimization?objective=maximin&budget_multiplier=1.1")
+        assert response.status_code == 200
+        data = response.json()
+        assert data["meta"]["record_count"] == 1
+        assert data["meta"]["query_params"] == {"objective": "maximin", "budget_multiplier": 1.1}
+        assert data["data"]["scenarios"][0]["scenario_id"] == "maximin__budget_1p1"
