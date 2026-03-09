@@ -50,10 +50,6 @@ from hdi.data.loaders import (
     load_risk_attribution_long,
 )
 from hdi.models.optimization import optimize_allocation_maximin, optimize_allocation_max_output
-from hdi.models.optimization import (
-    optimize_allocation_max_output,
-    optimize_allocation_maximin,
-)
 
 logger = logging.getLogger(__name__)
 for font_path in (

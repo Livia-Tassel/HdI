@@ -299,6 +299,7 @@ body {
   align-items: center;
   gap: 18px;
   padding: 16px 24px;
+  flex-wrap: wrap;
 }
 
 .masthead-brand {
@@ -380,7 +381,8 @@ body {
 .summary-strip {
   display: flex;
   gap: 10px;
-  flex-shrink: 0;
+  flex-shrink: 1;
+  min-width: 0;
 }
 
 .summary-tile {
@@ -569,7 +571,7 @@ body {
 
 .dashboard-grid {
   display: grid;
-  grid-template-columns: minmax(0, 1.6fr) minmax(360px, 0.78fr);
+  grid-template-columns: minmax(0, 1.6fr) minmax(0, 0.78fr);
   grid-template-areas:
     "map insight"
     "detail companion"
@@ -701,6 +703,8 @@ body {
   background: rgba(12, 20, 38, 0.55);
   border: 1px solid var(--line);
   border-left: 3px solid var(--cyan);
+  min-width: 0;
+  overflow: hidden;
   transition:
     transform 300ms var(--ease-spring),
     box-shadow 300ms var(--ease-smooth),
@@ -757,6 +761,9 @@ body {
   color: var(--ink-bright);
   margin-top: 4px;
   font-feature-settings: "tnum" 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 /* ── Ranking ──────────────────────────────────────────────────────── */
@@ -1491,6 +1498,15 @@ body.ready .context-card { animation-delay: 480ms; }
   letter-spacing: 0.04em;
 }
 
+.spotlight-flag-emoji {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-size: 36px;
+  line-height: 1;
+}
+
 .spotlight-identity {
   min-width: 0;
 }
@@ -1774,4 +1790,163 @@ body.ready .context-card { animation-delay: 480ms; }
   .orb { display: none; }
   #physics-canvas { display: none; }
   .splash-overlay { display: none; }
+}
+
+/* ── Year Slider ─────────────────────────────────────────────────── */
+
+.year-slider-group {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 6px 0;
+  width: 100%;
+}
+
+.play-button {
+  appearance: none;
+  border: 1px solid rgba(34, 211, 238, 0.25);
+  background: rgba(34, 211, 238, 0.08);
+  color: var(--cyan);
+  border-radius: 50%;
+  width: 34px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background 200ms ease, border-color 200ms ease, box-shadow 200ms ease;
+}
+
+.play-button:hover {
+  background: rgba(34, 211, 238, 0.16);
+  border-color: rgba(34, 211, 238, 0.4);
+  box-shadow: 0 0 16px rgba(34, 211, 238, 0.12);
+}
+
+.play-button.is-playing .play-icon { display: none; }
+.play-button.is-playing .pause-icon { display: block; }
+.play-button:not(.is-playing) .play-icon { display: block; }
+.play-button:not(.is-playing) .pause-icon { display: none; }
+
+.year-slider {
+  -webkit-appearance: none;
+  appearance: none;
+  flex: 1;
+  height: 4px;
+  background: rgba(148, 163, 184, 0.15);
+  border-radius: 2px;
+  outline: none;
+  cursor: pointer;
+}
+
+.year-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--cyan);
+  border: 2px solid rgba(6, 10, 19, 0.8);
+  box-shadow: 0 0 10px rgba(34, 211, 238, 0.35);
+  cursor: pointer;
+  transition: box-shadow 200ms ease;
+}
+
+.year-slider::-webkit-slider-thumb:hover {
+  box-shadow: 0 0 18px rgba(34, 211, 238, 0.5);
+}
+
+.year-slider::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--cyan);
+  border: 2px solid rgba(6, 10, 19, 0.8);
+  box-shadow: 0 0 10px rgba(34, 211, 238, 0.35);
+  cursor: pointer;
+}
+
+.year-slider::-moz-range-track {
+  height: 4px;
+  background: rgba(148, 163, 184, 0.15);
+  border-radius: 2px;
+}
+
+.year-display {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--cyan);
+  min-width: 38px;
+  text-align: center;
+  letter-spacing: 0.02em;
+}
+
+/* ── China Focus (dim4) chip ─────────────────────────────────────── */
+
+.dim4-chip.is-active {
+  background: rgba(239, 68, 68, 0.12);
+  color: #f87171;
+  border-color: rgba(239, 68, 68, 0.30);
+  box-shadow: 0 0 20px rgba(239, 68, 68, 0.08), inset 0 0 12px rgba(239, 68, 68, 0.05);
+}
+
+.dim4-chip:hover {
+  color: #fca5a5;
+  border-color: rgba(239, 68, 68, 0.22);
+}
+
+.dim4-chip::after {
+  background: radial-gradient(circle at var(--ripple-x, 50%) var(--ripple-y, 50%), rgba(239, 68, 68, 0.15), transparent 60%) !important;
+}
+
+/* ── Companion Toggle (Equity) ───────────────────────────────────── */
+
+.companion-toggle {
+  display: inline-flex;
+  gap: 2px;
+  background: rgba(148, 163, 184, 0.06);
+  border-radius: 999px;
+  padding: 2px;
+  margin-left: 10px;
+  vertical-align: middle;
+}
+
+.companion-toggle-btn {
+  appearance: none;
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--dim);
+  border-radius: 999px;
+  padding: 3px 12px;
+  font-family: var(--font-display);
+  font-size: 11px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: color 200ms ease, background 200ms ease, border-color 200ms ease;
+}
+
+.companion-toggle-btn:hover {
+  color: var(--muted);
+}
+
+.companion-toggle-btn.is-active {
+  background: rgba(34, 211, 238, 0.10);
+  color: var(--cyan);
+  border-color: rgba(34, 211, 238, 0.22);
+}
+
+/* ── Responsive: year slider stacking ────────────────────────────── */
+
+@media (max-width: 600px) {
+  .year-slider-group {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .year-slider {
+    order: 2;
+    flex-basis: 100%;
+  }
 }

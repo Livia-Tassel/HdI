@@ -3,6 +3,8 @@ const DATA_SOURCES = {
   riskLatest: "./data/risk_latest.json",
   globalStory: "./data/global_story.json",
   profiles: "./data/country_profiles.json",
+  timeseries: "./data/overview_timeseries.json",
+  chinaDeepDive: "./data/china_deep_dive.json",
 };
 
 const DIMENSIONS = {
@@ -26,6 +28,13 @@ const DIMENSIONS = {
     mapTitle: "Scenario-Based Resource Reallocation Lab",
     note: "Switch objective and budget settings to compare donor-recipient patterns and country-level recommendations.",
     metrics: ["change_pct", "gap", "efficiency"],
+  },
+  dim4: {
+    label: "China Focus",
+    defaultMetric: "health_personnel",
+    mapTitle: "China Provincial Health Resource Deep-Dive",
+    note: "Explore health personnel and institution distribution across China's 31 provinces.",
+    metrics: ["health_personnel", "health_institutions"],
   },
 };
 
@@ -87,6 +96,18 @@ const METRIC_META = {
     accessor: (row) => row.efficiency,
     diverging: true,
   },
+  health_personnel: {
+    label: "Health Personnel",
+    colorscale: [[0, "#1a0808"], [0.25, "#4a1010"], [0.5, "#8b2020"], [0.75, "#dc2626"], [1, "#f87171"]],
+    formatter: (value) => formatCompact(value),
+    accessor: (row) => row.value,
+  },
+  health_institutions: {
+    label: "Health Institutions",
+    colorscale: [[0, "#1a0808"], [0.25, "#4a1010"], [0.5, "#8b2020"], [0.75, "#dc2626"], [1, "#f87171"]],
+    formatter: (value) => formatCompact(value),
+    accessor: (row) => row.value,
+  },
 };
 
 const THEME = {
@@ -135,6 +156,11 @@ const state = {
   dialogOpen: false,
   dialogCountry: "",
   previousFocus: null,
+  year: 2023,
+  animating: false,
+  animationTimer: null,
+  province: "",
+  companionView: "transition",
 };
 
 const store = {
@@ -142,11 +168,14 @@ const store = {
   riskLatest: null,
   globalStory: null,
   profiles: null,
+  timeseries: null,
+  chinaDeepDive: null,
   overviewIndex: new Map(),
   riskIndex: new Map(),
   countryLookup: new Map(),
   optimizationScenarios: [],
   scenarioIndex: new Map(),
+  availableYears: [],
 };
 
 document.addEventListener("DOMContentLoaded", async () => {
@@ -194,6 +223,11 @@ async function loadData() {
   store.scenarioIndex = new Map(
     store.optimizationScenarios.map((scenario) => [scenario.scenario_id, scenario]),
   );
+
+  if (store.timeseries?.years?.length) {
+    store.availableYears = store.timeseries.years;
+    state.year = store.availableYears[store.availableYears.length - 1];
+  }
 
   primeState();
   populateCountryDatalist();
@@ -386,6 +420,15 @@ function bindEvents() {
     }
   });
 
+  document.getElementById("year-slider").addEventListener("input", (event) => {
+    state.year = Number(event.target.value);
+    document.getElementById("year-display").textContent = state.year;
+    renderMap();
+    updateMapKicker();
+  });
+
+  document.getElementById("play-button").addEventListener("click", toggleAnimation);
+
   document.getElementById("spotlight-close").addEventListener("click", closeSpotlightModal);
   document.getElementById("spotlight-backdrop").addEventListener("click", closeSpotlightModal);
 
@@ -450,15 +493,22 @@ function populateCountryDatalist() {
 }
 
 function handleCountryJump() {
-  const input = safeLower(document.getElementById("country-search").value.trim());
-  if (!input) {
+  const input = document.getElementById("country-search").value.trim();
+  if (!input) return;
+
+  if (state.dimension === "dim4") {
+    const provinces = store.chinaDeepDive?.provinces ?? [];
+    const match = provinces.find((p) => safeLower(p) === safeLower(input)) ||
+      provinces.find((p) => safeLower(p).includes(safeLower(input)));
+    if (match) {
+      state.province = match;
+      renderPanels();
+    }
     return;
   }
 
-  const iso3 = resolveCountryInput(input);
-  if (!iso3) {
-    return;
-  }
+  const iso3 = resolveCountryInput(safeLower(input));
+  if (!iso3) return;
 
   state.country = iso3;
   renderPanels();
@@ -535,10 +585,35 @@ function syncControls() {
     budgetSelect.value = normalizeBudget(state.budgetMultiplier).toFixed(1);
   }
 
+  // Year slider: visible only for dim1 when timeseries data is available
+  const sliderGroup = document.getElementById("year-slider-group");
+  if (state.dimension === "dim1" && store.availableYears.length > 1) {
+    sliderGroup.style.display = "flex";
+    const slider = document.getElementById("year-slider");
+    slider.min = store.availableYears[0];
+    slider.max = store.availableYears[store.availableYears.length - 1];
+    slider.value = state.year;
+    document.getElementById("year-display").textContent = state.year;
+  } else {
+    sliderGroup.style.display = "none";
+    if (state.animating) stopAnimation();
+  }
+
+  // Province search for dim4
+  if (state.dimension === "dim4") {
+    syncProvinceSearch();
+  }
+
   document.getElementById("map-title").textContent = DIMENSIONS[state.dimension].mapTitle;
   document.getElementById("map-note").textContent = DIMENSIONS[state.dimension].note;
   document.getElementById("context-pill").textContent =
     state.dimension === "dim3" ? "Scenario Engine" : "Static Build";
+
+  if (state.dimension === "dim1" && store.availableYears.length) {
+    document.getElementById("map-kicker").textContent = `Global Map \u00B7 ${state.year}`;
+  } else {
+    document.getElementById("map-kicker").textContent = "Global Map";
+  }
 
   const currentScenario = getCurrentScenario();
   const controlNote =
@@ -546,17 +621,34 @@ function syncControls() {
       ? `${currentScenario?.summary?.label ?? "Optimization scenario"}: ${
           OBJECTIVE_META[state.objective]?.note ?? ""
         }`
-      : "Static dashboard built from competition analysis artifacts.";
+      : state.dimension === "dim4"
+        ? "China provincial health resource data from Dataset 5."
+        : "Static dashboard built from competition analysis artifacts.";
   document.getElementById("control-note").textContent = controlNote;
 
   syncSearchField();
 }
 
 function syncSearchField() {
+  if (state.dimension === "dim4") return;
+  const searchInput = document.getElementById("country-search");
+  searchInput.placeholder = "Enter country name or ISO3 code";
+  populateCountryDatalist();
   const country = store.overviewIndex.get(state.country);
   if (country) {
-    document.getElementById("country-search").value = `${countryLabel(country)} (${country.iso3})`;
+    searchInput.value = `${countryLabel(country)} (${country.iso3})`;
   }
+}
+
+function syncProvinceSearch() {
+  const searchInput = document.getElementById("country-search");
+  const datalist = document.getElementById("country-list");
+  const provinces = store.chinaDeepDive?.provinces ?? [];
+  searchInput.value = state.province || "";
+  searchInput.placeholder = "Enter province name";
+  datalist.innerHTML = provinces
+    .map((p) => `<option value="${escapeHtml(p)}"></option>`)
+    .join("");
 }
 
 function renderSummaryStrip() {
@@ -621,6 +713,10 @@ function getScenarioRow(iso3) {
 }
 
 function getMapRecords() {
+  if (state.dimension === "dim4") {
+    return [];
+  }
+
   if (state.dimension === "dim2") {
     return (store.riskLatest.risks ?? []).filter(
       (row) => row.risk_code === state.risk && METRIC_META[state.metric].accessor(row) != null,
@@ -634,12 +730,27 @@ function getMapRecords() {
       .filter((row) => METRIC_META[state.metric].accessor(row) != null);
   }
 
+  const latestYear = store.availableYears.length
+    ? store.availableYears[store.availableYears.length - 1]
+    : store.overview.latest_year;
+
+  if (state.year !== latestYear && store.timeseries?.by_year?.[String(state.year)]) {
+    return store.timeseries.by_year[String(state.year)].filter(
+      (row) => METRIC_META[state.metric].accessor(row) != null,
+    );
+  }
+
   return (store.overview.countries ?? []).filter(
     (row) => METRIC_META[state.metric].accessor(row) != null,
   );
 }
 
 function renderMap() {
+  if (state.dimension === "dim4") {
+    renderChinaProvinceBar();
+    return;
+  }
+
   const metric = METRIC_META[state.metric];
   const records = getMapRecords();
   const values = records.map((row) => metric.accessor(row));
@@ -728,6 +839,7 @@ function renderMap() {
   const mapNode = document.getElementById("map-chart");
   if (!mapNode.dataset.bound) {
     mapNode.on("plotly_click", (event) => {
+      if (state.dimension === "dim4") return;
       const iso3 = event?.points?.[0]?.location;
       if (!iso3) {
         return;
@@ -738,6 +850,66 @@ function renderMap() {
       openSpotlightModal(iso3);
     });
     mapNode.dataset.bound = "1";
+  }
+}
+
+function renderChinaProvinceBar() {
+  const data = store.chinaDeepDive;
+  if (!data?.rankings) {
+    emptyPlot("map-chart", "No China provincial data is available.");
+    return;
+  }
+
+  const metricKey = state.metric === "health_institutions" ? "health_institutions" : "health_personnel";
+  const ranking = [...(data.rankings[metricKey] ?? [])].reverse();
+  if (!ranking.length) {
+    emptyPlot("map-chart", "No ranking data for this metric.");
+    return;
+  }
+
+  const barColors = ranking.map((r) =>
+    r.province === state.province ? "#f87171" : "rgba(239, 68, 68, 0.45)",
+  );
+
+  Plotly.react(
+    "map-chart",
+    [
+      {
+        type: "bar",
+        x: ranking.map((r) => r.value),
+        y: ranking.map((r) => r.province),
+        orientation: "h",
+        marker: {
+          color: barColors,
+          cornerradius: 4,
+          line: { width: 0 },
+        },
+        hovertemplate: "<b>%{y}</b><br>%{x:,.0f}<extra></extra>",
+      },
+    ],
+    {
+      ...baseLayout({
+        xaxis: { title: METRIC_META[metricKey].label },
+        yaxis: { automargin: true, dtick: 1 },
+        margin: { l: 120, r: 20, t: 8, b: 42 },
+      }),
+      height: Math.max(500, ranking.length * 22),
+    },
+    { responsive: true, displayModeBar: false, scrollZoom: false },
+  );
+
+  const mapNode = document.getElementById("map-chart");
+  if (!mapNode.dataset.dim4Bound) {
+    mapNode.on("plotly_click", (event) => {
+      if (state.dimension !== "dim4") return;
+      const province = event?.points?.[0]?.y;
+      if (province) {
+        state.province = province;
+        renderPanels();
+        renderChinaProvinceBar();
+      }
+    });
+    mapNode.dataset.dim4Bound = "1";
   }
 }
 
@@ -848,6 +1020,27 @@ function renderCountryPanel() {
       ["Selected Share", formatShare(selectedRisk.share), "amber"],
       ["Selected Deaths", formatCompact(selectedRisk.attributable_deaths), "blue"],
     ];
+  } else if (state.dimension === "dim4") {
+    const chinaData = store.chinaDeepDive;
+    const prov = state.province || (chinaData?.provinces?.[0] ?? "");
+    const metricKey = state.metric === "health_institutions" ? "health_institutions" : "health_personnel";
+    const series = chinaData?.[metricKey]?.[prov] ?? [];
+    const latestVal = series.length ? series[series.length - 1].value : null;
+    const firstVal = series.length ? series[0].value : null;
+    const growth = firstVal && latestVal ? (((latestVal - firstVal) / firstVal) * 100).toFixed(1) : "N/A";
+    const ranking = chinaData?.rankings?.[metricKey] ?? [];
+    const rank = ranking.findIndex((r) => r.province === prov) + 1;
+
+    document.getElementById("country-title").textContent = prov || "Select a province";
+    document.getElementById("country-tag").textContent = "China Province";
+    items = [
+      ["Province", prov || "N/A", "rose"],
+      [METRIC_META[metricKey].label, formatCompact(latestVal), "cyan"],
+      ["National Rank", rank > 0 ? `#${rank} / ${ranking.length}` : "N/A", "amber"],
+      ["Period Growth", growth !== "N/A" ? `${growth}%` : "N/A", "teal"],
+      ["Data Points", `${series.length} years`, "blue"],
+      ["Latest Year", chinaData?.latest_year ? String(chinaData.latest_year) : "N/A", "violet"],
+    ];
   } else {
     items = [
       ["Scenario Objective", objectiveLabel(state.objective), "cyan"],
@@ -870,6 +1063,11 @@ function renderCountryPanel() {
 }
 
 function renderRankingList() {
+  if (state.dimension === "dim4") {
+    renderDim4RankingList();
+    return;
+  }
+
   const metric = METRIC_META[state.metric];
   const rows = [...getMapRecords()];
   const descending = !(state.dimension === "dim3" && state.metric === "gap");
@@ -926,8 +1124,56 @@ function renderRankingList() {
   });
 }
 
+function renderDim4RankingList() {
+  const data = store.chinaDeepDive;
+  const metricKey = state.metric === "health_institutions" ? "health_institutions" : "health_personnel";
+  const ranking = data?.rankings?.[metricKey] ?? [];
+  const topRows = ranking.slice(0, 10);
+  const maxValue = topRows.length ? Math.max(...topRows.map((r) => Math.abs(r.value ?? 0)), 1) : 1;
+
+  document.getElementById("ranking-caption").textContent = `${METRIC_META[metricKey].label} | Latest`;
+
+  document.getElementById("ranking-list").innerHTML = topRows
+    .map((row, index) => {
+      const progress = Math.round((Math.abs(row.value ?? 0) / maxValue) * 100);
+      return `
+        <button
+          class="ranking-row ${row.province === state.province ? "is-selected" : ""}"
+          data-province="${escapeHtml(row.province)}"
+          data-rank="${index + 1}"
+          style="--progress:${progress}%;animation-delay:${index * 45}ms"
+          type="button"
+        >
+          <span class="rank-badge">${index + 1}</span>
+          <span class="row-info">
+            <b>${escapeHtml(row.province)}</b>
+            <small>China</small>
+          </span>
+          <span class="row-value">${escapeHtml(formatCompact(row.value))}</span>
+        </button>
+      `;
+    })
+    .join("");
+
+  document.querySelectorAll(".ranking-row[data-province]").forEach((button) => {
+    button.addEventListener("click", () => {
+      state.province = button.dataset.province;
+      renderPanels();
+      renderChinaProvinceBar();
+    });
+  });
+}
+
 function renderDetailChart() {
   const profile = store.profiles[state.country];
+
+  if (state.dimension === "dim4") {
+    document.getElementById("detail-title").textContent = "Province Time Series";
+    document.getElementById("detail-pill").textContent = state.province || "Select province";
+    renderChinaDetailChart();
+    return;
+  }
+
   if (!profile) {
     emptyPlot("detail-chart", "No country profile is available.");
     return;
@@ -1105,11 +1351,62 @@ function renderDimension3Detail(profile) {
   });
 }
 
+function renderChinaDetailChart() {
+  const data = store.chinaDeepDive;
+  const prov = state.province || (data?.provinces?.[0] ?? "");
+  const metricKey = state.metric === "health_institutions" ? "health_institutions" : "health_personnel";
+  const series = data?.[metricKey]?.[prov] ?? [];
+
+  if (!series.length) {
+    emptyPlot("detail-chart", prov ? `No data for ${prov}.` : "Select a province to view trends.");
+    return;
+  }
+
+  Plotly.react(
+    "detail-chart",
+    [
+      {
+        x: series.map((r) => r.year),
+        y: series.map((r) => r.value),
+        name: prov,
+        mode: "lines+markers",
+        line: { color: "#f87171", width: 3, shape: "spline" },
+        marker: { size: 6, color: "#f87171" },
+        fill: "tozeroy",
+        fillcolor: "rgba(248, 113, 113, 0.08)",
+      },
+    ],
+    baseLayout({
+      yaxis: { title: METRIC_META[metricKey].label },
+    }),
+    { responsive: true, displayModeBar: false, scrollZoom: false },
+  );
+}
+
 function renderCompanionChart() {
   if (state.dimension === "dim1") {
-    document.getElementById("companion-title").textContent = "Global Disease Transition";
-    document.getElementById("companion-pill").textContent = "2000-2023";
-    renderGlobalDiseaseTrend();
+    const toggleHtml = `<span class="companion-toggle" id="companion-toggle">` +
+      `<button class="companion-toggle-btn ${state.companionView === "transition" ? "is-active" : ""}" data-view="transition">Transition</button>` +
+      `<button class="companion-toggle-btn ${state.companionView === "equity" ? "is-active" : ""}" data-view="equity">Equity</button>` +
+      `</span>`;
+    document.getElementById("companion-title").innerHTML =
+      state.companionView === "equity" ? `Health Equity Trends${toggleHtml}` : `Global Disease Transition${toggleHtml}`;
+    document.getElementById("companion-pill").textContent =
+      state.companionView === "equity" ? "Gini & Sigma" : "2000-2023";
+
+    // Bind toggle
+    document.querySelectorAll(".companion-toggle-btn").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        state.companionView = btn.dataset.view;
+        renderCompanionChart();
+      });
+    });
+
+    if (state.companionView === "equity") {
+      renderEquityChart();
+    } else {
+      renderGlobalDiseaseTrend();
+    }
     return;
   }
 
@@ -1117,6 +1414,13 @@ function renderCompanionChart() {
     document.getElementById("companion-title").textContent = "Risk-to-Region Flow";
     document.getElementById("companion-pill").textContent = "Sankey overview";
     renderRiskSankey();
+    return;
+  }
+
+  if (state.dimension === "dim4") {
+    document.getElementById("companion-title").textContent = "National Aggregate Trend";
+    document.getElementById("companion-pill").textContent = "All China";
+    renderChinaNationalTrend();
     return;
   }
 
@@ -1135,12 +1439,42 @@ function renderGlobalDiseaseTrend() {
   Plotly.react(
     "companion-chart",
     [
-      lineTrace(trend, "year", "communicable_share", "Communicable", THEME.amber, true),
-      lineTrace(trend, "year", "ncd_share", "NCD", THEME.teal, true),
-      lineTrace(trend, "year", "injury_share", "Injuries", THEME.rose, true),
+      {
+        x: trend.map((row) => row.year),
+        y: trend.map((row) => row.communicable_share),
+        name: "Communicable",
+        mode: "lines",
+        line: { color: THEME.amber, width: 0, shape: "spline" },
+        fill: "tonexty",
+        fillcolor: "rgba(251, 191, 36, 0.35)",
+        stackgroup: "share",
+        hovertemplate: "<b>Communicable</b><br>%{x}: %{y:.1%}<extra></extra>",
+      },
+      {
+        x: trend.map((row) => row.year),
+        y: trend.map((row) => row.ncd_share),
+        name: "NCD",
+        mode: "lines",
+        line: { color: THEME.teal, width: 0, shape: "spline" },
+        fill: "tonexty",
+        fillcolor: "rgba(45, 212, 191, 0.35)",
+        stackgroup: "share",
+        hovertemplate: "<b>NCD</b><br>%{x}: %{y:.1%}<extra></extra>",
+      },
+      {
+        x: trend.map((row) => row.year),
+        y: trend.map((row) => row.injury_share),
+        name: "Injuries",
+        mode: "lines",
+        line: { color: THEME.rose, width: 0, shape: "spline" },
+        fill: "tonexty",
+        fillcolor: "rgba(251, 113, 133, 0.35)",
+        stackgroup: "share",
+        hovertemplate: "<b>Injuries</b><br>%{x}: %{y:.1%}<extra></extra>",
+      },
     ],
     baseLayout({
-      yaxis: { title: "Share of global deaths", tickformat: ".0%" },
+      yaxis: { title: "Share of global deaths", tickformat: ".0%", range: [0, 1] },
     }),
     { responsive: true, displayModeBar: false, scrollZoom: false },
   );
@@ -1229,6 +1563,78 @@ function renderOptimizationBar() {
   );
 }
 
+function renderEquityChart() {
+  const equity = store.globalStory?.health_equity ?? [];
+  if (!equity.length) {
+    emptyPlot("companion-chart", "No health equity data is available.");
+    return;
+  }
+
+  Plotly.react(
+    "companion-chart",
+    [
+      {
+        x: equity.map((r) => r.year),
+        y: equity.map((r) => r.gini),
+        name: "Gini (Life Expectancy)",
+        mode: "lines+markers",
+        line: { color: THEME.cyan, width: 3, shape: "spline" },
+        marker: { size: 5, color: THEME.cyan },
+      },
+      {
+        x: equity.map((r) => r.year),
+        y: equity.map((r) => r.sigma),
+        name: "Sigma Convergence",
+        mode: "lines+markers",
+        yaxis: "y2",
+        line: { color: THEME.amber, width: 2.5, shape: "spline" },
+        marker: { size: 5, color: THEME.amber },
+      },
+    ],
+    baseLayout({
+      yaxis: { title: "Gini Coefficient" },
+      yaxis2: {
+        overlaying: "y",
+        side: "right",
+        title: "SD of log(LE)",
+        gridcolor: "rgba(0,0,0,0)",
+      },
+    }),
+    { responsive: true, displayModeBar: false, scrollZoom: false },
+  );
+}
+
+function renderChinaNationalTrend() {
+  const data = store.chinaDeepDive;
+  const metricKey = state.metric === "health_institutions" ? "health_institutions" : "health_personnel";
+  const series = data?.national_trend?.[metricKey] ?? [];
+
+  if (!series.length) {
+    emptyPlot("companion-chart", "No national aggregate data is available.");
+    return;
+  }
+
+  Plotly.react(
+    "companion-chart",
+    [
+      {
+        x: series.map((r) => r.year),
+        y: series.map((r) => r.value),
+        name: `China Total ${METRIC_META[metricKey].label}`,
+        mode: "lines+markers",
+        line: { color: "#f87171", width: 3, shape: "spline" },
+        marker: { size: 6, color: "#f87171" },
+        fill: "tozeroy",
+        fillcolor: "rgba(248, 113, 113, 0.08)",
+      },
+    ],
+    baseLayout({
+      yaxis: { title: METRIC_META[metricKey].label },
+    }),
+    { responsive: true, displayModeBar: false, scrollZoom: false },
+  );
+}
+
 function renderContextPanel() {
   if (state.dimension === "dim1") {
     document.getElementById("context-title").textContent = "Global Extremes & Structural Contrast";
@@ -1239,6 +1645,12 @@ function renderContextPanel() {
   if (state.dimension === "dim2") {
     document.getElementById("context-title").textContent = "Regional Priority Stack";
     renderDim2Context();
+    return;
+  }
+
+  if (state.dimension === "dim4") {
+    document.getElementById("context-title").textContent = "Provincial Analysis";
+    renderDim4Context();
     return;
   }
 
@@ -1346,6 +1758,44 @@ function renderDim3Context() {
   `;
 }
 
+function renderDim4Context() {
+  const data = store.chinaDeepDive;
+  if (!data) {
+    document.getElementById("context-panel").innerHTML = '<p class="empty-inline">No China data available.</p>';
+    return;
+  }
+
+  const metricKey = state.metric === "health_institutions" ? "health_institutions" : "health_personnel";
+  const ranking = data.rankings?.[metricKey] ?? [];
+  const top5 = ranking.slice(0, 5);
+  const bottom5 = ranking.slice(-5).reverse();
+
+  // Growth analysis
+  const growthList = (data.provinces ?? []).map((prov) => {
+    const series = data[metricKey]?.[prov] ?? [];
+    if (series.length < 2) return { province: prov, growth: 0 };
+    const first = series[0].value;
+    const last = series[series.length - 1].value;
+    return { province: prov, growth: first ? ((last - first) / first) * 100 : 0 };
+  }).sort((a, b) => b.growth - a.growth);
+  const fastGrowing = growthList.slice(0, 5);
+
+  document.getElementById("context-panel").innerHTML = renderContextColumns([
+    {
+      title: `Top 5 ${METRIC_META[metricKey].label}`,
+      items: top5.map((r) => ({ name: r.province, value: formatCompact(r.value) })),
+    },
+    {
+      title: `Bottom 5 ${METRIC_META[metricKey].label}`,
+      items: bottom5.map((r) => ({ name: r.province, value: formatCompact(r.value) })),
+    },
+    {
+      title: "Fastest Growing (Period)",
+      items: fastGrowing.map((r) => ({ name: r.province, value: `${r.growth.toFixed(1)}%` })),
+    },
+  ]);
+}
+
 function renderLabStat(label, value) {
   return `<article class="lab-stat"><span>${escapeHtml(label)}</span><strong>${escapeHtml(
     value ?? "N/A",
@@ -1405,7 +1855,13 @@ function renderSpotlightContent(iso3) {
   const scenarioRow = getScenarioRow(iso3);
 
   document.getElementById("spotlight-name").textContent = countryLabel(meta) || iso3;
-  document.getElementById("spotlight-flag-fallback").textContent = iso3;
+  const flagWrap = document.querySelector(".spotlight-flag-wrap");
+  const flagEmoji = iso3ToFlag(iso3);
+  if (flagEmoji) {
+    flagWrap.innerHTML = `<div class="spotlight-flag-emoji">${flagEmoji}</div>`;
+  } else {
+    flagWrap.innerHTML = `<div class="spotlight-flag-fallback">${escapeHtml(iso3)}</div>`;
+  }
   document.getElementById("spotlight-badges").innerHTML = [
     meta.who_region
       ? `<span class="spotlight-badge" data-type="region">${escapeHtml(meta.who_region)}</span>`
@@ -1559,6 +2015,52 @@ function closeSpotlightModal() {
 
   if (state.previousFocus && typeof state.previousFocus.focus === "function") {
     state.previousFocus.focus();
+  }
+}
+
+function toggleAnimation() {
+  if (state.animating) {
+    stopAnimation();
+  } else {
+    startAnimation();
+  }
+}
+
+function startAnimation() {
+  if (!store.availableYears.length) return;
+  state.animating = true;
+  document.getElementById("play-button").classList.add("is-playing");
+
+  const years = store.availableYears;
+  let idx = years.indexOf(state.year);
+  if (idx < 0 || idx >= years.length - 1) idx = 0;
+
+  state.animationTimer = setInterval(() => {
+    idx++;
+    if (idx >= years.length) {
+      stopAnimation();
+      return;
+    }
+    state.year = years[idx];
+    const slider = document.getElementById("year-slider");
+    slider.value = state.year;
+    document.getElementById("year-display").textContent = state.year;
+    renderMap();
+    updateMapKicker();
+  }, 600);
+}
+
+function stopAnimation() {
+  state.animating = false;
+  clearInterval(state.animationTimer);
+  state.animationTimer = null;
+  document.getElementById("play-button").classList.remove("is-playing");
+}
+
+function updateMapKicker() {
+  const kicker = document.getElementById("map-kicker");
+  if (state.dimension === "dim1" && store.availableYears.length) {
+    kicker.textContent = `Global Map \u00B7 ${state.year}`;
   }
 }
 
@@ -1805,6 +2307,37 @@ function escapeHtml(value) {
     .replaceAll(">", "&gt;")
     .replaceAll('"', "&quot;")
     .replaceAll("'", "&#39;");
+}
+
+function iso3ToFlag(iso3) {
+  const ISO3_TO_ISO2 = {
+    AFG:"AF",ALB:"AL",DZA:"DZ",AND:"AD",AGO:"AO",ATG:"AG",ARG:"AR",ARM:"AM",AUS:"AU",AUT:"AT",
+    AZE:"AZ",BHS:"BS",BHR:"BH",BGD:"BD",BRB:"BB",BLR:"BY",BEL:"BE",BLZ:"BZ",BEN:"BJ",BTN:"BT",
+    BOL:"BO",BIH:"BA",BWA:"BW",BRA:"BR",BRN:"BN",BGR:"BG",BFA:"BF",BDI:"BI",KHM:"KH",CMR:"CM",
+    CAN:"CA",CPV:"CV",CAF:"CF",TCD:"TD",CHL:"CL",CHN:"CN",COL:"CO",COM:"KM",COG:"CG",COD:"CD",
+    CRI:"CR",CIV:"CI",HRV:"HR",CUB:"CU",CYP:"CY",CZE:"CZ",DNK:"DK",DJI:"DJ",DMA:"DM",DOM:"DO",
+    ECU:"EC",EGY:"EG",SLV:"SV",GNQ:"GQ",ERI:"ER",EST:"EE",SWZ:"SZ",ETH:"ET",FJI:"FJ",FIN:"FI",
+    FRA:"FR",GAB:"GA",GMB:"GM",GEO:"GE",DEU:"DE",GHA:"GH",GRC:"GR",GRD:"GD",GTM:"GT",GIN:"GN",
+    GNB:"GW",GUY:"GY",HTI:"HT",HND:"HN",HUN:"HU",ISL:"IS",IND:"IN",IDN:"ID",IRN:"IR",IRQ:"IQ",
+    IRL:"IE",ISR:"IL",ITA:"IT",JAM:"JM",JPN:"JP",JOR:"JO",KAZ:"KZ",KEN:"KE",KIR:"KI",PRK:"KP",
+    KOR:"KR",KWT:"KW",KGZ:"KG",LAO:"LA",LVA:"LV",LBN:"LB",LSO:"LS",LBR:"LR",LBY:"LY",LTU:"LT",
+    LUX:"LU",MDG:"MG",MWI:"MW",MYS:"MY",MDV:"MV",MLI:"ML",MLT:"MT",MHL:"MH",MRT:"MR",MUS:"MU",
+    MEX:"MX",FSM:"FM",MDA:"MD",MCO:"MC",MNG:"MN",MNE:"ME",MAR:"MA",MOZ:"MZ",MMR:"MM",NAM:"NA",
+    NRU:"NR",NPL:"NP",NLD:"NL",NZL:"NZ",NIC:"NI",NER:"NE",NGA:"NG",MKD:"MK",NOR:"NO",OMN:"OM",
+    PAK:"PK",PLW:"PW",PAN:"PA",PNG:"PG",PRY:"PY",PER:"PE",PHL:"PH",POL:"PL",PRT:"PT",QAT:"QA",
+    ROU:"RO",RUS:"RU",RWA:"RW",KNA:"KN",LCA:"LC",VCT:"VC",WSM:"WS",STP:"ST",SAU:"SA",SEN:"SN",
+    SRB:"RS",SYC:"SC",SLE:"SL",SGP:"SG",SVK:"SK",SVN:"SI",SLB:"SB",SOM:"SO",ZAF:"ZA",SSD:"SS",
+    ESP:"ES",LKA:"LK",SDN:"SD",SUR:"SR",SWE:"SE",CHE:"CH",SYR:"SY",TWN:"TW",TJK:"TJ",TZA:"TZ",
+    THA:"TH",TLS:"TL",TGO:"TG",TON:"TO",TTO:"TT",TUN:"TN",TUR:"TR",TKM:"TM",TUV:"TV",UGA:"UG",
+    UKR:"UA",ARE:"AE",GBR:"GB",USA:"US",URY:"UY",UZB:"UZ",VUT:"VU",VEN:"VE",VNM:"VN",YEM:"YE",
+    ZMB:"ZM",ZWE:"ZW",PSE:"PS",XKX:"XK",COK:"CK",NIU:"NU",
+  };
+  if (!iso3 || iso3.length !== 3) return null;
+  const iso2 = ISO3_TO_ISO2[iso3.toUpperCase()];
+  if (!iso2) return null;
+  return String.fromCodePoint(
+    ...iso2.toUpperCase().split("").map((c) => 0x1f1e6 + c.charCodeAt(0) - 65)
+  );
 }
 
 function debounce(fn, wait) {

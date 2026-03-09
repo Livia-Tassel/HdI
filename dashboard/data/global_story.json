@@ -21975,5 +21975,175 @@
         ]
       }
     ]
-  }
+  },
+  "health_equity": [
+    {
+      "year": 2000,
+      "gini": 0.081614,
+      "theil": 0.011178,
+      "sigma": 0.157665,
+      "country_count": 195
+    },
+    {
+      "year": 2001,
+      "gini": 0.081467,
+      "theil": 0.011134,
+      "sigma": 0.157435,
+      "country_count": 195
+    },
+    {
+      "year": 2002,
+      "gini": 0.080414,
+      "theil": 0.010813,
+      "sigma": 0.154888,
+      "country_count": 195
+    },
+    {
+      "year": 2003,
+      "gini": 0.078924,
+      "theil": 0.01045,
+      "sigma": 0.152346,
+      "country_count": 195
+    },
+    {
+      "year": 2004,
+      "gini": 0.078351,
+      "theil": 0.010232,
+      "sigma": 0.150546,
+      "country_count": 195
+    },
+    {
+      "year": 2005,
+      "gini": 0.076695,
+      "theil": 0.009833,
+      "sigma": 0.147638,
+      "country_count": 195
+    },
+    {
+      "year": 2006,
+      "gini": 0.075077,
+      "theil": 0.009395,
+      "sigma": 0.144143,
+      "country_count": 195
+    },
+    {
+      "year": 2007,
+      "gini": 0.073556,
+      "theil": 0.009001,
+      "sigma": 0.140925,
+      "country_count": 195
+    },
+    {
+      "year": 2008,
+      "gini": 0.072514,
+      "theil": 0.008715,
+      "sigma": 0.138429,
+      "country_count": 194
+    },
+    {
+      "year": 2009,
+      "gini": 0.07063,
+      "theil": 0.008248,
+      "sigma": 0.134474,
+      "country_count": 194
+    },
+    {
+      "year": 2010,
+      "gini": 0.070126,
+      "theil": 0.008146,
+      "sigma": 0.13363,
+      "country_count": 194
+    },
+    {
+      "year": 2011,
+      "gini": 0.067838,
+      "theil": 0.007478,
+      "sigma": 0.127177,
+      "country_count": 194
+    },
+    {
+      "year": 2012,
+      "gini": 0.066011,
+      "theil": 0.007031,
+      "sigma": 0.122947,
+      "country_count": 194
+    },
+    {
+      "year": 2013,
+      "gini": 0.064829,
+      "theil": 0.006739,
+      "sigma": 0.120089,
+      "country_count": 194
+    },
+    {
+      "year": 2014,
+      "gini": 0.064087,
+      "theil": 0.006561,
+      "sigma": 0.118319,
+      "country_count": 194
+    },
+    {
+      "year": 2015,
+      "gini": 0.062369,
+      "theil": 0.006186,
+      "sigma": 0.114644,
+      "country_count": 194
+    },
+    {
+      "year": 2016,
+      "gini": 0.061106,
+      "theil": 0.005921,
+      "sigma": 0.112011,
+      "country_count": 194
+    },
+    {
+      "year": 2017,
+      "gini": 0.059996,
+      "theil": 0.005711,
+      "sigma": 0.109958,
+      "country_count": 194
+    },
+    {
+      "year": 2018,
+      "gini": 0.058913,
+      "theil": 0.005501,
+      "sigma": 0.107798,
+      "country_count": 194
+    },
+    {
+      "year": 2019,
+      "gini": 0.058286,
+      "theil": 0.005368,
+      "sigma": 0.106355,
+      "country_count": 194
+    },
+    {
+      "year": 2020,
+      "gini": 0.058283,
+      "theil": 0.005342,
+      "sigma": 0.105888,
+      "country_count": 194
+    },
+    {
+      "year": 2021,
+      "gini": 0.060104,
+      "theil": 0.005667,
+      "sigma": 0.108823,
+      "country_count": 194
+    },
+    {
+      "year": 2022,
+      "gini": 0.060043,
+      "theil": 0.005674,
+      "sigma": 0.109287,
+      "country_count": 194
+    },
+    {
+      "year": 2023,
+      "gini": 0.060043,
+      "theil": 0.005674,
+      "sigma": 0.109287,
+      "country_count": 194
+    }
+  ]
 }

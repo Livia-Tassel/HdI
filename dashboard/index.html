@@ -23,6 +23,7 @@
           <button class="dimension-chip is-active" data-dimension="dim1">Disease Spectrum</button>
           <button class="dimension-chip" data-dimension="dim2">Risk Attribution</button>
           <button class="dimension-chip" data-dimension="dim3">Optimization Lab</button>
+          <button class="dimension-chip dim4-chip" data-dimension="dim4">China Focus</button>
         </div>
         <div class="control-cluster">
           <label class="control-field">
@@ -47,6 +48,14 @@
             <datalist id="country-list"></datalist>
           </label>
           <button class="jump-button" id="country-jump" type="button">Locate</button>
+        </div>
+        <div class="year-slider-group" id="year-slider-group" style="display:none">
+          <button class="play-button" id="play-button" type="button" aria-label="Play animation">
+            <svg class="play-icon" width="14" height="14" viewBox="0 0 14 14" fill="currentColor"><polygon points="2,0 14,7 2,14"/></svg>
+            <svg class="pause-icon" width="14" height="14" viewBox="0 0 14 14" fill="currentColor" style="display:none"><rect x="1" y="0" width="4" height="14"/><rect x="9" y="0" width="4" height="14"/></svg>
+          </button>
+          <input type="range" id="year-slider" class="year-slider" min="2000" max="2023" value="2023" step="1" />
+          <span class="year-display" id="year-display">2023</span>
         </div>
         <p class="control-note" id="control-note">
           Static dashboard built from competition analysis artifacts.

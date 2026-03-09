@@ -9,10 +9,11 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
+import numpy as np
 import pandas as pd
 
 from hdi.config import API_OUTPUT, DASHBOARD_DATA, REPORTS
-from hdi.data.loaders import load_master_panel, load_risk_attribution_long
+from hdi.data.loaders import load_china_panel, load_master_panel, load_risk_attribution_long
 
 logger = logging.getLogger(__name__)
 
@@ -260,11 +261,164 @@ def _extract_optimization_lab(payload: Any) -> dict[str, Any]:
     }
 
 
+_PROVINCE_EN = {
+    "北京市": "Beijing",
+    "天津市": "Tianjin",
+    "河北省": "Hebei",
+    "山西省": "Shanxi",
+    "内蒙古自治区": "Inner Mongolia",
+    "辽宁省": "Liaoning",
+    "吉林省": "Jilin",
+    "黑龙江省": "Heilongjiang",
+    "上海市": "Shanghai",
+    "江苏省": "Jiangsu",
+    "浙江省": "Zhejiang",
+    "安徽省": "Anhui",
+    "福建省": "Fujian",
+    "江西省": "Jiangxi",
+    "山东省": "Shandong",
+    "河南省": "Henan",
+    "湖北省": "Hubei",
+    "湖南省": "Hunan",
+    "广东省": "Guangdong",
+    "广西壮族自治区": "Guangxi",
+    "海南省": "Hainan",
+    "重庆市": "Chongqing",
+    "四川省": "Sichuan",
+    "贵州省": "Guizhou",
+    "云南省": "Yunnan",
+    "西藏自治区": "Tibet",
+    "陕西省": "Shaanxi",
+    "甘肃省": "Gansu",
+    "青海省": "Qinghai",
+    "宁夏回族自治区": "Ningxia",
+    "新疆维吾尔自治区": "Xinjiang",
+    "全国": "China",
+}
+
+
+def _build_overview_timeseries(master: pd.DataFrame) -> dict[str, Any]:
+    """Build per-year dim1 metrics for all countries (2000-2023)."""
+    cols = ["iso3", "country_name", "who_region", "wb_income", "year",
+            "life_expectancy", "ncd_share", "communicable_share", "health_exp_pct_gdp"]
+    subset = master[cols].dropna(subset=["life_expectancy"]).copy()
+    years = sorted(subset["year"].unique().tolist())
+    by_year: dict[str, list[dict[str, Any]]] = {}
+    for year in years:
+        year_df = subset[subset["year"] == year]
+        by_year[str(int(year))] = _records(year_df[cols])
+    return {"years": [int(y) for y in years], "by_year": by_year}
+
+
+def _build_china_deep_dive(china: pd.DataFrame) -> dict[str, Any]:
+    """Build China provincial data payload for the dashboard."""
+    china = china.copy()
+    china["province_en"] = china["province"].map(_PROVINCE_EN).fillna(china["province"])
+
+    # Separate national aggregate
+    national = china[china["province"] == "全国"]
+    provinces_df = china[china["province"] != "全国"]
+
+    province_list = sorted(provinces_df["province_en"].unique().tolist())
+
+    staff = provinces_df[provinces_df["indicator"] == "各省近20年卫生人员数量"]
+    inst = provinces_df[provinces_df["indicator"] == "近20年各省医疗卫生机构数量"]
+
+    def _build_series(df: pd.DataFrame) -> dict[str, list[dict[str, Any]]]:
+        result: dict[str, list[dict[str, Any]]] = {}
+        for prov, grp in df.groupby("province_en"):
+            grp = grp.sort_values("year")
+            result[str(prov)] = [
+                {"year": int(r["year"]), "value": _normalize_value(r["value"])}
+                for _, r in grp.iterrows()
+            ]
+        return result
+
+    staff_series = _build_series(staff)
+    inst_series = _build_series(inst)
+
+    # Latest year rankings
+    latest_year = int(provinces_df["year"].max()) if not provinces_df.empty else 0
+    latest_staff = staff[staff["year"] == latest_year].sort_values("value", ascending=False)
+    latest_inst = inst[inst["year"] == latest_year].sort_values("value", ascending=False)
+
+    staff_ranking = [
+        {"province": str(r["province_en"]), "value": _normalize_value(r["value"])}
+        for _, r in latest_staff.iterrows()
+    ]
+    inst_ranking = [
+        {"province": str(r["province_en"]), "value": _normalize_value(r["value"])}
+        for _, r in latest_inst.iterrows()
+    ]
+
+    # National aggregate trend
+    nat_staff = national[national["indicator"] == "各省近20年卫生人员数量"].sort_values("year")
+    nat_inst = national[national["indicator"] == "近20年各省医疗卫生机构数量"].sort_values("year")
+    national_trend = {
+        "health_personnel": [
+            {"year": int(r["year"]), "value": _normalize_value(r["value"])}
+            for _, r in nat_staff.iterrows()
+        ],
+        "health_institutions": [
+            {"year": int(r["year"]), "value": _normalize_value(r["value"])}
+            for _, r in nat_inst.iterrows()
+        ],
+    }
+
+    return {
+        "latest_year": latest_year,
+        "provinces": province_list,
+        "health_personnel": staff_series,
+        "health_institutions": inst_series,
+        "rankings": {
+            "health_personnel": staff_ranking,
+            "health_institutions": inst_ranking,
+        },
+        "national_trend": national_trend,
+    }
+
+
+def _build_equity_data(master: pd.DataFrame) -> dict[str, Any]:
+    """Compute per-year health equity metrics across countries."""
+    years = sorted(master["year"].unique())
+    records = []
+    for year in years:
+        snapshot = master[master["year"] == year]["life_expectancy"].dropna()
+        if len(snapshot) < 5:
+            continue
+        values = snapshot.values.astype(float)
+        n = len(values)
+
+        # Gini coefficient
+        sorted_vals = np.sort(values)
+        index_arr = np.arange(1, n + 1)
+        gini = float((2 * np.sum(index_arr * sorted_vals) - (n + 1) * np.sum(sorted_vals)) / (n * np.sum(sorted_vals)))
+
+        # Theil index (GE(1))
+        mu = values.mean()
+        ratios = values / mu
+        theil = float(np.mean(ratios * np.log(np.clip(ratios, 1e-10, None))))
+
+        # Sigma convergence (SD of log life expectancy)
+        log_vals = np.log(np.clip(values, 1e-10, None))
+        sigma = float(np.std(log_vals, ddof=1))
+
+        records.append({
+            "year": int(year),
+            "gini": round(gini, 6),
+            "theil": round(theil, 6),
+            "sigma": round(sigma, 6),
+            "country_count": n,
+        })
+    return {"health_equity": records}
+
+
 def build_dashboard_assets() -> dict[str, Any]:
     _ensure_dirs()
 
     master = load_master_panel()
     risk = load_risk_attribution_long()
+    china = load_china_panel()
 
     latest_year = int(master["year"].max())
     overview_latest = master[master["year"] == latest_year].copy()
@@ -484,6 +638,7 @@ def build_dashboard_assets() -> dict[str, Any]:
             "scenario_options": optimization_lab["scenario_options"],
             "scenarios": optimization_lab["scenarios"],
         },
+        **_build_equity_data(master),
     }
 
     country_profiles: dict[str, Any] = {}
@@ -548,6 +703,8 @@ def build_dashboard_assets() -> dict[str, Any]:
         "risk_latest.json": risk_latest_payload,
         "global_story.json": global_story,
         "country_profiles.json": country_profiles,
+        "overview_timeseries.json": _build_overview_timeseries(master),
+        "china_deep_dive.json": _build_china_deep_dive(china),
     }
     for filename, payload in payloads.items():
         _write_json(payload, DASHBOARD_DATA / filename)

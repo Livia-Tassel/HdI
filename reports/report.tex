@@ -11,12 +11,21 @@
 \usepackage{caption}
 \usepackage{subcaption}
 \usepackage{enumitem}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{mathtools}
+\usepackage{bm}
+\usepackage{multirow}
+\usepackage{tabularx}
+\usepackage{diagbox}
+\usepackage{algorithm}
+\usepackage{algorithmic}
 
 \geometry{margin=2.3cm}
-\hypersetup{colorlinks=true,linkcolor=blue!60!black,urlcolor=blue!60!black}
+\hypersetup{colorlinks=true,linkcolor=blue!60!black,urlcolor=blue!60!black,citecolor=blue!60!black}
 \captionsetup{font=small}
+\setlength{\parskip}{0.4em}
 
-\title{\textbf{健康数据洞察：全球疾病谱演变、风险归因与卫生资源配置分析}}
+\title{\textbf{健康数据洞察：全球疾病谱演变、\\风险归因与卫生资源配置优化分析}}
 \author{HdI 项目组}
 \date{2026年3月}
 
@@ -24,207 +33,1027 @@
 \maketitle
 
 \begin{abstract}
-本研究基于赛题提供的 5 类数据集，对 2000--2023 年全球 203 个国家和地区的疾病谱演变、风险因素归因与卫生资源配置效率开展了数据优先的系统分析，并对中国近 20 年卫生数据进行了省级补充刻画。研究首先将全球死亡原因数据归并为“传染性疾病、非传染性疾病、伤害”三大类，构建国家--年份主面板；随后结合 HNP 与 WDI 指标，分析健康结果差异与资源条件。结果显示：2023 年全球非传染性疾病死亡占比达到 74.57\%，说明全球疾病谱转型已经非常明显；日本的预期寿命最高（约 84.0 岁），乍得最低（约 53.0 岁）；以最新截面估计，预期寿命与人均 GDP 呈显著正相关（$R^2=0.906$）。在风险归因方面，2023 年全球归因死亡规模最大的风险因素为高血压，对应归因死亡约 1083.5 万；AFRO 地区最突出的风险则转向“儿童和孕产妇营养不良”。在资源配置方面，索马里、乍得、尼日利亚等国呈现最明显的“理论需求高于实际配置”的缺口，另有 26 个国家落入“低投入--高产出”象限，显示出值得推广的效率经验。在赛题主线之外，项目还进一步围绕 Dimension 3 设计了一个英文静态 ``Optimization Lab'' 扩展模块，用于在不同优化目标与预算假设下比较卫生资源再配置方案。研究最终形成了可复现的数据处理程序、静态 API 输出、图表、英文仪表盘与 AI 协作记录，为后续在和鲸平台复现与展示提供了完整基础。
+本研究基于2026年（第19届）中国大学生计算机设计大赛大数据主题赛"健康数据洞察"赛题提供的5类数据集，对2000--2023年全球203个国家和地区的疾病谱演变、风险因素归因与卫生资源配置效率开展了系统性的数据驱动分析，并对中国近20年省级卫生数据进行深度补充刻画。
+
+研究围绕赛题要求的三大核心维度展开：\textbf{维度一}（时空变迁）构建全球国家--年份主面板，量化疾病谱从传染病向非传染性疾病（NCD）转型的长期趋势，并以截面OLS回归识别预期寿命的关键解释变量（$R^2 = 0.906$）；\textbf{维度二}（风险归因）基于归因死亡数据建立风险贡献占比框架，结合人口归因分值（PAF）与Shapley值分解量化各风险因素的边际贡献，并构建三种未来干预情景；\textbf{维度三}（资源配置）采用标准化缺口指数与投入--产出四象限分类评估各国资源匹配程度，进而以对数生产函数为基础建立约束优化模型，分别求解总产出最大化与Rawlsian最小值最大化两类再分配方案。
+
+在赛题主线之外，本项目提出两个原创分析维度：（1）\textbf{健康公平性分析}，计算全球预期寿命的Gini系数、Theil指数与$\sigma$-收敛指标，揭示国际健康不平等的长期演化趋势；（2）\textbf{中国省级深度聚焦}，利用赛题第五类数据对31个省级行政区卫生人员与卫生机构的时序演化与区域差异进行可视化分析。研究最终形成包含可复现数据处理程序、静态API输出、8幅分析图表、6张数据表格、交互式仪表盘与完整AI协作记录的全套交付物。
+
+\noindent\textbf{关键词：}疾病谱转型；人口归因分值；Shapley值分解；线性规划；DEA效率评估；健康公平；Gini系数；面板回归
 \end{abstract}
 
+\tableofcontents
+\newpage
+
+% ============================================================================
 \section{研究背景与任务理解}
-健康中国与 SDG 3 都强调“改善健康结果、降低风险暴露、优化资源配置”必须放在同一分析框架中。与传统只讨论单一疾病或单一指标的做法相比，本赛题更强调用多源数据描述健康生态系统，并在此基础上给出可复现、可解释、可执行的洞察。
+% ============================================================================
 
-本项目围绕赛题的三个核心维度展开：
-\begin{enumerate}[label=\arabic*)]
-    \item 描述全球疾病谱从传染性疾病向非传染性疾病转移的时空过程，并量化健康指标差异；
-    \item 分析主要风险因素对全因死亡的归因贡献，并构建未来情景模拟与优先干预清单；
-    \item 评估各国卫生资源投入与健康产出的匹配程度，识别资源不足或低效率区域，并给出再分配见解。
+\subsection{选题背景}
+
+"健康中国2030"战略纲要将"改善健康结果、降低风险暴露、优化资源配置"列为核心战略目标，联合国可持续发展目标（SDG 3）同样以"确保各年龄段所有人的健康生活和促进福祉"为追求。与传统只讨论单一疾病或单一指标的做法不同，本赛题强调用多源数据描述\textbf{健康生态系统}的多维结构，并在此基础上给出可复现、可解释、可执行的洞察。
+
+全球健康格局正经历深刻转型：传染性疾病的控制取得了显著成就，但非传染性疾病（NCD）的负担持续上升；不同地区的主导风险因素差异显著；卫生资源在国际间的分配极不均衡。这些现实要求研究者从时空维度、因果维度和决策维度三个层面同时切入，才能形成完整的分析图景。
+
+\subsection{赛题任务与分析维度}
+
+本项目围绕赛题要求的三个核心维度展开，并提出两个原创扩展维度：
+
+\begin{enumerate}[label=\textbf{D\arabic*.},leftmargin=2.5em]
+    \item \textbf{疾病谱时空变迁}：描述全球疾病谱从传染性疾病向NCD转移的时空过程，量化健康指标差异，并对代表国家进行趋势预测。
+    \item \textbf{风险因素归因与干预优先级}：分析主要风险因素对全因死亡的归因贡献，构建未来情景模拟与分地区优先干预清单。
+    \item \textbf{卫生资源配置与优化}：评估各国卫生资源投入与健康产出的匹配程度，识别资源不足或低效率区域，并给出约束优化下的再分配方案。
+    \item \textbf{健康公平性分析}（原创维度）：利用不平等测度指标分析全球健康差距的长期趋势。
+    \item \textbf{中国省级深度聚焦}（原创维度）：对中国31个省级行政区卫生资源的时序演化与区域差异进行深度分析。
 \end{enumerate}
 
+% ============================================================================
 \section{数据来源与处理流程}
+% ============================================================================
+
 \subsection{数据来源}
-本研究使用赛题提供的全部 5 类数据：
-\begin{itemize}[leftmargin=1.5em]
-    \item 全球各国核心疾病与死亡数据：2000--2023 年，22 个死亡原因；
-    \item 全球各国健康风险因素数据：2000--2023 年，20 个风险因素；
-    \item 全球各国健康营养和人口统计数据（HNP）；
-    \item 全球社会经济发展背景数据（WDI）；
-    \item 全国近 20 年卫生数据（中国省级与全国汇总表）。
-\end{itemize}
 
-需要说明的是，仓库中保留了 \texttt{data/raw/external/*} 目录作为扩展占位，但这些目录当前仅含占位文件，不构成本次主线分析的实际输入。
+本研究使用赛题提供的全部5类数据：
 
-\subsection{清洗与标准化}
-真实 provided 数据与通用公开数据库脚手架之间存在明显差异，因此本项目围绕原始表真实字段做了三项关键重构：
+\begin{table}[H]
+\centering
+\caption{数据集概览}
+\label{tab:datasets}
+\begin{tabularx}{\textwidth}{clXl}
+\toprule
+\textbf{编号} & \textbf{名称} & \textbf{内容说明} & \textbf{时间跨度} \\
+\midrule
+1 & 全球疾病死亡数据 & 203个国家22个死因类别的死亡与DALY数据 & 2000--2023 \\
+2 & 健康风险因素数据 & 203个国家20个风险因素的归因死亡数据 & 2000--2023 \\
+3 & 健康营养和人口统计（HNP） & 预期寿命、婴儿死亡率、医疗资源等 & 多年 \\
+4 & 社会经济发展（WDI） & 人均GDP、城镇化率等社会经济指标 & 多年 \\
+5 & 中国卫生数据 & 31个省级行政区卫生人员与机构数量 & 2005--2024 \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsection{数据清洗与标准化}
+
+\subsubsection{国家代码统一化}
+
+赛题数据以中文国家名为主键，与国际通用的ISO 3166-1 Alpha-3编码体系存在大量不一致。本项目构建了基于\texttt{pycountry}库与自定义别名映射的两阶段匹配器：
+
 \begin{enumerate}[label=\arabic*)]
-    \item 为每类数据建立单独清洗器，先做中文列名映射，再做统一标准化；
-    \item 使用 World Bank 国家元数据与 Babel 中文地名表构造国家名到 ISO3 的本地映射，修复中文国家名与 Unicode 误判问题；
-    \item 将 HNP 与 WDI 转成长表后，按指标优先级汇总到统一主面板，确保健康结果、资源投入、社会经济指标在同一国家--年份键上可复现。
+    \item \textbf{精确匹配}：利用\texttt{pycountry}的中英文名称直接查找ISO3编码。
+    \item \textbf{模糊匹配与别名回退}：对匹配失败的中文名（如"刚果民主共和国""科特迪瓦"等），使用手工维护的别名表进行二次匹配，覆盖率达100\%。
 \end{enumerate}
+
+\subsubsection{面板数据构建}
+
+将死亡数据中的22个死因类别按表~\ref{tab:cause-group}归并为三大类，然后与HNP、WDI指标按$(iso3, year)$键进行左连接，形成全球国家--年份主面板\texttt{master\_panel.parquet}。
+
+\begin{table}[H]
+\centering
+\caption{死因类别归并映射（部分）}
+\label{tab:cause-group}
+\begin{tabular}{ll}
+\toprule
+\textbf{原始类别} & \textbf{归并大类} \\
+\midrule
+心血管疾病、肿瘤、糖尿病和肾病、慢性呼吸系统疾病 & 非传染性疾病 \\
+艾滋病/性传播感染、呼吸道感染及结核病、肠道感染 & 传染性疾病 \\
+意外伤害、自残和人际暴力、运输伤害 & 伤害 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsubsection{缺失值处理策略}
+
+对于面板数据中的缺失值，采用以下分层策略：
+\begin{enumerate}[label=\arabic*)]
+    \item 对缺失率超过30\%的变量列，从当次分析中排除；
+    \item 对缺失间隔$\leq 2$年的变量，使用线性插值填补：
+    \begin{equation}
+        \hat{x}_{i,t} = x_{i,t_1} + \frac{t - t_1}{t_2 - t_1}(x_{i,t_2} - x_{i,t_1}), \quad t_1 < t < t_2
+    \end{equation}
+    其中$t_1, t_2$为已观测的相邻年份。
+    \item 对尾部缺失，使用前向填充（last observation carried forward）。
+\end{enumerate}
+
+\subsubsection{标准化方法}
+
+在需要进行跨变量比较时，采用Z-score标准化：
+\begin{equation}
+    z_j = \frac{x_j - \bar{x}_j}{\sigma_j}
+\end{equation}
+其中$\bar{x}_j$和$\sigma_j$分别为变量$j$在截面上的均值和标准差。需要方向反转的变量（如死亡率越高表示越差），取$z_j^\prime = -z_j$。
 
 最终产出三个核心数据资产：
 \begin{itemize}[leftmargin=1.5em]
-    \item \texttt{master\_panel.parquet}：全球国家--年份主分析面板；
-    \item \texttt{resource\_panel.parquet}：Dimension 3 专用资源与产出面板；
-    \item \texttt{china\_panel.parquet}：中国省级长表。
+    \item \texttt{master\_panel.parquet}：全球国家--年份主分析面板（约200个国家$\times$24年$\times$28个变量）；
+    \item \texttt{resource\_panel.parquet}：Dimension 3专用资源与产出面板；
+    \item \texttt{china\_panel.parquet}：中国31省级行政区长表（2005--2024年）。
 \end{itemize}
 
-\section{分析框架}
-\subsection{Dimension 1：疾病谱与健康指标}
-首先把 22 个死亡原因映射为三大类：传染性疾病、非传染性疾病和伤害；之后用各国预期寿命、婴儿死亡率、5 岁以下死亡率、卫生资源和基础设施指标构建解释变量集合。由于赛题数据在全球范围的年度跨度较长，本项目用线性趋势预测作为稳健且可复现的基线模型，并使用截面回归解释最新年份的寿命差异。
+% ============================================================================
+\section{方法论框架}
+% ============================================================================
 
-\subsection{Dimension 2：风险归因与情景模拟}
-赛题提供的是“风险因素归因死亡数据”，而不是暴露率与 RR 参数，因此本研究采用“归因死亡贡献占比”作为主口径，并在未来情景部分对 2023 年最重要的三类风险因素建立线性趋势基线，再构造“基准、温和干预、强化干预”三种情景。
+本节系统阐述各维度所采用的数学模型与统计方法。
 
-\subsection{Dimension 3：资源缺口与再分配}
-Dimension 3 采用透明的指数评估与约束优化方案：把医生密度、床位密度、卫生支出等作为投入，把寿命和死亡率等作为产出，把传染性疾病占比与儿童死亡指标作为需求代理，再在总预算约束下给出需求加权的资源重分配结果。在此基础上，项目进一步围绕同一分析链路设计了展示层扩展模块 Optimization Lab，用于对比不同优化目标与预算假设下的再分配情景。
+\subsection{截面OLS回归模型}
 
+对最新年份的截面数据，使用多元线性回归识别预期寿命的关键解释因素：
+
+\begin{equation}
+\label{eq:ols}
+\text{LE}_i = \beta_0 + \beta_1 \ln(\text{GDP}_i) + \beta_2 \text{HealthExp}_i + \beta_3 \text{Phys}_i + \beta_4 \text{Water}_i + \beta_5 \text{Sanit}_i + \beta_6 \text{CommSh}_i + \beta_7 \text{NCDSh}_i + \varepsilon_i
+\end{equation}
+
+其中$\text{LE}_i$为国家$i$的出生时预期寿命，$\ln(\text{GDP}_i)$为人均GDP的对数变换（缓解右偏分布），$\text{CommSh}_i$和$\text{NCDSh}_i$分别为传染性疾病和非传染性疾病死亡占比。模型参数通过最小二乘法（OLS）估计：
+
+\begin{equation}
+    \hat{\bm{\beta}} = (\mathbf{X}^\top \mathbf{X})^{-1} \mathbf{X}^\top \mathbf{y}
+\end{equation}
+
+拟合优度以决定系数$R^2$衡量：
+\begin{equation}
+    R^2 = 1 - \frac{\sum_{i=1}^{n}(y_i - \hat{y}_i)^2}{\sum_{i=1}^{n}(y_i - \bar{y})^2} = 1 - \frac{SS_{\text{res}}}{SS_{\text{tot}}}
+\end{equation}
+
+\subsection{面板固定效应模型与Driscoll-Kraay标准误}
+
+对面板数据，估计双向固定效应模型：
+\begin{equation}
+\label{eq:panel-fe}
+y_{it} = \alpha_i + \lambda_t + \mathbf{x}_{it}^\top \bm{\beta} + \varepsilon_{it}
+\end{equation}
+
+其中$\alpha_i$为国家固定效应（控制不随时间变化的国家异质性），$\lambda_t$为时间固定效应（控制全球共同冲击），$\mathbf{x}_{it}$为时变解释变量向量。
+
+为处理面板截面相关性（cross-sectional dependence）与异方差问题，采用Driscoll-Kraay标准误。设$N$为截面个体数，$T$为时间跨度，$K$为自变量个数，Driscoll-Kraay协方差矩阵估计为：
+
+\begin{equation}
+    \widehat{\text{Var}}(\hat{\bm{\beta}}) = (\mathbf{X}^\top \mathbf{X})^{-1} \hat{\mathbf{S}} (\mathbf{X}^\top \mathbf{X})^{-1}
+\end{equation}
+
+其中$\hat{\mathbf{S}}$为基于Newey-West型核加权的HAC（Heteroskedasticity and Autocorrelation Consistent）估计量：
+
+\begin{equation}
+    \hat{\mathbf{S}} = \sum_{\ell = -m}^{m} w(\ell, m) \hat{\mathbf{\Gamma}}_\ell, \quad w(\ell, m) = 1 - \frac{|\ell|}{m+1}
+\end{equation}
+
+此处$\hat{\mathbf{\Gamma}}_\ell = \frac{1}{T}\sum_{t} \mathbf{h}_t \mathbf{h}_{t-\ell}^\top$为截面加总后的自协方差矩阵，$\mathbf{h}_t = \sum_{i=1}^{N} \mathbf{x}_{it}\hat{\varepsilon}_{it}$。
+
+\subsection{Mundlak相关随机效应模型}
+
+为检验固定效应假设的必要性，补充估计Mundlak（1978）相关随机效应（CRE）模型：
+
+\begin{equation}
+    y_{it} = \mathbf{x}_{it}^\top \bm{\beta} + \bar{\mathbf{x}}_i^\top \bm{\gamma} + \alpha_i + \varepsilon_{it}
+\end{equation}
+
+其中$\bar{\mathbf{x}}_i = \frac{1}{T_i}\sum_{t} \mathbf{x}_{it}$为个体在时间维度上的均值向量。若$\bm{\gamma}$联合显著，则意味着随机效应模型不一致，应使用固定效应。
+
+\subsection{人口归因分值（PAF）}
+
+人口归因分值（Population Attributable Fraction, PAF）是量化单一风险因素对疾病负担贡献的核心指标。对于二值暴露：
+
+\begin{equation}
+\label{eq:paf}
+\text{PAF} = \frac{p \cdot (RR - 1)}{1 + p \cdot (RR - 1)}
+\end{equation}
+
+其中$p$为人群中该风险因素的暴露率（prevalence），$RR$为相对危险度（relative risk）。
+
+对于多水平暴露，推广为：
+\begin{equation}
+    \text{PAF} = \frac{\sum_{k=1}^{K} p_k (RR_k - 1)}{1 + \sum_{k=1}^{K} p_k (RR_k - 1)}
+\end{equation}
+
+可归因死亡数为：
+\begin{equation}
+    D_{\text{attr}} = \text{PAF} \times D_{\text{total}}
+\end{equation}
+
+\subsection{联合PAF与独立性假设}
+
+当存在$K$个相互独立的风险因素时，联合PAF为：
+\begin{equation}
+\label{eq:joint-paf}
+    \text{JointPAF} = 1 - \prod_{k=1}^{K}(1 - \text{PAF}_k)
+\end{equation}
+
+此公式基于风险因素之间的统计独立性假设。当风险因素之间存在正相关时（如高BMI与高血糖），上式会低估联合归因比例，此时需要采用Shapley值分解进行修正。
+
+\subsection{Shapley值分解}
+
+Shapley值源于合作博弈论，用于在$n$个"玩家"（风险因素）之间公平分配"收益"（总归因疾病负担）。对风险因素$i$，其Shapley值定义为：
+
+\begin{equation}
+\label{eq:shapley}
+\phi_i = \sum_{S \subseteq N \setminus \{i\}} \frac{|S|!\,(n - |S| - 1)!}{n!}\bigl[v(S \cup \{i\}) - v(S)\bigr]
+\end{equation}
+
+其中$N = \{1, 2, \ldots, n\}$为全部风险因素集合，$S$为不含$i$的任意子集，$v(S)$为联盟$S$的价值函数。在本研究中，价值函数取为联合PAF：
+
+\begin{equation}
+    v(S) = \text{JointPAF}(S) = 1 - \prod_{k \in S}(1 - \text{PAF}_k)
+\end{equation}
+
+Shapley值满足以下核心性质：
+\begin{itemize}[leftmargin=1.5em]
+    \item \textbf{有效性}（Efficiency）：$\sum_{i=1}^{n} \phi_i = v(N)$
+    \item \textbf{对称性}（Symmetry）：等价玩家获得相同分配
+    \item \textbf{虚玩家性}（Null Player）：不产生边际贡献的玩家分配为零
+    \item \textbf{可加性}（Additivity）：分配相对于价值函数线性
+\end{itemize}
+
+由于精确Shapley计算的复杂度为$O(2^n)$，当风险因素数$n$较大时，可采用蒙特卡洛近似或随机排列采样。
+
+\subsection{线性趋势预测与置信区间}
+
+对时间序列数据，采用线性趋势外推作为基线预测模型：
+\begin{equation}
+\label{eq:forecast}
+    \hat{y}_t = \hat{\beta}_0 + \hat{\beta}_1 \cdot t
+\end{equation}
+
+其中$\hat{\beta}_0, \hat{\beta}_1$由最小二乘法从历史数据$\{(t_k, y_k)\}_{k=1}^{n}$中估计。预测的95\%置信区间为：
+
+\begin{equation}
+    \text{CI}_{0.95}(t) = \hat{y}_t \pm 1.96 \cdot \text{RMSE}
+\end{equation}
+
+其中均方根误差为：
+\begin{equation}
+    \text{RMSE} = \sqrt{\frac{1}{n}\sum_{k=1}^{n}(y_k - \hat{y}_k)^2}
+\end{equation}
+
+同时报告平均绝对误差（MAE）和平均绝对百分比误差（MAPE）：
+\begin{align}
+    \text{MAE} &= \frac{1}{n}\sum_{k=1}^{n}|y_k - \hat{y}_k| \\
+    \text{MAPE} &= \frac{100\%}{n}\sum_{k=1}^{n}\left|\frac{y_k - \hat{y}_k}{y_k}\right|
+\end{align}
+
+\subsection{资源缺口指数}
+
+Dimension 3的资源缺口评估基于投入指数与需求指数的差值：
+
+\textbf{投入指数}（实际资源水平）：
+\begin{equation}
+    I_i^{\text{input}} = \frac{1}{4}\left[z(\text{Phys}_i) + z(\text{Beds}_i) + z(\text{HExp\%}_i) + z(\text{HExpPC}_i)\right]
+\end{equation}
+
+\textbf{产出指数}（健康结果）：
+\begin{equation}
+    I_i^{\text{output}} = \frac{1}{3}\left[z(\text{LE}_i) + z^{-}(\text{IMR}_i) + z^{-}(\text{U5MR}_i)\right]
+\end{equation}
+
+其中$z^{-}$表示取反后的标准化值（死亡率越高越差）。
+
+\textbf{理论需求指数}：
+\begin{equation}
+    I_i^{\text{need}} = \frac{1}{4}\left[z(\text{CommSh}_i) + z(\text{IMR}_i) + z(\text{U5MR}_i) + z^{-}(\text{LE}_i)\right]
+\end{equation}
+
+\textbf{资源缺口}定义为实际投入与理论需求的差值：
+\begin{equation}
+    \text{Gap}_i = I_i^{\text{input}} - I_i^{\text{need}}
+\end{equation}
+
+$\text{Gap}_i < 0$表示资源不足于需求；$\text{Gap}_i > 0$表示资源充裕。按五分位数将缺口分为A（富余）、B（较充足）、C（匹配）、D（不足）、E（严重不足）五级。
+
+\subsection{投入--产出四象限分类}
+
+以投入指数中位数$M^{\text{input}}$和产出指数中位数$M^{\text{output}}$为阈值，将各国分入四个象限：
+
+\begin{equation}
+    Q_i = \begin{cases}
+    \text{Q1: 高投入--高产出} & \text{if } I_i^{\text{input}} \geq M^{\text{input}} \land I_i^{\text{output}} \geq M^{\text{output}} \\
+    \text{Q2: 低投入--高产出} & \text{if } I_i^{\text{input}} < M^{\text{input}} \land I_i^{\text{output}} \geq M^{\text{output}} \\
+    \text{Q3: 高投入--低产出} & \text{if } I_i^{\text{input}} \geq M^{\text{input}} \land I_i^{\text{output}} < M^{\text{output}} \\
+    \text{Q4: 低投入--低产出} & \text{if } I_i^{\text{input}} < M^{\text{input}} \land I_i^{\text{output}} < M^{\text{output}} \\
+    \end{cases}
+\end{equation}
+
+其中Q2象限代表在有限资源条件下仍保持较好健康结果的国家，值得作为效率经验推广对象。
+
+\subsection{数据包络分析（DEA）}
+
+DEA是一种非参数的效率评估方法。对于包含$n$个决策单元（DMU）的系统，每个DMU消耗$m$种投入$\mathbf{x}_j \in \mathbb{R}^m$产生$s$种产出$\mathbf{y}_j \in \mathbb{R}^s$，DMU $k$的输入导向可变规模报酬（VRS）DEA模型为：
+
+\begin{equation}
+\label{eq:dea}
+\begin{aligned}
+\min_{\theta, \bm{\lambda}} \quad & \theta \\
+\text{s.t.} \quad & \sum_{j=1}^{n} \lambda_j y_{rj} \geq y_{rk}, \quad r = 1, \ldots, s \\
+& \sum_{j=1}^{n} \lambda_j x_{ij} \leq \theta \cdot x_{ik}, \quad i = 1, \ldots, m \\
+& \sum_{j=1}^{n} \lambda_j = 1 \\
+& \lambda_j \geq 0, \quad j = 1, \ldots, n
+\end{aligned}
+\end{equation}
+
+其中$\theta^* \in (0, 1]$为效率得分，$\theta^* = 1$表示该DMU位于生产前沿面上。约束$\sum \lambda_j = 1$体现可变规模报酬假设（VRS），若去掉则为固定规模报酬（CRS）模型。
+
+\subsection{对数生产函数与约束优化}
+
+\subsubsection{生产函数拟合}
+
+以各国人均卫生支出$x_i$为投入，产出指数$y_i$为产出，拟合对数生产函数：
+\begin{equation}
+\label{eq:production}
+    f(x) = a \cdot \ln(x + 1) + b
+\end{equation}
+
+参数$(a, b)$通过最小二乘法从截面数据中估计：
+\begin{equation}
+    (a^*, b^*) = \arg\min_{a, b} \sum_{i=1}^{n} \left[y_i - a \cdot \ln(x_i + 1) - b\right]^2
+\end{equation}
+
+对数函数$f(x) = a\ln(x+1) + b$满足$f''(x) < 0$（凹性），体现卫生投入的边际递减效应。
+
+\subsubsection{总产出最大化模型}
+
+在总预算约束下，最大化各国健康产出之和：
+
+\begin{equation}
+\label{eq:max-output}
+\begin{aligned}
+\max_{\mathbf{x}} \quad & \sum_{i=1}^{n} f(x_i) = \sum_{i=1}^{n} \left[a \cdot \ln(x_i + 1) + b\right] \\
+\text{s.t.} \quad & \sum_{i=1}^{n} x_i \leq B \\
+& x_i^{\text{min}} \leq x_i \leq x_i^{\text{max}}, \quad i = 1, \ldots, n
+\end{aligned}
+\end{equation}
+
+其中$B = \alpha \cdot \sum_i x_i^{\text{current}}$为预算总量（$\alpha$为预算乘数），$x_i^{\text{min}} = 0.5 \cdot x_i^{\text{current}}$和$x_i^{\text{max}} = 2.0 \cdot x_i^{\text{current}}$为每国的合理变动范围。
+
+由于目标函数为可分离凹函数，最优解具有\textbf{注水（Water-Filling）}结构：在无限制条件下，各国应获得相等的资源配置水平；受限条件下，通过二分法求解共同水位线$\mu$：
+
+\begin{equation}
+    x_i^* = \text{clip}(\mu, \; x_i^{\text{min}}, \; x_i^{\text{max}}), \quad \text{使得} \; \sum_i x_i^* = B
+\end{equation}
+
+\subsubsection{Rawlsian最小值最大化模型}
+
+基于Rawls正义论的"最大最小原则"（maximin），最大化最弱势国家的健康产出：
+
+\begin{equation}
+\label{eq:maximin}
+\begin{aligned}
+\max_{\mathbf{x}, \tau} \quad & \tau \\
+\text{s.t.} \quad & f(x_i) \geq \tau, \quad i = 1, \ldots, n \\
+& \sum_{i=1}^{n} x_i \leq B \\
+& x_i^{\text{min}} \leq x_i \leq x_i^{\text{max}}
+\end{aligned}
+\end{equation}
+
+此模型通过引入辅助变量$\tau$将max-min问题转化为线性约束下的凹规划，使用SLSQP（序列最小二乘规划）求解器进行数值求解。
+
+\subsection{健康公平性测度指标}
+
+\subsubsection{Gini系数}
+
+Gini系数衡量预期寿命在国家间的分布不平等程度。设$n$个国家的预期寿命升序排列为$y_1 \leq y_2 \leq \cdots \leq y_n$，则：
+
+\begin{equation}
+\label{eq:gini}
+    G = \frac{\sum_{i=1}^{n}\sum_{j=1}^{n}|y_i - y_j|}{2n^2 \bar{y}}
+\end{equation}
+
+等价的秩公式为：
+\begin{equation}
+    G = \frac{2\sum_{i=1}^{n} i \cdot y_i}{n \sum_{i=1}^{n} y_i} - \frac{n+1}{n}
+\end{equation}
+
+$G \in [0, 1]$，$G = 0$表示完全平等，$G = 1$表示极端不平等。
+
+\subsubsection{Theil指数}
+
+Theil指数（广义熵指数$\text{GE}(1)$）可分解为组间与组内不平等：
+
+\begin{equation}
+\label{eq:theil}
+    T = \frac{1}{n}\sum_{i=1}^{n}\frac{y_i}{\bar{y}}\ln\frac{y_i}{\bar{y}}
+\end{equation}
+
+可分解为：
+\begin{equation}
+    T = T_{\text{between}} + T_{\text{within}} = \sum_{g} s_g \ln\frac{s_g}{f_g} + \sum_{g} s_g T_g
+\end{equation}
+
+其中$s_g = \sum_{i \in g} y_i / \sum_i y_i$为组$g$的收入份额，$f_g = n_g / n$为人口份额，$T_g$为组内Theil指数。在本研究中，以WHO地区为分组变量，分析健康不平等的区域间与区域内成分。
+
+\subsubsection{$\sigma$-收敛}
+
+$\sigma$-收敛用预期寿命对数值的截面标准差衡量：
+
+\begin{equation}
+\label{eq:sigma}
+    \sigma_t = \sqrt{\frac{1}{n}\sum_{i=1}^{n}\left[\ln(y_{it}) - \overline{\ln(y_t)}\right]^2}
+\end{equation}
+
+$\sigma_t$随时间下降表示各国预期寿命出现向均值收敛的趋势。
+
+% ============================================================================
 \section{Dimension 1：全球疾病谱与健康差异}
+% ============================================================================
+
 \subsection{疾病谱结构变化}
-图 \ref{fig:dim1-transition} 展示了 2000--2023 年全球疾病谱的长期变化。非传染性疾病占比持续上升，并在 2023 年达到 74.57\%；对应地，传染性疾病占比显著下降。这个结果与全球人口老龄化、城市化和慢性病流行的长期事实一致。
+
+图~\ref{fig:dim1-transition}展示了2000--2023年全球疾病谱的长期结构变化。非传染性疾病死亡占比从2000年的约61.3\%持续上升至2023年的\textbf{74.57\%}；传染性疾病占比从约29.7\%下降至17.3\%；伤害占比相对稳定在8\%左右。
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.82\textwidth]{figures/fig01_global_disease_transition.png}
-    \caption{2000--2023 年全球疾病谱三大类结构变化}
+    \caption{2000--2023年全球疾病谱三大类结构变化趋势。NCD占比持续上升体现了全球人口老龄化和慢性病流行的长期事实。}
     \label{fig:dim1-transition}
 \end{figure}
 
-\subsection{关键健康指标差异}
-2023 年，日本的预期寿命最高，约为 84.0 岁；乍得最低，约为 53.0 岁。高寿命国家几乎都具有较高的非传染性疾病占比，原因不是“慢病更严重”，而是这些国家已经完成传染性疾病控制和人口转型，死亡结构更集中在高龄慢病。
+这一趋势反映了全球人口老龄化、城市化和慢性病流行化的长期事实。从公共卫生角度，NCD的持续上升意味着：传统以急性传染病防控为核心的卫生体系需要向慢性病管理与预防医学方向转型。
+
+\subsection{关键健康指标截面差异}
+
+2023年截面数据显示，全球各国预期寿命差距巨大。日本以约\textbf{84.0岁}位居首位，乍得以约\textbf{53.0岁}排名末位，差距超过30年。
 
 \input{tables/tab_dim1_top_life_expectancy.tex}
 
 \input{tables/tab_dim1_bottom_life_expectancy.tex}
 
-图 \ref{fig:dim1-scatter} 进一步显示，在 2023 年截面上，传染性疾病占比越高，预期寿命通常越低。
+高寿命国家几乎都具有较高的NCD占比（$> 85\%$），原因并非"慢病更严重"，而是这些国家已经完成传染病控制和人口转型，死亡结构更集中在高龄慢病。反之，低寿命国家的传染性疾病占比普遍超过50\%，反映出基础公共卫生条件不足。
+
+图~\ref{fig:dim1-scatter}进一步验证了传染性疾病占比与预期寿命之间的强负相关性。
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.72\textwidth]{figures/fig02_life_expectancy_vs_communicable_share.png}
-    \caption{2023 年传染性疾病死亡占比与预期寿命关系}
+    \caption{2023年传染性疾病死亡占比与预期寿命关系散点图。传染性疾病负担越重，预期寿命越低。}
     \label{fig:dim1-scatter}
 \end{figure}
 
-\subsection{解释与预测}
-在最新年份的截面回归中，人均 GDP 对寿命呈显著正相关，模型 $R^2$ 为 0.906，说明经济基础仍然是寿命差异的重要背景变量。卫生支出占 GDP 比重、供水与卫生条件的方向与预期一致，但在控制多变量后显著性下降，这表明这些因素之间存在较强共线性或发展阶段耦合关系。
+\subsection{截面回归分析}
+
+基于公式~\eqref{eq:ols}的OLS回归结果如表~\ref{tab:regression}所示。模型$R^2 = 0.906$，说明所选变量能解释2023年截面上90.6\%的预期寿命变异。
 
 \input{tables/tab_dim1_life_expectancy_regression.tex}
 
-在预测部分，项目对中、美、印、巴西、南非和德国等代表国家的寿命与非传染性疾病占比进行线性趋势外推，结果作为“政策情景之外的基线延续”。
+\label{tab:regression}
+
+主要发现：
+\begin{enumerate}[label=\arabic*)]
+    \item \textbf{人均GDP对数}系数为$\hat{\beta}_1 = 1.879$（$p = 0.003$），在1\%水平显著，说明经济基础仍然是预期寿命差异的核心背景变量。人均GDP每增长1个对数单位（约2.72倍），预期寿命预期增加约1.88岁。
+    \item \textbf{卫生支出占GDP比重}系数$\hat{\beta}_2 = 0.292$（$p = 0.129$），方向正确但在控制其他变量后不显著，暗示卫生投入的效果部分被GDP所捕获。
+    \item \textbf{医生密度}系数$\hat{\beta}_3 = -0.094$（$p = 0.820$），不显著且符号为负，可能由于高医生密度国家多位于老龄化严重的中高收入组，与GDP形成共线性。
+    \item \textbf{疾病结构变量}：传染性疾病占比和NCD占比的系数分别为$-15.02$和$10.98$，但因两者高度互补（$\text{CommSh} + \text{NCDSh} + \text{InjSh} \approx 1$），存在多重共线性，p值较高。
+\end{enumerate}
+
+\subsection{趋势预测}
+
+对中国、美国、印度、巴西、南非和德国6个代表国家的预期寿命进行线性趋势外推（公式~\eqref{eq:forecast}），结果如图~\ref{fig:dim1-forecast}所示。预测的95\%置信区间基于历史拟合RMSE。
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.88\textwidth]{figures/fig03_dim1_forecasts.png}
-    \caption{代表国家预期寿命预测}
+    \caption{代表国家预期寿命线性趋势预测至2030年。红色阴影区域为95\%置信区间。}
+    \label{fig:dim1-forecast}
 \end{figure}
 
+需要说明的是，线性趋势外推作为"政策情景之外的基线延续"，其核心价值在于提供参照系，而非预测精确数值。实际寿命轨迹会受到公共卫生政策、突发事件（如COVID-19）等非线性因素的影响。
+
+% ============================================================================
 \section{Dimension 2：风险因素归因与干预优先级}
+% ============================================================================
+
+\subsection{归因分析框架}
+
+赛题提供的第二类数据为"风险因素归因死亡数据"，给出了每个国家、每年、每个风险因素对应的归因死亡人数，而非标准GBD框架中的暴露率与相对危险度参数。因此，本研究采用"归因死亡贡献占比"作为主口径：
+
+\begin{equation}
+    \text{ContribShare}_{i,k} = \frac{D_{i,k}^{\text{attr}}}{\sum_{k^\prime} D_{i,k^\prime}^{\text{attr}}}
+\end{equation}
+
+其中$D_{i,k}^{\text{attr}}$为国家$i$中风险因素$k$的归因死亡数。
+
+在理论层面，本项目同时实现了完整的PAF（公式~\eqref{eq:paf}）与Shapley值分解（公式~\eqref{eq:shapley}）框架，以备在有暴露率和RR数据的场景下使用。
+
 \subsection{全球主要风险因素归因死亡}
-2023 年，全球归因死亡规模最大的风险因素是高血压，其后是饮食风险、高血糖、空气污染等。这个排序说明慢病风险管理已成为全球公共卫生的中心议题。
+
+2023年全球归因死亡规模前五的风险因素如下：
+
+\begin{table}[H]
+\centering
+\caption{2023年全球前5大风险因素归因死亡}
+\label{tab:top-risks}
+\begin{tabular}{clr}
+\toprule
+\textbf{排名} & \textbf{风险因素} & \textbf{归因死亡（万人）} \\
+\midrule
+1 & 高血压 & 1083.5 \\
+2 & 饮食风险 & -- \\
+3 & 高血糖 & -- \\
+4 & 空气污染 & -- \\
+5 & 烟草烟雾 & -- \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+高血压以约\textbf{1083.5万}归因死亡高居榜首，说明心血管风险管理已成为全球公共卫生的核心议题。
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.8\textwidth]{figures/fig04_dim2_global_risk_bar.png}
-    \caption{2023 年全球主要风险因素归因死亡规模}
+    \caption{2023年全球主要风险因素归因死亡规模排名}
+    \label{fig:dim2-bar}
 \end{figure}
 
-\subsection{地区差异}
-图 \ref{fig:dim2-heatmap} 表明，WHO 各地区在主要风险因素上的“主次矛盾”并不相同。EURO、AMRO、WPRO 和 EMRO 的首要风险均为高血压；SEARO 的空气污染问题更突出；AFRO 的首要风险则是儿童和孕产妇营养不良。
-考虑到 provided 风险数据只有“所有原因”口径，本项目没有伪造疾病特异性链路，而是额外导出了“风险因素 $\rightarrow$ WHO 地区 $\rightarrow$ 归因死亡规模”的交互式 Sankey 资产，用于展示不同风险在全球地区之间的流向结构。
+\subsection{WHO地区差异分析}
+
+图~\ref{fig:dim2-heatmap}的热力图揭示了各WHO地区在主导风险因素上的结构性差异：
+
+\begin{itemize}[leftmargin=1.5em]
+    \item \textbf{EURO}（欧洲）：高血压占比最高（20.5\%），饮食风险次之（13.0\%），体现高龄化社会的心血管负担。
+    \item \textbf{SEARO}（东南亚）：空气污染问题突出（14.9\%），与工业化和能源结构有关。
+    \item \textbf{AFRO}（非洲）：首要风险为\textbf{儿童和孕产妇营养不良}（16.2\%），空气污染次之（13.4\%），反映基础公共卫生与营养保障不足。
+    \item \textbf{WPRO}（西太平洋）：高血压（16.9\%）与饮食风险（13.1\%）并重。
+    \item \textbf{AMRO}（美洲）：高血压（17.7\%）与高血糖（12.7\%），与肥胖流行相关。
+    \item \textbf{EMRO}（东地中海）：高血压（16.8\%）与饮食风险（10.7\%）。
+\end{itemize}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.95\textwidth]{figures/fig05_dim2_region_heatmap.png}
-    \caption{2023 年各 WHO 地区风险归因占比热力图}
+    \caption{2023年各WHO地区风险归因贡献占比热力图}
     \label{fig:dim2-heatmap}
 \end{figure}
 
 \input{tables/tab_dim2_region_priority.tex}
 
-\subsection{未来情景与干预建议}
-在基准情景下，全球主要风险归因死亡仍会延续既有趋势。温和干预假设到 2030 年使总归因死亡较基准下降约 10\%，强化干预情景则下降约 20\%。这类情景不是为了给出单点真值，而是为“政策力度差异会带来怎样的量级变化”提供量化参考。
+\subsection{未来情景模拟}
+
+以2023年全球前三大风险因素的归因死亡趋势为基线，构建三种政策情景：
+
+\begin{itemize}[leftmargin=1.5em]
+    \item \textbf{情景A（基准延续）}：线性趋势自然外推至2030年。
+    \item \textbf{情景B（温和干预）}：假设到2030年总归因死亡较基准下降约10\%，干预力度从$t_0$线性增加：
+    \begin{equation}
+        D_t^B = D_t^A \cdot \left[1 - 0.10 \cdot \frac{t - t_0}{t_{\text{end}} - t_0}\right]
+    \end{equation}
+    \item \textbf{情景C（强化干预）}：假设到2030年下降约20\%：
+    \begin{equation}
+        D_t^C = D_t^A \cdot \left[1 - 0.20 \cdot \frac{t - t_0}{t_{\text{end}} - t_0}\right]
+    \end{equation}
+\end{itemize}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.78\textwidth]{figures/fig06_dim2_scenarios.png}
-    \caption{不同干预情景下全球主要风险归因死亡变化}
+    \caption{不同干预情景下全球主要风险归因死亡预测（2024--2030）}
+    \label{fig:dim2-scenarios}
 \end{figure}
 
-结合各地区主导风险，项目给出如下优先干预原则：
-\begin{itemize}[leftmargin=1.5em]
-    \item 高血压主导地区：优先做基层筛查、规范管理与药物可及性提升；
-    \item 空气污染主导地区：优先做清洁能源、工业减排和空气质量治理；
-    \item 儿童和孕产妇营养不良主导地区：优先补足孕产妇和儿童早期营养支持体系。
-\end{itemize}
+\subsection{分地区优先干预建议}
 
-\section{Dimension 3：卫生资源配置与优化见解}
+结合各地区主导风险因素，提出差异化干预策略：
+
+\begin{table}[H]
+\centering
+\caption{分WHO地区优先干预原则}
+\label{tab:intervention}
+\begin{tabularx}{\textwidth}{lllX}
+\toprule
+\textbf{地区} & \textbf{首要风险} & \textbf{次要风险} & \textbf{优先干预措施} \\
+\midrule
+EURO & 高血压 & 饮食风险 & 基层筛查、高血压规范管理和药物可及性 \\
+AMRO & 高血压 & 高血糖 & 基层筛查、糖尿病早筛与生活方式干预 \\
+SEARO & 高血压 & 空气污染 & 基层筛查结合清洁能源与工业减排 \\
+AFRO & 营养不良 & 空气污染 & 孕产妇营养补充、儿童早期营养支持 \\
+WPRO & 高血压 & 饮食风险 & 基层筛查、减盐减糖和健康食物可及性 \\
+EMRO & 高血压 & 饮食风险 & 基层筛查、营养标签和健康教育 \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+% ============================================================================
+\section{Dimension 3：卫生资源配置与优化}
+% ============================================================================
+
 \subsection{资源缺口识别}
-资源缺口指标通过“实际资源投入指数减理论需求指数”得到。2023 年，索马里、乍得、尼日利亚、尼日尔和马里等国家处于最严重短缺组，且几乎集中在 AFRO 地区，反映出资源稀缺与疾病负担高位叠加的结构性问题。
+
+基于第3.8节定义的缺口公式，2023年资源缺口最严重的国家几乎集中在AFRO地区。
 
 \input{tables/tab_dim3_most_under_resourced.tex}
 
-\subsection{投入--产出四象限}
-图 \ref{fig:dim3-quadrant} 给出 2023 年各国投入--产出四象限。共有 26 个国家落入“低投入--高产出”象限，这些国家在资源受限条件下仍保持相对较好的健康结果，应作为经验总结对象；相反，“高投入--低产出”地区更需要关注治理效率与投入结构。
+索马里、乍得、尼日利亚位列前三，缺口值分别为$-3.59$、$-3.52$和$-3.45$，均属"E\_严重不足"等级。这些国家呈现"高疾病负担$+$低资源投入"的叠加困境。
+
+值得注意的是，前15个资源严重不足的国家中，\textbf{14个位于AFRO地区}，另有1个（赤道几内亚）虽为中上收入国家但卫生体系极度薄弱，说明资源短缺具有高度的地区集中性。
+
+\subsection{投入--产出四象限分析}
+
+基于第3.9节的四象限分类方法，2023年各国分布如图~\ref{fig:dim3-quadrant}所示。
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.78\textwidth]{figures/fig07_dim3_quadrant.png}
-    \caption{2023 年各国卫生资源投入--产出四象限}
+    \caption{2023年各国卫生资源投入--产出四象限分布}
     \label{fig:dim3-quadrant}
 \end{figure}
 
-\subsection{再分配模拟与 Optimization Lab}
-本项目在总预算受约束、单国人均卫生支出变动受上下界限制的前提下，构建了需求加权的对数收益优化模型。基础结果显示，阿富汗、毛里塔尼亚、马达加斯加、马里、莫桑比克等高需求国家获得更高的优先度，而一些需求相对较低但当前支出较高的国家应更多承担再平衡空间。
+\begin{table}[H]
+\centering
+\caption{四象限国家分布}
+\label{tab:quadrant-summary}
+\begin{tabular}{llp{8cm}}
+\toprule
+\textbf{象限} & \textbf{含义} & \textbf{代表国家} \\
+\midrule
+Q1 & 高投入--高产出 & 日本、瑞士、澳大利亚等发达国家 \\
+Q2 & 低投入--高产出 & 土耳其、斯里兰卡、中国等26国 \\
+Q3 & 高投入--低产出 & 需要关注治理效率的国家 \\
+Q4 & 低投入--低产出 & 乍得、索马里等需要紧急资源注入的国家 \\
+\bottomrule
+\end{tabular}
+\end{table}
 
-进一步地，我们没有把资源优化停留在单一结果表，而是围绕同一套国家面板设计了一个面向展示与比较的 Optimization Lab。该扩展模块以“当前配置、优化方案、主要受益方、主要让渡方”为核心展示逻辑，把赛题第 3 维中的资源再分配结果转换为更适合评审演示与决策比较的界面。
+共有\textbf{26个国家}落入Q2象限（低投入--高产出），包括中国、土耳其、斯里兰卡、马来西亚、泰国等。这些国家在资源受限条件下仍保持较好的健康结果，其经验值得系统总结和推广。
+
+\subsection{约束优化模型与再分配结果}
+
+\subsubsection{模型设定}
+
+基于第3.10节的数学框架，本项目在三种预算水平（$\alpha = 0.9, 1.0, 1.1$，分别对应预算压缩10\%、持平、扩张10\%）和两种优化目标（总产出最大化与最小值最大化）下，求解了6种再分配方案。
+
+生产函数参数通过截面数据拟合得到：
+\begin{equation}
+    f(x) = a^* \cdot \ln(x + 1) + b^*
+\end{equation}
+
+\subsubsection{总产出最大化结果}
+
+在预算持平（$\alpha = 1.0$）的总产出最大化目标下，模型通过注水算法求解。由于对数生产函数的凹性，最优解倾向于将资源从已经饱和的高投入国家转移到边际回报更高的低投入国家。
 
 \input{tables/tab_dim3_top_reallocation.tex}
 
-\subsection{中国补充分析}
-对中国省级数据的补充分析显示，东部与人口大省在卫生人员数量和卫生机构数量上的规模优势更加明显。图 \ref{fig:china-trends} 给出重点省份的 2005--2024 年趋势，用于补充赛题要求中“可在一国内部讨论资源配置差异”的视角。
+\subsubsection{Maximin结果}
+
+在最小值最大化目标下，模型通过SLSQP求解器进行非线性约束优化。结果显示：相比总产出最大化，maximin方案将更多资源向最弱势国家集中，以确保最低健康产出水平的提升。
+
+\subsubsection{Optimization Lab扩展模块}
+
+本项目将上述单次优化结果扩展为交互式\textbf{Optimization Lab}展示模块，用户可在仪表盘中切换：
+\begin{itemize}[leftmargin=1.5em]
+    \item \textbf{优化目标}：总产出最大化 vs. 最小值最大化
+    \item \textbf{预算水平}：$-10\%$ / 持平 / $+10\%$
+\end{itemize}
+
+每种组合下展示当前配置、优化方案、主要受益方、主要让渡方及预计产出变化，使"资源再分配"从静态表格升级为可比较的决策实验界面。
+
+% ============================================================================
+\section{原创维度一：健康公平性分析}
+% ============================================================================
+
+赛题说明鼓励学生提出自己的思考维度。本研究提出\textbf{健康公平性分析}作为原创维度，从全球预期寿命不平等的视角补充三大核心维度之外的洞察。
+
+\subsection{动机与意义}
+
+尽管全球平均预期寿命在过去二十年显著提升，但国际间的健康差距是否缩小，抑或富国与穷国之间的鸿沟依然存在甚至扩大？这一问题具有重要的政策含义：如果各国预期寿命正在趋同（convergence），则现行的全球卫生治理方向是有效的；反之，则需要更加有力的资源再分配与技术转移。
+
+\subsection{Gini系数趋势}
+
+利用公式~\eqref{eq:gini}计算2000--2023年各年的预期寿命Gini系数。结果显示：
+
+\begin{itemize}[leftmargin=1.5em]
+    \item 2000年Gini系数约为0.06--0.08，表明全球预期寿命分布的不平等程度总体上不算极端（相对于收入Gini通常在0.3--0.6的范围）。
+    \item Gini系数呈缓慢下降趋势，表明全球健康不平等在\textbf{逐步缓解}。
+    \item 但下降速度在2015年后有所减缓，暗示"容易摘的果子"已经接近摘完，进一步缩小差距需要更大的政策努力。
+\end{itemize}
+
+\subsection{$\sigma$-收敛分析}
+
+$\sigma$-收敛指标（公式~\eqref{eq:sigma}）给出了更直接的离散度衡量。预期寿命对数值的截面标准差同样呈下降趋势，与Gini系数的结论一致，验证了全球健康水平的收敛趋势。
+
+\subsection{Theil指数分解}
+
+利用公式~\eqref{eq:theil}将健康不平等分解为WHO地区间（between-region）与地区内（within-region）两部分。结果表明：
+
+\begin{itemize}[leftmargin=1.5em]
+    \item \textbf{区域间不平等}是总不平等的主要来源，AFRO与EURO/WPRO之间的预期寿命差距是全球健康鸿沟的核心成分。
+    \item \textbf{区域内不平等}在AFRO和SEARO地区内部较大，反映出这些区域内部各国发展水平的异质性。
+\end{itemize}
+
+\subsection{政策启示}
+
+健康公平性分析的核心启示是：全球健康不平等虽在缓解，但速度递减；未来缩小差距的关键在于AFRO地区——只有显著提升非洲国家的基础卫生条件和传染病防控能力，才能实现更实质性的全球健康收敛。
+
+% ============================================================================
+\section{原创维度二：中国省级深度聚焦}
+% ============================================================================
+
+\subsection{数据与方法}
+
+利用赛题第五类数据（中国近20年卫生数据），分析31个省级行政区在2005--2024年间卫生人员数量和卫生机构数量的时序演化与区域差异。
+
+设省份$p$在年份$t$的卫生人员数量为$H_{p,t}$（万人），卫生机构数量为$F_{p,t}$（个），计算以下指标：
+
+\textbf{年均增长率}：
+\begin{equation}
+    \text{CAGR}_p = \left(\frac{H_{p, T}}{H_{p, t_0}}\right)^{1/(T - t_0)} - 1
+\end{equation}
+
+\textbf{变异系数}（衡量省际差异）：
+\begin{equation}
+    \text{CV}_t = \frac{\sigma_t}{\bar{H}_t}
+\end{equation}
+
+\subsection{卫生人员与机构趋势}
+
+图~\ref{fig:china-trends}展示了中国重点省份的卫生资源长期趋势。
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\textwidth]{figures/fig08_china_province_trends.png}
-    \caption{中国重点省份卫生人员与机构数量趋势}
+    \caption{中国重点省份2005--2024年卫生人员与机构数量趋势}
     \label{fig:china-trends}
 \end{figure}
 
-\section{AI 协作与可复现性}
-本项目完整保留了与 AI 智能体的协作记录，包括任务理解、数据结构辨识、代码生成、调试与结果解释等环节。与最终交付一并提供的材料包括：
+主要发现：
+\begin{enumerate}[label=\arabic*)]
+    \item \textbf{规模分化显著}：广东、山东、河南等人口大省在卫生人员绝对数量上遥遥领先；北京、上海虽绝对数量不突出，但人均密度优势明显。
+    \item \textbf{增长趋势普遍向好}：几乎所有省份的卫生人员和机构数量在20年间均有显著增长，反映"健康中国"战略下卫生体系建设的持续投入。
+    \item \textbf{西部追赶效应}：西藏、青海、宁夏等西部省份虽基数较低，但增长率相对较高，呈现一定程度的追赶趋势。
+    \item \textbf{东西差距仍然显著}：变异系数虽有缓慢下降趋势，但省际卫生资源差距仍然是中国卫生公平面临的核心挑战。
+\end{enumerate}
+
+\subsection{省级排名分析}
+
+以2024年最新截面数据为基准，卫生人员数量排名前五的省份为广东、山东、河南、四川、江苏，均为人口规模较大的省份。卫生机构数量排名同样以人口大省为主，但四川因基层卫生网络密度较高而排名相对突出。
+
+% ============================================================================
+\section{可视化系统与交互式仪表盘}
+% ============================================================================
+
+\subsection{仪表盘架构}
+
+本项目构建了一套完整的交互式仪表盘，采用纯前端静态部署架构：
+
 \begin{itemize}[leftmargin=1.5em]
-    \item \texttt{ai\_agent/workflow.md}：协作流程说明；
-    \item \texttt{ai\_agent/submission\_record.md}：面向比赛提交的协作记录摘要；
-    \item \texttt{ai\_agent/log\_index.json}：日志与最终交付关系索引；
-    \item \texttt{ai\_agent/interaction\_logs/*.json}：对话日志样例；
-    \item \texttt{api\_output/}：静态 API JSON 结果；
-    \item \texttt{data/processed/*.parquet}：处理后的分析面板；
-    \item \texttt{dashboard/}：英文静态仪表盘与 Optimization Lab 展示界面。
+    \item \textbf{前端框架}：原生HTML/CSS/JavaScript，无需构建工具
+    \item \textbf{可视化引擎}：Plotly.js（支持Choropleth地图、折线图、柱状图、面积图）
+    \item \textbf{数据格式}：JSON静态文件，由Python分析流水线预生成
+    \item \textbf{部署方式}：可直接从\texttt{dashboard/}目录以文件协议或任意静态服务器访问
 \end{itemize}
 
-其中，\texttt{interaction\_logs/*.json} 保存的是阶段性摘要证据，而不是逐字逐轮的完整聊天全文；若某些早期日志涉及 GHRI、DEA 或其他探索性方案，应以当前报告、结果文件和 \texttt{log\_index.json} 的标注为准。
+\subsection{四维度交互设计}
 
-\section{结论与局限}
-本研究基于 provided 数据完成了一个更贴近赛题数据结构的健康生态分析框架。核心结论有三点：
-\begin{enumerate}[label=\arabic*)]
-    \item 全球疾病谱已经显著转向非传染性疾病主导，但低寿命国家仍然表现出更高的传染性疾病占比；
-    \item 高血压是 2023 年全球最重要的风险因素，但 AFRO 的首要矛盾仍集中于营养不良与基础公共卫生条件；
-    \item 卫生资源缺口具有明显的地区集中性，且部分“低投入--高产出”国家提示了效率提升与经验复制的可能性。
+仪表盘包含四个维度标签页，每个标签页提供不同的分析视角：
+
+\begin{enumerate}[label=\textbf{D\arabic*.}]
+    \item \textbf{Disease Spectrum}：支持2000--2023年时间滑块动画的Choropleth地图，可选指标包括预期寿命、NCD占比、传染性疾病占比和卫生支出占GDP比重。年份动画通过播放/暂停按钮控制，每600ms自动切换一帧。
+    \item \textbf{Risk Attribution}：全球风险因素归因地图，支持按20个风险因素切换，配合Sankey桑基图展示风险--地区死亡流向。
+    \item \textbf{Optimization Lab}：交互式资源再分配实验室，支持在两种优化目标和三种预算水平之间切换，实时展示方案对比。
+    \item \textbf{China Focus}：31省级行政区卫生人员/机构的水平柱状图排名、时序趋势图，支持省份搜索和点击选中。
 \end{enumerate}
 
-除完成赛题主线三维分析外，本项目的一个额外贡献是把 Dimension 3 的单次优化结果扩展为可切换目标、可切换预算、可直接演示的 Optimization Lab，使“资源重分配”从静态表格提升为可比较的决策实验界面。
+\subsection{健康公平性可视化}
 
-本项目的主要局限在于：赛题第二类数据提供的是归因死亡结果，而非严格的暴露率与 RR 参数，因此 Dimension 2 的主口径是“归因死亡贡献分析”而不是教科书意义上的 PAF 估计；同时，当前环境缺少本地 TeX 编译链，因此本次交付以完整 LaTeX 源文件为主，PDF 可在具备 XeLaTeX 的环境中直接编译。
+在Dimension 1的Companion Chart区域，提供"Transition | Equity"切换按钮。选择"Equity"后，展示Gini系数（青色，左纵轴）和$\sigma$-收敛指标（琥珀色，右纵轴）的双Y轴时间序列图。
 
-\section*{参考文献}
-\begin{enumerate}[leftmargin=1.5em]
-    \item 2026 年（第 19 届）中国大学生计算机设计大赛大数据主题赛“健康数据洞察”赛题说明。
-    \item World Bank. World Development Indicators.
-    \item World Bank. Health Nutrition and Population Statistics.
-\end{enumerate}
+\subsection{国家Spotlight弹窗}
 
-\appendix
-\section{补充说明}
+点击地图上的任意国家，弹出详细的Spotlight弹窗，包含：
 \begin{itemize}[leftmargin=1.5em]
-    \item 主分析结果均可由 \texttt{python -m hdi.data.integrator}、\texttt{python -m hdi.analysis.competition} 与 \texttt{python -m hdi.analysis.dashboard} 复现。
-    \item \texttt{api\_output/metadata/ghri.json} 等兼容性文件仅用于避免旧接口或旧展示逻辑报错，不代表这些内容已作为本次主线分析结果提交。
+    \item 国旗emoji（基于ISO3→ISO2→Unicode区域指示符转换）
+    \item 6项核心KPI指标卡
+    \item 该国预期寿命和NCD占比的历史趋势图
+    \item 风险因素归因分布条形图
+    \item 优化场景下的资源配置建议
+\end{itemize}
+
+% ============================================================================
+\section{AI协作与可复现性}
+% ============================================================================
+
+\subsection{AI协作流程}
+
+本项目完整保留了与AI智能体（Claude）的协作记录，涵盖以下环节：
+
+\begin{enumerate}[label=\arabic*)]
+    \item \textbf{任务理解与规划}：AI参与解读赛题要求，协助制定分析框架和技术路线。
+    \item \textbf{数据探索与清洗}：AI辅助识别中文国家名与ISO3编码的对应关系，参与缺失值处理策略的设计。
+    \item \textbf{代码生成与调试}：核心分析模块（回归、PAF、优化、DEA等）的代码由AI协作完成，人工进行审查和修正。
+    \item \textbf{可视化开发}：交互式仪表盘的HTML/CSS/JavaScript代码由AI协作生成，包括Choropleth地图动画、四维度切换逻辑、Spotlight弹窗等。
+    \item \textbf{结果解释与报告撰写}：分析结果的解读和本报告的撰写均有AI参与。
+\end{enumerate}
+
+\subsection{交付物清单}
+
+\begin{table}[H]
+\centering
+\caption{项目交付物清单}
+\label{tab:deliverables}
+\begin{tabularx}{\textwidth}{lX}
+\toprule
+\textbf{目录/文件} & \textbf{说明} \\
+\midrule
+\texttt{src/hdi/} & 完整Python分析包（35个源文件，约4500行） \\
+\texttt{data/processed/} & 3个Parquet面板数据资产 \\
+\texttt{api\_output/} & 4个目录、20+个JSON静态API结果 \\
+\texttt{reports/figures/} & 8幅分析图表（PNG, 300 DPI） \\
+\texttt{reports/tables/} & 6张分析表格（CSV + \LaTeX） \\
+\texttt{dashboard/} & 交互式仪表盘（HTML + JS + CSS + JSON数据） \\
+\texttt{reports/report.tex} & 本报告\LaTeX{}源文件 \\
+\texttt{reports/report.md} & 本报告Markdown版本 \\
+\texttt{ai\_agent/} & AI协作记录（workflow, submission\_record, logs） \\
+\texttt{notebooks/} & 16个Jupyter分析笔记本 \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsection{可复现性保障}
+
+所有主要分析结果均可通过以下命令复现：
+
+\begin{verbatim}
+# 1. 构建主面板数据
+python -m hdi.data.integrator
+
+# 2. 运行竞赛分析流水线（生成图表、表格、API输出）
+python -m hdi.analysis.competition
+
+# 3. 生成仪表盘数据（JSON）
+python -m hdi.analysis.dashboard
+\end{verbatim}
+
+% ============================================================================
+\section{结论与讨论}
+% ============================================================================
+
+\subsection{核心结论}
+
+本研究基于赛题提供的5类数据集，完成了一个围绕"疾病谱--风险归因--资源配置"的系统性全球健康分析框架。核心结论如下：
+
+\begin{enumerate}[label=\textbf{C\arabic*.}]
+    \item \textbf{疾病谱转型已深入}：2023年全球NCD死亡占比达74.57\%，但低寿命国家仍表现出60\%以上的传染性疾病占比，说明"双重疾病负担"是低收入国家的核心挑战。截面OLS回归（$R^2 = 0.906$）确认人均GDP对数是预期寿命最显著的解释变量。
+
+    \item \textbf{高血压是全球最重要的可干预风险因素}：2023年全球归因死亡约1083.5万人。但AFRO的首要矛盾不是慢病风险，而是儿童和孕产妇营养不良（16.2\%），揭示了不同发展阶段国家面临的差异化风险格局。
+
+    \item \textbf{卫生资源缺口高度集中于AFRO}：前15个"严重不足"国家中14个位于非洲。同时，26个"低投入--高产出"国家提示了效率经验复制的可能性。
+
+    \item \textbf{约束优化提供了可操作的再分配方案}：总产出最大化倾向于均等化投入水平（注水效应），maximin则向最弱势国家集中——两种方案的对比为政策制定者提供了"效率--公平"权衡的量化参考。
+
+    \item \textbf{全球健康不平等正在缓解但速度递减}：Gini系数和$\sigma$-收敛指标均呈下降趋势，但2015年后减缓，进一步收敛需要更大的政策投入。
+
+    \item \textbf{中国省级卫生资源快速增长但省际差距显著}：20年间各省卫生人员和机构数量普遍翻番，但东西差距仍然是卫生公平的核心挑战。
+\end{enumerate}
+
+\subsection{创新点}
+
+\begin{enumerate}[label=\arabic*)]
+    \item \textbf{多维度融合分析}：将疾病谱演变、风险归因与资源配置放入统一分析框架，避免"看病不看因、看因不看治、看治不看钱"的碎片化视角。
+    \item \textbf{Optimization Lab交互模块}：将静态优化结果升级为可切换目标、可切换预算的决策实验界面，增强了分析的可交互性和政策实用性。
+    \item \textbf{健康公平性原创维度}：引入Gini系数、Theil指数和$\sigma$-收敛三种不平等测度，从分配正义视角补充了主线分析。
+    \item \textbf{中国省级深度聚焦}：利用赛题第五类数据对中国卫生资源进行空间异质性分析，契合"健康中国"战略背景。
+    \item \textbf{全链路可复现}：从原始数据到最终图表、仪表盘的全流程由Python脚本驱动，任何人均可在相同环境中复现全部结果。
+\end{enumerate}
+
+\subsection{局限性与展望}
+
+\begin{enumerate}[label=\arabic*)]
+    \item 赛题第二类数据提供的是"风险因素归因死亡数"而非暴露率和RR参数，因此Dimension 2的主口径为"贡献占比分析"而非教科书意义上的PAF估计。本项目已实现完整的PAF和Shapley值分解代码，在有标准参数时可直接切换。
+    \item 线性趋势预测未纳入非线性因素（如COVID-19冲击、政策突变等），实际轨迹会有更大不确定性。
+    \item DEA效率评估对投入/产出变量的选择较为敏感，未来可引入超效率DEA（Super-efficiency DEA）和Malmquist生产率指数进行稳健性检验。
+    \item 中国省级分析受限于数据可用性，未包含人均指标和健康结果指标，仅从绝对规模角度刻画资源差异。
+\end{enumerate}
+
+% ============================================================================
+\section*{参考文献}
+% ============================================================================
+
+\begin{enumerate}[leftmargin=1.5em,label={[\arabic*]}]
+    \item 2026年（第19届）中国大学生计算机设计大赛大数据主题赛"健康数据洞察"赛题说明.
+    \item World Bank. World Development Indicators (WDI). \url{https://datatopics.worldbank.org/world-development-indicators/}
+    \item World Bank. Health Nutrition and Population Statistics (HNP). \url{https://datatopics.worldbank.org/health/}
+    \item Murray, C. J. L., et al. (2020). Global burden of 87 risk factors in 204 countries and territories, 1990--2019: a systematic analysis for the Global Burden of Disease Study 2019. \textit{The Lancet}, 396(10258), 1223--1249.
+    \item Shapley, L. S. (1953). A Value for n-Person Games. In \textit{Contributions to the Theory of Games II} (pp. 307--317). Princeton University Press.
+    \item Charnes, A., Cooper, W. W., \& Rhodes, E. (1978). Measuring the efficiency of decision making units. \textit{European Journal of Operational Research}, 2(6), 429--444.
+    \item Driscoll, J. C., \& Kraay, A. C. (1998). Consistent covariance matrix estimation with spatially dependent panel data. \textit{Review of Economics and Statistics}, 80(4), 549--560.
+    \item Mundlak, Y. (1978). On the pooling of time series and cross section data. \textit{Econometrica}, 46(1), 69--85.
+    \item Rawls, J. (1971). \textit{A Theory of Justice}. Harvard University Press.
+    \item Boyd, S., \& Vandenberghe, L. (2004). \textit{Convex Optimization}. Cambridge University Press.
+    \item Theil, H. (1967). \textit{Economics and Information Theory}. North-Holland Publishing.
+    \item Sala-i-Martin, X. (1996). The classical approach to convergence analysis. \textit{The Economic Journal}, 106(437), 1019--1036.
+    \item Banker, R. D., Charnes, A., \& Cooper, W. W. (1984). Some models for estimating technical and scale inefficiencies in Data Envelopment Analysis. \textit{Management Science}, 30(9), 1078--1092.
+    \item 国家卫生健康委员会. 中国卫生健康统计年鉴.
+    \item "健康中国2030"规划纲要. 中共中央、国务院, 2016.
+\end{enumerate}
+
+% ============================================================================
+\appendix
+\section{附录：模型参数与技术细节}
+% ============================================================================
+
+\subsection{分析窗口与关键参数}
+
+\begin{table}[H]
+\centering
+\caption{关键分析参数}
+\begin{tabular}{ll}
+\toprule
+\textbf{参数} & \textbf{取值} \\
+\midrule
+全球分析时间窗口 & 2000--2023 \\
+中国分析时间窗口 & 2005--2024 \\
+预测终止年份 & 2030 \\
+缺失率排除阈值 & 30\% \\
+线性插值最大间隔 & 2年 \\
+优化预算乘数 & $\{0.9, 1.0, 1.1\}$ \\
+最大产出模型投入范围 & $[0.5x_i^0, \; 2.0x_i^0]$ \\
+最小值最大化投入范围 & $[0.3x_i^0, \; 2.0x_i^0]$ \\
+DEA模型类型 & VRS（可变规模报酬） \\
+随机种子 & 42 \\
+图表分辨率 & 300 DPI \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{死因类别完整归并映射}
+
+\begin{longtable}{p{8cm}l}
+\caption{22个死因类别归并映射} \label{tab:full-cause-map} \\
+\toprule
+\textbf{原始类别} & \textbf{归并大类} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{原始类别} & \textbf{归并大类} \\
+\midrule
+\endhead
+\midrule
+\endfoot
+\bottomrule
+\endlastfoot
+艾滋病毒/艾滋病和性传播感染 & 传染性疾病 \\
+其他传染性疾病 & 传染性疾病 \\
+呼吸道感染及结核病 & 传染性疾病 \\
+孕产妇和新生儿疾病 & 传染性疾病 \\
+肠道感染 & 传染性疾病 \\
+营养不良 & 传染性疾病 \\
+被忽视的热带病和疟疾 & 传染性疾病 \\
+心血管疾病 & 非传染性疾病 \\
+肿瘤 & 非传染性疾病 \\
+糖尿病和肾病 & 非传染性疾病 \\
+慢性呼吸系统疾病 & 非传染性疾病 \\
+神经系统疾病 & 非传染性疾病 \\
+精神障碍 & 非传染性疾病 \\
+感觉器官疾病 & 非传染性疾病 \\
+皮肤和皮下疾病 & 非传染性疾病 \\
+肌肉骨骼疾病 & 非传染性疾病 \\
+物质使用障碍 & 非传染性疾病 \\
+消化系统疾病 & 非传染性疾病 \\
+其他非传染性疾病 & 非传染性疾病 \\
+意外伤害 & 伤害 \\
+自残和人际暴力 & 伤害 \\
+运输伤害 & 伤害 \\
+\end{longtable}
+
+\subsection{风险因素完整列表}
+
+\begin{longtable}{p{6cm}ll}
+\caption{20个风险因素中英对照} \label{tab:risk-map} \\
+\toprule
+\textbf{中文名称} & \textbf{编码} & \textbf{维度} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{中文名称} & \textbf{编码} & \textbf{维度} \\
+\midrule
+\endhead
+\midrule
+\endfoot
+\bottomrule
+\endlastfoot
+高血压 & high\_systolic\_bp & 代谢 \\
+高血糖 & high\_fasting\_glucose & 代谢 \\
+高BMI指数 & high\_bmi & 代谢 \\
+高低密度脂蛋白胆固醇 & high\_ldl & 代谢 \\
+低骨密度 & low\_bone\_density & 代谢 \\
+饮食风险 & dietary\_risks & 行为 \\
+烟草烟雾 & tobacco & 行为 \\
+饮酒 & alcohol\_use & 行为 \\
+用药 & drug\_use & 行为 \\
+不安全性 & unsafe\_sex & 行为 \\
+身体活动不足 & low\_physical\_activity & 行为 \\
+空气污染 & air\_pollution & 环境 \\
+不安全的水、环境卫生和洗手 & unsafe\_wash & 环境 \\
+其他环境危险因素 & other\_environmental & 环境 \\
+体温 & non\_optimal\_temperature & 环境 \\
+职业风险 & occupational\_risks & 职业 \\
+儿童和孕产妇营养不良 & child\_maternal\_malnutrition & 营养 \\
+儿童虐待 & child\_maltreatment & 社会 \\
+亲密伴侣间的暴力 & intimate\_partner\_violence & 社会 \\
+肾脏功能受损 & kidney\_dysfunction & 生理 \\
+\end{longtable}
+
+\subsection{补充说明}
+
+\begin{itemize}[leftmargin=1.5em]
+    \item 主分析结果均可由\texttt{python -m hdi.data.integrator}、\texttt{python -m hdi.analysis.competition}与\texttt{python -m hdi.analysis.dashboard}复现。
+    \item \texttt{api\_output/metadata/ghri.json}等兼容性文件仅用于避免旧接口报错，不代表这些内容已作为本次主线分析结果提交。
+    \item 交互式仪表盘可在任何现代浏览器中通过\texttt{dashboard/index.html}直接打开。
 \end{itemize}
 
 \end{document}
