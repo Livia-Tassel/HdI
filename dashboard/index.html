@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Health Data Insight Dashboard</title>
+    <title>CoolSky</title>
     <link rel="stylesheet" href="./styles.css" />
   </head>
   <body>
@@ -11,8 +11,8 @@
       <header class="masthead glass-card">
         <div class="masthead-brand"><span>H</span><small>d</small><span>I</span></div>
         <div class="masthead-identity">
-          <p class="eyebrow">Health Data Insight</p>
-          <h1 class="gradient-text">Global Health Risk &amp; Resource Allocation Dashboard</h1>
+          <p class="eyebrow">健康数据洞察</p>
+          <h1 class="gradient-text">CoolSky</h1>
         </div>
         <div class="masthead-spacer"></div>
         <div class="summary-strip" id="summary-strip"></div>
@@ -20,37 +20,37 @@
 
       <section class="control-bar glass-card">
         <div class="dimension-switch" id="dimension-switch">
-          <button class="dimension-chip is-active" data-dimension="dim1">Disease Spectrum</button>
-          <button class="dimension-chip" data-dimension="dim2">Risk Attribution</button>
-          <button class="dimension-chip" data-dimension="dim3">Optimization Lab</button>
-          <button class="dimension-chip dim4-chip" data-dimension="dim4">China Focus</button>
+          <button class="dimension-chip is-active" data-dimension="dim1">疾病谱变迁</button>
+          <button class="dimension-chip" data-dimension="dim2">风险归因</button>
+          <button class="dimension-chip" data-dimension="dim3">优化实验室</button>
+          <button class="dimension-chip dim4-chip" data-dimension="dim4">中国聚焦</button>
         </div>
         <div class="control-cluster">
           <label class="control-field">
-            <span>Metric</span>
+            <span>指标</span>
             <select id="metric-select"></select>
           </label>
           <label class="control-field" id="risk-field">
-            <span>Risk Factor</span>
+            <span>风险因素</span>
             <select id="risk-select"></select>
           </label>
           <label class="control-field" id="objective-field">
-            <span>Objective</span>
+            <span>优化目标</span>
             <select id="objective-select"></select>
           </label>
           <label class="control-field" id="budget-field">
-            <span>Budget</span>
+            <span>预算</span>
             <select id="budget-select"></select>
           </label>
           <label class="control-field search-field">
-            <span>Go to Country</span>
-            <input id="country-search" list="country-list" placeholder="Enter country name or ISO3 code" />
+            <span>定位国家</span>
+            <input id="country-search" list="country-list" placeholder="输入国家名称或三位国家代码" />
             <datalist id="country-list"></datalist>
           </label>
-          <button class="jump-button" id="country-jump" type="button">Locate</button>
+          <button class="jump-button" id="country-jump" type="button">定位</button>
         </div>
         <div class="year-slider-group" id="year-slider-group" style="display:none">
-          <button class="play-button" id="play-button" type="button" aria-label="Play animation">
+          <button class="play-button" id="play-button" type="button" aria-label="播放动画">
             <svg class="play-icon" width="14" height="14" viewBox="0 0 14 14" fill="currentColor"><polygon points="2,0 14,7 2,14"/></svg>
             <svg class="pause-icon" width="14" height="14" viewBox="0 0 14 14" fill="currentColor" style="display:none"><rect x="1" y="0" width="4" height="14"/><rect x="9" y="0" width="4" height="14"/></svg>
           </button>
@@ -58,7 +58,7 @@
           <span class="year-display" id="year-display">2023</span>
         </div>
         <p class="control-note" id="control-note">
-          Static dashboard built from competition analysis artifacts.
+          基于竞赛分析产出构建的静态仪表盘。
         </p>
       </section>
 
@@ -66,8 +66,8 @@
         <section class="glass-card map-card glow-border">
           <div class="card-topline">
             <div>
-              <p class="section-kicker" id="map-kicker">Global Map</p>
-              <h2 id="map-title">Global Health Landscape</h2>
+              <p class="section-kicker" id="map-kicker">全球地图</p>
+              <h2 id="map-title">全球健康格局</h2>
             </div>
             <div class="inline-note" id="map-note"></div>
           </div>
@@ -77,15 +77,15 @@
         <aside class="glass-card insight-card">
           <div class="card-topline compact">
             <div>
-              <p class="section-kicker">Country Profile</p>
-              <h2 id="country-title" class="country-title-anim">China</h2>
+              <p class="section-kicker">国家概况</p>
+              <h2 id="country-title" class="country-title-anim">中国</h2>
             </div>
-            <span class="micro-pill" id="country-tag">WPRO / UMC</span>
+            <span class="micro-pill" id="country-tag">地区 / 收入组别</span>
           </div>
           <div class="metric-grid" id="country-metrics"></div>
           <div class="ranking-block">
             <div class="subhead">
-              <h3>Current Map Top 10</h3>
+              <h3>当前指标前 10 名</h3>
               <span id="ranking-caption"></span>
             </div>
             <div class="ranking-list" id="ranking-list"></div>
@@ -95,8 +95,8 @@
         <section class="glass-card chart-card">
           <div class="card-topline compact">
             <div>
-              <p class="section-kicker">Country Dimension</p>
-              <h2 id="detail-title">Country Trends</h2>
+              <p class="section-kicker">国家维度</p>
+              <h2 id="detail-title">国家趋势</h2>
             </div>
             <span class="micro-pill" id="detail-pill"></span>
           </div>
@@ -106,8 +106,8 @@
         <section class="glass-card chart-card">
           <div class="card-topline compact">
             <div>
-              <p class="section-kicker">Global Reference</p>
-              <h2 id="companion-title">Global Comparison</h2>
+              <p class="section-kicker">全球参考</p>
+              <h2 id="companion-title">全球比较</h2>
             </div>
             <span class="micro-pill" id="companion-pill"></span>
           </div>
@@ -117,18 +117,17 @@
         <section class="glass-card context-card">
           <div class="card-topline compact">
             <div>
-              <p class="section-kicker">Key Insights</p>
-              <h2 id="context-title">Regional Comparison &amp; Strategy</h2>
+              <p class="section-kicker">核心洞察</p>
+              <h2 id="context-title">区域比较与策略</h2>
             </div>
-            <span class="micro-pill" id="context-pill">Static Build</span>
+            <span class="micro-pill" id="context-pill">静态构建</span>
           </div>
           <div id="context-panel" class="context-panel"></div>
         </section>
       </main>
 
       <footer class="footnote">
-        Data sourced from competition-provided datasets. Dashboard assets are generated by the
-        analysis pipeline and can be served statically from <code>dashboard/</code>.
+        数据来源于竞赛提供的数据集。仪表盘资源由分析流水线生成，可从 <code>dashboard/</code> 目录静态部署。
       </footer>
     </div>
 
@@ -142,7 +141,7 @@
       aria-labelledby="spotlight-name"
       tabindex="-1"
     >
-      <button class="spotlight-close" id="spotlight-close" type="button" aria-label="Close dialog">
+      <button class="spotlight-close" id="spotlight-close" type="button" aria-label="关闭对话框">
         <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
           <line x1="4" y1="4" x2="14" y2="14"></line>
           <line x1="14" y1="4" x2="4" y2="14"></line>
@@ -161,17 +160,17 @@
       <div class="spotlight-metrics" id="spotlight-metrics"></div>
       <div class="spotlight-divider"></div>
       <div class="spotlight-chart-section">
-        <p class="spotlight-section-label">Historical Trends</p>
+        <p class="spotlight-section-label">历史趋势</p>
         <div id="spotlight-chart"></div>
       </div>
       <div class="spotlight-divider"></div>
       <div class="spotlight-risks-section">
-        <p class="spotlight-section-label">Risk Attribution</p>
+        <p class="spotlight-section-label">风险归因</p>
         <div class="spotlight-risk-bars" id="spotlight-risks"></div>
       </div>
       <div class="spotlight-divider"></div>
       <div class="spotlight-footer">
-        <p class="spotlight-section-label">Scenario Allocation</p>
+        <p class="spotlight-section-label">情景配置</p>
         <div class="spotlight-allocation" id="spotlight-allocation"></div>
       </div>
     </section>

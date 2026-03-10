@@ -9,101 +9,101 @@ const DATA_SOURCES = {
 
 const DIMENSIONS = {
   dim1: {
-    label: "Disease Spectrum",
+    label: "疾病谱变迁",
     defaultMetric: "life_expectancy",
-    mapTitle: "Global Disease Spectrum & Health Outcomes",
-    note: "Click a country to explore long-run life expectancy, disease structure, and health system conditions.",
+    mapTitle: "全球疾病谱与健康结果",
+    note: "点击国家查看预期寿命、疾病结构和卫生体系状况。",
     metrics: ["life_expectancy", "ncd_share", "communicable_share", "health_exp_pct_gdp"],
   },
   dim2: {
-    label: "Risk Attribution",
+    label: "风险归因",
     defaultMetric: "share",
-    mapTitle: "Global Health Risk Attribution Map",
-    note: "Select a risk factor to inspect how its latest attributable burden varies across countries.",
+    mapTitle: "全球健康风险归因地图",
+    note: "选择风险因素查看各国最新归因负担分布。",
     metrics: ["share", "attributable_deaths"],
   },
   dim3: {
-    label: "Optimization Lab",
+    label: "优化实验室",
     defaultMetric: "change_pct",
-    mapTitle: "Scenario-Based Resource Reallocation Lab",
-    note: "Switch objective and budget settings to compare donor-recipient patterns and country-level recommendations.",
+    mapTitle: "基于情景的资源再分配实验室",
+    note: "切换优化目标和预算设置，比较资源调配方案。",
     metrics: ["change_pct", "gap", "efficiency"],
   },
   dim4: {
-    label: "China Focus",
+    label: "中国聚焦",
     defaultMetric: "health_personnel",
-    mapTitle: "China Provincial Health Resource Deep-Dive",
-    note: "Explore health personnel and institution distribution across China's 31 provinces.",
+    mapTitle: "中国省级卫生资源深度分析",
+    note: "探索中国31个省级行政区的卫生人员与机构分布。",
     metrics: ["health_personnel", "health_institutions"],
   },
 };
 
 const METRIC_META = {
   life_expectancy: {
-    label: "Life Expectancy",
+    label: "预期寿命",
     colorscale: [[0, "#0c1929"], [0.25, "#0e3a5e"], [0.5, "#0d6577"], [0.75, "#17a2b8"], [1, "#22d3ee"]],
-    formatter: (value) => (value == null ? "N/A" : `${Number(value).toFixed(1)} yrs`),
+    formatter: (value) => (value == null ? NO_DATA_LABEL : `${Number(value).toFixed(1)} 岁`),
     accessor: (row) => row.life_expectancy,
   },
   ncd_share: {
-    label: "NCD Share",
+    label: "非传染性疾病占比",
     colorscale: [[0, "#0c1929"], [0.25, "#1a2747"], [0.5, "#2e4070"], [0.75, "#6366f1"], [1, "#a78bfa"]],
     formatter: (value) => formatShare(value),
     accessor: (row) => row.ncd_share,
   },
   communicable_share: {
-    label: "Communicable Disease Share",
+    label: "传染性疾病占比",
     colorscale: [[0, "#1a1308"], [0.25, "#4a3010"], [0.5, "#7a5518"], [0.75, "#d4941a"], [1, "#fbbf24"]],
     formatter: (value) => formatShare(value),
     accessor: (row) => row.communicable_share,
   },
   health_exp_pct_gdp: {
-    label: "Health Expenditure (% GDP)",
+    label: "卫生支出占国内生产总值比重",
     colorscale: [[0, "#071a17"], [0.25, "#0c3a32"], [0.5, "#12705f"], [0.75, "#1db99a"], [1, "#2dd4bf"]],
     formatter: (value) => formatPercentValue(value),
     accessor: (row) => row.health_exp_pct_gdp,
   },
   share: {
-    label: "Risk Attribution Share",
+    label: "风险归因占比",
     colorscale: [[0, "#0c1929"], [0.25, "#2a1a4e"], [0.5, "#6b21a8"], [0.75, "#9333ea"], [1, "#c084fc"]],
     formatter: (value) => formatShare(value),
     accessor: (row) => row.share,
   },
   attributable_deaths: {
-    label: "Attributable Deaths",
+    label: "归因死亡",
     colorscale: [[0, "#0c1929"], [0.25, "#1e3a5f"], [0.5, "#0d6577"], [0.75, "#22d3ee"], [1, "#fbbf24"]],
     formatter: (value) => formatCompact(value),
     accessor: (row) => row.attributable_deaths,
   },
   change_pct: {
-    label: "Scenario Reallocation",
+    label: "情景再分配",
     colorscale: [[0, "#fb7185"], [0.25, "#4a1525"], [0.5, "#111827"], [0.75, "#164e63"], [1, "#22d3ee"]],
     formatter: (value) => formatSignedPercent(value),
     accessor: (row) => row.change_pct,
     diverging: true,
   },
   gap: {
-    label: "Resource Gap",
+    label: "资源缺口",
     colorscale: [[0, "#fb7185"], [0.25, "#4a1525"], [0.5, "#111827"], [0.75, "#0c3a32"], [1, "#2dd4bf"]],
     formatter: (value) => formatSigned(value),
     accessor: (row) => row.gap,
     diverging: true,
   },
   efficiency: {
-    label: "Input-Output Efficiency",
+    label: "投入产出效率",
     colorscale: [[0, "#fb7185"], [0.25, "#4a1525"], [0.5, "#111827"], [0.75, "#0c3a32"], [1, "#2dd4bf"]],
     formatter: (value) => formatSigned(value),
     accessor: (row) => row.efficiency,
     diverging: true,
   },
   health_personnel: {
-    label: "Health Personnel",
+    label: "卫生人员",
     colorscale: [[0, "#1a0808"], [0.25, "#4a1010"], [0.5, "#8b2020"], [0.75, "#dc2626"], [1, "#f87171"]],
     formatter: (value) => formatCompact(value),
     accessor: (row) => row.value,
   },
   health_institutions: {
-    label: "Health Institutions",
+    label: "卫生机构",
     colorscale: [[0, "#1a0808"], [0.25, "#4a1010"], [0.5, "#8b2020"], [0.75, "#dc2626"], [1, "#f87171"]],
     formatter: (value) => formatCompact(value),
     accessor: (row) => row.value,
@@ -128,12 +128,12 @@ const THEME = {
 
 const OBJECTIVE_META = {
   max_output: {
-    label: "Max Output",
-    note: "Prioritizes aggregate outcome gains across the full system.",
+    label: "最大化总产出",
+    note: "优先提升全系统的总体健康产出。",
   },
   maximin: {
-    label: "Equity Maximin",
-    note: "Protects lower-performing countries by improving the floor first.",
+    label: "公平最大化",
+    note: "优先提升最弱势国家的健康水平。",
   },
 };
 
@@ -144,6 +144,109 @@ const OBJECTIVE_ALIASES = {
   projected_need_weighted_allocation: "max_output",
   maximin: "maximin",
 };
+
+const NO_DATA_LABEL = "暂无";
+
+const REGION_LABELS = {
+  AFRO: "非洲区域",
+  AMRO: "美洲区域",
+  EMRO: "东地中海区域",
+  EURO: "欧洲区域",
+  SEARO: "东南亚区域",
+  WPRO: "西太平洋区域",
+};
+
+const INCOME_LABELS = {
+  HIC: "高收入",
+  LIC: "低收入",
+  LMC: "中低收入",
+  UMC: "中高收入",
+};
+
+const RISK_LABELS = {
+  "Air pollution": "空气污染",
+  "Alcohol use": "饮酒",
+  "Child and maternal malnutrition": "儿童与孕产妇营养不良",
+  "Child maltreatment": "儿童虐待",
+  "Dietary risks": "膳食风险",
+  "Drug use": "药物使用",
+  "High BMI": "高体重指数",
+  "High LDL cholesterol": "高低密度脂蛋白胆固醇",
+  "High fasting glucose": "高空腹血糖",
+  "High systolic blood pressure": "高收缩压",
+  "Intimate partner violence": "亲密伴侣暴力",
+  "Kidney dysfunction": "肾功能障碍",
+  "Low bone mineral density": "低骨密度",
+  "Low physical activity": "身体活动不足",
+  "Non-optimal temperature": "非适宜温度",
+  "Occupational risks": "职业风险",
+  "Other environmental risks": "其他环境风险",
+  Tobacco: "烟草",
+  "Unsafe sex": "不安全性行为",
+  "Unsafe water, sanitation, and handwashing": "不安全饮水、卫生与洗手条件",
+};
+
+const PROVINCE_LABELS = {
+  Anhui: "安徽",
+  Beijing: "北京",
+  Chongqing: "重庆",
+  Fujian: "福建",
+  Gansu: "甘肃",
+  Guangdong: "广东",
+  Guangxi: "广西",
+  Guizhou: "贵州",
+  Hainan: "海南",
+  Hebei: "河北",
+  Heilongjiang: "黑龙江",
+  Henan: "河南",
+  Hubei: "湖北",
+  Hunan: "湖南",
+  "Inner Mongolia": "内蒙古",
+  Jiangsu: "江苏",
+  Jiangxi: "江西",
+  Jilin: "吉林",
+  Liaoning: "辽宁",
+  Ningxia: "宁夏",
+  Qinghai: "青海",
+  Shaanxi: "陕西",
+  Shandong: "山东",
+  Shanghai: "上海",
+  Shanxi: "山西",
+  Sichuan: "四川",
+  Tianjin: "天津",
+  Tibet: "西藏",
+  Xinjiang: "新疆",
+  Yunnan: "云南",
+  Zhejiang: "浙江",
+};
+
+const ISO3_TO_ISO2 = {
+  AFG:"AF",ALB:"AL",DZA:"DZ",AND:"AD",AGO:"AO",ATG:"AG",ARG:"AR",ARM:"AM",AUS:"AU",AUT:"AT",
+  AZE:"AZ",BHS:"BS",BHR:"BH",BGD:"BD",BRB:"BB",BLR:"BY",BEL:"BE",BLZ:"BZ",BEN:"BJ",BTN:"BT",
+  BOL:"BO",BIH:"BA",BWA:"BW",BRA:"BR",BRN:"BN",BGR:"BG",BFA:"BF",BDI:"BI",KHM:"KH",CMR:"CM",
+  CAN:"CA",CPV:"CV",CAF:"CF",TCD:"TD",CHL:"CL",CHN:"CN",COL:"CO",COM:"KM",COG:"CG",COD:"CD",
+  CRI:"CR",CIV:"CI",HRV:"HR",CUB:"CU",CYP:"CY",CZE:"CZ",DNK:"DK",DJI:"DJ",DMA:"DM",DOM:"DO",
+  ECU:"EC",EGY:"EG",SLV:"SV",GNQ:"GQ",ERI:"ER",EST:"EE",SWZ:"SZ",ETH:"ET",FJI:"FJ",FIN:"FI",
+  FRA:"FR",GAB:"GA",GMB:"GM",GEO:"GE",DEU:"DE",GHA:"GH",GRC:"GR",GRD:"GD",GTM:"GT",GIN:"GN",
+  GNB:"GW",GUY:"GY",HTI:"HT",HND:"HN",HUN:"HU",ISL:"IS",IND:"IN",IDN:"ID",IRN:"IR",IRQ:"IQ",
+  IRL:"IE",ISR:"IL",ITA:"IT",JAM:"JM",JPN:"JP",JOR:"JO",KAZ:"KZ",KEN:"KE",KIR:"KI",PRK:"KP",
+  KOR:"KR",KWT:"KW",KGZ:"KG",LAO:"LA",LVA:"LV",LBN:"LB",LSO:"LS",LBR:"LR",LBY:"LY",LTU:"LT",
+  LUX:"LU",MDG:"MG",MWI:"MW",MYS:"MY",MDV:"MV",MLI:"ML",MLT:"MT",MHL:"MH",MRT:"MR",MUS:"MU",
+  MEX:"MX",FSM:"FM",MDA:"MD",MCO:"MC",MNG:"MN",MNE:"ME",MAR:"MA",MOZ:"MZ",MMR:"MM",NAM:"NA",
+  NRU:"NR",NPL:"NP",NLD:"NL",NZL:"NZ",NIC:"NI",NER:"NE",NGA:"NG",MKD:"MK",NOR:"NO",OMN:"OM",
+  PAK:"PK",PLW:"PW",PAN:"PA",PNG:"PG",PRY:"PY",PER:"PE",PHL:"PH",POL:"PL",PRT:"PT",QAT:"QA",
+  ROU:"RO",RUS:"RU",RWA:"RW",KNA:"KN",LCA:"LC",VCT:"VC",WSM:"WS",STP:"ST",SAU:"SA",SEN:"SN",
+  SRB:"RS",SYC:"SC",SLE:"SL",SGP:"SG",SVK:"SK",SVN:"SI",SLB:"SB",SOM:"SO",ZAF:"ZA",SSD:"SS",
+  ESP:"ES",LKA:"LK",SDN:"SD",SUR:"SR",SWE:"SE",CHE:"CH",SYR:"SY",TWN:"TW",TJK:"TJ",TZA:"TZ",
+  THA:"TH",TLS:"TL",TGO:"TG",TON:"TO",TTO:"TT",TUN:"TN",TUR:"TR",TKM:"TM",TUV:"TV",UGA:"UG",
+  UKR:"UA",ARE:"AE",GBR:"GB",USA:"US",URY:"UY",UZB:"UZ",VUT:"VU",VEN:"VE",VNM:"VN",YEM:"YE",
+  ZMB:"ZM",ZWE:"ZW",PSE:"PS",XKX:"XK",COK:"CK",NIU:"NU",
+};
+
+const DISPLAY_NAMES_ZH =
+  typeof Intl !== "undefined" && typeof Intl.DisplayNames === "function"
+    ? new Intl.DisplayNames(["zh-Hans"], { type: "region" })
+    : null;
 
 const state = {
   dimension: "dim1",
@@ -206,12 +309,17 @@ async function loadData() {
     store.overviewIndex.set(country.iso3, country);
     const isoKey = safeLower(country.iso3);
     const nameKey = safeLower(country.country_name);
+    const zhNameKey = safeLower(countryLabel(country));
     if (isoKey) {
       store.countryLookup.set(isoKey, country.iso3);
     }
     if (nameKey) {
       store.countryLookup.set(nameKey, country.iso3);
       store.countryLookup.set(`${nameKey} (${isoKey})`, country.iso3);
+    }
+    if (zhNameKey) {
+      store.countryLookup.set(zhNameKey, country.iso3);
+      store.countryLookup.set(`${zhNameKey} (${isoKey})`, country.iso3);
     }
   }
 
@@ -292,7 +400,7 @@ function normalizeScenario(rawScenario, index) {
     budget_multiplier: budgetMultiplier,
     objective_value: normalizeNumber(rawScenario.objective_value),
     status: rawScenario.status ?? "ready",
-    label: rawScenario.label ?? `${objectiveLabel(objective)} | ${budgetLabel(budgetMultiplier)}`,
+    label: `${objectiveLabel(objective)} | ${budgetLabel(budgetMultiplier)}`,
     allocation,
     summary: {},
   };
@@ -340,12 +448,12 @@ function buildFallbackScenario() {
     budget_multiplier: 1.0,
     objective_value: null,
     status: "fallback_from_overview",
-    label: "Need-weighted baseline | Current budget",
+    label: "需求加权基线 | 当前预算",
     allocation,
     summary: {},
   };
   scenario.summary = buildScenarioSummary(scenario, {
-    note: "Fallback scenario derived from the latest overview artifact.",
+    note: "从最新概览数据中衍生的回退情景。",
   });
   scenario.allocationIndex = new Map(scenario.allocation.map((row) => [row.iso3, row]));
   return scenario;
@@ -363,8 +471,8 @@ function buildScenarioSummary(scenario, rawSummary = {}) {
     .sort((left, right) => (left.change_pct ?? Infinity) - (right.change_pct ?? Infinity));
   const movedBudget = sumValues(allocation.map((row) => Math.abs(row.change ?? 0))) / 2;
   const merged = {
-    label: rawSummary.label ?? scenario.label,
-    note: rawSummary.note ?? OBJECTIVE_META[scenario.objective]?.note ?? "",
+    label: scenario.label,
+    note: OBJECTIVE_META[scenario.objective]?.note ?? "",
     recipient_count: rawSummary.recipient_count ?? recipients.length,
     donor_count: rawSummary.donor_count ?? donors.length,
     total_current: rawSummary.total_current ?? totalCurrent,
@@ -372,10 +480,10 @@ function buildScenarioSummary(scenario, rawSummary = {}) {
     moved_budget: rawSummary.moved_budget ?? movedBudget,
     projected_output_change_pct:
       rawSummary.projected_output_change_pct ?? normalizeNumber(rawSummary.projected_output_change_pct),
-    top_recipient: rawSummary.top_recipient ?? recipients[0]?.country_name ?? "N/A",
-    top_donor: rawSummary.top_donor ?? donors[0]?.country_name ?? "N/A",
-    objective_label: rawSummary.objective_label ?? objectiveLabel(scenario.objective),
-    budget_label: rawSummary.budget_label ?? budgetLabel(scenario.budget_multiplier),
+    top_recipient: translateCountryName(rawSummary.top_recipient ?? recipients[0]?.country_name),
+    top_donor: translateCountryName(rawSummary.top_donor ?? donors[0]?.country_name),
+    objective_label: objectiveLabel(scenario.objective),
+    budget_label: budgetLabel(scenario.budget_multiplier),
   };
 
   return merged;
@@ -497,9 +605,7 @@ function handleCountryJump() {
   if (!input) return;
 
   if (state.dimension === "dim4") {
-    const provinces = store.chinaDeepDive?.provinces ?? [];
-    const match = provinces.find((p) => safeLower(p) === safeLower(input)) ||
-      provinces.find((p) => safeLower(p).includes(safeLower(input)));
+    const match = resolveProvinceInput(input);
     if (match) {
       state.province = match;
       renderPanels();
@@ -552,7 +658,7 @@ function syncControls() {
     riskSelect.innerHTML = (store.riskLatest.available_risks ?? [])
       .map(
         (risk) =>
-          `<option value="${escapeHtml(risk.risk_code)}">${escapeHtml(risk.risk_name)}</option>`,
+          `<option value="${escapeHtml(risk.risk_code)}">${escapeHtml(translateRiskName(risk.risk_name))}</option>`,
       )
       .join("");
     riskSelect.value = state.risk;
@@ -607,23 +713,23 @@ function syncControls() {
   document.getElementById("map-title").textContent = DIMENSIONS[state.dimension].mapTitle;
   document.getElementById("map-note").textContent = DIMENSIONS[state.dimension].note;
   document.getElementById("context-pill").textContent =
-    state.dimension === "dim3" ? "Scenario Engine" : "Static Build";
+    state.dimension === "dim3" ? "情景引擎" : "静态构建";
 
   if (state.dimension === "dim1" && store.availableYears.length) {
-    document.getElementById("map-kicker").textContent = `Global Map \u00B7 ${state.year}`;
+    document.getElementById("map-kicker").textContent = `全球地图 \u00B7 ${state.year}`;
   } else {
-    document.getElementById("map-kicker").textContent = "Global Map";
+    document.getElementById("map-kicker").textContent = "全球地图";
   }
 
   const currentScenario = getCurrentScenario();
   const controlNote =
     state.dimension === "dim3"
-      ? `${currentScenario?.summary?.label ?? "Optimization scenario"}: ${
+      ? `${currentScenario?.summary?.label ?? "优化情景"}：${
           OBJECTIVE_META[state.objective]?.note ?? ""
         }`
       : state.dimension === "dim4"
-        ? "China provincial health resource data from Dataset 5."
-        : "Static dashboard built from competition analysis artifacts.";
+        ? "来自数据集5的中国省级卫生资源数据。"
+        : "基于竞赛分析产出构建的静态仪表盘。";
   document.getElementById("control-note").textContent = controlNote;
 
   syncSearchField();
@@ -632,7 +738,7 @@ function syncControls() {
 function syncSearchField() {
   if (state.dimension === "dim4") return;
   const searchInput = document.getElementById("country-search");
-  searchInput.placeholder = "Enter country name or ISO3 code";
+  searchInput.placeholder = "输入国家名称或三位国家代码";
   populateCountryDatalist();
   const country = store.overviewIndex.get(state.country);
   if (country) {
@@ -644,10 +750,10 @@ function syncProvinceSearch() {
   const searchInput = document.getElementById("country-search");
   const datalist = document.getElementById("country-list");
   const provinces = store.chinaDeepDive?.provinces ?? [];
-  searchInput.value = state.province || "";
-  searchInput.placeholder = "Enter province name";
+  searchInput.value = state.province ? provinceLabel(state.province) : "";
+  searchInput.placeholder = "输入省份名称";
   datalist.innerHTML = provinces
-    .map((p) => `<option value="${escapeHtml(p)}"></option>`)
+    .map((p) => `<option value="${escapeHtml(provinceLabel(p))}"></option>`)
     .join("");
 }
 
@@ -657,15 +763,15 @@ function renderSummaryStrip() {
   const tiles = [
     {
       value: formatShare(summary.dimension1?.global_ncd_share),
-      label: "2023 Global NCD Share",
+      label: "2023 全球非传染性疾病占比",
     },
     {
-      value: escapeHtml(summary.dimension1?.top_life_expectancy_country ?? "N/A"),
-      label: "Highest Life Expectancy",
+      value: escapeHtml(translateCountryName(summary.dimension1?.top_life_expectancy_country)),
+      label: "最高预期寿命",
     },
     {
-      value: escapeHtml(summary.dimension2?.top_global_risk ?? "N/A"),
-      label: "Top Global Risk Factor",
+      value: escapeHtml(translateRiskName(summary.dimension2?.top_global_risk)),
+      label: "首要全球风险因素",
     },
     state.dimension === "dim3"
       ? {
@@ -673,8 +779,8 @@ function renderSummaryStrip() {
           label: objectiveLabel(scenario?.objective ?? "max_output"),
         }
       : {
-          value: escapeHtml(summary.dimension3?.largest_shortage_country ?? "N/A"),
-          label: "Largest Resource Gap",
+          value: escapeHtml(translateCountryName(summary.dimension3?.largest_shortage_country)),
+          label: "最大资源缺口",
         },
   ];
 
@@ -856,14 +962,14 @@ function renderMap() {
 function renderChinaProvinceBar() {
   const data = store.chinaDeepDive;
   if (!data?.rankings) {
-    emptyPlot("map-chart", "No China provincial data is available.");
+    emptyPlot("map-chart", "暂无中国省级数据。");
     return;
   }
 
   const metricKey = state.metric === "health_institutions" ? "health_institutions" : "health_personnel";
   const ranking = [...(data.rankings[metricKey] ?? [])].reverse();
   if (!ranking.length) {
-    emptyPlot("map-chart", "No ranking data for this metric.");
+    emptyPlot("map-chart", "该指标暂无排名数据。");
     return;
   }
 
@@ -877,7 +983,8 @@ function renderChinaProvinceBar() {
       {
         type: "bar",
         x: ranking.map((r) => r.value),
-        y: ranking.map((r) => r.province),
+        y: ranking.map((r) => provinceLabel(r.province)),
+        customdata: ranking.map((r) => r.province),
         orientation: "h",
         marker: {
           color: barColors,
@@ -902,7 +1009,7 @@ function renderChinaProvinceBar() {
   if (!mapNode.dataset.dim4Bound) {
     mapNode.on("plotly_click", (event) => {
       if (state.dimension !== "dim4") return;
-      const province = event?.points?.[0]?.y;
+      const province = event?.points?.[0]?.customdata;
       if (province) {
         state.province = province;
         renderPanels();
@@ -950,12 +1057,12 @@ function buildHoverText(row) {
   if (state.dimension === "dim2") {
     return [
       `<b>${escapeHtml(countryLabel(row))}</b>`,
-      `Region: ${escapeHtml(row.who_region ?? "N/A")} / ${escapeHtml(row.wb_income ?? "N/A")}`,
-      `Risk: ${escapeHtml(row.risk_name ?? getRiskName(state.risk))}`,
+      `地区：${escapeHtml(regionLabel(row.who_region))} / ${escapeHtml(incomeLabel(row.wb_income))}`,
+      `风险：${escapeHtml(translateRiskName(row.risk_name ?? getRiskName(state.risk)))}`,
       `${METRIC_META[state.metric].label}: ${escapeHtml(
         METRIC_META[state.metric].formatter(METRIC_META[state.metric].accessor(row)),
       )}`,
-      `Attributable deaths: ${escapeHtml(formatCompact(row.attributable_deaths))}`,
+      `归因死亡：${escapeHtml(formatCompact(row.attributable_deaths))}`,
     ].join("<br>");
   }
 
@@ -963,24 +1070,24 @@ function buildHoverText(row) {
     const scenario = getCurrentScenario();
     return [
       `<b>${escapeHtml(countryLabel(row))}</b>`,
-      `Region: ${escapeHtml(row.who_region ?? "N/A")} / ${escapeHtml(row.wb_income ?? "N/A")}`,
+      `地区：${escapeHtml(regionLabel(row.who_region))} / ${escapeHtml(incomeLabel(row.wb_income))}`,
       `${METRIC_META[state.metric].label}: ${escapeHtml(
         METRIC_META[state.metric].formatter(METRIC_META[state.metric].accessor(row)),
       )}`,
-      `Scenario: ${escapeHtml(scenario?.summary?.label ?? "N/A")}`,
-      `Gap: ${escapeHtml(formatSigned(row.gap))}`,
-      `Efficiency: ${escapeHtml(formatSigned(row.efficiency))}`,
+      `情景：${escapeHtml(scenario?.summary?.label ?? NO_DATA_LABEL)}`,
+      `缺口：${escapeHtml(formatSigned(row.gap))}`,
+      `效率：${escapeHtml(formatSigned(row.efficiency))}`,
     ].join("<br>");
   }
 
   return [
     `<b>${escapeHtml(countryLabel(row))}</b>`,
-    `Region: ${escapeHtml(row.who_region ?? "N/A")} / ${escapeHtml(row.wb_income ?? "N/A")}`,
+    `地区：${escapeHtml(regionLabel(row.who_region))} / ${escapeHtml(incomeLabel(row.wb_income))}`,
     `${METRIC_META[state.metric].label}: ${escapeHtml(
       METRIC_META[state.metric].formatter(METRIC_META[state.metric].accessor(row)),
     )}`,
-    `Top risk: ${escapeHtml(row.top_risk_name ?? "N/A")}`,
-    `Top risk share: ${escapeHtml(formatShare(row.top_risk_share))}`,
+    `首要风险：${escapeHtml(translateRiskName(row.top_risk_name))}`,
+    `首要风险占比：${escapeHtml(formatShare(row.top_risk_share))}`,
   ].join("<br>");
 }
 
@@ -991,8 +1098,8 @@ function renderCountryPanel() {
   const scenarioRow = getScenarioRow(state.country);
 
   document.getElementById("country-title").textContent = countryLabel(meta) || state.country;
-  document.getElementById("country-tag").textContent = `${meta.who_region ?? "N/A"} / ${
-    meta.wb_income ?? "N/A"
+  document.getElementById("country-tag").textContent = `${regionLabel(meta.who_region)} / ${
+    incomeLabel(meta.wb_income)
   }`;
 
   const title = document.getElementById("country-title");
@@ -1003,22 +1110,22 @@ function renderCountryPanel() {
   let items = [];
   if (state.dimension === "dim1") {
     items = [
-      ["Life Expectancy", METRIC_META.life_expectancy.formatter(latest.life_expectancy), "cyan"],
-      ["Communicable Share", formatShare(latest.communicable_share), "amber"],
-      ["NCD Share", formatShare(latest.ncd_share), "violet"],
-      ["GDP per Capita", formatCurrency(latest.gdp_per_capita), "teal"],
-      ["Health Exp / GDP", formatPercentValue(latest.health_exp_pct_gdp), "blue"],
-      ["Top Risk", latest.top_risk_name ?? "N/A", "rose"],
+      ["预期寿命", METRIC_META.life_expectancy.formatter(latest.life_expectancy), "cyan"],
+      ["传染性疾病占比", formatShare(latest.communicable_share), "amber"],
+      ["非传染性疾病占比", formatShare(latest.ncd_share), "violet"],
+      ["人均国内生产总值", formatCurrency(latest.gdp_per_capita), "teal"],
+      ["卫生支出占国内生产总值比重", formatPercentValue(latest.health_exp_pct_gdp), "blue"],
+      ["首要风险", translateRiskName(latest.top_risk_name), "rose"],
     ];
   } else if (state.dimension === "dim2") {
     const selectedRisk = store.riskIndex.get(`${state.country}|${state.risk}`) ?? {};
     items = [
-      ["Top Risk", latest.top_risk_name ?? "N/A", "cyan"],
-      ["Top Risk Share", formatShare(latest.top_risk_share), "teal"],
-      ["Top Risk Deaths", formatCompact(latest.top_risk_deaths), "rose"],
-      ["Selected Risk", selectedRisk.risk_name ?? getRiskName(state.risk), "violet"],
-      ["Selected Share", formatShare(selectedRisk.share), "amber"],
-      ["Selected Deaths", formatCompact(selectedRisk.attributable_deaths), "blue"],
+      ["首要风险", translateRiskName(latest.top_risk_name), "cyan"],
+      ["首要风险占比", formatShare(latest.top_risk_share), "teal"],
+      ["首要风险死亡", formatCompact(latest.top_risk_deaths), "rose"],
+      ["当前风险", translateRiskName(selectedRisk.risk_name ?? getRiskName(state.risk)), "violet"],
+      ["当前占比", formatShare(selectedRisk.share), "amber"],
+      ["当前死亡", formatCompact(selectedRisk.attributable_deaths), "blue"],
     ];
   } else if (state.dimension === "dim4") {
     const chinaData = store.chinaDeepDive;
@@ -1027,28 +1134,28 @@ function renderCountryPanel() {
     const series = chinaData?.[metricKey]?.[prov] ?? [];
     const latestVal = series.length ? series[series.length - 1].value : null;
     const firstVal = series.length ? series[0].value : null;
-    const growth = firstVal && latestVal ? (((latestVal - firstVal) / firstVal) * 100).toFixed(1) : "N/A";
+    const growth = firstVal && latestVal ? (((latestVal - firstVal) / firstVal) * 100).toFixed(1) : NO_DATA_LABEL;
     const ranking = chinaData?.rankings?.[metricKey] ?? [];
     const rank = ranking.findIndex((r) => r.province === prov) + 1;
 
-    document.getElementById("country-title").textContent = prov || "Select a province";
-    document.getElementById("country-tag").textContent = "China Province";
+    document.getElementById("country-title").textContent = prov ? provinceLabel(prov) : "选择省份";
+    document.getElementById("country-tag").textContent = "中国省份";
     items = [
-      ["Province", prov || "N/A", "rose"],
+      ["省份", provinceLabel(prov), "rose"],
       [METRIC_META[metricKey].label, formatCompact(latestVal), "cyan"],
-      ["National Rank", rank > 0 ? `#${rank} / ${ranking.length}` : "N/A", "amber"],
-      ["Period Growth", growth !== "N/A" ? `${growth}%` : "N/A", "teal"],
-      ["Data Points", `${series.length} years`, "blue"],
-      ["Latest Year", chinaData?.latest_year ? String(chinaData.latest_year) : "N/A", "violet"],
+      ["全国排名", rank > 0 ? `第 ${rank} / ${ranking.length} 名` : NO_DATA_LABEL, "amber"],
+      ["期间增长", growth !== NO_DATA_LABEL ? `${growth}%` : NO_DATA_LABEL, "teal"],
+      ["数据点", `${series.length} 年`, "blue"],
+      ["最新年份", chinaData?.latest_year ? String(chinaData.latest_year) : NO_DATA_LABEL, "violet"],
     ];
   } else {
     items = [
-      ["Scenario Objective", objectiveLabel(state.objective), "cyan"],
-      ["Current Spend", formatCurrency(scenarioRow?.current ?? latest.current), "teal"],
-      ["Scenario Optimal", formatCurrency(scenarioRow?.optimal ?? latest.optimal), "blue"],
-      ["Recommended Change", formatSignedPercent(scenarioRow?.change_pct ?? latest.change_pct), "violet"],
-      ["Resource Gap", formatSigned(latest.gap), "rose"],
-      ["Efficiency", formatSigned(latest.efficiency), "amber"],
+      ["情景目标", objectiveLabel(state.objective), "cyan"],
+      ["当前支出", formatCurrency(scenarioRow?.current ?? latest.current), "teal"],
+      ["情景最优", formatCurrency(scenarioRow?.optimal ?? latest.optimal), "blue"],
+      ["建议调整", formatSignedPercent(scenarioRow?.change_pct ?? latest.change_pct), "violet"],
+      ["资源缺口", formatSigned(latest.gap), "rose"],
+      ["效率", formatSigned(latest.efficiency), "amber"],
     ];
   }
 
@@ -1080,13 +1187,13 @@ function renderRankingList() {
     return (leftValue ?? Infinity) - (rightValue ?? Infinity);
   });
 
-  let caption = "Sorted by current map metric";
+  let caption = "按当前地图指标排序";
   if (state.dimension === "dim2") {
     caption = `${getRiskName(state.risk)} | ${metric.label}`;
   } else if (state.dimension === "dim3" && state.metric === "change_pct") {
     caption = `${objectiveLabel(state.objective)} | ${budgetLabel(state.budgetMultiplier)}`;
   } else if (state.dimension === "dim3" && state.metric === "gap") {
-    caption = "Most severe shortage";
+    caption = "最严重短缺";
   }
   document.getElementById("ranking-caption").textContent = caption;
 
@@ -1106,7 +1213,7 @@ function renderRankingList() {
           <span class="rank-badge">${index + 1}</span>
           <span class="row-info">
             <b>${escapeHtml(countryLabel(row))}</b>
-            <small>${escapeHtml(row.who_region ?? "N/A")} / ${escapeHtml(row.wb_income ?? "N/A")}</small>
+            <small>${escapeHtml(regionLabel(row.who_region))} / ${escapeHtml(incomeLabel(row.wb_income))}</small>
           </span>
           <span class="row-value">${escapeHtml(metric.formatter(metric.accessor(row)))}</span>
         </button>
@@ -1131,7 +1238,7 @@ function renderDim4RankingList() {
   const topRows = ranking.slice(0, 10);
   const maxValue = topRows.length ? Math.max(...topRows.map((r) => Math.abs(r.value ?? 0)), 1) : 1;
 
-  document.getElementById("ranking-caption").textContent = `${METRIC_META[metricKey].label} | Latest`;
+  document.getElementById("ranking-caption").textContent = `${METRIC_META[metricKey].label} | 最新值`;
 
   document.getElementById("ranking-list").innerHTML = topRows
     .map((row, index) => {
@@ -1146,8 +1253,8 @@ function renderDim4RankingList() {
         >
           <span class="rank-badge">${index + 1}</span>
           <span class="row-info">
-            <b>${escapeHtml(row.province)}</b>
-            <small>China</small>
+            <b>${escapeHtml(provinceLabel(row.province))}</b>
+            <small>中国</small>
           </span>
           <span class="row-value">${escapeHtml(formatCompact(row.value))}</span>
         </button>
@@ -1168,40 +1275,40 @@ function renderDetailChart() {
   const profile = store.profiles[state.country];
 
   if (state.dimension === "dim4") {
-    document.getElementById("detail-title").textContent = "Province Time Series";
-    document.getElementById("detail-pill").textContent = state.province || "Select province";
+    document.getElementById("detail-title").textContent = "省份时间序列";
+    document.getElementById("detail-pill").textContent = state.province ? provinceLabel(state.province) : "选择省份";
     renderChinaDetailChart();
     return;
   }
 
   if (!profile) {
-    emptyPlot("detail-chart", "No country profile is available.");
+    emptyPlot("detail-chart", "暂无国家概况数据。");
     return;
   }
 
   if (state.dimension === "dim1") {
-    document.getElementById("detail-title").textContent = "Health Outcomes & Disease Structure";
-    document.getElementById("detail-pill").textContent = "Life expectancy vs disease shares";
+    document.getElementById("detail-title").textContent = "健康结果与疾病结构";
+    document.getElementById("detail-pill").textContent = "预期寿命与疾病占比";
     renderDimension1Detail(profile);
     return;
   }
 
   if (state.dimension === "dim2") {
-    document.getElementById("detail-title").textContent = "Latest Risk Composition";
-    document.getElementById("detail-pill").textContent = "Top attributable factors";
+    document.getElementById("detail-title").textContent = "最新风险构成";
+    document.getElementById("detail-pill").textContent = "主要归因因素";
     renderDimension2Detail(profile);
     return;
   }
 
-  document.getElementById("detail-title").textContent = "Selected Country Scenario";
-  document.getElementById("detail-pill").textContent = "Historical spend vs scenario target";
+  document.getElementById("detail-title").textContent = "国家情景分析";
+  document.getElementById("detail-pill").textContent = "历史支出与情景目标";
   renderDimension3Detail(profile);
 }
 
 function renderDimension1Detail(profile) {
   const trend = profile.trend ?? [];
   if (!trend.length) {
-    emptyPlot("detail-chart", "No historical trend is available.");
+    emptyPlot("detail-chart", "暂无历史趋势数据。");
     return;
   }
 
@@ -1211,7 +1318,7 @@ function renderDimension1Detail(profile) {
       {
         x: trend.map((row) => row.year),
         y: trend.map((row) => row.life_expectancy),
-        name: "Life Expectancy",
+        name: "预期寿命",
         mode: "lines+markers",
         line: { color: THEME.cyan, width: 3, shape: "spline" },
         marker: { size: 6, color: THEME.cyan },
@@ -1221,7 +1328,7 @@ function renderDimension1Detail(profile) {
       {
         x: trend.map((row) => row.year),
         y: trend.map((row) => percentValue(row.communicable_share)),
-        name: "Communicable",
+        name: "传染性疾病",
         mode: "lines",
         yaxis: "y2",
         line: { color: THEME.amber, width: 2.5, shape: "spline" },
@@ -1229,18 +1336,18 @@ function renderDimension1Detail(profile) {
       {
         x: trend.map((row) => row.year),
         y: trend.map((row) => percentValue(row.ncd_share)),
-        name: "NCD",
+        name: "非传染性疾病",
         mode: "lines",
         yaxis: "y2",
         line: { color: THEME.violet, width: 2.5, shape: "spline" },
       },
     ],
     baseLayout({
-      yaxis: { title: "Years" },
+      yaxis: { title: "预期寿命（岁）" },
       yaxis2: {
         overlaying: "y",
         side: "right",
-        title: "Share (%)",
+        title: "占比 (%)",
         gridcolor: "rgba(0,0,0,0)",
       },
     }),
@@ -1251,7 +1358,7 @@ function renderDimension1Detail(profile) {
 function renderDimension2Detail(profile) {
   const risks = [...(profile.latest_risks ?? [])].slice(0, 6).reverse();
   if (!risks.length) {
-    emptyPlot("detail-chart", "No latest risk attribution records are available.");
+    emptyPlot("detail-chart", "暂无最新风险归因记录。");
     return;
   }
 
@@ -1261,7 +1368,7 @@ function renderDimension2Detail(profile) {
       {
         type: "bar",
         x: risks.map((row) => percentValue(row.share)),
-        y: risks.map((row) => row.risk_name),
+        y: risks.map((row) => translateRiskName(row.risk_name)),
         orientation: "h",
         marker: {
           color: risks.map((_, index) => colorFromPalette(index)),
@@ -1269,11 +1376,11 @@ function renderDimension2Detail(profile) {
           line: { width: 0 },
         },
         customdata: risks.map((row) => row.attributable_deaths),
-        hovertemplate: "<b>%{y}</b><br>Share: %{x:.2f}%<br>Attributable deaths: %{customdata:.0f}<extra></extra>",
+        hovertemplate: "<b>%{y}</b><br>占比: %{x:.2f}%<br>归因死亡: %{customdata:.0f}<extra></extra>",
       },
     ],
     baseLayout({
-      xaxis: { title: "Share (%)" },
+      xaxis: { title: "占比 (%)" },
       yaxis: { automargin: true },
     }),
     { responsive: true, displayModeBar: false, scrollZoom: false },
@@ -1288,7 +1395,7 @@ function renderDimension3Detail(profile) {
   const optimalValue = scenarioRow?.optimal ?? latest.optimal;
 
   if (!trend.length && currentValue == null && optimalValue == null) {
-    emptyPlot("detail-chart", "No allocation data is available for this country.");
+    emptyPlot("detail-chart", "该国暂无分配数据。");
     return;
   }
 
@@ -1297,7 +1404,7 @@ function renderDimension3Detail(profile) {
     traces.push({
       x: trend.map((row) => row.year),
       y: trend.map((row) => row.health_exp_per_capita),
-      name: "Historical spend per capita",
+      name: "历史人均支出",
       mode: "lines+markers",
       line: { color: THEME.teal, width: 3, shape: "spline" },
       marker: { size: 5, color: THEME.teal },
@@ -1308,7 +1415,7 @@ function renderDimension3Detail(profile) {
     traces.push({
       x: trend.map((row) => row.year),
       y: trend.map(() => optimalValue),
-      name: "Scenario target",
+      name: "情景目标",
       mode: "lines",
       line: { color: THEME.blue, width: 2, dash: "dash" },
     });
@@ -1317,31 +1424,31 @@ function renderDimension3Detail(profile) {
   if (currentValue != null && optimalValue != null) {
     traces.push({
       type: "bar",
-      x: ["Current", "Scenario target"],
+      x: ["当前", "情景目标"],
       y: [currentValue, optimalValue],
-      name: "Current vs target",
+      name: "当前与目标",
       marker: {
         color: [THEME.violet, THEME.cyan],
         line: { width: 0 },
       },
       opacity: 0.34,
       yaxis: trend.length ? "y3" : "y",
-      hovertemplate: "<b>%{x}</b><br>$%{y:,.0f}<extra></extra>",
+      hovertemplate: "<b>%{x}</b><br>%{y:,.0f} 美元<extra></extra>",
     });
   }
 
   const layout = trend.length
     ? baseLayout({
-        yaxis: { title: "US$ per capita" },
+        yaxis: { title: "人均美元" },
         yaxis3: {
           overlaying: "y",
           side: "right",
-          title: "Current vs target",
+          title: "当前与目标",
           showgrid: false,
         },
       })
     : baseLayout({
-        yaxis: { title: "US$ per capita" },
+        yaxis: { title: "人均美元" },
       });
 
   Plotly.react("detail-chart", traces, layout, {
@@ -1358,7 +1465,7 @@ function renderChinaDetailChart() {
   const series = data?.[metricKey]?.[prov] ?? [];
 
   if (!series.length) {
-    emptyPlot("detail-chart", prov ? `No data for ${prov}.` : "Select a province to view trends.");
+    emptyPlot("detail-chart", prov ? `暂无 ${provinceLabel(prov)} 的数据。` : "选择省份以查看趋势。");
     return;
   }
 
@@ -1368,7 +1475,7 @@ function renderChinaDetailChart() {
       {
         x: series.map((r) => r.year),
         y: series.map((r) => r.value),
-        name: prov,
+        name: provinceLabel(prov),
         mode: "lines+markers",
         line: { color: "#f87171", width: 3, shape: "spline" },
         marker: { size: 6, color: "#f87171" },
@@ -1386,13 +1493,13 @@ function renderChinaDetailChart() {
 function renderCompanionChart() {
   if (state.dimension === "dim1") {
     const toggleHtml = `<span class="companion-toggle" id="companion-toggle">` +
-      `<button class="companion-toggle-btn ${state.companionView === "transition" ? "is-active" : ""}" data-view="transition">Transition</button>` +
-      `<button class="companion-toggle-btn ${state.companionView === "equity" ? "is-active" : ""}" data-view="equity">Equity</button>` +
+      `<button class="companion-toggle-btn ${state.companionView === "transition" ? "is-active" : ""}" data-view="transition">趋势</button>` +
+      `<button class="companion-toggle-btn ${state.companionView === "equity" ? "is-active" : ""}" data-view="equity">公平</button>` +
       `</span>`;
     document.getElementById("companion-title").innerHTML =
-      state.companionView === "equity" ? `Health Equity Trends${toggleHtml}` : `Global Disease Transition${toggleHtml}`;
+      state.companionView === "equity" ? `健康公平趋势${toggleHtml}` : `全球疾病趋势${toggleHtml}`;
     document.getElementById("companion-pill").textContent =
-      state.companionView === "equity" ? "Gini & Sigma" : "2000-2023";
+      state.companionView === "equity" ? "基尼系数与离散度" : "2000-2023";
 
     // Bind toggle
     document.querySelectorAll(".companion-toggle-btn").forEach((btn) => {
@@ -1411,20 +1518,20 @@ function renderCompanionChart() {
   }
 
   if (state.dimension === "dim2") {
-    document.getElementById("companion-title").textContent = "Risk-to-Region Flow";
-    document.getElementById("companion-pill").textContent = "Sankey overview";
+    document.getElementById("companion-title").textContent = "风险-地区流向";
+    document.getElementById("companion-pill").textContent = "桑基图概览";
     renderRiskSankey();
     return;
   }
 
   if (state.dimension === "dim4") {
-    document.getElementById("companion-title").textContent = "National Aggregate Trend";
-    document.getElementById("companion-pill").textContent = "All China";
+    document.getElementById("companion-title").textContent = "全国汇总趋势";
+    document.getElementById("companion-pill").textContent = "全国";
     renderChinaNationalTrend();
     return;
   }
 
-  document.getElementById("companion-title").textContent = "Scenario Winners & Donors";
+  document.getElementById("companion-title").textContent = "情景赢家与捐助者";
   document.getElementById("companion-pill").textContent = budgetLabel(state.budgetMultiplier);
   renderOptimizationBar();
 }
@@ -1432,7 +1539,7 @@ function renderCompanionChart() {
 function renderGlobalDiseaseTrend() {
   const trend = store.globalStory.global_disease_trends ?? [];
   if (!trend.length) {
-    emptyPlot("companion-chart", "No global trend artifact is available.");
+    emptyPlot("companion-chart", "暂无全球趋势数据。");
     return;
   }
 
@@ -1442,39 +1549,39 @@ function renderGlobalDiseaseTrend() {
       {
         x: trend.map((row) => row.year),
         y: trend.map((row) => row.communicable_share),
-        name: "Communicable",
+        name: "传染性疾病",
         mode: "lines",
         line: { color: THEME.amber, width: 0, shape: "spline" },
         fill: "tonexty",
         fillcolor: "rgba(251, 191, 36, 0.35)",
         stackgroup: "share",
-        hovertemplate: "<b>Communicable</b><br>%{x}: %{y:.1%}<extra></extra>",
+        hovertemplate: "<b>传染性疾病</b><br>%{x}: %{y:.1%}<extra></extra>",
       },
       {
         x: trend.map((row) => row.year),
         y: trend.map((row) => row.ncd_share),
-        name: "NCD",
+        name: "非传染性疾病",
         mode: "lines",
         line: { color: THEME.teal, width: 0, shape: "spline" },
         fill: "tonexty",
         fillcolor: "rgba(45, 212, 191, 0.35)",
         stackgroup: "share",
-        hovertemplate: "<b>NCD</b><br>%{x}: %{y:.1%}<extra></extra>",
+        hovertemplate: "<b>非传染性疾病</b><br>%{x}: %{y:.1%}<extra></extra>",
       },
       {
         x: trend.map((row) => row.year),
         y: trend.map((row) => row.injury_share),
-        name: "Injuries",
+        name: "伤害",
         mode: "lines",
         line: { color: THEME.rose, width: 0, shape: "spline" },
         fill: "tonexty",
         fillcolor: "rgba(251, 113, 133, 0.35)",
         stackgroup: "share",
-        hovertemplate: "<b>Injuries</b><br>%{x}: %{y:.1%}<extra></extra>",
+        hovertemplate: "<b>伤害</b><br>%{x}: %{y:.1%}<extra></extra>",
       },
     ],
     baseLayout({
-      yaxis: { title: "Share of global deaths", tickformat: ".0%", range: [0, 1] },
+      yaxis: { title: "全球死亡占比", tickformat: ".0%", range: [0, 1] },
     }),
     { responsive: true, displayModeBar: false, scrollZoom: false },
   );
@@ -1483,7 +1590,7 @@ function renderGlobalDiseaseTrend() {
 function renderRiskSankey() {
   const sankey = store.globalStory.sankey;
   if (!sankey?.nodes?.length) {
-    emptyPlot("companion-chart", "No Sankey artifact is available.");
+    emptyPlot("companion-chart", "暂无桑基图数据。");
     return;
   }
 
@@ -1494,12 +1601,12 @@ function renderRiskSankey() {
         type: "sankey",
         arrangement: "snap",
         node: {
-          label: sankey.nodes,
+          label: sankey.nodes.map((node) => translateSankeyNode(node)),
           pad: 16,
           thickness: 18,
           line: { color: "rgba(148,163,184,0.12)", width: 0.5 },
           color: sankey.nodes.map((node) =>
-            node.includes("RO") || node.includes("PRO")
+            REGION_LABELS[node]
               ? "rgba(167,139,250,0.72)"
               : "rgba(34,211,238,0.72)",
           ),
@@ -1533,7 +1640,7 @@ function renderOptimizationBar() {
     .reverse();
 
   if (!rows.length) {
-    emptyPlot("companion-chart", "No optimization scenario rows are available.");
+    emptyPlot("companion-chart", "暂无优化情景数据。");
     return;
   }
 
@@ -1552,11 +1659,11 @@ function renderOptimizationBar() {
         },
         customdata: rows.map((row) => [row.current, row.optimal]),
         hovertemplate:
-          "<b>%{y}</b><br>Change: %{x:.1f}%<br>Current: $%{customdata[0]:,.0f}<br>Target: $%{customdata[1]:,.0f}<extra></extra>",
+          "<b>%{y}</b><br>调整幅度：%{x:.1f}%<br>当前：%{customdata[0]:,.0f} 美元<br>目标：%{customdata[1]:,.0f} 美元<extra></extra>",
       },
     ],
     baseLayout({
-      xaxis: { title: "Recommended change (%)" },
+      xaxis: { title: "建议调整幅度（%）" },
       yaxis: { automargin: true },
     }),
     { responsive: true, displayModeBar: false, scrollZoom: false },
@@ -1566,7 +1673,7 @@ function renderOptimizationBar() {
 function renderEquityChart() {
   const equity = store.globalStory?.health_equity ?? [];
   if (!equity.length) {
-    emptyPlot("companion-chart", "No health equity data is available.");
+    emptyPlot("companion-chart", "暂无健康公平数据。");
     return;
   }
 
@@ -1576,7 +1683,7 @@ function renderEquityChart() {
       {
         x: equity.map((r) => r.year),
         y: equity.map((r) => r.gini),
-        name: "Gini (Life Expectancy)",
+        name: "基尼系数（预期寿命）",
         mode: "lines+markers",
         line: { color: THEME.cyan, width: 3, shape: "spline" },
         marker: { size: 5, color: THEME.cyan },
@@ -1584,7 +1691,7 @@ function renderEquityChart() {
       {
         x: equity.map((r) => r.year),
         y: equity.map((r) => r.sigma),
-        name: "Sigma Convergence",
+        name: "离散度收敛",
         mode: "lines+markers",
         yaxis: "y2",
         line: { color: THEME.amber, width: 2.5, shape: "spline" },
@@ -1592,11 +1699,11 @@ function renderEquityChart() {
       },
     ],
     baseLayout({
-      yaxis: { title: "Gini Coefficient" },
+      yaxis: { title: "基尼系数" },
       yaxis2: {
         overlaying: "y",
         side: "right",
-        title: "SD of log(LE)",
+        title: "对数预期寿命标准差",
         gridcolor: "rgba(0,0,0,0)",
       },
     }),
@@ -1610,7 +1717,7 @@ function renderChinaNationalTrend() {
   const series = data?.national_trend?.[metricKey] ?? [];
 
   if (!series.length) {
-    emptyPlot("companion-chart", "No national aggregate data is available.");
+    emptyPlot("companion-chart", "暂无全国汇总数据。");
     return;
   }
 
@@ -1620,7 +1727,7 @@ function renderChinaNationalTrend() {
       {
         x: series.map((r) => r.year),
         y: series.map((r) => r.value),
-        name: `China Total ${METRIC_META[metricKey].label}`,
+        name: `全国${METRIC_META[metricKey].label}`,
         mode: "lines+markers",
         line: { color: "#f87171", width: 3, shape: "spline" },
         marker: { size: 6, color: "#f87171" },
@@ -1637,24 +1744,24 @@ function renderChinaNationalTrend() {
 
 function renderContextPanel() {
   if (state.dimension === "dim1") {
-    document.getElementById("context-title").textContent = "Global Extremes & Structural Contrast";
+    document.getElementById("context-title").textContent = "全球极值与结构对比";
     renderDim1Context();
     return;
   }
 
   if (state.dimension === "dim2") {
-    document.getElementById("context-title").textContent = "Regional Priority Stack";
+    document.getElementById("context-title").textContent = "地区优先风险层级";
     renderDim2Context();
     return;
   }
 
   if (state.dimension === "dim4") {
-    document.getElementById("context-title").textContent = "Provincial Analysis";
+    document.getElementById("context-title").textContent = "省级比较分析";
     renderDim4Context();
     return;
   }
 
-  document.getElementById("context-title").textContent = "Optimization Lab Summary";
+  document.getElementById("context-title").textContent = "优化实验室摘要";
   renderDim3Context();
 }
 
@@ -1675,15 +1782,15 @@ function renderDim1Context() {
 
   document.getElementById("context-panel").innerHTML = renderContextColumns([
     {
-      title: "Highest life expectancy",
-      items: topLife.map((row) => ({ name: countryLabel(row), value: `${formatDecimal(row.life_expectancy)} yrs` })),
+      title: "最高预期寿命",
+      items: topLife.map((row) => ({ name: countryLabel(row), value: `${formatDecimal(row.life_expectancy)} 岁` })),
     },
     {
-      title: "Lowest life expectancy",
-      items: bottomLife.map((row) => ({ name: countryLabel(row), value: `${formatDecimal(row.life_expectancy)} yrs` })),
+      title: "最低预期寿命",
+      items: bottomLife.map((row) => ({ name: countryLabel(row), value: `${formatDecimal(row.life_expectancy)} 岁` })),
     },
     {
-      title: "Highest communicable burden",
+      title: "传染性疾病负担最高",
       items: communicable.map((row) => ({ name: countryLabel(row), value: formatShare(row.communicable_share) })),
     },
   ]);
@@ -1693,11 +1800,11 @@ function renderDim2Context() {
   const rows = store.globalStory.region_priority ?? [];
   document.getElementById("context-panel").innerHTML = renderContextColumns(
     rows.map((row) => ({
-      title: row.who_region,
+      title: regionLabel(row.who_region),
       items: [
-        { name: `1. ${row.primary_risk ?? "N/A"}`, value: formatShare(row.primary_share) },
-        { name: `2. ${row.secondary_risk ?? "N/A"}`, value: formatShare(row.secondary_share) },
-        { name: `3. ${row.tertiary_risk ?? "N/A"}`, value: formatShare(row.tertiary_share) },
+        { name: `1. ${translateRiskName(row.primary_risk)}`, value: formatShare(row.primary_share) },
+        { name: `2. ${translateRiskName(row.secondary_risk)}`, value: formatShare(row.secondary_share) },
+        { name: `3. ${translateRiskName(row.tertiary_risk)}`, value: formatShare(row.tertiary_share) },
       ],
     })),
   );
@@ -1719,38 +1826,38 @@ function renderDim3Context() {
 
   const summaryGrid = `
     <div class="lab-summary-grid">
-      ${renderLabStat("Scenario", scenario?.summary?.label ?? "N/A")}
-      ${renderLabStat("Budget envelope", scenario?.summary?.budget_label ?? budgetLabel(state.budgetMultiplier))}
-      ${renderLabStat("Recipient countries", formatInteger(scenario?.summary?.recipient_count))}
-      ${renderLabStat("Donor countries", formatInteger(scenario?.summary?.donor_count))}
-      ${renderLabStat("Budget moved", formatCurrency(scenario?.summary?.moved_budget))}
-      ${renderLabStat("Top recipient", scenario?.summary?.top_recipient ?? "N/A")}
+      ${renderLabStat("情景", scenario?.summary?.label ?? NO_DATA_LABEL)}
+      ${renderLabStat("预算规模", scenario?.summary?.budget_label ?? budgetLabel(state.budgetMultiplier))}
+      ${renderLabStat("受益国家数", formatInteger(scenario?.summary?.recipient_count))}
+      ${renderLabStat("捐出国家数", formatInteger(scenario?.summary?.donor_count))}
+      ${renderLabStat("调配预算", formatCurrency(scenario?.summary?.moved_budget))}
+      ${renderLabStat("首要受益国", scenario?.summary?.top_recipient ?? NO_DATA_LABEL)}
     </div>
   `;
 
   const detailColumn = {
     title: countryLabel(profile?.meta ?? store.overviewIndex.get(state.country)),
     items: [
-      { name: "Current spend", value: formatCurrency(selected?.current ?? latest.current) },
-      { name: "Scenario target", value: formatCurrency(selected?.optimal ?? latest.optimal) },
-      { name: "Recommended change", value: formatSignedPercent(selected?.change_pct ?? latest.change_pct) },
-      { name: "Resource gap", value: formatSigned(latest.gap) },
-      { name: "Efficiency", value: formatSigned(latest.efficiency) },
+      { name: "当前支出", value: formatCurrency(selected?.current ?? latest.current) },
+      { name: "情景目标", value: formatCurrency(selected?.optimal ?? latest.optimal) },
+      { name: "建议调整", value: formatSignedPercent(selected?.change_pct ?? latest.change_pct) },
+      { name: "资源缺口", value: formatSigned(latest.gap) },
+      { name: "效率", value: formatSigned(latest.efficiency) },
     ],
   };
 
   document.getElementById("context-panel").innerHTML = `
     <p class="context-lede">${escapeHtml(
-      OBJECTIVE_META[state.objective]?.note ?? "Scenario settings are applied to the latest resource panel.",
+      OBJECTIVE_META[state.objective]?.note ?? "当前情景设置已应用到最新资源面板。",
     )}</p>
     ${summaryGrid}
     ${renderContextColumns([
       {
-        title: "Top recipients",
+        title: "受益最多国家",
         items: recipients.map((row) => ({ name: countryLabel(row), value: formatSignedPercent(row.change_pct) })),
       },
       {
-        title: "Top donors",
+        title: "主要捐出国家",
         items: donors.map((row) => ({ name: countryLabel(row), value: formatSignedPercent(row.change_pct) })),
       },
       detailColumn,
@@ -1761,7 +1868,7 @@ function renderDim3Context() {
 function renderDim4Context() {
   const data = store.chinaDeepDive;
   if (!data) {
-    document.getElementById("context-panel").innerHTML = '<p class="empty-inline">No China data available.</p>';
+    document.getElementById("context-panel").innerHTML = '<p class="empty-inline">暂无中国数据。</p>';
     return;
   }
 
@@ -1782,23 +1889,23 @@ function renderDim4Context() {
 
   document.getElementById("context-panel").innerHTML = renderContextColumns([
     {
-      title: `Top 5 ${METRIC_META[metricKey].label}`,
-      items: top5.map((r) => ({ name: r.province, value: formatCompact(r.value) })),
+      title: `前 5 名${METRIC_META[metricKey].label}`,
+      items: top5.map((r) => ({ name: provinceLabel(r.province), value: formatCompact(r.value) })),
     },
     {
-      title: `Bottom 5 ${METRIC_META[metricKey].label}`,
-      items: bottom5.map((r) => ({ name: r.province, value: formatCompact(r.value) })),
+      title: `后 5 名${METRIC_META[metricKey].label}`,
+      items: bottom5.map((r) => ({ name: provinceLabel(r.province), value: formatCompact(r.value) })),
     },
     {
-      title: "Fastest Growing (Period)",
-      items: fastGrowing.map((r) => ({ name: r.province, value: `${r.growth.toFixed(1)}%` })),
+      title: "增速最快（观察期）",
+      items: fastGrowing.map((r) => ({ name: provinceLabel(r.province), value: `${r.growth.toFixed(1)}%` })),
     },
   ]);
 }
 
 function renderLabStat(label, value) {
   return `<article class="lab-stat"><span>${escapeHtml(label)}</span><strong>${escapeHtml(
-    value ?? "N/A",
+    value ?? NO_DATA_LABEL,
   )}</strong></article>`;
 }
 
@@ -1864,22 +1971,22 @@ function renderSpotlightContent(iso3) {
   }
   document.getElementById("spotlight-badges").innerHTML = [
     meta.who_region
-      ? `<span class="spotlight-badge" data-type="region">${escapeHtml(meta.who_region)}</span>`
+      ? `<span class="spotlight-badge" data-type="region">${escapeHtml(regionLabel(meta.who_region))}</span>`
       : "",
     meta.wb_income
-      ? `<span class="spotlight-badge" data-type="income">${escapeHtml(meta.wb_income)}</span>`
+      ? `<span class="spotlight-badge" data-type="income">${escapeHtml(incomeLabel(meta.wb_income))}</span>`
       : "",
   ].join("");
 
   const metrics = [
-    ["Life Expectancy", METRIC_META.life_expectancy.formatter(latest.life_expectancy), "cyan"],
-    ["NCD Share", formatShare(latest.ncd_share), "violet"],
-    ["Communicable Share", formatShare(latest.communicable_share), "amber"],
-    ["GDP per Capita", formatCurrency(latest.gdp_per_capita), "teal"],
-    ["Health Exp / GDP", formatPercentValue(latest.health_exp_pct_gdp), "blue"],
-    ["Top Risk", latest.top_risk_name ?? "N/A", "rose"],
-    ["Scenario Target", formatCurrency(scenarioRow?.optimal ?? latest.optimal), "emerald"],
-    ["Resource Gap", formatSigned(latest.gap), "cyan"],
+    ["预期寿命", METRIC_META.life_expectancy.formatter(latest.life_expectancy), "cyan"],
+    ["非传染性疾病占比", formatShare(latest.ncd_share), "violet"],
+    ["传染性疾病占比", formatShare(latest.communicable_share), "amber"],
+    ["人均国内生产总值", formatCurrency(latest.gdp_per_capita), "teal"],
+    ["卫生支出占国内生产总值比重", formatPercentValue(latest.health_exp_pct_gdp), "blue"],
+    ["首要风险", translateRiskName(latest.top_risk_name), "rose"],
+    ["情景目标", formatCurrency(scenarioRow?.optimal ?? latest.optimal), "emerald"],
+    ["资源缺口", formatSigned(latest.gap), "cyan"],
   ];
 
   document.getElementById("spotlight-metrics").innerHTML = metrics
@@ -1898,7 +2005,7 @@ function renderSpotlightContent(iso3) {
 
 function renderSpotlightChart(trend, optimalValue) {
   if (!trend.length) {
-    emptyPlot("spotlight-chart", "No historical trend is available.");
+    emptyPlot("spotlight-chart", "暂无历史趋势数据。");
     return;
   }
 
@@ -1907,11 +2014,11 @@ function renderSpotlightChart(trend, optimalValue) {
       x: trend.map((row) => row.year),
       y: trend.map((row) => row.life_expectancy),
       mode: "lines",
-      name: "Life Expectancy",
+      name: "预期寿命",
       line: { color: THEME.cyan, width: 2.5, shape: "spline" },
       fill: "tozeroy",
       fillcolor: "rgba(34,211,238,0.08)",
-      hovertemplate: "<b>%{x}</b><br>%{y:.1f} yrs<extra></extra>",
+      hovertemplate: "<b>%{x}</b><br>%{y:.1f} 岁<extra></extra>",
     },
   ];
 
@@ -1920,9 +2027,9 @@ function renderSpotlightChart(trend, optimalValue) {
       x: trend.map((row) => row.year),
       y: trend.map(() => optimalValue),
       mode: "lines",
-      name: "Scenario target",
+      name: "情景目标",
       line: { color: THEME.blue, width: 1.8, dash: "dash" },
-      hovertemplate: "<b>Scenario target</b><br>$%{y:,.0f}<extra></extra>",
+      hovertemplate: "<b>情景目标</b><br>%{y:,.0f} 美元<extra></extra>",
       yaxis: "y2",
     });
   }
@@ -1956,7 +2063,7 @@ function renderSpotlightChart(trend, optimalValue) {
 function renderSpotlightRisks(risks) {
   const container = document.getElementById("spotlight-risks");
   if (!risks.length) {
-    container.innerHTML = '<span class="empty-inline">No risk attribution rows are available.</span>';
+    container.innerHTML = '<span class="empty-inline">暂无风险归因记录。</span>';
     return;
   }
 
@@ -1968,7 +2075,7 @@ function renderSpotlightRisks(risks) {
       return `
         <div class="spotlight-risk-row">
           <div class="spotlight-risk-label">
-            <span class="sr-name">${escapeHtml(row.risk_name)}</span>
+            <span class="sr-name">${escapeHtml(translateRiskName(row.risk_name))}</span>
             <span class="sr-value">${escapeHtml(formatShare(row.share))}</span>
           </div>
           <div class="spotlight-risk-track">
@@ -1983,10 +2090,10 @@ function renderSpotlightRisks(risks) {
 function renderSpotlightAllocation(scenarioRow, latest) {
   const container = document.getElementById("spotlight-allocation");
   const items = [
-    ["Current spend", formatCurrency(scenarioRow?.current ?? latest.current)],
-    ["Scenario target", formatCurrency(scenarioRow?.optimal ?? latest.optimal)],
-    ["Recommended change", formatSignedPercent(scenarioRow?.change_pct ?? latest.change_pct)],
-    ["Efficiency", formatSigned(latest.efficiency)],
+    ["当前支出", formatCurrency(scenarioRow?.current ?? latest.current)],
+    ["情景目标", formatCurrency(scenarioRow?.optimal ?? latest.optimal)],
+    ["建议调整", formatSignedPercent(scenarioRow?.change_pct ?? latest.change_pct)],
+    ["效率", formatSigned(latest.efficiency)],
   ];
 
   container.innerHTML = items
@@ -2060,7 +2167,7 @@ function stopAnimation() {
 function updateMapKicker() {
   const kicker = document.getElementById("map-kicker");
   if (state.dimension === "dim1" && store.availableYears.length) {
-    kicker.textContent = `Global Map \u00B7 ${state.year}`;
+    kicker.textContent = `全球地图 \u00B7 ${state.year}`;
   }
 }
 
@@ -2165,13 +2272,13 @@ function baseLayout(extra = {}) {
 }
 
 function renderFailure(error) {
-  document.body.innerHTML = `<pre style="padding:24px;color:#fb7185;background:#0f172a;font-family:ui-monospace,monospace;min-height:100vh;">Dashboard failed to load:\n${escapeHtml(
+  document.body.innerHTML = `<pre style="padding:24px;color:#fb7185;background:#0f172a;font-family:ui-monospace,monospace;min-height:100vh;">仪表盘加载失败：\n${escapeHtml(
     String(error),
   )}</pre>`;
 }
 
 function objectiveLabel(value) {
-  return OBJECTIVE_META[normalizeObjective(value)]?.label ?? "Optimization";
+  return OBJECTIVE_META[normalizeObjective(value)]?.label ?? "优化";
 }
 
 function objectiveRank(value) {
@@ -2191,9 +2298,9 @@ function budgetLabel(value) {
   const numeric = normalizeBudget(value);
   const delta = (numeric - 1) * 100;
   if (Math.abs(delta) < 1e-9) {
-    return "Current budget";
+    return "当前预算";
   }
-  return `${delta > 0 ? "+" : ""}${delta.toFixed(0)}% budget`;
+  return `${delta > 0 ? "+" : ""}${delta.toFixed(0)}% 预算`;
 }
 
 function normalizeBudget(value) {
@@ -2216,7 +2323,7 @@ function getScaleBounds(values, diverging = false) {
 
 function getRiskName(riskCode) {
   const row = (store.riskLatest.available_risks ?? []).find((risk) => risk.risk_code === riskCode);
-  return row?.risk_name ?? riskCode ?? "N/A";
+  return translateRiskName(row?.risk_name ?? riskCode);
 }
 
 function colorFromPalette(index) {
@@ -2225,7 +2332,67 @@ function colorFromPalette(index) {
 }
 
 function countryLabel(record) {
-  return record?.country_name ?? record?.name ?? record?.iso3 ?? "Unknown";
+  const iso3 = record?.iso3;
+  if (iso3) {
+    return translateCountryIso3(iso3);
+  }
+  return translateCountryName(record?.country_name ?? record?.name ?? record?.iso3);
+}
+
+function translateCountryIso3(iso3) {
+  const upper = String(iso3 ?? "").toUpperCase();
+  const iso2 = ISO3_TO_ISO2[upper];
+  const translated = iso2 && DISPLAY_NAMES_ZH ? DISPLAY_NAMES_ZH.of(iso2) : "";
+  return translated || upper || NO_DATA_LABEL;
+}
+
+function translateCountryName(name) {
+  if (!name) return NO_DATA_LABEL;
+  const raw = String(name).trim();
+  const exact = (store.overview?.countries ?? []).find((country) => country.country_name === raw);
+  if (exact?.iso3) {
+    return translateCountryIso3(exact.iso3);
+  }
+  if (raw.length === 3 && ISO3_TO_ISO2[raw.toUpperCase()]) {
+    return translateCountryIso3(raw);
+  }
+  return raw;
+}
+
+function translateRiskName(name) {
+  if (!name) return NO_DATA_LABEL;
+  return RISK_LABELS[String(name).trim()] ?? String(name).trim();
+}
+
+function translateSankeyNode(node) {
+  if (!node) return NO_DATA_LABEL;
+  if (REGION_LABELS[node]) return REGION_LABELS[node];
+  return translateRiskName(node);
+}
+
+function regionLabel(value) {
+  if (!value) return NO_DATA_LABEL;
+  return REGION_LABELS[value] ?? String(value);
+}
+
+function incomeLabel(value) {
+  if (!value) return NO_DATA_LABEL;
+  return INCOME_LABELS[value] ?? String(value);
+}
+
+function provinceLabel(value) {
+  if (!value) return NO_DATA_LABEL;
+  return PROVINCE_LABELS[value] ?? String(value);
+}
+
+function resolveProvinceInput(input) {
+  const query = safeLower(input);
+  const provinces = store.chinaDeepDive?.provinces ?? [];
+  return (
+    provinces.find((province) => safeLower(province) === query || safeLower(provinceLabel(province)) === query) ||
+    provinces.find((province) => safeLower(province).includes(query) || safeLower(provinceLabel(province)).includes(query)) ||
+    null
+  );
 }
 
 function normalizeNumber(value) {
@@ -2241,49 +2408,49 @@ function percentValue(value) {
 }
 
 function formatDecimal(value) {
-  return value == null ? "N/A" : Number(value).toFixed(2);
+  return value == null ? NO_DATA_LABEL : Number(value).toFixed(2);
 }
 
 function formatInteger(value) {
-  return value == null ? "N/A" : Number(value).toLocaleString("en-US", { maximumFractionDigits: 0 });
+  return value == null ? NO_DATA_LABEL : Number(value).toLocaleString("zh-CN", { maximumFractionDigits: 0 });
 }
 
 function formatShare(value) {
-  return value == null ? "N/A" : `${(Number(value) * 100).toFixed(1)}%`;
+  return value == null ? NO_DATA_LABEL : `${(Number(value) * 100).toFixed(1)}%`;
 }
 
 function formatPercentValue(value) {
-  return value == null ? "N/A" : `${Number(value).toFixed(1)}%`;
+  return value == null ? NO_DATA_LABEL : `${Number(value).toFixed(1)}%`;
 }
 
 function formatSigned(value) {
-  return value == null ? "N/A" : `${Number(value) > 0 ? "+" : ""}${Number(value).toFixed(2)}`;
+  return value == null ? NO_DATA_LABEL : `${Number(value) > 0 ? "+" : ""}${Number(value).toFixed(2)}`;
 }
 
 function formatSignedPercent(value) {
-  return value == null ? "N/A" : `${Number(value) > 0 ? "+" : ""}${Number(value).toFixed(1)}%`;
+  return value == null ? NO_DATA_LABEL : `${Number(value) > 0 ? "+" : ""}${Number(value).toFixed(1)}%`;
 }
 
 function formatCurrency(value) {
   if (value == null) {
-    return "N/A";
+    return NO_DATA_LABEL;
   }
-  return `$${Number(value).toLocaleString("en-US", { maximumFractionDigits: 0 })}`;
+  return `${Number(value).toLocaleString("zh-CN", { maximumFractionDigits: 0 })} 美元`;
 }
 
 function formatCompact(value) {
   if (value == null) {
-    return "N/A";
+    return NO_DATA_LABEL;
   }
   const number = Number(value);
   if (Math.abs(number) >= 1_000_000_000) {
-    return `${(number / 1_000_000_000).toFixed(2)}B`;
+    return `${(number / 1_000_000_000).toFixed(2)} 十亿`;
   }
   if (Math.abs(number) >= 1_000_000) {
-    return `${(number / 1_000_000).toFixed(2)}M`;
+    return `${(number / 1_000_000).toFixed(2)} 百万`;
   }
   if (Math.abs(number) >= 1_000) {
-    return `${(number / 1_000).toFixed(1)}K`;
+    return `${(number / 1_000).toFixed(1)} 千`;
   }
   return number.toFixed(0);
 }
@@ -2310,28 +2477,6 @@ function escapeHtml(value) {
 }
 
 function iso3ToFlag(iso3) {
-  const ISO3_TO_ISO2 = {
-    AFG:"AF",ALB:"AL",DZA:"DZ",AND:"AD",AGO:"AO",ATG:"AG",ARG:"AR",ARM:"AM",AUS:"AU",AUT:"AT",
-    AZE:"AZ",BHS:"BS",BHR:"BH",BGD:"BD",BRB:"BB",BLR:"BY",BEL:"BE",BLZ:"BZ",BEN:"BJ",BTN:"BT",
-    BOL:"BO",BIH:"BA",BWA:"BW",BRA:"BR",BRN:"BN",BGR:"BG",BFA:"BF",BDI:"BI",KHM:"KH",CMR:"CM",
-    CAN:"CA",CPV:"CV",CAF:"CF",TCD:"TD",CHL:"CL",CHN:"CN",COL:"CO",COM:"KM",COG:"CG",COD:"CD",
-    CRI:"CR",CIV:"CI",HRV:"HR",CUB:"CU",CYP:"CY",CZE:"CZ",DNK:"DK",DJI:"DJ",DMA:"DM",DOM:"DO",
-    ECU:"EC",EGY:"EG",SLV:"SV",GNQ:"GQ",ERI:"ER",EST:"EE",SWZ:"SZ",ETH:"ET",FJI:"FJ",FIN:"FI",
-    FRA:"FR",GAB:"GA",GMB:"GM",GEO:"GE",DEU:"DE",GHA:"GH",GRC:"GR",GRD:"GD",GTM:"GT",GIN:"GN",
-    GNB:"GW",GUY:"GY",HTI:"HT",HND:"HN",HUN:"HU",ISL:"IS",IND:"IN",IDN:"ID",IRN:"IR",IRQ:"IQ",
-    IRL:"IE",ISR:"IL",ITA:"IT",JAM:"JM",JPN:"JP",JOR:"JO",KAZ:"KZ",KEN:"KE",KIR:"KI",PRK:"KP",
-    KOR:"KR",KWT:"KW",KGZ:"KG",LAO:"LA",LVA:"LV",LBN:"LB",LSO:"LS",LBR:"LR",LBY:"LY",LTU:"LT",
-    LUX:"LU",MDG:"MG",MWI:"MW",MYS:"MY",MDV:"MV",MLI:"ML",MLT:"MT",MHL:"MH",MRT:"MR",MUS:"MU",
-    MEX:"MX",FSM:"FM",MDA:"MD",MCO:"MC",MNG:"MN",MNE:"ME",MAR:"MA",MOZ:"MZ",MMR:"MM",NAM:"NA",
-    NRU:"NR",NPL:"NP",NLD:"NL",NZL:"NZ",NIC:"NI",NER:"NE",NGA:"NG",MKD:"MK",NOR:"NO",OMN:"OM",
-    PAK:"PK",PLW:"PW",PAN:"PA",PNG:"PG",PRY:"PY",PER:"PE",PHL:"PH",POL:"PL",PRT:"PT",QAT:"QA",
-    ROU:"RO",RUS:"RU",RWA:"RW",KNA:"KN",LCA:"LC",VCT:"VC",WSM:"WS",STP:"ST",SAU:"SA",SEN:"SN",
-    SRB:"RS",SYC:"SC",SLE:"SL",SGP:"SG",SVK:"SK",SVN:"SI",SLB:"SB",SOM:"SO",ZAF:"ZA",SSD:"SS",
-    ESP:"ES",LKA:"LK",SDN:"SD",SUR:"SR",SWE:"SE",CHE:"CH",SYR:"SY",TWN:"TW",TJK:"TJ",TZA:"TZ",
-    THA:"TH",TLS:"TL",TGO:"TG",TON:"TO",TTO:"TT",TUN:"TN",TUR:"TR",TKM:"TM",TUV:"TV",UGA:"UG",
-    UKR:"UA",ARE:"AE",GBR:"GB",USA:"US",URY:"UY",UZB:"UZ",VUT:"VU",VEN:"VE",VNM:"VN",YEM:"YE",
-    ZMB:"ZM",ZWE:"ZW",PSE:"PS",XKX:"XK",COK:"CK",NIU:"NU",
-  };
   if (!iso3 || iso3.length !== 3) return null;
   const iso2 = ISO3_TO_ISO2[iso3.toUpperCase()];
   if (!iso2) return null;
