@@ -818,22 +818,32 @@ function getScenarioRow(iso3) {
   return scenario?.allocationIndex?.get(iso3) ?? null;
 }
 
+function withTWN(records) {
+  const chn = records.find((r) => r.iso3 === "CHN");
+  if (chn) records.push({ ...chn, iso3: "TWN" });
+  return records;
+}
+
 function getMapRecords() {
   if (state.dimension === "dim4") {
     return [];
   }
 
   if (state.dimension === "dim2") {
-    return (store.riskLatest.risks ?? []).filter(
-      (row) => row.risk_code === state.risk && METRIC_META[state.metric].accessor(row) != null,
+    return withTWN(
+      (store.riskLatest.risks ?? []).filter(
+        (row) => row.risk_code === state.risk && METRIC_META[state.metric].accessor(row) != null,
+      ),
     );
   }
 
   if (state.dimension === "dim3") {
     const scenarioIndex = getCurrentScenario()?.allocationIndex ?? new Map();
-    return (store.overview.countries ?? [])
-      .map((country) => ({ ...country, ...(scenarioIndex.get(country.iso3) ?? {}) }))
-      .filter((row) => METRIC_META[state.metric].accessor(row) != null);
+    return withTWN(
+      (store.overview.countries ?? [])
+        .map((country) => ({ ...country, ...(scenarioIndex.get(country.iso3) ?? {}) }))
+        .filter((row) => METRIC_META[state.metric].accessor(row) != null),
+    );
   }
 
   const latestYear = store.availableYears.length
@@ -841,13 +851,17 @@ function getMapRecords() {
     : store.overview.latest_year;
 
   if (state.year !== latestYear && store.timeseries?.by_year?.[String(state.year)]) {
-    return store.timeseries.by_year[String(state.year)].filter(
-      (row) => METRIC_META[state.metric].accessor(row) != null,
+    return withTWN(
+      store.timeseries.by_year[String(state.year)].filter(
+        (row) => METRIC_META[state.metric].accessor(row) != null,
+      ),
     );
   }
 
-  return (store.overview.countries ?? []).filter(
-    (row) => METRIC_META[state.metric].accessor(row) != null,
+  return withTWN(
+    (store.overview.countries ?? []).filter(
+      (row) => METRIC_META[state.metric].accessor(row) != null,
+    ),
   );
 }
 
