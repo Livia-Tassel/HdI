@@ -5,6 +5,9 @@ const DATA_SOURCES = {
   profiles: "./data/country_profiles.json",
   timeseries: "./data/overview_timeseries.json",
   chinaDeepDive: "./data/china_deep_dive.json",
+  panorama: "./data/panorama.json",
+  bubbleTimeseries: "./data/bubble_timeseries.json",
+  riskIndicators: "./data/risk_indicators.json",
 };
 
 const DIMENSIONS = {
@@ -35,6 +38,13 @@ const DIMENSIONS = {
     mapTitle: "中国省级卫生资源深度分析",
     note: "探索中国31个省级行政区的卫生人员与机构分布。",
     metrics: ["health_personnel", "health_institutions"],
+  },
+  dim5: {
+    label: "健康全景",
+    defaultMetric: "hdi",
+    mapTitle: "全球健康发展全景图",
+    note: "综合WHO、UNDP、世界银行数据，探索发展与健康的深层关联。",
+    metrics: ["hdi", "hale", "uhc_index", "pm25", "doctor_density", "che_per_capita"],
   },
 };
 
@@ -107,6 +117,42 @@ const METRIC_META = {
     colorscale: [[0, "#1a0808"], [0.25, "#4a1010"], [0.5, "#8b2020"], [0.75, "#dc2626"], [1, "#f87171"]],
     formatter: (value) => formatCompact(value),
     accessor: (row) => row.value,
+  },
+  hdi: {
+    label: "人类发展指数",
+    colorscale: [[0, "#071a17"], [0.25, "#0c3a32"], [0.5, "#12705f"], [0.75, "#34d399"], [1, "#6ee7b7"]],
+    formatter: (value) => (value == null ? NO_DATA_LABEL : Number(value).toFixed(3)),
+    accessor: (row) => row.hdi,
+  },
+  hale: {
+    label: "健康预期寿命",
+    colorscale: [[0, "#0c1929"], [0.25, "#0e3a5e"], [0.5, "#0d6577"], [0.75, "#17a2b8"], [1, "#22d3ee"]],
+    formatter: (value) => (value == null ? NO_DATA_LABEL : `${Number(value).toFixed(1)} 岁`),
+    accessor: (row) => row.hale,
+  },
+  uhc_index: {
+    label: "全民健康覆盖指数",
+    colorscale: [[0, "#1a0f2e"], [0.25, "#2d1b69"], [0.5, "#6366f1"], [0.75, "#818cf8"], [1, "#c7d2fe"]],
+    formatter: (value) => (value == null ? NO_DATA_LABEL : `${Number(value).toFixed(1)}`),
+    accessor: (row) => row.uhc_index,
+  },
+  pm25: {
+    label: "PM2.5 暴露浓度",
+    colorscale: [[0, "#071a17"], [0.25, "#4a3010"], [0.5, "#7a5518"], [0.75, "#d4941a"], [1, "#fbbf24"]],
+    formatter: (value) => (value == null ? NO_DATA_LABEL : `${Number(value).toFixed(1)} μg/m³`),
+    accessor: (row) => row.pm25,
+  },
+  doctor_density: {
+    label: "医生密度（每万人）",
+    colorscale: [[0, "#0c1929"], [0.25, "#1e3a5f"], [0.5, "#0d6577"], [0.75, "#2dd4bf"], [1, "#99f6e4"]],
+    formatter: (value) => (value == null ? NO_DATA_LABEL : `${Number(value).toFixed(1)}`),
+    accessor: (row) => row.doctor_density,
+  },
+  che_per_capita: {
+    label: "人均卫生支出",
+    colorscale: [[0, "#0c1929"], [0.25, "#0e3a5e"], [0.5, "#1d4ed8"], [0.75, "#38bdf8"], [1, "#bae6fd"]],
+    formatter: (value) => formatCurrency(value),
+    accessor: (row) => row.che_per_capita,
   },
 };
 
@@ -273,12 +319,18 @@ const store = {
   profiles: null,
   timeseries: null,
   chinaDeepDive: null,
+  panorama: null,
+  bubbleTimeseries: null,
+  riskIndicators: null,
   overviewIndex: new Map(),
   riskIndex: new Map(),
   countryLookup: new Map(),
   optimizationScenarios: [],
   scenarioIndex: new Map(),
   availableYears: [],
+  panoramaIndex: new Map(),
+  riskIndicatorIndex: new Map(),
+  bubbleYears: [],
 };
 
 document.addEventListener("DOMContentLoaded", async () => {
@@ -335,6 +387,21 @@ async function loadData() {
   if (store.timeseries?.years?.length) {
     store.availableYears = store.timeseries.years;
     state.year = store.availableYears[store.availableYears.length - 1];
+  }
+
+  // Build panorama indexes
+  if (store.panorama?.countries) {
+    for (const c of store.panorama.countries) {
+      store.panoramaIndex.set(c.iso3, c);
+    }
+  }
+  if (store.riskIndicators?.countries) {
+    for (const c of store.riskIndicators.countries) {
+      store.riskIndicatorIndex.set(c.iso3, c);
+    }
+  }
+  if (store.bubbleTimeseries?.years?.length) {
+    store.bubbleYears = store.bubbleTimeseries.years;
   }
 
   primeState();
@@ -531,7 +598,11 @@ function bindEvents() {
   document.getElementById("year-slider").addEventListener("input", (event) => {
     state.year = Number(event.target.value);
     document.getElementById("year-display").textContent = state.year;
-    renderMap();
+    if (state.dimension === "dim5") {
+      renderBubbleChart();
+    } else {
+      renderMap();
+    }
     updateMapKicker();
   });
 
@@ -553,7 +624,7 @@ function bindEvents() {
   window.addEventListener(
     "resize",
     debounce(() => {
-      ["map-chart", "detail-chart", "companion-chart", "spotlight-chart"].forEach((id) => {
+      ["map-chart", "detail-chart", "companion-chart", "spotlight-chart", "quadrant-chart"].forEach((id) => {
         const node = document.getElementById(id);
         if (node) {
           Plotly.Plots.resize(node);
@@ -691,13 +762,20 @@ function syncControls() {
     budgetSelect.value = normalizeBudget(state.budgetMultiplier).toFixed(1);
   }
 
-  // Year slider: visible only for dim1 when timeseries data is available
+  // Year slider: visible for dim1 (timeseries) and dim5 (bubble animation)
   const sliderGroup = document.getElementById("year-slider-group");
   if (state.dimension === "dim1" && store.availableYears.length > 1) {
     sliderGroup.style.display = "flex";
     const slider = document.getElementById("year-slider");
     slider.min = store.availableYears[0];
     slider.max = store.availableYears[store.availableYears.length - 1];
+    slider.value = state.year;
+    document.getElementById("year-display").textContent = state.year;
+  } else if (state.dimension === "dim5" && store.bubbleYears.length > 1) {
+    sliderGroup.style.display = "flex";
+    const slider = document.getElementById("year-slider");
+    slider.min = store.bubbleYears[0];
+    slider.max = store.bubbleYears[store.bubbleYears.length - 1];
     slider.value = state.year;
     document.getElementById("year-display").textContent = state.year;
   } else {
@@ -715,7 +793,8 @@ function syncControls() {
   document.getElementById("context-pill").textContent =
     state.dimension === "dim3" ? "情景引擎" : "静态构建";
 
-  if (state.dimension === "dim1" && store.availableYears.length) {
+  if ((state.dimension === "dim1" && store.availableYears.length) ||
+      (state.dimension === "dim5" && store.bubbleYears.length)) {
     document.getElementById("map-kicker").textContent = `全球地图 \u00B7 ${state.year}`;
   } else {
     document.getElementById("map-kicker").textContent = "全球地图";
@@ -729,7 +808,9 @@ function syncControls() {
         }`
       : state.dimension === "dim4"
         ? "来自数据集5的中国省级卫生资源数据。"
-        : "基于竞赛分析产出构建的静态仪表盘。";
+        : state.dimension === "dim5"
+          ? "综合WHO GHO、UNDP HDI、世界银行WDI等外部数据源。"
+          : "基于竞赛分析产出构建的静态仪表盘。";
   document.getElementById("control-note").textContent = controlNote;
 
   syncSearchField();
@@ -827,6 +908,13 @@ function withTWN(records) {
 function getMapRecords() {
   if (state.dimension === "dim4") {
     return [];
+  }
+
+  if (state.dimension === "dim5") {
+    const records = (store.panorama?.countries ?? []).filter(
+      (row) => METRIC_META[state.metric]?.accessor(row) != null,
+    );
+    return withTWN(records);
   }
 
   if (state.dimension === "dim2") {
@@ -1094,6 +1182,17 @@ function buildHoverText(row) {
     ].join("<br>");
   }
 
+  if (state.dimension === "dim5") {
+    return [
+      `<b>${escapeHtml(countryLabel(row))}</b>`,
+      `${METRIC_META[state.metric].label}: ${escapeHtml(
+        METRIC_META[state.metric].formatter(METRIC_META[state.metric].accessor(row)),
+      )}`,
+      row.hdi != null ? `HDI: ${row.hdi}` : "",
+      row.hale != null ? `HALE: ${row.hale} 岁` : "",
+    ].filter(Boolean).join("<br>");
+  }
+
   return [
     `<b>${escapeHtml(countryLabel(row))}</b>`,
     `地区：${escapeHtml(regionLabel(row.who_region))} / ${escapeHtml(incomeLabel(row.wb_income))}`,
@@ -1140,6 +1239,16 @@ function renderCountryPanel() {
       ["当前风险", translateRiskName(selectedRisk.risk_name ?? getRiskName(state.risk)), "violet"],
       ["当前占比", formatShare(selectedRisk.share), "amber"],
       ["当前死亡", formatCompact(selectedRisk.attributable_deaths), "blue"],
+    ];
+  } else if (state.dimension === "dim5") {
+    const pano = store.panoramaIndex.get(state.country) ?? {};
+    items = [
+      ["人类发展指数", pano.hdi != null ? Number(pano.hdi).toFixed(3) : NO_DATA_LABEL, "emerald"],
+      ["健康预期寿命", pano.hale != null ? `${pano.hale} 岁` : NO_DATA_LABEL, "cyan"],
+      ["UHC 覆盖指数", pano.uhc_index != null ? String(pano.uhc_index) : NO_DATA_LABEL, "violet"],
+      ["PM2.5 暴露", pano.pm25 != null ? `${pano.pm25} μg/m³` : NO_DATA_LABEL, "amber"],
+      ["医生密度", pano.doctor_density != null ? `${pano.doctor_density}/万人` : NO_DATA_LABEL, "teal"],
+      ["人均卫生支出", formatCurrency(pano.che_per_capita), "blue"],
     ];
   } else if (state.dimension === "dim4") {
     const chinaData = store.chinaDeepDive;
@@ -1227,7 +1336,7 @@ function renderRankingList() {
           <span class="rank-badge">${index + 1}</span>
           <span class="row-info">
             <b>${escapeHtml(countryLabel(row))}</b>
-            <small>${escapeHtml(regionLabel(row.who_region))} / ${escapeHtml(incomeLabel(row.wb_income))}</small>
+            <small>${escapeHtml(row.who_region ? regionLabel(row.who_region) : (row.region || "")) } / ${escapeHtml(row.wb_income ? incomeLabel(row.wb_income) : (row.subregion || ""))}</small>
           </span>
           <span class="row-value">${escapeHtml(metric.formatter(metric.accessor(row)))}</span>
         </button>
@@ -1311,6 +1420,13 @@ function renderDetailChart() {
     document.getElementById("detail-title").textContent = "最新风险构成";
     document.getElementById("detail-pill").textContent = "主要归因因素";
     renderDimension2Detail(profile);
+    return;
+  }
+
+  if (state.dimension === "dim5") {
+    document.getElementById("detail-title").textContent = "健康雷达对比";
+    document.getElementById("detail-pill").textContent = "国家 vs 全球";
+    renderRadarChart();
     return;
   }
 
@@ -1545,6 +1661,13 @@ function renderCompanionChart() {
     return;
   }
 
+  if (state.dimension === "dim5") {
+    document.getElementById("companion-title").textContent = "发展-健康气泡图";
+    document.getElementById("companion-pill").textContent = `${state.year} 年`;
+    renderBubbleChart();
+    return;
+  }
+
   document.getElementById("companion-title").textContent = "情景赢家与捐助者";
   document.getElementById("companion-pill").textContent = budgetLabel(state.budgetMultiplier);
   renderOptimizationBar();
@@ -1775,6 +1898,13 @@ function renderContextPanel() {
     return;
   }
 
+  if (state.dimension === "dim5") {
+    document.getElementById("context-title").textContent = "发展-健康象限分析";
+    document.getElementById("context-pill").textContent = "外部数据";
+    renderQuadrantScatter();
+    return;
+  }
+
   document.getElementById("context-title").textContent = "优化实验室摘要";
   renderDim3Context();
 }
@@ -1917,6 +2047,296 @@ function renderDim4Context() {
   ]);
 }
 
+// ── dim5 Charts ─────────────────────────────────────────────────
+
+const REGION_COLORS = {
+  Africa: "#fb7185",
+  Americas: "#22d3ee",
+  Asia: "#fbbf24",
+  Europe: "#a78bfa",
+  Oceania: "#34d399",
+  "": "#64748b",
+};
+
+function renderBubbleChart() {
+  const yearStr = String(state.year);
+  const records = store.bubbleTimeseries?.by_year?.[yearStr] ?? [];
+  if (!records.length) {
+    emptyPlot("companion-chart", `${state.year} 年暂无气泡图数据。`);
+    return;
+  }
+
+  // Group by region
+  const regionGroups = {};
+  for (const r of records) {
+    const region = r.region || "";
+    if (!regionGroups[region]) regionGroups[region] = [];
+    regionGroups[region].push(r);
+  }
+
+  const traces = Object.entries(regionGroups).map(([region, rows]) => ({
+    x: rows.map((r) => r.gdp_pc),
+    y: rows.map((r) => r.life_expectancy),
+    text: rows.map((r) => countryLabel(r)),
+    customdata: rows.map((r) => [r.population, r.iso3]),
+    mode: "markers",
+    name: region || "其他",
+    marker: {
+      size: rows.map((r) => Math.max(4, Math.sqrt(r.population / 500000))),
+      color: REGION_COLORS[region] ?? THEME.dim,
+      opacity: 0.72,
+      line: {
+        color: rows.map((r) =>
+          r.iso3 === state.country ? "rgba(255,255,255,0.9)" : "rgba(0,0,0,0)",
+        ),
+        width: rows.map((r) => (r.iso3 === state.country ? 2.5 : 0)),
+      },
+    },
+    hovertemplate:
+      "<b>%{text}</b><br>人均GDP: $%{x:,.0f}<br>预期寿命: %{y:.1f} 岁<br>人口: %{customdata[0]:,.0f}<extra></extra>",
+  }));
+
+  Plotly.react(
+    "companion-chart",
+    traces,
+    baseLayout({
+      xaxis: {
+        title: "人均GDP（美元，对数尺度）",
+        type: "log",
+        gridcolor: THEME.grid,
+        tickfont: { size: 10, color: THEME.dim },
+      },
+      yaxis: {
+        title: "预期寿命（岁）",
+        gridcolor: THEME.grid,
+        tickfont: { size: 10, color: THEME.dim },
+      },
+      legend: {
+        orientation: "h",
+        yanchor: "bottom",
+        y: 1.02,
+        xanchor: "left",
+        x: 0,
+        font: { color: THEME.muted, size: 11 },
+      },
+      margin: { l: 50, r: 20, t: 30, b: 50 },
+    }),
+    { responsive: true, displayModeBar: false, scrollZoom: false },
+  );
+
+  // Bind click to bubble chart
+  const node = document.getElementById("companion-chart");
+  if (!node.dataset.bubbleBound) {
+    node.on("plotly_click", (event) => {
+      if (state.dimension !== "dim5") return;
+      const iso3 = event?.points?.[0]?.customdata?.[1];
+      if (iso3) {
+        state.country = iso3;
+        renderPanels();
+        updateMapHighlight(iso3);
+        openSpotlightModal(iso3);
+      }
+    });
+    node.dataset.bubbleBound = "1";
+  }
+}
+
+function renderRadarChart() {
+  const country = store.panoramaIndex.get(state.country);
+  if (!country) {
+    emptyPlot("detail-chart", "该国暂无全景数据。");
+    return;
+  }
+
+  // Compute global averages from panorama data
+  const all = store.panorama?.countries ?? [];
+  const avg = (field) => {
+    const vals = all.map((c) => c[field]).filter((v) => v != null);
+    return vals.length ? vals.reduce((a, b) => a + b, 0) / vals.length : 0;
+  };
+
+  const axes = [
+    { key: "hdi", label: "HDI", max: 1 },
+    { key: "hale", label: "HALE", max: 85 },
+    { key: "uhc_index", label: "UHC", max: 100 },
+    { key: "doctor_density", label: "医生", max: 60 },
+    { key: "che_per_capita", label: "卫生支出", max: 8000 },
+    { key: "pm25_inv", label: "空气质量", max: 1 },
+  ];
+
+  const normalize = (val, max) => (val != null ? Math.min(val / max, 1) : 0);
+  const pm25Invert = (v) => (v != null && v > 0 ? 1 / v * 10 : 0);
+
+  const countryValues = axes.map((a) => {
+    if (a.key === "pm25_inv") return normalize(pm25Invert(country.pm25), a.max);
+    return normalize(country[a.key], a.max);
+  });
+  const globalValues = axes.map((a) => {
+    if (a.key === "pm25_inv") return normalize(pm25Invert(avg("pm25")), a.max);
+    return normalize(avg(a.key), a.max);
+  });
+
+  const labels = axes.map((a) => a.label);
+
+  Plotly.react(
+    "detail-chart",
+    [
+      {
+        type: "scatterpolar",
+        r: [...countryValues, countryValues[0]],
+        theta: [...labels, labels[0]],
+        name: countryLabel({ iso3: state.country }),
+        fill: "toself",
+        fillcolor: "rgba(34,211,238,0.12)",
+        line: { color: THEME.cyan, width: 2.5 },
+        marker: { size: 6, color: THEME.cyan },
+      },
+      {
+        type: "scatterpolar",
+        r: [...globalValues, globalValues[0]],
+        theta: [...labels, labels[0]],
+        name: "全球均值",
+        fill: "toself",
+        fillcolor: "rgba(167,139,250,0.08)",
+        line: { color: THEME.violet, width: 2, dash: "dash" },
+        marker: { size: 4, color: THEME.violet },
+      },
+    ],
+    {
+      paper_bgcolor: "rgba(0,0,0,0)",
+      plot_bgcolor: "rgba(0,0,0,0)",
+      margin: { l: 50, r: 50, t: 30, b: 30 },
+      font: { family: "system-ui, sans-serif", color: THEME.muted },
+      polar: {
+        bgcolor: "rgba(0,0,0,0)",
+        radialaxis: {
+          visible: true,
+          range: [0, 1],
+          gridcolor: THEME.grid,
+          linecolor: "rgba(0,0,0,0)",
+          tickfont: { size: 9, color: THEME.dim },
+        },
+        angularaxis: {
+          gridcolor: THEME.grid,
+          linecolor: THEME.grid,
+          tickfont: { size: 11, color: THEME.muted },
+        },
+      },
+      legend: {
+        orientation: "h",
+        yanchor: "bottom",
+        y: -0.15,
+        xanchor: "center",
+        x: 0.5,
+        font: { color: THEME.muted, size: 11 },
+      },
+      hoverlabel: {
+        bgcolor: THEME.hover,
+        bordercolor: "rgba(34,211,238,0.20)",
+        font: { family: "system-ui, sans-serif", color: THEME.inkBright, size: 12 },
+      },
+    },
+    { responsive: true, displayModeBar: false, scrollZoom: false },
+  );
+}
+
+function renderQuadrantScatter() {
+  const countries = (store.panorama?.countries ?? []).filter(
+    (c) => c.hdi != null && c.hale != null,
+  );
+  if (!countries.length) {
+    emptyPlot("context-panel", "暂无象限分析数据。");
+    return;
+  }
+
+  // Compute medians
+  const sortedHDI = countries.map((c) => c.hdi).sort((a, b) => a - b);
+  const sortedHALE = countries.map((c) => c.hale).sort((a, b) => a - b);
+  const medianHDI = sortedHDI[Math.floor(sortedHDI.length / 2)];
+  const medianHALE = sortedHALE[Math.floor(sortedHALE.length / 2)];
+
+  // Group by region
+  const regionGroups = {};
+  for (const c of countries) {
+    const region = c.region || "";
+    if (!regionGroups[region]) regionGroups[region] = [];
+    regionGroups[region].push(c);
+  }
+
+  const traces = Object.entries(regionGroups).map(([region, rows]) => ({
+    x: rows.map((r) => r.hdi),
+    y: rows.map((r) => r.hale),
+    text: rows.map((r) => countryLabel(r)),
+    customdata: rows.map((r) => r.iso3),
+    mode: "markers",
+    name: region || "其他",
+    marker: {
+      size: rows.map((r) => Math.max(5, r.population ? Math.sqrt(r.population / 1000000) * 1.5 : 5)),
+      color: REGION_COLORS[region] ?? THEME.dim,
+      opacity: 0.72,
+      line: {
+        color: rows.map((r) =>
+          r.iso3 === state.country ? "rgba(255,255,255,0.9)" : "rgba(0,0,0,0)",
+        ),
+        width: rows.map((r) => (r.iso3 === state.country ? 2.5 : 0)),
+      },
+    },
+    hovertemplate: "<b>%{text}</b><br>HDI: %{x:.3f}<br>HALE: %{y:.1f} 岁<extra></extra>",
+  }));
+
+  const quadrantAnnotations = [
+    { x: medianHDI + (1 - medianHDI) / 2, y: medianHALE + (80 - medianHALE) / 2, text: "高发展-高健康" },
+    { x: medianHDI / 2, y: medianHALE + (80 - medianHALE) / 2, text: "低发展-高健康" },
+    { x: medianHDI + (1 - medianHDI) / 2, y: medianHALE / 2 + 20, text: "高发展-低健康" },
+    { x: medianHDI / 2, y: medianHALE / 2 + 20, text: "低发展-低健康" },
+  ].map((a) => ({
+    x: a.x,
+    y: a.y,
+    xref: "x",
+    yref: "y",
+    text: a.text,
+    showarrow: false,
+    font: { size: 11, color: "rgba(148,163,184,0.45)" },
+  }));
+
+  // Render into context-panel as a plotly chart
+  const panelEl = document.getElementById("context-panel");
+  panelEl.innerHTML = '<div id="quadrant-chart" class="plot" style="height:340px"></div>';
+
+  Plotly.react(
+    "quadrant-chart",
+    traces,
+    baseLayout({
+      xaxis: { title: "人类发展指数 (HDI)", gridcolor: THEME.grid },
+      yaxis: { title: "健康预期寿命 (HALE)", gridcolor: THEME.grid },
+      shapes: [
+        { type: "line", x0: medianHDI, x1: medianHDI, y0: 0, y1: 1, yref: "paper", line: { color: "rgba(148,163,184,0.2)", width: 1, dash: "dot" } },
+        { type: "line", x0: 0, x1: 1, y0: medianHALE, y1: medianHALE, xref: "paper", line: { color: "rgba(148,163,184,0.2)", width: 1, dash: "dot" } },
+      ],
+      annotations: quadrantAnnotations,
+      legend: { orientation: "h", yanchor: "bottom", y: 1.02, xanchor: "left", x: 0, font: { color: THEME.muted, size: 10 } },
+      margin: { l: 50, r: 20, t: 30, b: 50 },
+    }),
+    { responsive: true, displayModeBar: false, scrollZoom: false },
+  );
+
+  const qNode = document.getElementById("quadrant-chart");
+  if (qNode && !qNode.dataset.quadBound) {
+    qNode.on("plotly_click", (event) => {
+      const iso3 = event?.points?.[0]?.customdata;
+      if (iso3) {
+        state.country = iso3;
+        renderPanels();
+        updateMapHighlight(iso3);
+        openSpotlightModal(iso3);
+      }
+    });
+    qNode.dataset.quadBound = "1";
+  }
+}
+
+// ── End dim5 Charts ─────────────────────────────────────────────
+
 function renderLabStat(label, value) {
   return `<article class="lab-stat"><span>${escapeHtml(label)}</span><strong>${escapeHtml(
     value ?? NO_DATA_LABEL,
@@ -1995,12 +2415,24 @@ function renderSpotlightContent(iso3) {
   const metrics = [
     ["预期寿命", METRIC_META.life_expectancy.formatter(latest.life_expectancy), "cyan"],
     ["非传染性疾病占比", formatShare(latest.ncd_share), "violet"],
-    ["传染性疾病占比", formatShare(latest.communicable_share), "amber"],
-    ["人均国内生产总值", formatCurrency(latest.gdp_per_capita), "teal"],
-    ["卫生支出占国内生产总值比重", formatPercentValue(latest.health_exp_pct_gdp), "blue"],
-    ["首要风险", translateRiskName(latest.top_risk_name), "rose"],
-    ["情景目标", formatCurrency(scenarioRow?.optimal ?? latest.optimal), "emerald"],
-    ["资源缺口", formatSigned(latest.gap), "cyan"],
+    latest.hdi != null
+      ? ["人类发展指数", Number(latest.hdi).toFixed(3), "emerald"]
+      : ["传染性疾病占比", formatShare(latest.communicable_share), "amber"],
+    latest.hale != null
+      ? ["健康预期寿命", `${latest.hale} 岁`, "teal"]
+      : ["人均国内生产总值", formatCurrency(latest.gdp_per_capita), "teal"],
+    latest.uhc_index != null
+      ? ["UHC 覆盖指数", String(latest.uhc_index), "blue"]
+      : ["卫生支出占GDP", formatPercentValue(latest.health_exp_pct_gdp), "blue"],
+    latest.pm25 != null
+      ? ["PM2.5 暴露", `${latest.pm25} μg/m³`, "amber"]
+      : ["首要风险", translateRiskName(latest.top_risk_name), "rose"],
+    latest.doctor_density != null
+      ? ["医生密度", `${latest.doctor_density}/万人`, "cyan"]
+      : ["情景目标", formatCurrency(scenarioRow?.optimal ?? latest.optimal), "emerald"],
+    latest.che_per_capita != null
+      ? ["人均卫生支出", formatCurrency(latest.che_per_capita), "rose"]
+      : ["资源缺口", formatSigned(latest.gap), "cyan"],
   ];
 
   document.getElementById("spotlight-metrics").innerHTML = metrics
@@ -2148,11 +2580,11 @@ function toggleAnimation() {
 }
 
 function startAnimation() {
-  if (!store.availableYears.length) return;
+  const years = state.dimension === "dim5" ? store.bubbleYears : store.availableYears;
+  if (!years.length) return;
   state.animating = true;
   document.getElementById("play-button").classList.add("is-playing");
 
-  const years = store.availableYears;
   let idx = years.indexOf(state.year);
   if (idx < 0 || idx >= years.length - 1) idx = 0;
 
@@ -2166,7 +2598,11 @@ function startAnimation() {
     const slider = document.getElementById("year-slider");
     slider.value = state.year;
     document.getElementById("year-display").textContent = state.year;
-    renderMap();
+    if (state.dimension === "dim5") {
+      renderBubbleChart();
+    } else {
+      renderMap();
+    }
     updateMapKicker();
   }, 600);
 }
@@ -2180,7 +2616,8 @@ function stopAnimation() {
 
 function updateMapKicker() {
   const kicker = document.getElementById("map-kicker");
-  if (state.dimension === "dim1" && store.availableYears.length) {
+  if ((state.dimension === "dim1" && store.availableYears.length) ||
+      (state.dimension === "dim5" && store.bubbleYears.length)) {
     kicker.textContent = `全球地图 \u00B7 ${state.year}`;
   }
 }

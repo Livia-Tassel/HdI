@@ -1901,6 +1901,24 @@ body.ready .context-card { animation-delay: 480ms; }
   background: radial-gradient(circle at var(--ripple-x, 50%) var(--ripple-y, 50%), rgba(239, 68, 68, 0.15), transparent 60%) !important;
 }
 
+/* ── Health Panorama (dim5) chip ─────────────────────────────────── */
+
+.dim5-chip.is-active {
+  background: rgba(52, 211, 153, 0.12);
+  color: #34d399;
+  border-color: rgba(52, 211, 153, 0.30);
+  box-shadow: 0 0 20px rgba(52, 211, 153, 0.10), inset 0 0 12px rgba(52, 211, 153, 0.05);
+}
+
+.dim5-chip:hover {
+  color: #6ee7b7;
+  border-color: rgba(52, 211, 153, 0.22);
+}
+
+.dim5-chip::after {
+  background: radial-gradient(circle at var(--ripple-x, 50%) var(--ripple-y, 50%), rgba(52, 211, 153, 0.15), transparent 60%) !important;
+}
+
 /* ── Companion Toggle (Equity) ───────────────────────────────────── */
 
 .companion-toggle {
