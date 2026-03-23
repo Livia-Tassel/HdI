@@ -109,13 +109,13 @@ const METRIC_META = {
   health_personnel: {
     label: "卫生人员",
     colorscale: [[0, "#1a0808"], [0.25, "#4a1010"], [0.5, "#8b2020"], [0.75, "#dc2626"], [1, "#f87171"]],
-    formatter: (value) => formatCompact(value),
+    formatter: (value) => value == null ? NO_DATA_LABEL : `${formatCompact(value)} 万人`,
     accessor: (row) => row.value,
   },
   health_institutions: {
     label: "卫生机构",
     colorscale: [[0, "#1a0808"], [0.25, "#4a1010"], [0.5, "#8b2020"], [0.75, "#dc2626"], [1, "#f87171"]],
-    formatter: (value) => formatCompact(value),
+    formatter: (value) => value == null ? NO_DATA_LABEL : `${formatCompact(value)} 个`,
     accessor: (row) => row.value,
   },
   hdi: {
@@ -1255,7 +1255,7 @@ function renderCountryPanel() {
     document.getElementById("country-tag").textContent = "中国大陆省份";
     items = [
       ["省份", provinceLabel(prov), "rose"],
-      [METRIC_META[metricKey].label, formatCompact(latestVal), "cyan"],
+      [METRIC_META[metricKey].label, METRIC_META[metricKey].formatter(latestVal), "cyan"],
       ["全国排名", rank > 0 ? `第 ${rank} / ${ranking.length} 名` : NO_DATA_LABEL, "amber"],
       ["期间增长", growth !== NO_DATA_LABEL ? `${growth}%` : NO_DATA_LABEL, "teal"],
       ["数据点", `${series.length} 年`, "blue"],
@@ -1369,7 +1369,7 @@ function renderDim4RankingList() {
             <b>${escapeHtml(provinceLabel(row.province))}</b>
             <small>中国大陆</small>
           </span>
-          <span class="row-value">${escapeHtml(formatCompact(row.value))}</span>
+          <span class="row-value">${escapeHtml(METRIC_META[metricKey].formatter(row.value))}</span>
         </button>
       `;
     })
@@ -2024,11 +2024,11 @@ function renderDim4Context() {
   document.getElementById("context-panel").innerHTML = renderContextColumns([
     {
       title: `前 5 名${METRIC_META[metricKey].label}`,
-      items: top5.map((r) => ({ name: provinceLabel(r.province), value: formatCompact(r.value) })),
+      items: top5.map((r) => ({ name: provinceLabel(r.province), value: METRIC_META[metricKey].formatter(r.value) })),
     },
     {
       title: `后 5 名${METRIC_META[metricKey].label}`,
-      items: bottom5.map((r) => ({ name: provinceLabel(r.province), value: formatCompact(r.value) })),
+      items: bottom5.map((r) => ({ name: provinceLabel(r.province), value: METRIC_META[metricKey].formatter(r.value) })),
     },
     {
       title: "增速最快（观察期）",
