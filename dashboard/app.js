@@ -1024,7 +1024,6 @@ function renderMap() {
         bordercolor: "rgba(34,211,238,0.22)",
         font: { family: "system-ui, sans-serif", color: THEME.inkBright, size: 13 },
       },
-      transition: { duration: 300, easing: "cubic-in-out" },
     },
     {
       responsive: true,
