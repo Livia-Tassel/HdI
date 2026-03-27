@@ -105,3 +105,36 @@ async def get_malmquist(
         "meta": {"available": False, "country": country},
         "data": [],
     }
+
+
+@router.get("/dim3/china", response_model=APIResponse)
+async def get_china_analysis():
+    """Get China provincial resource gap, quadrant, and optimization analysis."""
+    return _load_json(API_OUTPUT / "dim3" / "china_analysis.json")
+
+
+@router.get("/dim3/china/optimization", response_model=APIResponse)
+async def get_china_optimization(
+    objective: Optional[str] = Query(None),
+    budget_multiplier: Optional[float] = Query(None),
+):
+    """Get China provincial optimization scenarios."""
+    data = copy.deepcopy(_load_json(API_OUTPUT / "dim3" / "china_analysis.json"))
+    if not (isinstance(data, dict) and isinstance(data.get("data"), dict)):
+        return data
+    payload = data["data"]
+    opt = payload.get("optimization", {})
+    scenarios = opt.get("scenarios", [])
+    if objective:
+        scenarios = [s for s in scenarios if s.get("objective") == objective]
+    if budget_multiplier is not None:
+        scenarios = [s for s in scenarios if abs(float(s.get("budget_multiplier", 0)) - budget_multiplier) < 1e-9]
+    opt["scenarios"] = scenarios
+    payload["optimization"] = opt
+    return data
+
+
+@router.get("/dim3/equity", response_model=APIResponse)
+async def get_equity():
+    """Get global health equity metrics (Gini, concentration index, by-group)."""
+    return _load_json(API_OUTPUT / "dim3" / "equity.json")

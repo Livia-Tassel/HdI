@@ -21,6 +21,7 @@ from hdi.api.serializers import (
     export_dim2_paf,
     export_dim2_scenarios,
     export_dim2_shapley,
+    export_dim3_china_analysis,
     export_dim3_efficiency,
     export_dim3_optimization,
     export_dim3_resource_gap,
@@ -29,6 +30,13 @@ from hdi.api.serializers import (
     export_metadata_indicators,
     wrap_response,
     write_json_artifact,
+)
+from hdi.data.china_provincial import (
+    build_china_latest_snapshot,
+    load_china_provincial_panel,
+    PROVINCE_EN as _PROVINCE_EN_MAP,
+    PROVINCE_REGION as _PROVINCE_REGION_MAP,
+    PROVINCE_REGION_EN as _PROVINCE_REGION_EN_MAP,
 )
 from hdi.config import (
     API_OUTPUT,
@@ -308,6 +316,209 @@ def _build_optimization_scenario(
             "top_donors": donors.to_dict(orient="records"),
         },
         "allocation": allocation.to_dict(orient="records"),
+    }
+
+
+def _compute_gini(values: np.ndarray) -> float:
+    """Compute Gini coefficient for a 1-D array of non-negative values."""
+    v = np.sort(values[np.isfinite(values) & (values >= 0)])
+    if len(v) == 0 or v.sum() < 1e-12:
+        return float("nan")
+    n = len(v)
+    cumv = np.cumsum(v)
+    return float((2 * np.sum((np.arange(1, n + 1)) * v) - (n + 1) * cumv[-1]) / (n * cumv[-1]))
+
+
+def _compute_concentration_index(health_var: np.ndarray, rank_var: np.ndarray) -> float:
+    """Compute concentration index of health_var ranked by rank_var (e.g., income)."""
+    mask = np.isfinite(health_var) & np.isfinite(rank_var)
+    h = health_var[mask]
+    r = rank_var[mask]
+    if len(h) < 3:
+        return float("nan")
+    rank = np.argsort(np.argsort(r)) + 1
+    n = len(h)
+    frac_rank = (rank - 0.5) / n
+    mu = h.mean()
+    if abs(mu) < 1e-12:
+        return float("nan")
+    return float(2.0 * np.cov(h, frac_rank, ddof=1)[0, 1] / mu)
+
+
+def _build_china_optimization_scenarios(snap: pd.DataFrame, panel: pd.DataFrame) -> dict:
+    """Run LP optimization for China provinces and return a structured payload."""
+    from hdi.models.optimization import optimize_allocation_max_output, optimize_allocation_maximin
+
+    snap_clean = snap.dropna(subset=["health_exp_per_capita", "output_index"]).copy()
+    snap_clean["health_exp_per_capita"] = snap_clean["health_exp_per_capita"].clip(lower=1)
+    snap_clean = snap_clean.rename(columns={"province": "entity"})
+
+    a_coef, b_coef = _fit_output_curve(
+        snap_clean["health_exp_per_capita"].to_numpy(dtype=float),
+        snap_clean["output_index"].to_numpy(dtype=float),
+    )
+
+    objectives = {
+        "max_output": {
+            "label": "最大化健康产出",
+            "label_en": "Maximize Aggregate Health Output",
+            "description": "固定总卫生经费，最大化全体省份综合健康产出之和",
+            "solver": optimize_allocation_max_output,
+        },
+        "maximin": {
+            "label": "最小化健康不平等",
+            "label_en": "Minimize Health Inequality (Rawlsian)",
+            "description": "最大化最弱省份的健康产出（Rawls极小极大原则）",
+            "solver": optimize_allocation_maximin,
+        },
+    }
+    budgets = [0.9, 1.0, 1.1]
+
+    scenarios = []
+    for obj_code, obj_meta in objectives.items():
+        for budget_mult in budgets:
+            try:
+                result = obj_meta["solver"](
+                    snap_clean,
+                    output_col="output_index",
+                    input_col="health_exp_per_capita",
+                    entity_col="entity",
+                    budget_multiplier=budget_mult,
+                )
+                allocation_df = result.optimal_allocation.merge(
+                    snap_clean[["entity", "province_en", "region", "region_en", "quadrant", "quadrant_en",
+                                "theoretical_need", "gap", "efficiency", "output_index",
+                                "life_expectancy", "infant_mortality", "personnel_per_1000"]],
+                    on="entity",
+                    how="left",
+                )
+                allocation_df["projected_output_current"] = _project_output_curve(
+                    allocation_df["current"].to_numpy(dtype=float), a_coef, b_coef
+                )
+                allocation_df["projected_output_optimal"] = _project_output_curve(
+                    allocation_df["optimal"].to_numpy(dtype=float), a_coef, b_coef
+                )
+                allocation_df["projected_output_delta"] = (
+                    allocation_df["projected_output_optimal"] - allocation_df["projected_output_current"]
+                )
+
+                current_total = float(allocation_df["current"].sum())
+                optimal_total = float(allocation_df["optimal"].sum())
+                proj_curr = float(allocation_df["projected_output_current"].sum())
+                proj_opt = float(allocation_df["projected_output_optimal"].sum())
+                gain_pct = ((proj_opt - proj_curr) / abs(proj_curr) * 100) if abs(proj_curr) > 1e-9 else 0.0
+
+                recipients = allocation_df.nlargest(5, "change_pct")
+                donors = allocation_df.nsmallest(5, "change_pct")
+
+                # Post-scenario Gini of projected outputs
+                gini_before = _compute_gini(allocation_df["projected_output_current"].to_numpy())
+                gini_after = _compute_gini(allocation_df["projected_output_optimal"].to_numpy())
+
+                scenarios.append({
+                    "scenario_id": f"{obj_code}_budget_{int(round(budget_mult * 100)):03d}",
+                    "objective": obj_code,
+                    "objective_label": obj_meta["label"],
+                    "objective_label_en": obj_meta["label_en"],
+                    "objective_description": obj_meta["description"],
+                    "budget_multiplier": budget_mult,
+                    "budget_change_pct": (budget_mult - 1.0) * 100.0,
+                    "status": result.status,
+                    "objective_value": float(result.objective_value),
+                    "summary": {
+                        "province_count": int(len(allocation_df)),
+                        "current_budget_total": current_total,
+                        "optimal_budget_total": optimal_total,
+                        "projected_output_current": proj_curr,
+                        "projected_output_optimal": proj_opt,
+                        "projected_output_gain_pct": gain_pct,
+                        "gini_before": gini_before,
+                        "gini_after": gini_after,
+                        "gini_change": gini_after - gini_before if np.isfinite(gini_before) and np.isfinite(gini_after) else None,
+                        "recipient_count": int((allocation_df["change_pct"] > 0).sum()),
+                        "donor_count": int((allocation_df["change_pct"] < 0).sum()),
+                        "top_recipients": recipients[["entity", "province_en", "region", "change", "change_pct"]].to_dict(orient="records"),
+                        "top_donors": donors[["entity", "province_en", "region", "change", "change_pct"]].to_dict(orient="records"),
+                    },
+                    "allocation": allocation_df.to_dict(orient="records"),
+                })
+            except Exception:
+                logger.exception("China optimization failed: %s / %.1f", obj_code, budget_mult)
+
+    # Build resource gap table
+    gap_grades = pd.qcut(
+        snap["gap"].dropna(),
+        q=5,
+        labels=["E_严重不足", "D_不足", "C_匹配", "B_较充足", "A_富余"],
+        duplicates="drop",
+    )
+    snap = snap.copy()
+    snap["gap_grade"] = pd.qcut(
+        snap["gap"],
+        q=5,
+        labels=["E_严重不足", "D_不足", "C_匹配", "B_较充足", "A_富余"],
+        duplicates="drop",
+    )
+    gap_records = snap[[
+        "province", "province_en", "region", "region_en",
+        "input_index", "theoretical_need", "gap", "gap_grade",
+        "output_index", "efficiency", "quadrant", "quadrant_en",
+        "personnel_per_1000", "health_exp_per_capita",
+        "life_expectancy", "infant_mortality",
+    ]].to_dict(orient="records")
+
+    # Equity metrics
+    by_region = snap.groupby("region").agg(
+        province_count=("province", "count"),
+        avg_life_expectancy=("life_expectancy", "mean"),
+        avg_infant_mortality=("infant_mortality", "mean"),
+        avg_personnel_per_1000=("personnel_per_1000", "mean"),
+        avg_health_exp=("health_exp_per_capita", "mean"),
+        avg_input_index=("input_index", "mean"),
+        avg_output_index=("output_index", "mean"),
+    ).reset_index().rename(columns={"region": "region_cn"})
+    by_region["region_en"] = by_region["region_cn"].map(_PROVINCE_REGION_EN_MAP)
+
+    gini_life_exp = _compute_gini(snap["life_expectancy"].to_numpy())
+    gini_infant_mort = _compute_gini(snap["infant_mortality"].to_numpy())
+    gini_exp = _compute_gini(snap["health_exp_per_capita"].to_numpy())
+    ci_exp_vs_life = _compute_concentration_index(
+        snap["life_expectancy"].to_numpy(),
+        snap["health_exp_per_capita"].to_numpy(),
+    )
+
+    quadrant_counts = snap["quadrant"].value_counts().to_dict()
+
+    # Personnel trend: use full panel
+    latest_year = int(panel["year"].max())
+    personnel_history = {}
+    for prov in panel["province"].unique():
+        prov_data = panel[panel["province"] == prov].sort_values("year")
+        prov_en = _PROVINCE_EN_MAP.get(prov, prov)
+        personnel_history[prov_en] = prov_data[["year", "health_personnel_wan"]].dropna().to_dict(orient="records")
+
+    return {
+        "latest_year": latest_year,
+        "resource_gap": gap_records,
+        "quadrant_counts": quadrant_counts,
+        "equity_metrics": {
+            "gini_life_expectancy": gini_life_exp,
+            "gini_infant_mortality": gini_infant_mort,
+            "gini_health_expenditure": gini_exp,
+            "concentration_index_exp_vs_life_expectancy": ci_exp_vs_life,
+        },
+        "by_region": by_region.to_dict(orient="records"),
+        "optimization": {
+            "default_scenario": f"max_output_budget_100",
+            "scenario_options": {
+                "objectives": [
+                    {"code": k, "label": v["label"], "label_en": v["label_en"]} for k, v in objectives.items()
+                ],
+                "budget_multipliers": budgets,
+            },
+            "scenarios": scenarios,
+        },
+        "personnel_history": personnel_history,
     }
 
 
@@ -832,6 +1043,50 @@ def build_dimension3_outputs(master: pd.DataFrame, resource_panel: pd.DataFrame,
         axes[1].set_ylabel("Health institutions")
         axes[1].legend_.remove()
         _save_figure(fig, "fig08_china_province_trends")
+
+    # --- China provincial optimization (sub-question 3: one-country redistribution) ---
+    try:
+        china_panel = load_china_provincial_panel()
+        china_snap = build_china_latest_snapshot(china_panel)
+        china_payload = _build_china_optimization_scenarios(china_snap, china_panel)
+        export_dim3_china_analysis(china_payload)
+        logger.info("China provincial optimization complete: %d provinces, %d scenarios",
+                    len(china_snap), len(china_payload.get("optimization", {}).get("scenarios", [])))
+    except Exception:
+        logger.exception("China provincial optimization failed")
+
+    # --- Global equity metrics (sub-question 2) ---
+    try:
+        exp_vals = latest["health_exp_per_capita"].dropna().to_numpy()
+        le_vals = latest.loc[latest["health_exp_per_capita"].notna(), "life_expectancy"].to_numpy()
+        gini_global_life_exp = _compute_gini(latest["life_expectancy"].dropna().to_numpy())
+        gini_global_health_exp = _compute_gini(exp_vals)
+        ci_exp_vs_le = _compute_concentration_index(le_vals, exp_vals)
+        equity_summary = {
+            "gini_life_expectancy": gini_global_life_exp,
+            "gini_health_expenditure": gini_global_health_exp,
+            "concentration_index_exp_vs_life_expectancy": ci_exp_vs_le,
+            "by_income_group": latest.groupby("wb_income").agg(
+                country_count=("iso3", "count"),
+                avg_life_expectancy=("life_expectancy", "mean"),
+                avg_health_exp=("health_exp_per_capita", "mean"),
+                avg_input_index=("input_index", "mean"),
+                avg_output_index=("output_index", "mean"),
+            ).reset_index().rename(columns={"wb_income": "income_group"}).to_dict(orient="records"),
+            "by_who_region": latest.groupby("who_region").agg(
+                country_count=("iso3", "count"),
+                avg_life_expectancy=("life_expectancy", "mean"),
+                avg_health_exp=("health_exp_per_capita", "mean"),
+                avg_input_index=("input_index", "mean"),
+                avg_output_index=("output_index", "mean"),
+            ).reset_index().rename(columns={"who_region": "region"}).to_dict(orient="records"),
+        }
+        write_json_artifact(
+            wrap_response(equity_summary),
+            API_OUTPUT / "dim3" / "equity.json",
+        )
+    except Exception:
+        logger.exception("Global equity metrics failed")
 
     return {
         "latest_year": latest_year,

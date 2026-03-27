@@ -142,6 +142,10 @@ def export_dim3_optimization(optimization_result: dict | Any) -> None:
     write_json_artifact(wrap_response(payload), API_OUTPUT / "dim3" / "optimization.json")
 
 
+def export_dim3_china_analysis(china_payload: dict) -> None:
+    write_json_artifact(wrap_response(china_payload), API_OUTPUT / "dim3" / "china_analysis.json")
+
+
 def export_ghri_unavailable() -> None:
     data = {
         "status": "success",
