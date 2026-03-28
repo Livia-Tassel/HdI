@@ -299,15 +299,21 @@ _PROVINCE_EN = {
 
 def _build_overview_timeseries(master: pd.DataFrame) -> dict[str, Any]:
     """Build per-year dim1 metrics for all countries (2000-2023)."""
-    cols = ["iso3", "country_name", "who_region", "wb_income", "year",
-            "life_expectancy", "ncd_share", "communicable_share", "health_exp_pct_gdp"]
+    base_cols = ["iso3", "country_name", "who_region", "wb_income", "year",
+                 "life_expectancy", "ncd_share", "communicable_share", "health_exp_pct_gdp"]
+    extra_cols = [c for c in [
+        "infant_mortality", "under5_mortality", "physicians_per_1000",
+        "health_exp_per_capita", "gdp_per_capita", "urban_population_pct",
+        "measles_immunization_pct", "fertility_rate",
+    ] if c in master.columns]
+    cols = base_cols + extra_cols
     subset = master[cols].dropna(subset=["life_expectancy"]).copy()
     years = sorted(subset["year"].unique().tolist())
     by_year: dict[str, list[dict[str, Any]]] = {}
     for year in years:
         year_df = subset[subset["year"] == year]
         by_year[str(int(year))] = _records(year_df[cols])
-    return {"years": [int(y) for y in years], "by_year": by_year}
+    return {"years": [int(y) for y in years], "by_year": by_year, "metrics": extra_cols}
 
 
 def _build_china_deep_dive(china: pd.DataFrame) -> dict[str, Any]:

@@ -3163,6 +3163,32 @@ function renderDim3Context() {
     ? `<p class="context-lede" style="font-size:0.8rem;opacity:0.8">基尼系数（预期寿命）：优化前 ${giniBeforeStr} → 优化后 ${giniAfterStr}（${scenarioSummary.gini_change > 0 ? "+" : ""}${scenarioSummary.gini_change?.toFixed(4) ?? "—"}）</p>`
     : "";
 
+  // Quadrant distribution stats from overview countries
+  const countries = store.overview?.countries ?? [];
+  const qStats = {};
+  for (const c of countries) {
+    if (!c.quadrant) continue;
+    if (!qStats[c.quadrant]) qStats[c.quadrant] = { n: 0, leSum: 0, leN: 0, expSum: 0, expN: 0 };
+    qStats[c.quadrant].n++;
+    if (c.life_expectancy != null) { qStats[c.quadrant].leSum += c.life_expectancy; qStats[c.quadrant].leN++; }
+    if (c.health_exp_per_capita != null) { qStats[c.quadrant].expSum += c.health_exp_per_capita; qStats[c.quadrant].expN++; }
+  }
+  const QUADRANT_CN_LABELS = {
+    "Q1_high_input_high_output": "Q1 高投入高产出",
+    "Q2_low_input_high_output": "Q2 低投入高产出",
+    "Q3_high_input_low_output": "Q3 高投入低产出",
+    "Q4_low_input_low_output": "Q4 低投入低产出",
+  };
+  const quadrantStatsColumn = {
+    title: "全球四象限概况",
+    items: Object.entries(QUADRANT_CN_LABELS).map(([q, label]) => {
+      const s = qStats[q] ?? { n: 0, leN: 0, leSum: 0, expN: 0, expSum: 0 };
+      const avgLe = s.leN > 0 ? (s.leSum / s.leN).toFixed(1) + "岁" : NO_DATA_LABEL;
+      const avgExp = s.expN > 0 ? "$" + Math.round(s.expSum / s.expN) : NO_DATA_LABEL;
+      return { name: `${label}（${s.n}国）`, value: `寿命${avgLe}·支出${avgExp}` };
+    }),
+  };
+
   document.getElementById("context-panel").innerHTML = `
     <p class="context-lede">${escapeHtml(
       OBJECTIVE_META[state.objective]?.note ?? "当前情景设置已应用到最新资源面板。",
@@ -3179,7 +3205,7 @@ function renderDim3Context() {
         title: "主要捐出国家",
         items: donors.map((row) => ({ name: countryLabel(row), value: formatSignedPercent(row.change_pct) })),
       },
-      whoColumn ?? incomeColumn ?? detailColumn,
+      whoColumn ?? quadrantStatsColumn ?? incomeColumn ?? detailColumn,
     ])}
   `;
 }
