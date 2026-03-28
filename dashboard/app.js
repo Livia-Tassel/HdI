@@ -1922,13 +1922,19 @@ function renderChinaDetailChart() {
 function renderCompanionChart() {
   if (state.dimension === "dim1") {
     const toggleHtml = `<span class="companion-toggle" id="companion-toggle">` +
-      `<button class="companion-toggle-btn ${state.companionView === "transition" ? "is-active" : ""}" data-view="transition">趋势</button>` +
+      `<button class="companion-toggle-btn ${state.companionView === "transition" || !["equity","lorenz"].includes(state.companionView) ? "is-active" : ""}" data-view="transition">趋势</button>` +
       `<button class="companion-toggle-btn ${state.companionView === "equity" ? "is-active" : ""}" data-view="equity">公平</button>` +
+      `<button class="companion-toggle-btn ${state.companionView === "lorenz" ? "is-active" : ""}" data-view="lorenz">洛伦兹</button>` +
       `</span>`;
-    document.getElementById("companion-title").innerHTML =
-      state.companionView === "equity" ? `健康公平趋势${toggleHtml}` : `全球疾病趋势${toggleHtml}`;
+    const dim1Titles = {
+      equity: `健康公平趋势${toggleHtml}`,
+      lorenz: `洛伦兹曲线${toggleHtml}`,
+    };
+    document.getElementById("companion-title").innerHTML = dim1Titles[state.companionView] ?? `全球疾病趋势${toggleHtml}`;
     document.getElementById("companion-pill").textContent =
-      state.companionView === "equity" ? "基尼系数与离散度" : "2000-2023";
+      state.companionView === "equity" ? "基尼系数与离散度" :
+      state.companionView === "lorenz" ? "卫生支出 / 预期寿命" :
+      "2000-2023";
 
     // Bind toggle
     document.querySelectorAll(".companion-toggle-btn").forEach((btn) => {
@@ -1940,6 +1946,8 @@ function renderCompanionChart() {
 
     if (state.companionView === "equity") {
       renderEquityChart();
+    } else if (state.companionView === "lorenz") {
+      renderLorenzChart();
     } else {
       renderGlobalDiseaseTrend();
     }
@@ -2185,6 +2193,64 @@ function renderEquityChart() {
         title: "对数预期寿命标准差",
         gridcolor: "rgba(0,0,0,0)",
       },
+    }),
+    { responsive: true, displayModeBar: false, scrollZoom: false },
+  );
+}
+
+function renderLorenzChart() {
+  const lorenz = store.globalStory?.lorenz ?? {};
+  const expData = lorenz.health_exp;
+  const leData = lorenz.life_expectancy;
+
+  if (!expData?.x?.length && !leData?.x?.length) {
+    emptyPlot("companion-chart", "暂无洛伦兹曲线数据。");
+    return;
+  }
+
+  const traces = [];
+
+  // Perfect equality line
+  traces.push({
+    x: [0, 100],
+    y: [0, 100],
+    mode: "lines",
+    name: "完全平等线",
+    line: { color: "rgba(148,163,184,0.4)", width: 1.5, dash: "dot" },
+    hoverinfo: "skip",
+  });
+
+  if (expData?.x?.length) {
+    traces.push({
+      x: expData.x,
+      y: expData.y,
+      mode: "lines",
+      name: `${expData.label}（${expData.year}）`,
+      line: { color: THEME.rose, width: 2.5, shape: "spline" },
+      fill: "tonexty",
+      fillcolor: "rgba(251,113,133,0.07)",
+      hovertemplate: "底部 %{x:.0f}% 国家占 %{y:.1f}% 支出<extra></extra>",
+    });
+  }
+
+  if (leData?.x?.length) {
+    traces.push({
+      x: leData.x,
+      y: leData.y,
+      mode: "lines",
+      name: `${leData.label}（${leData.year}）`,
+      line: { color: THEME.teal, width: 2.5, shape: "spline" },
+      hovertemplate: "底部 %{x:.0f}% 国家占 %{y:.1f}% 寿命<extra></extra>",
+    });
+  }
+
+  Plotly.react(
+    "companion-chart",
+    traces,
+    baseLayout({
+      xaxis: { title: "国家累计比例（%，按升序排列）", range: [0, 100] },
+      yaxis: { title: "指标累计比例（%）", range: [0, 100] },
+      legend: { orientation: "h", y: -0.2, x: 0, font: { size: 10 } },
     }),
     { responsive: true, displayModeBar: false, scrollZoom: false },
   );

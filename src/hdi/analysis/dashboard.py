@@ -418,6 +418,46 @@ def _load_global_equity_snapshot() -> dict[str, Any]:
     }
 
 
+def _build_lorenz_data(master: pd.DataFrame) -> dict[str, Any]:
+    """Compute Lorenz curves for health expenditure and life expectancy (latest year)."""
+    latest_year = int(master["year"].max())
+    snap = master[master["year"] == latest_year].dropna(subset=["health_exp_per_capita", "life_expectancy"]).copy()
+    if snap.empty:
+        return {"lorenz": {}}
+
+    # Lorenz curve: sort by health_exp, compute cumulative shares
+    snap_sorted = snap.sort_values("health_exp_per_capita").reset_index(drop=True)
+    n = len(snap_sorted)
+    cum_pop = np.arange(1, n + 1) / n * 100  # cumulative % of countries
+
+    exp_vals = snap_sorted["health_exp_per_capita"].values.astype(float)
+    cum_exp = np.cumsum(exp_vals) / exp_vals.sum() * 100
+
+    le_sorted = snap.sort_values("life_expectancy").reset_index(drop=True)
+    le_vals = le_sorted["life_expectancy"].values.astype(float)
+    cum_le = np.cumsum(le_vals) / le_vals.sum() * 100
+    cum_pop_le = np.arange(1, len(le_vals) + 1) / len(le_vals) * 100
+
+    return {
+        "lorenz": {
+            "health_exp": {
+                "x": [round(v, 2) for v in [0.0] + cum_pop.tolist()],
+                "y": [round(v, 2) for v in [0.0] + cum_exp.tolist()],
+                "label": "人均卫生支出",
+                "country_count": n,
+                "year": latest_year,
+            },
+            "life_expectancy": {
+                "x": [round(v, 2) for v in [0.0] + cum_pop_le.tolist()],
+                "y": [round(v, 2) for v in [0.0] + cum_le.tolist()],
+                "label": "预期寿命",
+                "country_count": len(le_vals),
+                "year": latest_year,
+            },
+        }
+    }
+
+
 def _build_equity_data(master: pd.DataFrame) -> dict[str, Any]:
     """Compute per-year health equity metrics across countries."""
     years = sorted(master["year"].unique())
@@ -680,6 +720,7 @@ def build_dashboard_assets() -> dict[str, Any]:
         },
         **_build_equity_data(master),
         **_load_global_equity_snapshot(),
+        **_build_lorenz_data(master),
     }
 
     country_profiles: dict[str, Any] = {}
