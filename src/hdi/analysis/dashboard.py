@@ -493,6 +493,89 @@ def _build_equity_data(master: pd.DataFrame) -> dict[str, Any]:
     return {"health_equity": records}
 
 
+def _build_quadrant_transitions(master: pd.DataFrame, resource_panel: pd.DataFrame) -> dict[str, Any]:
+    """Compute which countries changed efficiency quadrant between 2000 and latest year."""
+    def _std(s: pd.Series, invert: bool = False) -> pd.Series:
+        mu, sigma = s.mean(), s.std()
+        if sigma < 1e-9:
+            return pd.Series(0.0, index=s.index)
+        z = (s - mu) / sigma
+        return -z if invert else z
+
+    def _assign_quadrant(df: pd.DataFrame) -> pd.DataFrame:
+        df = df.copy()
+        df["_input"] = pd.concat([
+            _std(df["physicians_per_1000"]), _std(df["beds_per_1000"]),
+            _std(df["health_exp_pct_gdp"]), _std(df["health_exp_per_capita"]),
+        ], axis=1).mean(axis=1)
+        df["_output"] = pd.concat([
+            _std(df["life_expectancy"]),
+            _std(df["infant_mortality"], invert=True),
+            _std(df["under5_mortality"], invert=True),
+        ], axis=1).mean(axis=1)
+        med_in, med_out = df["_input"].median(), df["_output"].median()
+        df["quad"] = np.select(
+            [(df["_input"] >= med_in) & (df["_output"] >= med_out),
+             (df["_input"] < med_in) & (df["_output"] >= med_out),
+             (df["_input"] >= med_in) & (df["_output"] < med_out),
+             (df["_input"] < med_in) & (df["_output"] < med_out)],
+            ["Q1_high_input_high_output", "Q2_low_input_high_output", "Q3_high_input_low_output", "Q4_low_input_low_output"],
+            default="unclassified",
+        )
+        return df[["iso3", "quad", "_input", "_output"]]
+
+    latest_year = int(resource_panel["year"].max())
+    early_year = max(2000, latest_year - 20)
+
+    latest = resource_panel[resource_panel["year"] == latest_year].copy()
+    # backfill
+    for _lag_col in ["physicians_per_1000", "beds_per_1000"]:
+        if _lag_col not in latest.columns:
+            continue
+        for _by in range(latest_year - 1, max(latest_year - 6, 2015), -1):
+            _bk = resource_panel[resource_panel["year"] == _by][["iso3", _lag_col]].dropna(subset=[_lag_col])
+            if _bk.empty:
+                continue
+            _fm = _bk.set_index("iso3")[_lag_col]
+            _mi = latest[_lag_col].isna()
+            latest.loc[_mi, _lag_col] = latest.loc[_mi, "iso3"].map(_fm)
+
+    early = resource_panel[resource_panel["year"] == early_year].copy()
+    for _lag_col in ["physicians_per_1000", "beds_per_1000"]:
+        if _lag_col not in early.columns:
+            continue
+        for _by in range(early_year + 1, min(early_year + 5, latest_year)):
+            _bk = resource_panel[resource_panel["year"] == _by][["iso3", _lag_col]].dropna(subset=[_lag_col])
+            if _bk.empty:
+                continue
+            _fm = _bk.set_index("iso3")[_lag_col]
+            _mi = early[_lag_col].isna()
+            early.loc[_mi, _lag_col] = early.loc[_mi, "iso3"].map(_fm)
+
+    req_cols = ["physicians_per_1000", "beds_per_1000", "health_exp_pct_gdp",
+                "health_exp_per_capita", "life_expectancy", "infant_mortality", "under5_mortality"]
+    latest_q = _assign_quadrant(latest.dropna(subset=req_cols, how="any")).rename(columns={"quad": "quad_latest"})
+    early_q = _assign_quadrant(early.dropna(subset=req_cols, how="any")).rename(columns={"quad": "quad_early"})
+
+    merged = latest_q.merge(early_q[["iso3", "quad_early"]], on="iso3", how="inner")
+    merged = merged.merge(latest[["iso3", "country_name", "who_region", "wb_income"]].drop_duplicates("iso3"), on="iso3", how="left")
+    changed = merged[merged["quad_latest"] != merged["quad_early"]].copy()
+    changed["transition"] = changed["quad_early"] + "→" + changed["quad_latest"]
+
+    transition_counts = changed.groupby("transition").size().reset_index(name="count").sort_values("count", ascending=False)
+
+    return {
+        "quadrant_transitions": {
+            "from_year": int(early_year),
+            "to_year": int(latest_year),
+            "changed_count": int(len(changed)),
+            "total_count": int(len(merged)),
+            "transition_summary": transition_counts.to_dict(orient="records"),
+            "movers": _records(changed[["iso3", "country_name", "who_region", "wb_income", "quad_early", "quad_latest", "transition"]]),
+        }
+    }
+
+
 def build_dashboard_assets() -> dict[str, Any]:
     _ensure_dirs()
 
@@ -744,6 +827,7 @@ def build_dashboard_assets() -> dict[str, Any]:
         **_build_equity_data(master),
         **_load_global_equity_snapshot(),
         **_build_lorenz_data(master),
+        **_build_quadrant_transitions(master, master),
     }
 
     country_profiles: dict[str, Any] = {}

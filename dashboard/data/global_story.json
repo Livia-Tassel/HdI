@@ -44922,5 +44922,305 @@
       "country_count": 187,
       "year": 2023
     }
+  },
+  "quadrant_transitions": {
+    "from_year": 2003,
+    "to_year": 2023,
+    "changed_count": 30,
+    "total_count": 97,
+    "transition_summary": [
+      {
+        "transition": "Q2_low_input_high_output→Q4_low_input_low_output",
+        "count": 10
+      },
+      {
+        "transition": "Q1_high_input_high_output→Q4_low_input_low_output",
+        "count": 7
+      },
+      {
+        "transition": "Q1_high_input_high_output→Q2_low_input_high_output",
+        "count": 6
+      },
+      {
+        "transition": "Q1_high_input_high_output→Q3_high_input_low_output",
+        "count": 5
+      },
+      {
+        "transition": "Q4_low_input_low_output→Q3_high_input_low_output",
+        "count": 2
+      }
+    ],
+    "movers": [
+      {
+        "iso3": "AFG",
+        "country_name": "Afghanistan",
+        "who_region": "EMRO",
+        "wb_income": "LIC",
+        "quad_early": "Q4_low_input_low_output",
+        "quad_latest": "Q3_high_input_low_output",
+        "transition": "Q4_low_input_low_output→Q3_high_input_low_output"
+      },
+      {
+        "iso3": "ARE",
+        "country_name": "United Arab Emirates",
+        "who_region": "EMRO",
+        "wb_income": "HIC",
+        "quad_early": "Q1_high_input_high_output",
+        "quad_latest": "Q2_low_input_high_output",
+        "transition": "Q1_high_input_high_output→Q2_low_input_high_output"
+      },
+      {
+        "iso3": "ARG",
+        "country_name": "Argentina",
+        "who_region": "AMRO",
+        "wb_income": "UMC",
+        "quad_early": "Q1_high_input_high_output",
+        "quad_latest": "Q3_high_input_low_output",
+        "transition": "Q1_high_input_high_output→Q3_high_input_low_output"
+      },
+      {
+        "iso3": "ATG",
+        "country_name": "Antigua and Barbuda",
+        "who_region": "AMRO",
+        "wb_income": "HIC",
+        "quad_early": "Q1_high_input_high_output",
+        "quad_latest": "Q2_low_input_high_output",
+        "transition": "Q1_high_input_high_output→Q2_low_input_high_output"
+      },
+      {
+        "iso3": "BGR",
+        "country_name": "Bulgaria",
+        "who_region": "EURO",
+        "wb_income": "HIC",
+        "quad_early": "Q1_high_input_high_output",
+        "quad_latest": "Q3_high_input_low_output",
+        "transition": "Q1_high_input_high_output→Q3_high_input_low_output"
+      },
+      {
+        "iso3": "BHS",
+        "country_name": "Bahamas, The",
+        "who_region": "AMRO",
+        "wb_income": "HIC",
+        "quad_early": "Q1_high_input_high_output",
+        "quad_latest": "Q3_high_input_low_output",
+        "transition": "Q1_high_input_high_output→Q3_high_input_low_output"
+      },
+      {
+        "iso3": "BLZ",
+        "country_name": "Belize",
+        "who_region": "AMRO",
+        "wb_income": "UMC",
+        "quad_early": "Q2_low_input_high_output",
+        "quad_latest": "Q4_low_input_low_output",
+        "transition": "Q2_low_input_high_output→Q4_low_input_low_output"
+      },
+      {
+        "iso3": "BRB",
+        "country_name": "Barbados",
+        "who_region": "AMRO",
+        "wb_income": "HIC",
+        "quad_early": "Q1_high_input_high_output",
+        "quad_latest": "Q3_high_input_low_output",
+        "transition": "Q1_high_input_high_output→Q3_high_input_low_output"
+      },
+      {
+        "iso3": "BRN",
+        "country_name": "Brunei Darussalam",
+        "who_region": "WPRO",
+        "wb_income": "HIC",
+        "quad_early": "Q2_low_input_high_output",
+        "quad_latest": "Q4_low_input_low_output",
+        "transition": "Q2_low_input_high_output→Q4_low_input_low_output"
+      },
+      {
+        "iso3": "COL",
+        "country_name": "Colombia",
+        "who_region": "AMRO",
+        "wb_income": "UMC",
+        "quad_early": "Q2_low_input_high_output",
+        "quad_latest": "Q4_low_input_low_output",
+        "transition": "Q2_low_input_high_output→Q4_low_input_low_output"
+      },
+      {
+        "iso3": "CRI",
+        "country_name": "Costa Rica",
+        "who_region": "AMRO",
+        "wb_income": "HIC",
+        "quad_early": "Q1_high_input_high_output",
+        "quad_latest": "Q2_low_input_high_output",
+        "transition": "Q1_high_input_high_output→Q2_low_input_high_output"
+      },
+      {
+        "iso3": "ECU",
+        "country_name": "Ecuador",
+        "who_region": "AMRO",
+        "wb_income": "UMC",
+        "quad_early": "Q1_high_input_high_output",
+        "quad_latest": "Q4_low_input_low_output",
+        "transition": "Q1_high_input_high_output→Q4_low_input_low_output"
+      },
+      {
+        "iso3": "GRD",
+        "country_name": "Grenada",
+        "who_region": "AMRO",
+        "wb_income": "UMC",
+        "quad_early": "Q1_high_input_high_output",
+        "quad_latest": "Q4_low_input_low_output",
+        "transition": "Q1_high_input_high_output→Q4_low_input_low_output"
+      },
+      {
+        "iso3": "JAM",
+        "country_name": "Jamaica",
+        "who_region": "AMRO",
+        "wb_income": "UMC",
+        "quad_early": "Q2_low_input_high_output",
+        "quad_latest": "Q4_low_input_low_output",
+        "transition": "Q2_low_input_high_output→Q4_low_input_low_output"
+      },
+      {
+        "iso3": "JOR",
+        "country_name": "Jordan",
+        "who_region": "EMRO",
+        "wb_income": "LMC",
+        "quad_early": "Q1_high_input_high_output",
+        "quad_latest": "Q4_low_input_low_output",
+        "transition": "Q1_high_input_high_output→Q4_low_input_low_output"
+      },
+      {
+        "iso3": "KWT",
+        "country_name": "Kuwait",
+        "who_region": "EMRO",
+        "wb_income": "HIC",
+        "quad_early": "Q1_high_input_high_output",
+        "quad_latest": "Q2_low_input_high_output",
+        "transition": "Q1_high_input_high_output→Q2_low_input_high_output"
+      },
+      {
+        "iso3": "LBN",
+        "country_name": "Lebanon",
+        "who_region": "EMRO",
+        "wb_income": "LMC",
+        "quad_early": "Q1_high_input_high_output",
+        "quad_latest": "Q4_low_input_low_output",
+        "transition": "Q1_high_input_high_output→Q4_low_input_low_output"
+      },
+      {
+        "iso3": "LBY",
+        "country_name": "Libya",
+        "who_region": "EMRO",
+        "wb_income": "UMC",
+        "quad_early": "Q1_high_input_high_output",
+        "quad_latest": "Q4_low_input_low_output",
+        "transition": "Q1_high_input_high_output→Q4_low_input_low_output"
+      },
+      {
+        "iso3": "LCA",
+        "country_name": "St. Lucia",
+        "who_region": "AMRO",
+        "wb_income": "UMC",
+        "quad_early": "Q2_low_input_high_output",
+        "quad_latest": "Q4_low_input_low_output",
+        "transition": "Q2_low_input_high_output→Q4_low_input_low_output"
+      },
+      {
+        "iso3": "MEX",
+        "country_name": "Mexico",
+        "who_region": "AMRO",
+        "wb_income": "UMC",
+        "quad_early": "Q1_high_input_high_output",
+        "quad_latest": "Q4_low_input_low_output",
+        "transition": "Q1_high_input_high_output→Q4_low_input_low_output"
+      },
+      {
+        "iso3": "MYS",
+        "country_name": "Malaysia",
+        "who_region": "WPRO",
+        "wb_income": "UMC",
+        "quad_early": "Q2_low_input_high_output",
+        "quad_latest": "Q4_low_input_low_output",
+        "transition": "Q2_low_input_high_output→Q4_low_input_low_output"
+      },
+      {
+        "iso3": "OMN",
+        "country_name": "Oman",
+        "who_region": "EMRO",
+        "wb_income": "HIC",
+        "quad_early": "Q2_low_input_high_output",
+        "quad_latest": "Q4_low_input_low_output",
+        "transition": "Q2_low_input_high_output→Q4_low_input_low_output"
+      },
+      {
+        "iso3": "PAN",
+        "country_name": "Panama",
+        "who_region": "AMRO",
+        "wb_income": "HIC",
+        "quad_early": "Q1_high_input_high_output",
+        "quad_latest": "Q4_low_input_low_output",
+        "transition": "Q1_high_input_high_output→Q4_low_input_low_output"
+      },
+      {
+        "iso3": "PER",
+        "country_name": "Peru",
+        "who_region": "AMRO",
+        "wb_income": "UMC",
+        "quad_early": "Q2_low_input_high_output",
+        "quad_latest": "Q4_low_input_low_output",
+        "transition": "Q2_low_input_high_output→Q4_low_input_low_output"
+      },
+      {
+        "iso3": "QAT",
+        "country_name": "Qatar",
+        "who_region": "EMRO",
+        "wb_income": "HIC",
+        "quad_early": "Q1_high_input_high_output",
+        "quad_latest": "Q2_low_input_high_output",
+        "transition": "Q1_high_input_high_output→Q2_low_input_high_output"
+      },
+      {
+        "iso3": "ROU",
+        "country_name": "Romania",
+        "who_region": "EURO",
+        "wb_income": "HIC",
+        "quad_early": "Q1_high_input_high_output",
+        "quad_latest": "Q3_high_input_low_output",
+        "transition": "Q1_high_input_high_output→Q3_high_input_low_output"
+      },
+      {
+        "iso3": "SYR",
+        "country_name": "Syrian Arab Republic",
+        "who_region": "EMRO",
+        "wb_income": "LIC",
+        "quad_early": "Q2_low_input_high_output",
+        "quad_latest": "Q4_low_input_low_output",
+        "transition": "Q2_low_input_high_output→Q4_low_input_low_output"
+      },
+      {
+        "iso3": "TTO",
+        "country_name": "Trinidad and Tobago",
+        "who_region": "AMRO",
+        "wb_income": "HIC",
+        "quad_early": "Q4_low_input_low_output",
+        "quad_latest": "Q3_high_input_low_output",
+        "transition": "Q4_low_input_low_output→Q3_high_input_low_output"
+      },
+      {
+        "iso3": "TUN",
+        "country_name": "Tunisia",
+        "who_region": "EMRO",
+        "wb_income": "LMC",
+        "quad_early": "Q2_low_input_high_output",
+        "quad_latest": "Q4_low_input_low_output",
+        "transition": "Q2_low_input_high_output→Q4_low_input_low_output"
+      },
+      {
+        "iso3": "TUR",
+        "country_name": "Türkiye",
+        "who_region": "EURO",
+        "wb_income": "UMC",
+        "quad_early": "Q1_high_input_high_output",
+        "quad_latest": "Q2_low_input_high_output",
+        "transition": "Q1_high_input_high_output→Q2_low_input_high_output"
+      }
+    ]
   }
 }

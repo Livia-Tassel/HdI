@@ -18,7 +18,8 @@ const DIMENSIONS = {
     mapTitle: "全球疾病谱与健康结果",
     note: "点击国家查看预期寿命、疾病结构和卫生体系状况。",
     metrics: ["life_expectancy", "ncd_share", "communicable_share", "health_exp_pct_gdp",
-              "infant_mortality", "under5_mortality", "physicians_per_1000", "beds_per_1000",
+              "infant_mortality", "under5_mortality", "adult_mortality_male", "adult_mortality_female",
+              "physicians_per_1000", "beds_per_1000", "health_exp_per_capita", "gdp_per_capita",
               "basic_water_pct", "basic_sanitation_pct", "measles_immunization_pct",
               "urban_population_pct", "fertility_rate"],
   },
@@ -34,7 +35,7 @@ const DIMENSIONS = {
     defaultMetric: "change_pct",
     mapTitle: "全球卫生资源配置分析",
     note: "调整优化目标与预算，对比不同资源配置方案。",
-    metrics: ["change_pct", "gap", "efficiency"],
+    metrics: ["change_pct", "gap", "efficiency", "physicians_per_1000", "beds_per_1000", "health_exp_per_capita", "gdp_per_capita"],
   },
   dim4: {
     label: "中国大陆聚焦",
@@ -289,6 +290,32 @@ const METRIC_META = {
     colorscale: [[0, "#0c1929"], [0.25, "#0e3a5e"], [0.5, "#1d4ed8"], [0.75, "#38bdf8"], [1, "#bae6fd"]],
     formatter: (value) => formatCurrency(value),
     accessor: (row) => row.che_per_capita,
+  },
+  gdp_per_capita: {
+    label: "人均GDP（美元）",
+    colorscale: [[0, "#071a17"], [0.25, "#0c3a32"], [0.5, "#12705f"], [0.75, "#34d399"], [1, "#6ee7b7"]],
+    formatter: (value) => value == null ? NO_DATA_LABEL : `$${Math.round(Number(value)).toLocaleString()}`,
+    accessor: (row) => row.gdp_per_capita,
+  },
+  health_exp_per_capita: {
+    label: "人均卫生支出（美元）",
+    colorscale: [[0, "#0c1929"], [0.25, "#0e3a5e"], [0.5, "#1d4ed8"], [0.75, "#38bdf8"], [1, "#bae6fd"]],
+    formatter: (value) => value == null ? NO_DATA_LABEL : `$${Math.round(Number(value)).toLocaleString()}`,
+    accessor: (row) => row.health_exp_per_capita,
+  },
+  adult_mortality_male: {
+    label: "男性成人死亡率（‰）",
+    colorscale: [[0, "#f0fdf4"], [0.25, "#6ee7b7"], [0.5, "#fbbf24"], [0.75, "#ef4444"], [1, "#7f1d1d"]],
+    formatter: (value) => value == null ? NO_DATA_LABEL : `${Number(value).toFixed(0)} ‰`,
+    accessor: (row) => row.adult_mortality_male,
+    invertGradient: true,
+  },
+  adult_mortality_female: {
+    label: "女性成人死亡率（‰）",
+    colorscale: [[0, "#f0fdf4"], [0.25, "#6ee7b7"], [0.5, "#fbbf24"], [0.75, "#ef4444"], [1, "#7f1d1d"]],
+    formatter: (value) => value == null ? NO_DATA_LABEL : `${Number(value).toFixed(0)} ‰`,
+    accessor: (row) => row.adult_mortality_female,
+    invertGradient: true,
   },
   infant_mortality: {
     label: "婴儿死亡率（‰）",
@@ -2173,21 +2200,24 @@ function renderCompanionChart() {
   }
 
   const dim3ToggleHtml = `<span class="companion-toggle" id="companion-toggle">` +
-    `<button class="companion-toggle-btn ${state.companionView === "reallocation" || !["equity","quadrant","lorenz_opt"].includes(state.companionView) ? "is-active" : ""}" data-view="reallocation">重分配</button>` +
+    `<button class="companion-toggle-btn ${state.companionView === "reallocation" || !["equity","quadrant","lorenz_opt","transitions"].includes(state.companionView) ? "is-active" : ""}" data-view="reallocation">重分配</button>` +
     `<button class="companion-toggle-btn ${state.companionView === "quadrant" ? "is-active" : ""}" data-view="quadrant">象限</button>` +
     `<button class="companion-toggle-btn ${state.companionView === "equity" ? "is-active" : ""}" data-view="equity">公平</button>` +
     `<button class="companion-toggle-btn ${state.companionView === "lorenz_opt" ? "is-active" : ""}" data-view="lorenz_opt">洛伦兹</button>` +
+    `<button class="companion-toggle-btn ${state.companionView === "transitions" ? "is-active" : ""}" data-view="transitions">象限迁移</button>` +
     `</span>`;
   const dim3Titles = {
     equity: `全球健康公平趋势${dim3ToggleHtml}`,
     quadrant: `全球投入-产出象限${dim3ToggleHtml}`,
     lorenz_opt: `优化前后洛伦兹曲线${dim3ToggleHtml}`,
+    transitions: `象限迁移分析${dim3ToggleHtml}`,
   };
   document.getElementById("companion-title").innerHTML = dim3Titles[state.companionView] ?? `情景赢家与捐助者${dim3ToggleHtml}`;
   document.getElementById("companion-pill").textContent =
     state.companionView === "equity" ? "基尼系数" :
     state.companionView === "quadrant" ? "四象限分类" :
     state.companionView === "lorenz_opt" ? "健康产出分布" :
+    state.companionView === "transitions" ? "2003-2023变化" :
     budgetLabel(state.budgetMultiplier);
   document.querySelectorAll(".companion-toggle-btn").forEach((btn) => {
     btn.addEventListener("click", () => {
@@ -2201,6 +2231,8 @@ function renderCompanionChart() {
     renderGlobalQuadrantScatter();
   } else if (state.companionView === "lorenz_opt") {
     renderOptimizationLorenz();
+  } else if (state.companionView === "transitions") {
+    renderQuadrantTransitions();
   } else {
     renderOptimizationBar();
   }
@@ -2335,6 +2367,80 @@ function renderOptimizationBar() {
     baseLayout({
       xaxis: { title: "建议调整幅度（%）" },
       yaxis: { automargin: true },
+    }),
+    { responsive: true, displayModeBar: false, scrollZoom: false },
+  );
+}
+
+const QUADRANT_SHORT = {
+  "Q1_high_input_high_output": "Q1高投入高产出",
+  "Q2_low_input_high_output": "Q2低投入高产出",
+  "Q3_high_input_low_output": "Q3高投入低产出",
+  "Q4_low_input_low_output": "Q4低投入低产出",
+  "unclassified": "未分类",
+};
+
+function renderQuadrantTransitions() {
+  const qt = store.globalStory?.quadrant_transitions;
+  if (!qt?.movers?.length) {
+    emptyPlot("companion-chart", "暂无象限迁移数据。");
+    return;
+  }
+
+  const movers = qt.movers;
+  const fromYear = qt.from_year;
+  const toYear = qt.to_year;
+
+  // Group by transition type
+  const grouped = {};
+  for (const m of movers) {
+    const key = m.transition;
+    if (!grouped[key]) grouped[key] = [];
+    grouped[key].push(m);
+  }
+
+  // Color transitions: Q→Q4 is bad (rose), Q4→Q is good (teal), else amber
+  const transitionColor = (t) => {
+    if (t.endsWith("Q4_low_input_low_output")) return THEME.rose;
+    if (t.startsWith("Q4_low_input_low_output")) return THEME.teal;
+    if (t.includes("Q3_high_input_low_output") && t.startsWith("Q")) return THEME.amber;
+    return THEME.cyan;
+  };
+
+  const sortedKeys = Object.keys(grouped).sort((a, b) => grouped[b].length - grouped[a].length);
+  const traces = sortedKeys.map((key) => {
+    const cs = grouped[key];
+    const parts = key.split("→");
+    const label = `${QUADRANT_SHORT[parts[0]] ?? parts[0]} → ${QUADRANT_SHORT[parts[1]] ?? parts[1]}（${cs.length}国）`;
+    return {
+      type: "bar",
+      orientation: "h",
+      x: [cs.length],
+      y: [label],
+      name: label,
+      marker: { color: transitionColor(key), cornerradius: 4 },
+      text: cs.map((c) => c.country_name).join("、"),
+      hovertemplate: `<b>${label}</b><br>%{text}<extra></extra>`,
+      textposition: "none",
+    };
+  });
+
+  Plotly.react(
+    "companion-chart",
+    traces,
+    baseLayout({
+      barmode: "stack",
+      xaxis: { title: "国家数量" },
+      yaxis: { automargin: true, tickfont: { size: 10 } },
+      showlegend: false,
+      annotations: [{
+        xref: "paper", yref: "paper",
+        x: 0.01, y: 1.05,
+        xanchor: "left", yanchor: "bottom",
+        text: `${fromYear}→${toYear}：${qt.changed_count}/${qt.total_count} 个国家改变象限`,
+        font: { size: 11, color: THEME.muted },
+        showarrow: false,
+      }],
     }),
     { responsive: true, displayModeBar: false, scrollZoom: false },
   );
@@ -3177,13 +3283,13 @@ function renderDim4Context() {
         items: donors.map((r) => ({ name: r.province, value: `${r.change_pct.toFixed(1)}%` })),
       },
       {
-        title: "分地区资源汇总",
+        title: "分地区资源与NCD负担",
         items: byRegion.map((r) => ({
           name: `${r.region_cn ?? r.region_en}（${r.province_count} 省）`,
           value: [
             `人均支出：${r.avg_health_exp != null ? "¥" + Math.round(r.avg_health_exp).toLocaleString() : NO_DATA_LABEL}`,
-            `老龄化：${r.avg_elderly_share != null ? r.avg_elderly_share.toFixed(1) + "%" : NO_DATA_LABEL}`,
-            `城镇化：${r.avg_urbanization_rate != null ? r.avg_urbanization_rate.toFixed(1) + "%" : NO_DATA_LABEL}`,
+            `高血压：${r.avg_hypertension_prevalence != null ? r.avg_hypertension_prevalence.toFixed(1) + "%" : NO_DATA_LABEL}`,
+            `糖尿病：${r.avg_diabetes_prevalence != null ? r.avg_diabetes_prevalence.toFixed(1) + "%" : NO_DATA_LABEL}`,
           ].join(" · "),
         })),
       },

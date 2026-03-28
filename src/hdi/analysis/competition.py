@@ -1110,6 +1110,56 @@ def build_dimension3_outputs(master: pd.DataFrame, resource_panel: pd.DataFrame,
     ]
     export_dim3_efficiency(efficiency)
 
+    # --- Quadrant transition analysis (2000 vs latest) ---
+    try:
+        earliest_year = max(2000, latest_year - 20)
+        _early = resource_panel[resource_panel["year"] == earliest_year].copy()
+        for _lag_col in ["physicians_per_1000", "beds_per_1000"]:
+            if _lag_col not in _early.columns:
+                continue
+            for _fy in range(earliest_year + 1, min(earliest_year + 5, latest_year)):
+                _bf = resource_panel[resource_panel["year"] == _fy][["iso3", _lag_col]].dropna(subset=[_lag_col])
+                if _bf.empty:
+                    continue
+                _fm = _bf.set_index("iso3")[_lag_col]
+                _mi = _early[_lag_col].isna()
+                _early.loc[_mi, _lag_col] = _early.loc[_mi, "iso3"].map(_fm)
+                if not _early[_lag_col].isna().any():
+                    break
+        _early["input_index_early"] = pd.concat(
+            [_standardize(_early["physicians_per_1000"]), _standardize(_early["beds_per_1000"]),
+             _standardize(_early["health_exp_pct_gdp"]), _standardize(_early["health_exp_per_capita"])],
+            axis=1,
+        ).mean(axis=1)
+        _early["output_index_early"] = pd.concat(
+            [_standardize(_early["life_expectancy"]),
+             _standardize(_early["infant_mortality"], invert=True),
+             _standardize(_early["under5_mortality"], invert=True)],
+            axis=1,
+        ).mean(axis=1)
+        _e_med_in = _early["input_index_early"].median()
+        _e_med_out = _early["output_index_early"].median()
+        _early["quadrant_early"] = np.select(
+            [(_early["input_index_early"] >= _e_med_in) & (_early["output_index_early"] >= _e_med_out),
+             (_early["input_index_early"] < _e_med_in) & (_early["output_index_early"] >= _e_med_out),
+             (_early["input_index_early"] >= _e_med_in) & (_early["output_index_early"] < _e_med_out),
+             (_early["input_index_early"] < _e_med_in) & (_early["output_index_early"] < _e_med_out)],
+            ["Q1_high_input_high_output", "Q2_low_input_high_output", "Q3_high_input_low_output", "Q4_low_input_low_output"],
+            default="unclassified",
+        )
+        transitions = latest[["iso3", "country_name", "who_region", "wb_income", "quadrant"]].merge(
+            _early[["iso3", "quadrant_early"]],
+            on="iso3", how="inner",
+        )
+        transitions = transitions[transitions["quadrant"] != transitions["quadrant_early"]].copy()
+        transitions["transition"] = transitions["quadrant_early"] + "→" + transitions["quadrant"]
+        _transition_summary = transitions.groupby("transition").size().reset_index(name="count").sort_values("count", ascending=False)
+        logger.info("Quadrant transitions %d→%d: %d countries changed quadrant",
+                    earliest_year, latest_year, len(transitions))
+    except Exception:
+        logger.exception("Quadrant transition analysis failed")
+        transitions = pd.DataFrame()
+
     fig, ax = plt.subplots(figsize=(8, 6))
     sns.scatterplot(data=efficiency, x="input_index", y="output_index", hue="quadrant", s=50, ax=ax)
     ax.axvline(input_median, color="grey", linestyle="--", linewidth=1)
