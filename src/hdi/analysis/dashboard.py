@@ -503,6 +503,19 @@ def build_dashboard_assets() -> dict[str, Any]:
     latest_year = int(master["year"].max())
     overview_latest = master[master["year"] == latest_year].copy()
 
+    # Backfill physicians_per_1000 and beds_per_1000 from up to 6 prior years to
+    # improve global coverage (official data typically lags 2-4 years)
+    for _lag_col in ["physicians_per_1000", "beds_per_1000"]:
+        if _lag_col not in overview_latest.columns:
+            continue
+        for _backfill_yr in range(latest_year - 1, max(latest_year - 6, 2015), -1):
+            _back = master[master["year"] == _backfill_yr][["iso3", _lag_col]].dropna(subset=[_lag_col])
+            if _back.empty:
+                continue
+            _fill_map = _back.set_index("iso3")[_lag_col]
+            still_missing = overview_latest[_lag_col].isna()
+            overview_latest.loc[still_missing, _lag_col] = overview_latest.loc[still_missing, "iso3"].map(_fill_map)
+
     summary = _read_json(REPORTS / "analysis_summary.json") or {}
     resource_gap = _frame_from_records(
         _payload_data(API_OUTPUT / "dim3" / "resource_gap.json"),
