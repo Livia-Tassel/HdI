@@ -1963,16 +1963,20 @@ function renderCompanionChart() {
 
   if (state.dimension === "dim4") {
     const dim4ToggleHtml = `<span class="companion-toggle" id="companion-toggle">` +
-      `<button class="companion-toggle-btn ${state.companionView !== "quadrant" ? "is-active" : ""}" data-view="trend">趋势</button>` +
+      `<button class="companion-toggle-btn ${!["quadrant","lorenz"].includes(state.companionView) ? "is-active" : ""}" data-view="trend">趋势</button>` +
       `<button class="companion-toggle-btn ${state.companionView === "quadrant" ? "is-active" : ""}" data-view="quadrant">象限</button>` +
+      `<button class="companion-toggle-btn ${state.companionView === "lorenz" ? "is-active" : ""}" data-view="lorenz">洛伦兹</button>` +
       `</span>`;
-    if (state.companionView === "quadrant") {
-      document.getElementById("companion-title").innerHTML = `省级象限分布${dim4ToggleHtml}`;
-      document.getElementById("companion-pill").textContent = "投入-产出散点";
-    } else {
-      document.getElementById("companion-title").innerHTML = `省份卫生人员趋势${dim4ToggleHtml}`;
-      document.getElementById("companion-pill").textContent = state.province || "选择省份";
-    }
+    const dim4Titles = {
+      quadrant: `省级象限分布${dim4ToggleHtml}`,
+      lorenz: `省级洛伦兹曲线${dim4ToggleHtml}`,
+    };
+    document.getElementById("companion-title").innerHTML = dim4Titles[state.companionView] ?? `省份卫生人员趋势${dim4ToggleHtml}`;
+    document.getElementById("companion-pill").textContent =
+      state.companionView === "quadrant" ? "投入-产出散点" :
+      state.companionView === "lorenz" ? "省级不平等分布" :
+      state.province || "选择省份";
+
     document.querySelectorAll(".companion-toggle-btn").forEach((btn) => {
       btn.addEventListener("click", () => {
         state.companionView = btn.dataset.view;
@@ -1981,6 +1985,8 @@ function renderCompanionChart() {
     });
     if (state.companionView === "quadrant") {
       renderChinaQuadrantScatter();
+    } else if (state.companionView === "lorenz") {
+      renderChinaLorenzChart();
     } else {
       renderChinaProvincePersonnelTrend();
     }
@@ -2416,6 +2422,58 @@ function renderChinaProvincePersonnelTrend() {
       yaxis: { title: "卫生人员（万人）" },
       yaxis2: { title: "全国（万人）", overlaying: "y", side: "right", showgrid: false },
       legend: { orientation: "h", y: 1.05, x: 0 },
+    }),
+    { responsive: true, displayModeBar: false, scrollZoom: false },
+  );
+}
+
+function renderChinaLorenzChart() {
+  const data = store.chinaDeepDive;
+  const lorenzData = data?.equity_metrics?.lorenz ?? {};
+
+  if (!Object.keys(lorenzData).length) {
+    emptyPlot("companion-chart", "暂无省级洛伦兹曲线数据。");
+    return;
+  }
+
+  const traces = [
+    {
+      x: [0, 100],
+      y: [0, 100],
+      mode: "lines",
+      name: "完全平等线",
+      line: { color: "rgba(148,163,184,0.4)", width: 1.5, dash: "dot" },
+      hoverinfo: "skip",
+    },
+  ];
+
+  const seriesConfig = [
+    { key: "health_exp", color: THEME.rose, fill: "rgba(251,113,133,0.07)" },
+    { key: "life_expectancy", color: THEME.teal, fill: null },
+    { key: "personnel_per_1000", color: THEME.amber, fill: null },
+  ];
+
+  for (const { key, color, fill } of seriesConfig) {
+    const series = lorenzData[key];
+    if (!series?.x?.length) continue;
+    traces.push({
+      x: series.x,
+      y: series.y,
+      mode: "lines",
+      name: `${series.label ?? key}（${series.n} 省）`,
+      line: { color, width: 2.5, shape: "spline" },
+      ...(fill ? { fill: "tonexty", fillcolor: fill } : {}),
+      hovertemplate: `底部 %{x:.0f}% 省份占 %{y:.1f}% ${series.label ?? ""}<extra></extra>`,
+    });
+  }
+
+  Plotly.react(
+    "companion-chart",
+    traces,
+    baseLayout({
+      xaxis: { title: "省份累计比例（%）", range: [0, 100] },
+      yaxis: { title: "指标累计比例（%）", range: [0, 100] },
+      legend: { orientation: "h", y: -0.22, x: 0, font: { size: 10 } },
     }),
     { responsive: true, displayModeBar: false, scrollZoom: false },
   );

@@ -517,6 +517,24 @@ def _build_china_optimization_scenarios(snap: pd.DataFrame, panel: pd.DataFrame)
 
     quadrant_counts = snap["quadrant"].value_counts().to_dict()
 
+    # Lorenz curves for China provinces
+    def _lorenz_curve(values: np.ndarray) -> dict:
+        v = np.sort(values[np.isfinite(values) & (values > 0)])
+        if len(v) == 0:
+            return {"x": [], "y": [], "n": 0}
+        n = len(v)
+        cum_x = (np.arange(1, n + 1) / n * 100).tolist()
+        cum_y = (np.cumsum(v) / v.sum() * 100).tolist()
+        return {
+            "x": [0.0] + [round(x, 2) for x in cum_x],
+            "y": [0.0] + [round(y, 2) for y in cum_y],
+            "n": n,
+        }
+
+    lorenz_exp = _lorenz_curve(snap["health_exp_per_capita"].to_numpy())
+    lorenz_le = _lorenz_curve(snap["life_expectancy"].to_numpy())
+    lorenz_personnel = _lorenz_curve(snap["personnel_per_1000"].to_numpy()) if "personnel_per_1000" in snap.columns else {"x": [], "y": [], "n": 0}
+
     # Personnel trend: use full panel
     latest_year = int(panel["year"].max())
     personnel_history = {}
@@ -543,6 +561,11 @@ def _build_china_optimization_scenarios(snap: pd.DataFrame, panel: pd.DataFrame)
             "concentration_index_exp_vs_life_expectancy": ci_exp_vs_life,
             "gini_maternal_mortality": gini_maternal,
             "gini_under5_mortality": gini_under5,
+            "lorenz": {
+                "health_exp": {**lorenz_exp, "label": "人均卫生支出"},
+                "life_expectancy": {**lorenz_le, "label": "预期寿命"},
+                "personnel_per_1000": {**lorenz_personnel, "label": "卫生人员密度"},
+            },
         },
         "by_region": by_region.to_dict(orient="records"),
         "optimization": {
