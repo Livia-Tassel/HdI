@@ -2417,11 +2417,15 @@ function renderDim4Context() {
   const chinaScenario = getCurrentChinaScenario();
   const allocation = chinaScenario?.allocation ?? [];
 
-  // Top 5 recipients and donors in current China optimization scenario
-  const recipients = [...allocation].filter((r) => r.change_pct > 0)
-    .sort((a, b) => b.change_pct - a.change_pct).slice(0, 5);
-  const donors = [...allocation].filter((r) => r.change_pct < 0)
-    .sort((a, b) => a.change_pct - b.change_pct).slice(0, 5);
+  // Top recipients/donors from pre-computed summary or from allocation
+  const recipients = chinaScenario?.summary?.top_recipients?.length
+    ? chinaScenario.summary.top_recipients.slice(0, 5)
+    : [...allocation].filter((r) => r.change_pct > 0)
+        .sort((a, b) => b.change_pct - a.change_pct).slice(0, 5);
+  const donors = chinaScenario?.summary?.top_donors?.length
+    ? chinaScenario.summary.top_donors.slice(0, 5)
+    : [...allocation].filter((r) => r.change_pct < 0)
+        .sort((a, b) => a.change_pct - b.change_pct).slice(0, 5);
 
   // Quadrant counts
   const qcounts = data.quadrant_counts ?? {};

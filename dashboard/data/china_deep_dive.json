@@ -1532,35 +1532,35 @@
           "donor_count": 15,
           "top_recipients": [
             {
-              "entity": "甘肃省",
+              "province": "甘肃省",
               "province_en": "Gansu",
               "region": "西部",
               "change": 1157.3724137931003,
               "change_pct": 28.927078575183714
             },
             {
-              "entity": "广西壮族自治区",
+              "province": "广西壮族自治区",
               "province_en": "Guangxi",
               "region": "西部",
               "change": 1141.3724137931003,
               "change_pct": 28.41355274565846
             },
             {
-              "entity": "云南省",
+              "province": "云南省",
               "province_en": "Yunnan",
               "region": "西部",
               "change": 1031.3724137931003,
               "change_pct": 24.990850830945003
             },
             {
-              "entity": "江西省",
+              "province": "江西省",
               "province_en": "Jiangxi",
               "region": "中部",
               "change": 940.3724137931003,
               "change_pct": 22.294272493909446
             },
             {
-              "entity": "贵州省",
+              "province": "贵州省",
               "province_en": "Guizhou",
               "region": "西部",
               "change": 940.3724137931003,
@@ -1569,35 +1569,35 @@
           ],
           "top_donors": [
             {
-              "entity": "上海市",
+              "province": "上海市",
               "province_en": "Shanghai",
               "region": "东部",
               "change": -6744.5,
               "change_pct": -50.0
             },
             {
-              "entity": "北京市",
+              "province": "北京市",
               "province_en": "Beijing",
               "region": "东部",
               "change": -6123.5,
               "change_pct": -50.0
             },
             {
-              "entity": "天津市",
+              "province": "天津市",
               "province_en": "Tianjin",
               "region": "东部",
               "change": -4342.6275862069,
               "change_pct": -45.70705805922429
             },
             {
-              "entity": "西藏自治区",
+              "province": "西藏自治区",
               "province_en": "Tibet",
               "region": "西部",
               "change": -2353.6275862068997,
               "change_pct": -31.33157063640708
             },
             {
-              "entity": "浙江省",
+              "province": "浙江省",
               "province_en": "Zhejiang",
               "region": "东部",
               "change": -2049.6275862068997,
@@ -1607,7 +1607,7 @@
         },
         "allocation": [
           {
-            "entity": "上海市",
+            "province": "上海市",
             "current": 13489,
             "optimal": 6744.5,
             "change": -6744.5,
@@ -1629,7 +1629,7 @@
             "projected_output_delta": -0.937873518873527
           },
           {
-            "entity": "云南省",
+            "province": "云南省",
             "current": 4127,
             "optimal": 5158.3724137931,
             "change": 1031.3724137931003,
@@ -1651,7 +1651,7 @@
             "projected_output_delta": 0.30179553274630067
           },
           {
-            "entity": "内蒙古自治区",
+            "province": "内蒙古自治区",
             "current": 5609,
             "optimal": 5158.3724137931,
             "change": -450.62758620689965,
@@ -1673,7 +1673,7 @@
             "projected_output_delta": -0.11331210076862774
           },
           {
-            "entity": "北京市",
+            "province": "北京市",
             "current": 12247,
             "optimal": 6123.5,
             "change": -6123.5,
@@ -1695,7 +1695,7 @@
             "projected_output_delta": -0.9378633475866689
           },
           {
-            "entity": "吉林省",
+            "province": "吉林省",
             "current": 5023,
             "optimal": 5158.3724137931,
             "change": 135.37241379310035,
@@ -1717,7 +1717,7 @@
             "projected_output_delta": 0.035979853059247446
           },
           {
-            "entity": "四川省",
+            "province": "四川省",
             "current": 4609,
             "optimal": 5158.3724137931,
             "change": 549.3724137931003,
@@ -1739,7 +1739,7 @@
             "projected_output_delta": 0.15235399714727293
           },
           {
-            "entity": "天津市",
+            "province": "天津市",
             "current": 9501,
             "optimal": 5158.3724137931,
             "change": -4342.6275862069,
@@ -1761,7 +1761,7 @@
             "projected_output_delta": -0.8263883523375437
           },
           {
-            "entity": "宁夏回族自治区",
+            "province": "宁夏回族自治区",
             "current": 5512,
             "optimal": 5158.3724137931,
             "change": -353.62758620689965,
@@ -1783,7 +1783,7 @@
             "projected_output_delta": -0.08970970645597198
           },
           {
-            "entity": "安徽省",
+            "province": "安徽省",
             "current": 4527,
             "optimal": 5158.3724137931,
             "change": 631.3724137931003,
@@ -1805,7 +1805,7 @@
             "projected_output_delta": 0.17664075881251762
           },
           {
-            "entity": "山东省",
+            "province": "山东省",
             "current": 5401,
             "optimal": 5158.3724137931,
             "change": -242.62758620689965,
@@ -1827,7 +1827,7 @@
             "projected_output_delta": -0.06218583850400883
           },
           {
-            "entity": "山西省",
+            "province": "山西省",
             "current": 4801,
             "optimal": 5158.3724137931,
             "change": 357.37241379310035,
@@ -1849,7 +1849,7 @@
             "projected_output_delta": 0.09713674146857976
           },
           {
-            "entity": "广东省",
+            "province": "广东省",
             "current": 6817,
             "optimal": 5158.3724137931,
             "change": -1658.6275862068997,
@@ -1871,7 +1871,7 @@
             "projected_output_delta": -0.37720900039089145
           },
           {
-            "entity": "广西壮族自治区",
+            "province": "广西壮族自治区",
             "current": 4017,
             "optimal": 5158.3724137931,
             "change": 1141.3724137931003,
@@ -1893,7 +1893,7 @@
             "projected_output_delta": 0.3383440643897444
           },
           {
-            "entity": "新疆维吾尔自治区",
+            "province": "新疆维吾尔自治区",
             "current": 5724,
             "optimal": 5158.3724137931,
             "change": -565.6275862068997,
@@ -1915,7 +1915,7 @@
             "projected_output_delta": -0.1407712117517157
           },
           {
-            "entity": "江苏省",
+            "province": "江苏省",
             "current": 6514,
             "optimal": 5158.3724137931,
             "change": -1355.6275862068997,
@@ -1937,7 +1937,7 @@
             "projected_output_delta": -0.31569346828717215
           },
           {
-            "entity": "江西省",
+            "province": "江西省",
             "current": 4218,
             "optimal": 5158.3724137931,
             "change": 940.3724137931003,
@@ -1959,7 +1959,7 @@
             "projected_output_delta": 0.2722886425369033
           },
           {
-            "entity": "河北省",
+            "province": "河北省",
             "current": 4423,
             "optimal": 5158.3724137931,
             "change": 735.3724137931003,
@@ -1981,7 +1981,7 @@
             "projected_output_delta": 0.20808405453084866
           },
           {
-            "entity": "河南省",
+            "province": "河南省",
             "current": 4312,
             "optimal": 5158.3724137931,
             "change": 846.3724137931003,
@@ -2003,7 +2003,7 @@
             "projected_output_delta": 0.24246986503777812
           },
           {
-            "entity": "浙江省",
+            "province": "浙江省",
             "current": 7208,
             "optimal": 5158.3724137931,
             "change": -2049.6275862068997,
@@ -2025,7 +2025,7 @@
             "projected_output_delta": -0.45266951040797565
           },
           {
-            "entity": "海南省",
+            "province": "海南省",
             "current": 4803,
             "optimal": 5158.3724137931,
             "change": 355.37241379310035,
@@ -2047,7 +2047,7 @@
             "projected_output_delta": 0.09657325606004008
           },
           {
-            "entity": "湖北省",
+            "province": "湖北省",
             "current": 5098,
             "optimal": 5158.3724137931,
             "change": 60.37241379310035,
@@ -2069,7 +2069,7 @@
             "projected_output_delta": 0.015927967011691635
           },
           {
-            "entity": "湖南省",
+            "province": "湖南省",
             "current": 4718,
             "optimal": 5158.3724137931,
             "change": 440.37241379310035,
@@ -2091,7 +2091,7 @@
             "projected_output_delta": 0.12073075281699452
           },
           {
-            "entity": "甘肃省",
+            "province": "甘肃省",
             "current": 4001,
             "optimal": 5158.3724137931,
             "change": 1157.3724137931003,
@@ -2113,7 +2113,7 @@
             "projected_output_delta": 0.34374341395326624
           },
           {
-            "entity": "福建省",
+            "province": "福建省",
             "current": 5287,
             "optimal": 5158.3724137931,
             "change": -128.62758620689965,
@@ -2135,7 +2135,7 @@
             "projected_output_delta": -0.0333230115825387
           },
           {
-            "entity": "西藏自治区",
+            "province": "西藏自治区",
             "current": 7512,
             "optimal": 5158.3724137931,
             "change": -2353.6275862068997,
@@ -2157,7 +2157,7 @@
             "projected_output_delta": -0.5085633267608252
           },
           {
-            "entity": "贵州省",
+            "province": "贵州省",
             "current": 4218,
             "optimal": 5158.3724137931,
             "change": 940.3724137931003,
@@ -2179,7 +2179,7 @@
             "projected_output_delta": 0.2722886425369033
           },
           {
-            "entity": "辽宁省",
+            "province": "辽宁省",
             "current": 5834,
             "optimal": 5158.3724137931,
             "change": -675.6275862068997,
@@ -2201,7 +2201,7 @@
             "projected_output_delta": -0.16652512416178133
           },
           {
-            "entity": "重庆市",
+            "province": "重庆市",
             "current": 5215,
             "optimal": 5158.3724137931,
             "change": -56.62758620689965,
@@ -2223,7 +2223,7 @@
             "projected_output_delta": -0.014771477009711376
           },
           {
-            "entity": "陕西省",
+            "province": "陕西省",
             "current": 4624,
             "optimal": 5158.3724137931,
             "change": 534.3724137931003,
@@ -2245,7 +2245,7 @@
             "projected_output_delta": 0.14795807496293278
           },
           {
-            "entity": "青海省",
+            "province": "青海省",
             "current": 6211,
             "optimal": 5158.3724137931,
             "change": -1052.6275862068997,
@@ -2267,7 +2267,7 @@
             "projected_output_delta": -0.251247773121289
           },
           {
-            "entity": "黑龙江省",
+            "province": "黑龙江省",
             "current": 4912,
             "optimal": 5158.3724137931,
             "change": 246.37241379310035,
@@ -2314,35 +2314,35 @@
           "donor_count": 9,
           "top_recipients": [
             {
-              "entity": "甘肃省",
+              "province": "甘肃省",
               "province_en": "Gansu",
               "region": "西部",
               "change": 1779.827586206895,
               "change_pct": 44.48456851304411
             },
             {
-              "entity": "广西壮族自治区",
+              "province": "广西壮族自治区",
               "province_en": "Guangxi",
               "region": "西部",
               "change": 1763.827586206895,
               "change_pct": 43.909076081824615
             },
             {
-              "entity": "云南省",
+              "province": "云南省",
               "province_en": "Yunnan",
               "region": "西部",
               "change": 1653.827586206895,
               "change_pct": 40.073360460549914
             },
             {
-              "entity": "江西省",
+              "province": "江西省",
               "province_en": "Jiangxi",
               "region": "中部",
               "change": 1562.827586206895,
               "change_pct": 37.05138895701505
             },
             {
-              "entity": "贵州省",
+              "province": "贵州省",
               "province_en": "Guizhou",
               "region": "西部",
               "change": 1562.827586206895,
@@ -2351,35 +2351,35 @@
           ],
           "top_donors": [
             {
-              "entity": "上海市",
+              "province": "上海市",
               "province_en": "Shanghai",
               "region": "东部",
               "change": -6744.5,
               "change_pct": -50.0
             },
             {
-              "entity": "北京市",
+              "province": "北京市",
               "province_en": "Beijing",
               "region": "东部",
               "change": -6123.5,
               "change_pct": -50.0
             },
             {
-              "entity": "天津市",
+              "province": "天津市",
               "province_en": "Tianjin",
               "region": "东部",
               "change": -3720.172413793105,
               "change_pct": -39.155587978034994
             },
             {
-              "entity": "西藏自治区",
+              "province": "西藏自治区",
               "province_en": "Tibet",
               "region": "西部",
               "change": -1731.172413793105,
               "change_pct": -23.045426168704807
             },
             {
-              "entity": "浙江省",
+              "province": "浙江省",
               "province_en": "Zhejiang",
               "region": "东部",
               "change": -1427.172413793105,
@@ -2389,7 +2389,7 @@
         },
         "allocation": [
           {
-            "entity": "上海市",
+            "province": "上海市",
             "current": 13489,
             "optimal": 6744.5,
             "change": -6744.5,
@@ -2411,7 +2411,7 @@
             "projected_output_delta": -0.937873518873527
           },
           {
-            "entity": "云南省",
+            "province": "云南省",
             "current": 4127,
             "optimal": 5780.827586206895,
             "change": 1653.827586206895,
@@ -2433,7 +2433,7 @@
             "projected_output_delta": 0.4559327731963094
           },
           {
-            "entity": "内蒙古自治区",
+            "province": "内蒙古自治区",
             "current": 5609,
             "optimal": 5780.827586206895,
             "change": 171.82758620689492,
@@ -2455,7 +2455,7 @@
             "projected_output_delta": 0.04082513968138102
           },
           {
-            "entity": "北京市",
+            "province": "北京市",
             "current": 12247,
             "optimal": 6123.5,
             "change": -6123.5,
@@ -2477,7 +2477,7 @@
             "projected_output_delta": -0.9378633475866689
           },
           {
-            "entity": "吉林省",
+            "province": "吉林省",
             "current": 5023,
             "optimal": 5780.827586206895,
             "change": 757.8275862068949,
@@ -2499,7 +2499,7 @@
             "projected_output_delta": 0.1901170935092562
           },
           {
-            "entity": "四川省",
+            "province": "四川省",
             "current": 4609,
             "optimal": 5780.827586206895,
             "change": 1171.827586206895,
@@ -2521,7 +2521,7 @@
             "projected_output_delta": 0.3064912375972817
           },
           {
-            "entity": "天津市",
+            "province": "天津市",
             "current": 9501,
             "optimal": 5780.827586206895,
             "change": -3720.172413793105,
@@ -2543,7 +2543,7 @@
             "projected_output_delta": -0.672251111887535
           },
           {
-            "entity": "宁夏回族自治区",
+            "province": "宁夏回族自治区",
             "current": 5512,
             "optimal": 5780.827586206895,
             "change": 268.8275862068949,
@@ -2565,7 +2565,7 @@
             "projected_output_delta": 0.06442753399403678
           },
           {
-            "entity": "安徽省",
+            "province": "安徽省",
             "current": 4527,
             "optimal": 5780.827586206895,
             "change": 1253.827586206895,
@@ -2587,7 +2587,7 @@
             "projected_output_delta": 0.3307779992625264
           },
           {
-            "entity": "山东省",
+            "province": "山东省",
             "current": 5401,
             "optimal": 5780.827586206895,
             "change": 379.8275862068949,
@@ -2609,7 +2609,7 @@
             "projected_output_delta": 0.09195140194599993
           },
           {
-            "entity": "山西省",
+            "province": "山西省",
             "current": 4801,
             "optimal": 5780.827586206895,
             "change": 979.8275862068949,
@@ -2631,7 +2631,7 @@
             "projected_output_delta": 0.2512739819185885
           },
           {
-            "entity": "广东省",
+            "province": "广东省",
             "current": 6817,
             "optimal": 5780.827586206895,
             "change": -1036.172413793105,
@@ -2653,7 +2653,7 @@
             "projected_output_delta": -0.22307175994088269
           },
           {
-            "entity": "广西壮族自治区",
+            "province": "广西壮族自治区",
             "current": 4017,
             "optimal": 5780.827586206895,
             "change": 1763.827586206895,
@@ -2675,7 +2675,7 @@
             "projected_output_delta": 0.49248130483975316
           },
           {
-            "entity": "新疆维吾尔自治区",
+            "province": "新疆维吾尔自治区",
             "current": 5724,
             "optimal": 5780.827586206895,
             "change": 56.82758620689492,
@@ -2697,7 +2697,7 @@
             "projected_output_delta": 0.013366028698293064
           },
           {
-            "entity": "江苏省",
+            "province": "江苏省",
             "current": 6514,
             "optimal": 5780.827586206895,
             "change": -733.1724137931051,
@@ -2719,7 +2719,7 @@
             "projected_output_delta": -0.1615562278371634
           },
           {
-            "entity": "江西省",
+            "province": "江西省",
             "current": 4218,
             "optimal": 5780.827586206895,
             "change": 1562.827586206895,
@@ -2741,7 +2741,7 @@
             "projected_output_delta": 0.4264258829869121
           },
           {
-            "entity": "河北省",
+            "province": "河北省",
             "current": 4423,
             "optimal": 5780.827586206895,
             "change": 1357.827586206895,
@@ -2763,7 +2763,7 @@
             "projected_output_delta": 0.3622212949808574
           },
           {
-            "entity": "河南省",
+            "province": "河南省",
             "current": 4312,
             "optimal": 5780.827586206895,
             "change": 1468.827586206895,
@@ -2785,7 +2785,7 @@
             "projected_output_delta": 0.3966071054877869
           },
           {
-            "entity": "浙江省",
+            "province": "浙江省",
             "current": 7208,
             "optimal": 5780.827586206895,
             "change": -1427.172413793105,
@@ -2807,7 +2807,7 @@
             "projected_output_delta": -0.2985322699579669
           },
           {
-            "entity": "海南省",
+            "province": "海南省",
             "current": 4803,
             "optimal": 5780.827586206895,
             "change": 977.8275862068949,
@@ -2829,7 +2829,7 @@
             "projected_output_delta": 0.25071049651004884
           },
           {
-            "entity": "湖北省",
+            "province": "湖北省",
             "current": 5098,
             "optimal": 5780.827586206895,
             "change": 682.8275862068949,
@@ -2851,7 +2851,7 @@
             "projected_output_delta": 0.1700652074617004
           },
           {
-            "entity": "湖南省",
+            "province": "湖南省",
             "current": 4718,
             "optimal": 5780.827586206895,
             "change": 1062.827586206895,
@@ -2873,7 +2873,7 @@
             "projected_output_delta": 0.2748679932670033
           },
           {
-            "entity": "甘肃省",
+            "province": "甘肃省",
             "current": 4001,
             "optimal": 5780.827586206895,
             "change": 1779.827586206895,
@@ -2895,7 +2895,7 @@
             "projected_output_delta": 0.497880654403275
           },
           {
-            "entity": "福建省",
+            "province": "福建省",
             "current": 5287,
             "optimal": 5780.827586206895,
             "change": 493.8275862068949,
@@ -2917,7 +2917,7 @@
             "projected_output_delta": 0.12081422886747006
           },
           {
-            "entity": "西藏自治区",
+            "province": "西藏自治区",
             "current": 7512,
             "optimal": 5780.827586206895,
             "change": -1731.172413793105,
@@ -2939,7 +2939,7 @@
             "projected_output_delta": -0.3544260863108164
           },
           {
-            "entity": "贵州省",
+            "province": "贵州省",
             "current": 4218,
             "optimal": 5780.827586206895,
             "change": 1562.827586206895,
@@ -2961,7 +2961,7 @@
             "projected_output_delta": 0.4264258829869121
           },
           {
-            "entity": "辽宁省",
+            "province": "辽宁省",
             "current": 5834,
             "optimal": 5780.827586206895,
             "change": -53.17241379310508,
@@ -2983,7 +2983,7 @@
             "projected_output_delta": -0.012387883711772574
           },
           {
-            "entity": "重庆市",
+            "province": "重庆市",
             "current": 5215,
             "optimal": 5780.827586206895,
             "change": 565.8275862068949,
@@ -3005,7 +3005,7 @@
             "projected_output_delta": 0.13936576344029739
           },
           {
-            "entity": "陕西省",
+            "province": "陕西省",
             "current": 4624,
             "optimal": 5780.827586206895,
             "change": 1156.827586206895,
@@ -3027,7 +3027,7 @@
             "projected_output_delta": 0.30209531541294155
           },
           {
-            "entity": "青海省",
+            "province": "青海省",
             "current": 6211,
             "optimal": 5780.827586206895,
             "change": -430.1724137931051,
@@ -3049,7 +3049,7 @@
             "projected_output_delta": -0.09711053267128023
           },
           {
-            "entity": "黑龙江省",
+            "province": "黑龙江省",
             "current": 4912,
             "optimal": 5780.827586206895,
             "change": 868.8275862068949,
@@ -3096,35 +3096,35 @@
           "donor_count": 7,
           "top_recipients": [
             {
-              "entity": "甘肃省",
+              "province": "甘肃省",
               "province_en": "Gansu",
               "region": "西部",
               "change": 2392.956666666667,
               "change_pct": 59.80896442556028
             },
             {
-              "entity": "广西壮族自治区",
+              "province": "广西壮族自治区",
               "province_en": "Guangxi",
               "region": "西部",
               "change": 2376.956666666667,
               "change_pct": 59.17243382291927
             },
             {
-              "entity": "云南省",
+              "province": "云南省",
               "province_en": "Yunnan",
               "region": "西部",
               "change": 2266.956666666667,
               "change_pct": 54.92989257733625
             },
             {
-              "entity": "江西省",
+              "province": "江西省",
               "province_en": "Jiangxi",
               "region": "中部",
               "change": 2175.956666666667,
               "change_pct": 51.58740319266636
             },
             {
-              "entity": "贵州省",
+              "province": "贵州省",
               "province_en": "Guizhou",
               "region": "西部",
               "change": 2175.956666666667,
@@ -3133,35 +3133,35 @@
           ],
           "top_donors": [
             {
-              "entity": "上海市",
+              "province": "上海市",
               "province_en": "Shanghai",
               "region": "东部",
               "change": -6744.5,
               "change_pct": -50.0
             },
             {
-              "entity": "北京市",
+              "province": "北京市",
               "province_en": "Beijing",
               "region": "东部",
               "change": -5853.043333333333,
               "change_pct": -47.791649655697995
             },
             {
-              "entity": "天津市",
+              "province": "天津市",
               "province_en": "Tianjin",
               "region": "东部",
               "change": -3107.043333333333,
               "change_pct": -32.70227695330316
             },
             {
-              "entity": "西藏自治区",
+              "province": "西藏自治区",
               "province_en": "Tibet",
               "region": "西部",
               "change": -1118.043333333333,
               "change_pct": -14.883430954916573
             },
             {
-              "entity": "浙江省",
+              "province": "浙江省",
               "province_en": "Zhejiang",
               "region": "东部",
               "change": -814.0433333333331,
@@ -3171,7 +3171,7 @@
         },
         "allocation": [
           {
-            "entity": "上海市",
+            "province": "上海市",
             "current": 13489,
             "optimal": 6744.5,
             "change": -6744.5,
@@ -3193,7 +3193,7 @@
             "projected_output_delta": -0.937873518873527
           },
           {
-            "entity": "云南省",
+            "province": "云南省",
             "current": 4127,
             "optimal": 6393.956666666667,
             "change": 2266.956666666667,
@@ -3215,7 +3215,7 @@
             "projected_output_delta": 0.592322604586661
           },
           {
-            "entity": "内蒙古自治区",
+            "province": "内蒙古自治区",
             "current": 5609,
             "optimal": 6393.956666666667,
             "change": 784.9566666666669,
@@ -3237,7 +3237,7 @@
             "projected_output_delta": 0.17721497107173256
           },
           {
-            "entity": "北京市",
+            "province": "北京市",
             "current": 12247,
             "optimal": 6393.956666666667,
             "change": -5853.043333333333,
@@ -3259,7 +3259,7 @@
             "projected_output_delta": -0.8793877002811445
           },
           {
-            "entity": "吉林省",
+            "province": "吉林省",
             "current": 5023,
             "optimal": 6393.956666666667,
             "change": 1370.956666666667,
@@ -3281,7 +3281,7 @@
             "projected_output_delta": 0.32650692489960775
           },
           {
-            "entity": "四川省",
+            "province": "四川省",
             "current": 4609,
             "optimal": 6393.956666666667,
             "change": 1784.956666666667,
@@ -3303,7 +3303,7 @@
             "projected_output_delta": 0.44288106898763324
           },
           {
-            "entity": "天津市",
+            "province": "天津市",
             "current": 9501,
             "optimal": 6393.956666666667,
             "change": -3107.043333333333,
@@ -3325,7 +3325,7 @@
             "projected_output_delta": -0.5358612804971834
           },
           {
-            "entity": "宁夏回族自治区",
+            "province": "宁夏回族自治区",
             "current": 5512,
             "optimal": 6393.956666666667,
             "change": 881.9566666666669,
@@ -3347,7 +3347,7 @@
             "projected_output_delta": 0.20081736538438832
           },
           {
-            "entity": "安徽省",
+            "province": "安徽省",
             "current": 4527,
             "optimal": 6393.956666666667,
             "change": 1866.956666666667,
@@ -3369,7 +3369,7 @@
             "projected_output_delta": 0.4671678306528779
           },
           {
-            "entity": "山东省",
+            "province": "山东省",
             "current": 5401,
             "optimal": 6393.956666666667,
             "change": 992.9566666666669,
@@ -3391,7 +3391,7 @@
             "projected_output_delta": 0.22834123333635148
           },
           {
-            "entity": "山西省",
+            "province": "山西省",
             "current": 4801,
             "optimal": 6393.956666666667,
             "change": 1592.956666666667,
@@ -3413,7 +3413,7 @@
             "projected_output_delta": 0.38766381330894006
           },
           {
-            "entity": "广东省",
+            "province": "广东省",
             "current": 6817,
             "optimal": 6393.956666666667,
             "change": -423.04333333333307,
@@ -3435,7 +3435,7 @@
             "projected_output_delta": -0.08668192855053114
           },
           {
-            "entity": "广西壮族自治区",
+            "province": "广西壮族自治区",
             "current": 4017,
             "optimal": 6393.956666666667,
             "change": 2376.956666666667,
@@ -3457,7 +3457,7 @@
             "projected_output_delta": 0.6288711362301047
           },
           {
-            "entity": "新疆维吾尔自治区",
+            "province": "新疆维吾尔自治区",
             "current": 5724,
             "optimal": 6393.956666666667,
             "change": 669.9566666666669,
@@ -3479,7 +3479,7 @@
             "projected_output_delta": 0.1497558600886446
           },
           {
-            "entity": "江苏省",
+            "province": "江苏省",
             "current": 6514,
             "optimal": 6393.956666666667,
             "change": -120.04333333333307,
@@ -3501,7 +3501,7 @@
             "projected_output_delta": -0.025166396446811845
           },
           {
-            "entity": "江西省",
+            "province": "江西省",
             "current": 4218,
             "optimal": 6393.956666666667,
             "change": 2175.956666666667,
@@ -3523,7 +3523,7 @@
             "projected_output_delta": 0.5628157143772636
           },
           {
-            "entity": "河北省",
+            "province": "河北省",
             "current": 4423,
             "optimal": 6393.956666666667,
             "change": 1970.956666666667,
@@ -3545,7 +3545,7 @@
             "projected_output_delta": 0.49861112637120897
           },
           {
-            "entity": "河南省",
+            "province": "河南省",
             "current": 4312,
             "optimal": 6393.956666666667,
             "change": 2081.956666666667,
@@ -3567,7 +3567,7 @@
             "projected_output_delta": 0.5329969368781384
           },
           {
-            "entity": "浙江省",
+            "province": "浙江省",
             "current": 7208,
             "optimal": 6393.956666666667,
             "change": -814.0433333333331,
@@ -3589,7 +3589,7 @@
             "projected_output_delta": -0.16214243856761534
           },
           {
-            "entity": "海南省",
+            "province": "海南省",
             "current": 4803,
             "optimal": 6393.956666666667,
             "change": 1590.956666666667,
@@ -3611,7 +3611,7 @@
             "projected_output_delta": 0.3871003279004004
           },
           {
-            "entity": "湖北省",
+            "province": "湖北省",
             "current": 5098,
             "optimal": 6393.956666666667,
             "change": 1295.956666666667,
@@ -3633,7 +3633,7 @@
             "projected_output_delta": 0.30645503885205194
           },
           {
-            "entity": "湖南省",
+            "province": "湖南省",
             "current": 4718,
             "optimal": 6393.956666666667,
             "change": 1675.956666666667,
@@ -3655,7 +3655,7 @@
             "projected_output_delta": 0.41125782465735483
           },
           {
-            "entity": "甘肃省",
+            "province": "甘肃省",
             "current": 4001,
             "optimal": 6393.956666666667,
             "change": 2392.956666666667,
@@ -3677,7 +3677,7 @@
             "projected_output_delta": 0.6342704857936265
           },
           {
-            "entity": "福建省",
+            "province": "福建省",
             "current": 5287,
             "optimal": 6393.956666666667,
             "change": 1106.956666666667,
@@ -3699,7 +3699,7 @@
             "projected_output_delta": 0.2572040602578216
           },
           {
-            "entity": "西藏自治区",
+            "province": "西藏自治区",
             "current": 7512,
             "optimal": 6393.956666666667,
             "change": -1118.043333333333,
@@ -3721,7 +3721,7 @@
             "projected_output_delta": -0.21803625492046486
           },
           {
-            "entity": "贵州省",
+            "province": "贵州省",
             "current": 4218,
             "optimal": 6393.956666666667,
             "change": 2175.956666666667,
@@ -3743,7 +3743,7 @@
             "projected_output_delta": 0.5628157143772636
           },
           {
-            "entity": "辽宁省",
+            "province": "辽宁省",
             "current": 5834,
             "optimal": 6393.956666666667,
             "change": 559.9566666666669,
@@ -3765,7 +3765,7 @@
             "projected_output_delta": 0.12400194767857897
           },
           {
-            "entity": "重庆市",
+            "province": "重庆市",
             "current": 5215,
             "optimal": 6393.956666666667,
             "change": 1178.956666666667,
@@ -3787,7 +3787,7 @@
             "projected_output_delta": 0.27575559483064893
           },
           {
-            "entity": "陕西省",
+            "province": "陕西省",
             "current": 4624,
             "optimal": 6393.956666666667,
             "change": 1769.956666666667,
@@ -3809,7 +3809,7 @@
             "projected_output_delta": 0.4384851468032931
           },
           {
-            "entity": "青海省",
+            "province": "青海省",
             "current": 6211,
             "optimal": 6393.956666666667,
             "change": 182.95666666666693,
@@ -3831,7 +3831,7 @@
             "projected_output_delta": 0.03927929871907132
           },
           {
-            "entity": "黑龙江省",
+            "province": "黑龙江省",
             "current": 4912,
             "optimal": 6393.956666666667,
             "change": 1481.956666666667,
@@ -3878,35 +3878,35 @@
           "donor_count": 14,
           "top_recipients": [
             {
-              "entity": "甘肃省",
+              "province": "甘肃省",
               "province_en": "Gansu",
               "region": "西部",
               "change": 1239.6709677417812,
               "change_pct": 30.984028186497902
             },
             {
-              "entity": "广西壮族自治区",
+              "province": "广西壮族自治区",
               "province_en": "Guangxi",
               "region": "西部",
               "change": 1223.670967741784,
               "change_pct": 30.462309378685188
             },
             {
-              "entity": "云南省",
+              "province": "云南省",
               "province_en": "Yunnan",
               "region": "西部",
               "change": 1113.6709677418103,
               "change_pct": 26.985000429896054
             },
             {
-              "entity": "江西省",
+              "province": "江西省",
               "province_en": "Jiangxi",
               "region": "中部",
               "change": 1022.6709677428498,
               "change_pct": 24.24539989907183
             },
             {
-              "entity": "贵州省",
+              "province": "贵州省",
               "province_en": "Guizhou",
               "region": "西部",
               "change": 1022.6709677341596,
@@ -3915,35 +3915,35 @@
           ],
           "top_donors": [
             {
-              "entity": "上海市",
+              "province": "上海市",
               "province_en": "Shanghai",
               "region": "东部",
               "change": -8248.329032254658,
               "change_pct": -61.14855832348327
             },
             {
-              "entity": "北京市",
+              "province": "北京市",
               "province_en": "Beijing",
               "region": "东部",
               "change": -7006.329032258117,
               "change_pct": -57.208532965282245
             },
             {
-              "entity": "天津市",
+              "province": "天津市",
               "province_en": "Tianjin",
               "region": "东部",
               "change": -4260.329032256878,
               "change_pct": -44.8408486712649
             },
             {
-              "entity": "西藏自治区",
+              "province": "西藏自治区",
               "province_en": "Tibet",
               "region": "西部",
               "change": -2271.329032258057,
               "change_pct": -30.236009481603528
             },
             {
-              "entity": "浙江省",
+              "province": "浙江省",
               "province_en": "Zhejiang",
               "region": "东部",
               "change": -1967.3290322590801,
@@ -3953,7 +3953,7 @@
         },
         "allocation": [
           {
-            "entity": "上海市",
+            "province": "上海市",
             "current": 13489,
             "optimal": 5240.670967745342,
             "change": -8248.329032254658,
@@ -3975,7 +3975,7 @@
             "projected_output_delta": -1.2792008717360126
           },
           {
-            "entity": "云南省",
+            "province": "云南省",
             "current": 4127,
             "optimal": 5240.67096774181,
             "change": 1113.6709677418103,
@@ -3997,7 +3997,7 @@
             "projected_output_delta": 0.32321060850640926
           },
           {
-            "entity": "内蒙古自治区",
+            "province": "内蒙古自治区",
             "current": 5609,
             "optimal": 5240.670967741772,
             "change": -368.3290322582279,
@@ -4019,7 +4019,7 @@
             "projected_output_delta": -0.09189702500852803
           },
           {
-            "entity": "北京市",
+            "province": "北京市",
             "current": 12247,
             "optimal": 5240.670967741883,
             "change": -7006.329032258117,
@@ -4041,7 +4041,7 @@
             "projected_output_delta": -1.1484996963613767
           },
           {
-            "entity": "吉林省",
+            "province": "吉林省",
             "current": 5023,
             "optimal": 5240.670967743061,
             "change": 217.67096774306083,
@@ -4063,7 +4063,7 @@
             "projected_output_delta": 0.05739492881968111
           },
           {
-            "entity": "四川省",
+            "province": "四川省",
             "current": 4609,
             "optimal": 5240.670967741779,
             "change": 631.6709677417794,
@@ -4085,7 +4085,7 @@
             "projected_output_delta": 0.17376907290737442
           },
           {
-            "entity": "天津市",
+            "province": "天津市",
             "current": 9501,
             "optimal": 5240.670967743122,
             "change": -4260.329032256878,
@@ -4107,7 +4107,7 @@
             "projected_output_delta": -0.8049732765770958
           },
           {
-            "entity": "宁夏回族自治区",
+            "province": "宁夏回族自治区",
             "current": 5512,
             "optimal": 5240.670967741789,
             "change": -271.32903225821065,
@@ -4129,7 +4129,7 @@
             "projected_output_delta": -0.06829463069586872
           },
           {
-            "entity": "安徽省",
+            "province": "安徽省",
             "current": 4527,
             "optimal": 5240.670967741782,
             "change": 713.6709677417821,
@@ -4151,7 +4151,7 @@
             "projected_output_delta": 0.1980558345726191
           },
           {
-            "entity": "山东省",
+            "province": "山东省",
             "current": 5401,
             "optimal": 5240.670967741761,
             "change": -160.32903225823884,
@@ -4173,7 +4173,7 @@
             "projected_output_delta": -0.04077076274391267
           },
           {
-            "entity": "山西省",
+            "province": "山西省",
             "current": 4801,
             "optimal": 5240.670967741776,
             "change": 439.6709677417757,
@@ -4195,7 +4195,7 @@
             "projected_output_delta": 0.11855181722867947
           },
           {
-            "entity": "广东省",
+            "province": "广东省",
             "current": 6817,
             "optimal": 5240.670967743838,
             "change": -1576.3290322561616,
@@ -4217,7 +4217,7 @@
             "projected_output_delta": -0.35579392463025883
           },
           {
-            "entity": "广西壮族自治区",
+            "province": "广西壮族自治区",
             "current": 4017,
             "optimal": 5240.670967741784,
             "change": 1223.670967741784,
@@ -4239,7 +4239,7 @@
             "projected_output_delta": 0.3597591401498459
           },
           {
-            "entity": "新疆维吾尔自治区",
+            "province": "新疆维吾尔自治区",
             "current": 5724,
             "optimal": 5240.670967741766,
             "change": -483.3290322582343,
@@ -4261,7 +4261,7 @@
             "projected_output_delta": -0.11935613599161954
           },
           {
-            "entity": "江苏省",
+            "province": "江苏省",
             "current": 6514,
             "optimal": 5240.6709677417375,
             "change": -1273.3290322582625,
@@ -4283,7 +4283,7 @@
             "projected_output_delta": -0.2942783925270831
           },
           {
-            "entity": "江西省",
+            "province": "江西省",
             "current": 4218,
             "optimal": 5240.67096774285,
             "change": 1022.6709677428498,
@@ -4305,7 +4305,7 @@
             "projected_output_delta": 0.2937037182972819
           },
           {
-            "entity": "河北省",
+            "province": "河北省",
             "current": 4423,
             "optimal": 5240.67096774243,
             "change": 817.6709677424296,
@@ -4327,7 +4327,7 @@
             "projected_output_delta": 0.2294991302911189
           },
           {
-            "entity": "河南省",
+            "province": "河南省",
             "current": 4312,
             "optimal": 5240.670967743048,
             "change": 928.6709677430481,
@@ -4349,7 +4349,7 @@
             "projected_output_delta": 0.26388494079820646
           },
           {
-            "entity": "浙江省",
+            "province": "浙江省",
             "current": 7208,
             "optimal": 5240.67096774092,
             "change": -1967.3290322590801,
@@ -4371,7 +4371,7 @@
             "projected_output_delta": -0.4312544346480962
           },
           {
-            "entity": "海南省",
+            "province": "海南省",
             "current": 4803,
             "optimal": 5240.670967742428,
             "change": 437.6709677424278,
@@ -4393,7 +4393,7 @@
             "projected_output_delta": 0.11798833182031032
           },
           {
-            "entity": "湖北省",
+            "province": "湖北省",
             "current": 5098,
             "optimal": 5240.67096774176,
             "change": 142.67096774176025,
@@ -4415,7 +4415,7 @@
             "projected_output_delta": 0.03734304277178779
           },
           {
-            "entity": "湖南省",
+            "province": "湖南省",
             "current": 4718,
             "optimal": 5240.670967741776,
             "change": 522.6709677417757,
@@ -4437,7 +4437,7 @@
             "projected_output_delta": 0.14214582857709424
           },
           {
-            "entity": "甘肃省",
+            "province": "甘肃省",
             "current": 4001,
             "optimal": 5240.670967741781,
             "change": 1239.6709677417812,
@@ -4459,7 +4459,7 @@
             "projected_output_delta": 0.36515848971336773
           },
           {
-            "entity": "福建省",
+            "province": "福建省",
             "current": 5287,
             "optimal": 5240.670967741778,
             "change": -46.32903225822156,
@@ -4481,7 +4481,7 @@
             "projected_output_delta": -0.01190793582243721
           },
           {
-            "entity": "西藏自治区",
+            "province": "西藏自治区",
             "current": 7512,
             "optimal": 5240.670967741943,
             "change": -2271.329032258057,
@@ -4503,7 +4503,7 @@
             "projected_output_delta": -0.4871482510006828
           },
           {
-            "entity": "贵州省",
+            "province": "贵州省",
             "current": 4218,
             "optimal": 5240.67096773416,
             "change": 1022.6709677341596,
@@ -4525,7 +4525,7 @@
             "projected_output_delta": 0.2937037182950384
           },
           {
-            "entity": "辽宁省",
+            "province": "辽宁省",
             "current": 5834,
             "optimal": 5240.670967741779,
             "change": -593.3290322582206,
@@ -4547,7 +4547,7 @@
             "projected_output_delta": -0.14511004840167985
           },
           {
-            "entity": "重庆市",
+            "province": "重庆市",
             "current": 5215,
             "optimal": 5240.670967741792,
             "change": 25.670967741792083,
@@ -4569,7 +4569,7 @@
             "projected_output_delta": 0.006643598750391888
           },
           {
-            "entity": "陕西省",
+            "province": "陕西省",
             "current": 4624,
             "optimal": 5240.670967741784,
             "change": 616.6709677417839,
@@ -4591,7 +4591,7 @@
             "projected_output_delta": 0.16937315072303427
           },
           {
-            "entity": "青海省",
+            "province": "青海省",
             "current": 6211,
             "optimal": 5240.670967743066,
             "change": -970.3290322569337,
@@ -4613,7 +4613,7 @@
             "projected_output_delta": -0.22983269736085532
           },
           {
-            "entity": "黑龙江省",
+            "province": "黑龙江省",
             "current": 4912,
             "optimal": 5240.670967741782,
             "change": 328.6709677417821,
@@ -4660,35 +4660,35 @@
           "donor_count": 11,
           "top_recipients": [
             {
-              "entity": "贵州省",
+              "province": "贵州省",
               "province_en": "Guizhou",
               "region": "西部",
               "change": 3112.3306487386235,
               "change_pct": 73.78688119342398
             },
             {
-              "entity": "甘肃省",
+              "province": "甘肃省",
               "province_en": "Gansu",
               "region": "西部",
               "change": 1547.255677436935,
               "change_pct": 38.67172400492214
             },
             {
-              "entity": "广西壮族自治区",
+              "province": "广西壮族自治区",
               "province_en": "Guangxi",
               "region": "西部",
               "change": 1531.2556774390669,
               "change_pct": 38.11938455163224
             },
             {
-              "entity": "云南省",
+              "province": "云南省",
               "province_en": "Yunnan",
               "region": "西部",
               "change": 1421.255677436934,
               "change_pct": 34.43798588410308
             },
             {
-              "entity": "江西省",
+              "province": "江西省",
               "province_en": "Jiangxi",
               "region": "中部",
               "change": 1330.2556774368932,
@@ -4697,35 +4697,35 @@
           ],
           "top_donors": [
             {
-              "entity": "天津市",
+              "province": "天津市",
               "province_en": "Tianjin",
               "region": "东部",
               "change": -3952.744322563136,
               "change_pct": -41.60345566322635
             },
             {
-              "entity": "北京市",
+              "province": "北京市",
               "province_en": "Beijing",
               "region": "东部",
               "change": -3952.744808494417,
               "change_pct": -32.275208691878966
             },
             {
-              "entity": "上海市",
+              "province": "上海市",
               "province_en": "Shanghai",
               "region": "东部",
               "change": -3952.744808495314,
               "change_pct": -29.30346807395147
             },
             {
-              "entity": "西藏自治区",
+              "province": "西藏自治区",
               "province_en": "Tibet",
               "region": "西部",
               "change": -1963.7443225631614,
               "change_pct": -26.141431344025044
             },
             {
-              "entity": "浙江省",
+              "province": "浙江省",
               "province_en": "Zhejiang",
               "region": "东部",
               "change": -1659.7443225617626,
@@ -4735,7 +4735,7 @@
         },
         "allocation": [
           {
-            "entity": "上海市",
+            "province": "上海市",
             "current": 13489,
             "optimal": 9536.255191504686,
             "change": -3952.744808495314,
@@ -4757,7 +4757,7 @@
             "projected_output_delta": -0.46921608200848297
           },
           {
-            "entity": "云南省",
+            "province": "云南省",
             "current": 4127,
             "optimal": 5548.255677436934,
             "change": 1421.255677436934,
@@ -4779,7 +4779,7 @@
             "projected_output_delta": 0.40037535199218866
           },
           {
-            "entity": "内蒙古自治区",
+            "province": "内蒙古自治区",
             "current": 5609,
             "optimal": 5548.255677437677,
             "change": -60.74432256232285,
@@ -4801,7 +4801,7 @@
             "projected_output_delta": -0.01473228152255679
           },
           {
-            "entity": "北京市",
+            "province": "北京市",
             "current": 12247,
             "optimal": 8294.255191505583,
             "change": -3952.744808494417,
@@ -4823,7 +4823,7 @@
             "projected_output_delta": -0.527317553598996
           },
           {
-            "entity": "吉林省",
+            "province": "吉林省",
             "current": 5023,
             "optimal": 5548.255677436871,
             "change": 525.2556774368713,
@@ -4845,7 +4845,7 @@
             "projected_output_delta": 0.13455967230512123
           },
           {
-            "entity": "四川省",
+            "province": "四川省",
             "current": 4609,
             "optimal": 5548.255677436895,
             "change": 939.255677436895,
@@ -4867,7 +4867,7 @@
             "projected_output_delta": 0.25093381639315027
           },
           {
-            "entity": "天津市",
+            "province": "天津市",
             "current": 9501,
             "optimal": 5548.255677436864,
             "change": -3952.744322563136,
@@ -4889,7 +4889,7 @@
             "projected_output_delta": -0.7278085330916735
           },
           {
-            "entity": "宁夏回族自治区",
+            "province": "宁夏回族自治区",
             "current": 5512,
             "optimal": 5548.255677436454,
             "change": 36.25567743645388,
@@ -4911,7 +4911,7 @@
             "projected_output_delta": 0.008870112789800544
           },
           {
-            "entity": "安徽省",
+            "province": "安徽省",
             "current": 4527,
             "optimal": 5548.255677436918,
             "change": 1021.2556774369177,
@@ -4933,7 +4933,7 @@
             "projected_output_delta": 0.27522057805840205
           },
           {
-            "entity": "山东省",
+            "province": "山东省",
             "current": 5401,
             "optimal": 5548.255677436846,
             "change": 147.25567743684587,
@@ -4955,7 +4955,7 @@
             "projected_output_delta": 0.036393980741857845
           },
           {
-            "entity": "山西省",
+            "province": "山西省",
             "current": 4801,
             "optimal": 5548.255677436909,
             "change": 747.2556774369086,
@@ -4977,7 +4977,7 @@
             "projected_output_delta": 0.19571656071446242
           },
           {
-            "entity": "广东省",
+            "province": "广东省",
             "current": 6817,
             "optimal": 5548.255677451678,
             "change": -1268.744322548322,
@@ -4999,7 +4999,7 @@
             "projected_output_delta": -0.2786291811414081
           },
           {
-            "entity": "广西壮族自治区",
+            "province": "广西壮族自治区",
             "current": 4017,
             "optimal": 5548.255677439067,
             "change": 1531.2556774390669,
@@ -5021,7 +5021,7 @@
             "projected_output_delta": 0.43692388363615287
           },
           {
-            "entity": "新疆维吾尔自治区",
+            "province": "新疆维吾尔自治区",
             "current": 5724,
             "optimal": 5548.255677438201,
             "change": -175.74432256179898,
@@ -5043,7 +5043,7 @@
             "projected_output_delta": -0.04219139250551862
           },
           {
-            "entity": "江苏省",
+            "province": "江苏省",
             "current": 6514,
             "optimal": 5548.25567743656,
             "change": -965.7443225634397,
@@ -5065,7 +5065,7 @@
             "projected_output_delta": -0.21711364904137653
           },
           {
-            "entity": "江西省",
+            "province": "江西省",
             "current": 4218,
             "optimal": 5548.255677436893,
             "change": 1330.2556774368932,
@@ -5087,7 +5087,7 @@
             "projected_output_delta": 0.37086846178278066
           },
           {
-            "entity": "河北省",
+            "province": "河北省",
             "current": 4423,
             "optimal": 5548.2556774368995,
             "change": 1125.2556774368995,
@@ -5109,7 +5109,7 @@
             "projected_output_delta": 0.30666387377672955
           },
           {
-            "entity": "河南省",
+            "province": "河南省",
             "current": 4312,
             "optimal": 5548.255677436571,
             "change": 1236.2556774365712,
@@ -5131,7 +5131,7 @@
             "projected_output_delta": 0.34104968428357907
           },
           {
-            "entity": "浙江省",
+            "province": "浙江省",
             "current": 7208,
             "optimal": 5548.255677438237,
             "change": -1659.7443225617626,
@@ -5153,7 +5153,7 @@
             "projected_output_delta": -0.3540896911617679
           },
           {
-            "entity": "海南省",
+            "province": "海南省",
             "current": 4803,
             "optimal": 5548.255677436903,
             "change": 745.2556774369032,
@@ -5175,7 +5175,7 @@
             "projected_output_delta": 0.19515307530592096
           },
           {
-            "entity": "湖北省",
+            "province": "湖北省",
             "current": 5098,
             "optimal": 5548.255677437032,
             "change": 450.2556774370323,
@@ -5197,7 +5197,7 @@
             "projected_output_delta": 0.11450778625760272
           },
           {
-            "entity": "湖南省",
+            "province": "湖南省",
             "current": 4718,
             "optimal": 5548.255677438023,
             "change": 830.2556774380228,
@@ -5219,7 +5219,7 @@
             "projected_output_delta": 0.21931057206314897
           },
           {
-            "entity": "甘肃省",
+            "province": "甘肃省",
             "current": 4001,
             "optimal": 5548.255677436935,
             "change": 1547.255677436935,
@@ -5241,7 +5241,7 @@
             "projected_output_delta": 0.44232323319915423
           },
           {
-            "entity": "福建省",
+            "province": "福建省",
             "current": 5287,
             "optimal": 5548.255677435707,
             "change": 261.2556774357072,
@@ -5263,7 +5263,7 @@
             "projected_output_delta": 0.06525680766305086
           },
           {
-            "entity": "西藏自治区",
+            "province": "西藏自治区",
             "current": 7512,
             "optimal": 5548.255677436839,
             "change": -1963.7443225631614,
@@ -5285,7 +5285,7 @@
             "projected_output_delta": -0.4099835075149585
           },
           {
-            "entity": "贵州省",
+            "province": "贵州省",
             "current": 4218,
             "optimal": 7330.3306487386235,
             "change": 3112.3306487386235,
@@ -5307,7 +5307,7 @@
             "projected_output_delta": 0.7477283347507999
           },
           {
-            "entity": "辽宁省",
+            "province": "辽宁省",
             "current": 5834,
             "optimal": 5548.255677436954,
             "change": -285.7443225630459,
@@ -5329,7 +5329,7 @@
             "projected_output_delta": -0.06794530491588979
           },
           {
-            "entity": "重庆市",
+            "province": "重庆市",
             "current": 5215,
             "optimal": 5548.25567743512,
             "change": 333.25567743511965,
@@ -5351,7 +5351,7 @@
             "projected_output_delta": 0.0838083422357343
           },
           {
-            "entity": "陕西省",
+            "province": "陕西省",
             "current": 4624,
             "optimal": 5548.255677436896,
             "change": 924.2556774368959,
@@ -5373,7 +5373,7 @@
             "projected_output_delta": 0.24653789420881012
           },
           {
-            "entity": "青海省",
+            "province": "青海省",
             "current": 6211,
             "optimal": 5548.255677436445,
             "change": -662.7443225635552,
@@ -5395,7 +5395,7 @@
             "projected_output_delta": -0.15266795387552
           },
           {
-            "entity": "黑龙江省",
+            "province": "黑龙江省",
             "current": 4912,
             "optimal": 5548.255677437744,
             "change": 636.2556774377445,
@@ -5442,35 +5442,35 @@
           "donor_count": 7,
           "top_recipients": [
             {
-              "entity": "甘肃省",
+              "province": "甘肃省",
               "province_en": "Gansu",
               "region": "西部",
               "change": 2360.2533923603423,
               "change_pct": 58.99158691228049
             },
             {
-              "entity": "广西壮族自治区",
+              "province": "广西壮族自治区",
               "province_en": "Guangxi",
               "region": "西部",
               "change": 2344.253392360356,
               "change_pct": 58.3583119830808
             },
             {
-              "entity": "云南省",
+              "province": "云南省",
               "province_en": "Yunnan",
               "region": "西部",
               "change": 2234.2533923669425,
               "change_pct": 54.13747013246771
             },
             {
-              "entity": "贵州省",
+              "province": "贵州省",
               "province_en": "Guizhou",
               "region": "西部",
               "change": 2143.2533923719766,
               "change_pct": 50.81207663281121
             },
             {
-              "entity": "江西省",
+              "province": "江西省",
               "province_en": "Jiangxi",
               "region": "中部",
               "change": 2143.2533923681285,
@@ -5479,35 +5479,35 @@
           ],
           "top_donors": [
             {
-              "entity": "北京市",
+              "province": "北京市",
               "province_en": "Beijing",
               "region": "东部",
               "change": -5885.746607609705,
               "change_pct": -48.05868055531726
             },
             {
-              "entity": "上海市",
+              "province": "上海市",
               "province_en": "Shanghai",
               "region": "东部",
               "change": -5763.401771335068,
               "change_pct": -42.72667930413721
             },
             {
-              "entity": "天津市",
+              "province": "天津市",
               "province_en": "Tianjin",
               "region": "东部",
               "change": -3139.746607632278,
               "change_pct": -33.04648571342257
             },
             {
-              "entity": "西藏自治区",
+              "province": "西藏自治区",
               "province_en": "Tibet",
               "region": "西部",
               "change": -1150.746607641182,
               "change_pct": -15.318778056991238
             },
             {
-              "entity": "浙江省",
+              "province": "浙江省",
               "province_en": "Zhejiang",
               "region": "东部",
               "change": -846.7466076320934,
@@ -5517,7 +5517,7 @@
         },
         "allocation": [
           {
-            "entity": "上海市",
+            "province": "上海市",
             "current": 13489,
             "optimal": 7725.598228664932,
             "change": -5763.401771335068,
@@ -5539,7 +5539,7 @@
             "projected_output_delta": -0.7541169449207423
           },
           {
-            "entity": "云南省",
+            "province": "云南省",
             "current": 4127,
             "optimal": 6361.2533923669425,
             "change": 2234.2533923669425,
@@ -5561,7 +5561,7 @@
             "projected_output_delta": 0.5853846454663856
           },
           {
-            "entity": "内蒙古自治区",
+            "province": "内蒙古自治区",
             "current": 5609,
             "optimal": 6361.253392369235,
             "change": 752.2533923692354,
@@ -5583,7 +5583,7 @@
             "projected_output_delta": 0.17027701195194567
           },
           {
-            "entity": "北京市",
+            "province": "北京市",
             "current": 12247,
             "optimal": 6361.253392390295,
             "change": -5885.746607609705,
@@ -5605,7 +5605,7 @@
             "projected_output_delta": -0.8863256593964532
           },
           {
-            "entity": "吉林省",
+            "province": "吉林省",
             "current": 5023,
             "optimal": 6361.253392367969,
             "change": 1338.2533923679694,
@@ -5627,7 +5627,7 @@
             "projected_output_delta": 0.31956896577955085
           },
           {
-            "entity": "四川省",
+            "province": "四川省",
             "current": 4609,
             "optimal": 6361.253392368816,
             "change": 1752.253392368816,
@@ -5649,7 +5649,7 @@
             "projected_output_delta": 0.43594310986775753
           },
           {
-            "entity": "天津市",
+            "province": "天津市",
             "current": 9501,
             "optimal": 6361.253392367722,
             "change": -3139.746607632278,
@@ -5671,7 +5671,7 @@
             "projected_output_delta": -0.5427992396172918
           },
           {
-            "entity": "宁夏回族自治区",
+            "province": "宁夏回族自治区",
             "current": 5512,
             "optimal": 6361.253392369589,
             "change": 849.2533923695892,
@@ -5693,7 +5693,7 @@
             "projected_output_delta": 0.19387940626467604
           },
           {
-            "entity": "安徽省",
+            "province": "安徽省",
             "current": 4527,
             "optimal": 6361.253392361835,
             "change": 1834.2533923618348,
@@ -5715,7 +5715,7 @@
             "projected_output_delta": 0.4602298715315172
           },
           {
-            "entity": "山东省",
+            "province": "山东省",
             "current": 5401,
             "optimal": 6361.2533923702,
             "change": 960.2533923702003,
@@ -5737,7 +5737,7 @@
             "projected_output_delta": 0.22140327421676886
           },
           {
-            "entity": "山西省",
+            "province": "山西省",
             "current": 4801,
             "optimal": 6361.25339265292,
             "change": 1560.2533926529204,
@@ -5759,7 +5759,7 @@
             "projected_output_delta": 0.3807258542494907
           },
           {
-            "entity": "广东省",
+            "province": "广东省",
             "current": 6817,
             "optimal": 6361.253392363796,
             "change": -455.7466076362043,
@@ -5781,7 +5781,7 @@
             "projected_output_delta": -0.09361988767147444
           },
           {
-            "entity": "广西壮族自治区",
+            "province": "广西壮族自治区",
             "current": 4017,
             "optimal": 6361.253392360356,
             "change": 2344.253392360356,
@@ -5803,7 +5803,7 @@
             "projected_output_delta": 0.6219331771084278
           },
           {
-            "entity": "新疆维吾尔自治区",
+            "province": "新疆维吾尔自治区",
             "current": 5724,
             "optimal": 6361.253392366764,
             "change": 637.2533923667643,
@@ -5825,7 +5825,7 @@
             "projected_output_delta": 0.1428179009683319
           },
           {
-            "entity": "江苏省",
+            "province": "江苏省",
             "current": 6514,
             "optimal": 6361.253392366914,
             "change": -152.74660763308566,
@@ -5847,7 +5847,7 @@
             "projected_output_delta": -0.03210435556709079
           },
           {
-            "entity": "江西省",
+            "province": "江西省",
             "current": 4218,
             "optimal": 6361.2533923681285,
             "change": 2143.2533923681285,
@@ -5869,7 +5869,7 @@
             "projected_output_delta": 0.5558777552572405
           },
           {
-            "entity": "河北省",
+            "province": "河北省",
             "current": 4423,
             "optimal": 6361.253392366546,
             "change": 1938.253392366546,
@@ -5891,7 +5891,7 @@
             "projected_output_delta": 0.4916731672508501
           },
           {
-            "entity": "河南省",
+            "province": "河南省",
             "current": 4312,
             "optimal": 6361.253392367429,
             "change": 2049.253392367429,
@@ -5913,7 +5913,7 @@
             "projected_output_delta": 0.5260589777579661
           },
           {
-            "entity": "浙江省",
+            "province": "浙江省",
             "current": 7208,
             "optimal": 6361.253392367907,
             "change": -846.7466076320934,
@@ -5935,7 +5935,7 @@
             "projected_output_delta": -0.16908039768768646
           },
           {
-            "entity": "海南省",
+            "province": "海南省",
             "current": 4803,
             "optimal": 6361.253392368656,
             "change": 1558.253392368656,
@@ -5957,7 +5957,7 @@
             "projected_output_delta": 0.3801623687804909
           },
           {
-            "entity": "湖北省",
+            "province": "湖北省",
             "current": 5098,
             "optimal": 6361.2533923651545,
             "change": 1263.2533923651545,
@@ -5979,7 +5979,7 @@
             "projected_output_delta": 0.2995170797313964
           },
           {
-            "entity": "湖南省",
+            "province": "湖南省",
             "current": 4718,
             "optimal": 6361.253392362359,
             "change": 1643.2533923623587,
@@ -6001,7 +6001,7 @@
             "projected_output_delta": 0.404319865536106
           },
           {
-            "entity": "甘肃省",
+            "province": "甘肃省",
             "current": 4001,
             "optimal": 6361.253392360342,
             "change": 2360.2533923603423,
@@ -6023,7 +6023,7 @@
             "projected_output_delta": 0.6273325266719478
           },
           {
-            "entity": "福建省",
+            "province": "福建省",
             "current": 5287,
             "optimal": 6361.253392368888,
             "change": 1074.253392368888,
@@ -6045,7 +6045,7 @@
             "projected_output_delta": 0.2502661011379601
           },
           {
-            "entity": "西藏自治区",
+            "province": "西藏自治区",
             "current": 7512,
             "optimal": 6361.253392358818,
             "change": -1150.746607641182,
@@ -6067,7 +6067,7 @@
             "projected_output_delta": -0.22497421404246865
           },
           {
-            "entity": "贵州省",
+            "province": "贵州省",
             "current": 4218,
             "optimal": 6361.253392371977,
             "change": 2143.2533923719766,
@@ -6089,7 +6089,7 @@
             "projected_output_delta": 0.5558777552580612
           },
           {
-            "entity": "辽宁省",
+            "province": "辽宁省",
             "current": 5834,
             "optimal": 6361.253392370795,
             "change": 527.2533923707952,
@@ -6111,7 +6111,7 @@
             "projected_output_delta": 0.11706398855912425
           },
           {
-            "entity": "重庆市",
+            "province": "重庆市",
             "current": 5215,
             "optimal": 6361.253392372438,
             "change": 1146.2533923724377,
@@ -6133,7 +6133,7 @@
             "projected_output_delta": 0.2688176357115424
           },
           {
-            "entity": "陕西省",
+            "province": "陕西省",
             "current": 4624,
             "optimal": 6361.253392386331,
             "change": 1737.2533923863311,
@@ -6155,7 +6155,7 @@
             "projected_output_delta": 0.4315471876871424
           },
           {
-            "entity": "青海省",
+            "province": "青海省",
             "current": 6211,
             "optimal": 6361.253392367986,
             "change": 150.25339236798573,
@@ -6177,7 +6177,7 @@
             "projected_output_delta": 0.03234133959901797
           },
           {
-            "entity": "黑龙江省",
+            "province": "黑龙江省",
             "current": 4912,
             "optimal": 6361.253392368002,
             "change": 1449.253392368002,

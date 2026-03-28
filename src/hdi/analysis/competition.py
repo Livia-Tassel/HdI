@@ -396,6 +396,8 @@ def _build_china_optimization_scenarios(snap: pd.DataFrame, panel: pd.DataFrame)
                     on="entity",
                     how="left",
                 )
+                # Restore 'province' column for dashboard consumption
+                allocation_df = allocation_df.rename(columns={"entity": "province"})
                 allocation_df["projected_output_current"] = _project_output_curve(
                     allocation_df["current"].to_numpy(dtype=float), a_coef, b_coef
                 )
@@ -441,8 +443,8 @@ def _build_china_optimization_scenarios(snap: pd.DataFrame, panel: pd.DataFrame)
                         "gini_change": gini_after - gini_before if np.isfinite(gini_before) and np.isfinite(gini_after) else None,
                         "recipient_count": int((allocation_df["change_pct"] > 0).sum()),
                         "donor_count": int((allocation_df["change_pct"] < 0).sum()),
-                        "top_recipients": recipients[["entity", "province_en", "region", "change", "change_pct"]].to_dict(orient="records"),
-                        "top_donors": donors[["entity", "province_en", "region", "change", "change_pct"]].to_dict(orient="records"),
+                        "top_recipients": recipients[["province", "province_en", "region", "change", "change_pct"]].to_dict(orient="records"),
+                        "top_donors": donors[["province", "province_en", "region", "change", "change_pct"]].to_dict(orient="records"),
                     },
                     "allocation": allocation_df.to_dict(orient="records"),
                 })
