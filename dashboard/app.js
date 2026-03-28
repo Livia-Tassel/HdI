@@ -2719,7 +2719,7 @@ function renderDim3Context() {
     title: "收入组健康差距",
     items: incomeGroups.map((g) => ({
       name: INCOME_LABELS[g.income_group] ?? g.income_group,
-      value: `寿命 ${g.avg_life_expectancy != null ? g.avg_life_expectancy.toFixed(1) + "岁" : NO_DATA_LABEL}`,
+      value: `寿命 ${g.avg_life_expectancy != null ? g.avg_life_expectancy.toFixed(1) + "岁" : NO_DATA_LABEL}｜支出 $${g.avg_health_exp != null ? Math.round(g.avg_health_exp) : "—"}`,
     })),
   } : null;
 
