@@ -419,9 +419,12 @@ def _build_china_optimization_scenarios(snap: pd.DataFrame, panel: pd.DataFrame)
                 recipients = allocation_df.nlargest(5, "change_pct")
                 donors = allocation_df.nsmallest(5, "change_pct")
 
-                # Post-scenario Gini of projected outputs
-                gini_before = _compute_gini(allocation_df["projected_output_current"].to_numpy())
-                gini_after = _compute_gini(allocation_df["projected_output_optimal"].to_numpy())
+                # Post-scenario Gini of projected outputs (shift to non-negative first)
+                _cur_proj_arr = allocation_df["projected_output_current"].to_numpy(dtype=float)
+                _opt_proj_arr = allocation_df["projected_output_optimal"].to_numpy(dtype=float)
+                _shift_china = max(-np.nanmin(_cur_proj_arr), -np.nanmin(_opt_proj_arr), 0.0) + 1.0
+                gini_before = _compute_gini(_cur_proj_arr + _shift_china)
+                gini_after = _compute_gini(_opt_proj_arr + _shift_china)
 
                 scenarios.append({
                     "scenario_id": f"{obj_code}_budget_{int(round(budget_mult * 100)):03d}",
