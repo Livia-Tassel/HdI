@@ -2547,6 +2547,7 @@ function renderDim3Context() {
       ${renderLabStat("全球基尼（预期寿命）", globalEquity.gini_life_expectancy != null ? globalEquity.gini_life_expectancy.toFixed(4) : NO_DATA_LABEL)}
       ${renderLabStat("全球基尼（卫生支出）", globalEquity.gini_health_expenditure != null ? globalEquity.gini_health_expenditure.toFixed(4) : NO_DATA_LABEL)}
       ${renderLabStat("集中指数（支出→寿命）", globalEquity.concentration_index != null ? globalEquity.concentration_index.toFixed(4) : NO_DATA_LABEL)}
+      ${renderLabStat("基尼变化（优化后）", scenarioSummary.gini_change != null ? (scenarioSummary.gini_change > 0 ? "+" : "") + scenarioSummary.gini_change.toFixed(4) : NO_DATA_LABEL)}
     </div>
   `;
 

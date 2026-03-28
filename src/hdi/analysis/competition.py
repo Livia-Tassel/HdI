@@ -260,20 +260,11 @@ def _build_optimization_scenario(
     b_coef: float,
 ) -> dict:
     objective_meta = _OPTIMIZATION_OBJECTIVES[objective]
+    _merge_cols = [c for c in ["iso3", "country_name", "who_region", "wb_income",
+                               "quadrant", "theoretical_need", "gap", "efficiency",
+                               "output_index", "life_expectancy"] if c in optimize_base.columns]
     allocation = result.optimal_allocation.merge(
-        optimize_base[
-            [
-                "iso3",
-                "country_name",
-                "who_region",
-                "wb_income",
-                "quadrant",
-                "theoretical_need",
-                "gap",
-                "efficiency",
-                "output_index",
-            ]
-        ],
+        optimize_base[_merge_cols],
         on="iso3",
         how="left",
     )
@@ -293,6 +284,14 @@ def _build_optimization_scenario(
     projected_current = float(allocation["projected_output_current"].sum())
     projected_optimal = float(allocation["projected_output_optimal"].sum())
     projected_gain_pct = ((projected_optimal - projected_current) / abs(projected_current) * 100.0) if abs(projected_current) > 1e-9 else 0.0
+
+    # Gini of projected output (shifted to non-negative)
+    cur_proj = allocation["projected_output_current"].to_numpy(dtype=float)
+    opt_proj = allocation["projected_output_optimal"].to_numpy(dtype=float)
+    shift = max(-np.nanmin(cur_proj), -np.nanmin(opt_proj), 0.0) + 1.0
+    gini_before_global = _compute_gini(cur_proj + shift)
+    gini_after_global = _compute_gini(opt_proj + shift)
+    gini_change_global = float(gini_after_global - gini_before_global) if np.isfinite(gini_before_global) and np.isfinite(gini_after_global) else None
 
     budget_label = f"{budget_multiplier:.0%}" if budget_multiplier != 1.0 else "基准（100%）"
     return {
@@ -316,6 +315,9 @@ def _build_optimization_scenario(
             "recipient_count": int((allocation["change_pct"] > 0).sum()),
             "donor_count": int((allocation["change_pct"] < 0).sum()),
             "moved_budget": float(allocation.loc[allocation["change"] > 0, "change"].sum()),
+            "gini_before": float(gini_before_global) if np.isfinite(gini_before_global) else None,
+            "gini_after": float(gini_after_global) if np.isfinite(gini_after_global) else None,
+            "gini_change": gini_change_global,
             "top_recipients": recipients.to_dict(orient="records"),
             "top_donors": donors.to_dict(orient="records"),
         },
@@ -941,20 +943,10 @@ def build_dimension3_outputs(master: pd.DataFrame, resource_panel: pd.DataFrame,
     ax.set_ylabel("Output index")
     _save_figure(fig, "fig07_dim3_quadrant")
 
-    optimize_base = latest[
-        [
-            "iso3",
-            "country_name",
-            "who_region",
-            "wb_income",
-            "health_exp_per_capita",
-            "output_index",
-            "theoretical_need",
-            "gap",
-            "efficiency",
-            "quadrant",
-        ]
-    ].dropna(subset=["health_exp_per_capita", "output_index"]).copy()
+    _opt_cols = [c for c in ["iso3", "country_name", "who_region", "wb_income",
+                             "health_exp_per_capita", "output_index", "theoretical_need",
+                             "gap", "efficiency", "quadrant", "life_expectancy"] if c in latest.columns]
+    optimize_base = latest[_opt_cols].dropna(subset=["health_exp_per_capita", "output_index"]).copy()
     optimize_base["health_exp_per_capita"] = optimize_base["health_exp_per_capita"].clip(lower=1)
     a_coef, b_coef = _fit_output_curve(
         optimize_base["health_exp_per_capita"].to_numpy(dtype=float),
