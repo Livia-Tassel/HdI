@@ -1243,11 +1243,18 @@ function renderChinaMap() {
   const hovertext = [];
   const customdata = [];
 
+  const noDataLocations = [];
+  const noDataHovertext = [];
+
   for (const feature of geojson.features) {
     const name = feature.properties?.name;
     if (!name || name === "") continue;
     const val = provinceValues[name];
-    if (val == null) continue;
+    if (val == null) {
+      noDataLocations.push(name);
+      noDataHovertext.push(`<b>${name}</b><br>暂无数据`);
+      continue;
+    }
     const provData = store.chinaProvinceIndex.get(name) ?? {};
     locations.push(name);
     z.push(val);
@@ -1267,40 +1274,62 @@ function renderChinaMap() {
   const zmin = isDivergent ? -absMax : Math.min(...allVals);
   const zmax = isDivergent ? absMax : Math.max(...allVals);
 
-  Plotly.react(
-    "map-chart",
-    [
-      {
-        type: "choropleth",
-        geojson: geojson,
-        locations: locations,
-        z: z,
-        featureidkey: "properties.name",
-        text: hovertext,
-        hovertemplate: "%{text}<extra></extra>",
-        customdata: customdata,
-        colorscale: metric.colorscale,
-        zmin: zmin,
-        zmax: zmax,
-        zmid: isDivergent ? 0 : undefined,
-        marker: {
-          line: {
-            color: locations.map((n) => n === state.province ? "rgba(251,191,36,0.95)" : "rgba(148,163,184,0.25)"),
-            width: locations.map((n) => n === state.province ? 2.5 : 0.5),
-          },
-        },
-        colorbar: {
-          title: metric.label,
-          thickness: 12,
-          len: 0.72,
-          x: 0.02,
-          xanchor: "left",
-          tickfont: { family: "SFMono-Regular, ui-monospace, monospace", size: 11, color: THEME.muted },
-          titlefont: { family: "system-ui, sans-serif", size: 12, color: THEME.muted },
-          outlinewidth: 0,
+  const traces = [
+    {
+      type: "choropleth",
+      geojson: geojson,
+      locations: locations,
+      z: z,
+      featureidkey: "properties.name",
+      text: hovertext,
+      hovertemplate: "%{text}<extra></extra>",
+      customdata: customdata,
+      colorscale: metric.colorscale,
+      zmin: zmin,
+      zmax: zmax,
+      zmid: isDivergent ? 0 : undefined,
+      marker: {
+        line: {
+          color: locations.map((n) => n === state.province ? "rgba(251,191,36,0.95)" : "rgba(148,163,184,0.25)"),
+          width: locations.map((n) => n === state.province ? 2.5 : 0.5),
         },
       },
-    ],
+      colorbar: {
+        title: metric.label,
+        thickness: 12,
+        len: 0.72,
+        x: 0.02,
+        xanchor: "left",
+        tickfont: { family: "SFMono-Regular, ui-monospace, monospace", size: 11, color: THEME.muted },
+        titlefont: { family: "system-ui, sans-serif", size: 12, color: THEME.muted },
+        outlinewidth: 0,
+      },
+    },
+  ];
+
+  // Add no-data territories (e.g. Taiwan) as a gray overlay so they are visible on the map
+  if (noDataLocations.length > 0) {
+    traces.push({
+      type: "choropleth",
+      geojson: geojson,
+      locations: noDataLocations,
+      z: noDataLocations.map(() => 0),
+      featureidkey: "properties.name",
+      text: noDataHovertext,
+      hovertemplate: "%{text}<extra></extra>",
+      colorscale: [[0, "rgba(100,116,139,0.45)"], [1, "rgba(100,116,139,0.45)"]],
+      zmin: 0,
+      zmax: 1,
+      showscale: false,
+      marker: {
+        line: { color: "rgba(148,163,184,0.4)", width: 0.8 },
+      },
+    });
+  }
+
+  Plotly.react(
+    "map-chart",
+    traces,
     {
       paper_bgcolor: "rgba(0,0,0,0)",
       plot_bgcolor: "rgba(0,0,0,0)",
