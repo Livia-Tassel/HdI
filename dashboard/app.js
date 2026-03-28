@@ -1392,16 +1392,30 @@ function buildHoverText(row) {
 
   if (state.dimension === "dim3") {
     const scenario = getCurrentScenario();
+    const QUAD_ZH_SHORT = {
+      "Q1_high_input_high_output": "Q1 高投入高产出",
+      "Q2_low_input_high_output": "Q2 低投入高产出",
+      "Q3_high_input_low_output": "Q3 高投入低产出",
+      "Q4_low_input_low_output": "Q4 低投入低产出",
+    };
+    const GAP_GRADE_ZH = {
+      "A_surplus": "A 富余", "A_富余": "A 富余",
+      "B_slight_surplus": "B 较充足", "B_较充足": "B 较充足",
+      "C_matched": "C 匹配", "C_匹配": "C 匹配",
+      "D_shortage": "D 不足", "D_不足": "D 不足",
+      "E_severe_shortage": "E 严重不足", "E_严重不足": "E 严重不足",
+    };
     return [
       `<b>${escapeHtml(countryLabel(row))}</b>`,
       `地区：${escapeHtml(regionLabel(row.who_region))} / ${escapeHtml(incomeLabel(row.wb_income))}`,
       `${METRIC_META[state.metric].label}: ${escapeHtml(
         METRIC_META[state.metric].formatter(METRIC_META[state.metric].accessor(row)),
       )}`,
-      `情景：${escapeHtml(scenario?.summary?.label ?? NO_DATA_LABEL)}`,
+      row.quadrant ? `类型：${escapeHtml(QUAD_ZH_SHORT[row.quadrant] ?? row.quadrant)}` : "",
+      row.gap_grade || row.gap_grade_en ? `缺口等级：${escapeHtml(GAP_GRADE_ZH[row.gap_grade_en ?? row.gap_grade] ?? row.gap_grade ?? "")}` : "",
       `缺口：${escapeHtml(formatSigned(row.gap))}`,
-      `效率：${escapeHtml(formatSigned(row.efficiency))}`,
-    ].join("<br>");
+      `情景调整：${escapeHtml(formatSignedPercent(row.change_pct))}`,
+    ].filter(Boolean).join("<br>");
   }
 
   if (state.dimension === "dim5") {
