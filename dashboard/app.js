@@ -2723,7 +2723,9 @@ function renderDim3Context() {
       ${renderLabStat("预算规模", budgetLabel(scenario?.budget_multiplier ?? state.budgetMultiplier))}
       ${renderLabStat("受益国家数", formatInteger(scenarioSummary.recipient_count))}
       ${renderLabStat("捐出国家数", formatInteger(scenarioSummary.donor_count))}
-      ${renderLabStat("产出提升", scenarioSummary.projected_output_gain_pct != null ? `+${scenarioSummary.projected_output_gain_pct.toFixed(0)}%` : NO_DATA_LABEL)}
+      ${renderLabStat("基尼降幅", (scenarioSummary.gini_before != null && scenarioSummary.gini_after != null && scenarioSummary.gini_before > 0)
+        ? `${(((scenarioSummary.gini_before - scenarioSummary.gini_after) / scenarioSummary.gini_before) * 100).toFixed(1)}%`
+        : NO_DATA_LABEL)}
       ${renderLabStat("首要受益国", topRecipient ? (countryLabel(topRecipient) || topRecipient.iso3) : NO_DATA_LABEL)}
       ${renderLabStat("全球基尼（预期寿命）", globalEquity.gini_life_expectancy != null ? globalEquity.gini_life_expectancy.toFixed(4) : NO_DATA_LABEL)}
       ${renderLabStat("全球基尼（卫生支出）", globalEquity.gini_health_expenditure != null ? globalEquity.gini_health_expenditure.toFixed(4) : NO_DATA_LABEL)}
