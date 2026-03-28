@@ -380,6 +380,24 @@ def _build_china_optimization_scenarios(snap: pd.DataFrame, panel: pd.DataFrame)
     }
     budgets = [0.9, 1.0, 1.1]
 
+    # Personnel-based optimization (re-distribution of health workforce)
+    personnel_objectives = {
+        "max_output_personnel": {
+            "label": "最大化健康产出（人力）",
+            "label_en": "Maximize Output via Workforce Reallocation",
+            "description": "固定总卫生人力，最大化全体省份综合健康产出之和（人力资源再分配）",
+            "resource": "personnel",
+            "solver": optimize_allocation_max_output,
+        },
+        "maximin_personnel": {
+            "label": "最小化不平等（人力）",
+            "label_en": "Minimize Inequality via Workforce Reallocation",
+            "description": "固定总卫生人力，最大化最弱省份健康产出（Rawls原则，人力资源再分配）",
+            "resource": "personnel",
+            "solver": optimize_allocation_maximin,
+        },
+    }
+
     scenarios = []
     for obj_code, obj_meta in objectives.items():
         for budget_mult in budgets:
@@ -455,6 +473,88 @@ def _build_china_optimization_scenarios(snap: pd.DataFrame, panel: pd.DataFrame)
                 })
             except Exception:
                 logger.exception("China optimization failed: %s / %.1f", obj_code, budget_mult)
+
+    # Personnel-based optimization: redistribute health workforce across provinces
+    snap_personnel = snap_clean.dropna(subset=["personnel_per_1000", "output_index"]).copy()
+    snap_personnel["personnel_per_1000"] = snap_personnel["personnel_per_1000"].clip(lower=0.1)
+    if len(snap_personnel) >= 10:
+        pa_coef, pb_coef = _fit_output_curve(
+            snap_personnel["personnel_per_1000"].to_numpy(dtype=float),
+            snap_personnel["output_index"].to_numpy(dtype=float),
+        )
+        for obj_code, obj_meta in personnel_objectives.items():
+            for budget_mult in budgets:
+                try:
+                    result = obj_meta["solver"](
+                        snap_personnel,
+                        output_col="output_index",
+                        input_col="personnel_per_1000",
+                        entity_col="entity",
+                        budget_multiplier=budget_mult,
+                    )
+                    alloc_df = result.optimal_allocation.merge(
+                        snap_personnel[["entity", "province_en", "region", "region_en", "quadrant", "quadrant_en",
+                                        "theoretical_need", "gap", "efficiency", "output_index",
+                                        "life_expectancy", "infant_mortality", "health_exp_per_capita"]],
+                        on="entity",
+                        how="left",
+                    )
+                    alloc_df = alloc_df.rename(columns={"entity": "province"})
+                    alloc_df["projected_output_current"] = _project_output_curve(
+                        alloc_df["current"].to_numpy(dtype=float), pa_coef, pb_coef
+                    )
+                    alloc_df["projected_output_optimal"] = _project_output_curve(
+                        alloc_df["optimal"].to_numpy(dtype=float), pa_coef, pb_coef
+                    )
+                    alloc_df["projected_output_delta"] = (
+                        alloc_df["projected_output_optimal"] - alloc_df["projected_output_current"]
+                    )
+
+                    p_curr_total = float(alloc_df["current"].sum())
+                    p_opt_total = float(alloc_df["optimal"].sum())
+                    p_proj_curr = float(alloc_df["projected_output_current"].sum())
+                    p_proj_opt = float(alloc_df["projected_output_optimal"].sum())
+                    p_gain = ((p_proj_opt - p_proj_curr) / abs(p_proj_curr) * 100) if abs(p_proj_curr) > 1e-9 else 0.0
+
+                    p_recipients = alloc_df.nlargest(5, "change_pct")
+                    p_donors = alloc_df.nsmallest(5, "change_pct")
+
+                    _p_cur_arr = alloc_df["projected_output_current"].to_numpy(dtype=float)
+                    _p_opt_arr = alloc_df["projected_output_optimal"].to_numpy(dtype=float)
+                    _p_shift = max(-np.nanmin(_p_cur_arr), -np.nanmin(_p_opt_arr), 0.0) + 1.0
+                    p_gini_before = _compute_gini(_p_cur_arr + _p_shift)
+                    p_gini_after = _compute_gini(_p_opt_arr + _p_shift)
+
+                    scenarios.append({
+                        "scenario_id": f"{obj_code}_budget_{int(round(budget_mult * 100)):03d}",
+                        "objective": obj_code,
+                        "objective_label": obj_meta["label"],
+                        "objective_label_en": obj_meta["label_en"],
+                        "objective_description": obj_meta["description"],
+                        "resource_type": "personnel",
+                        "budget_multiplier": budget_mult,
+                        "budget_change_pct": (budget_mult - 1.0) * 100.0,
+                        "status": result.status,
+                        "objective_value": float(result.objective_value),
+                        "summary": {
+                            "province_count": int(len(alloc_df)),
+                            "current_budget_total": p_curr_total,
+                            "optimal_budget_total": p_opt_total,
+                            "projected_output_current": p_proj_curr,
+                            "projected_output_optimal": p_proj_opt,
+                            "projected_output_gain_pct": p_gain,
+                            "gini_before": float(p_gini_before) if np.isfinite(p_gini_before) else None,
+                            "gini_after": float(p_gini_after) if np.isfinite(p_gini_after) else None,
+                            "gini_change": float(p_gini_after - p_gini_before) if np.isfinite(p_gini_before) and np.isfinite(p_gini_after) else None,
+                            "recipient_count": int((alloc_df["change_pct"] > 0).sum()),
+                            "donor_count": int((alloc_df["change_pct"] < 0).sum()),
+                            "top_recipients": p_recipients[["province", "province_en", "region", "change", "change_pct"]].to_dict(orient="records"),
+                            "top_donors": p_donors[["province", "province_en", "region", "change", "change_pct"]].to_dict(orient="records"),
+                        },
+                        "allocation": alloc_df.to_dict(orient="records"),
+                    })
+                except Exception:
+                    logger.exception("China personnel optimization failed: %s / %.1f", obj_code, budget_mult)
 
     # Build resource gap table
     gap_grades = pd.qcut(

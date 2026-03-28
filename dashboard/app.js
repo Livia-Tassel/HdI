@@ -286,12 +286,20 @@ const THEME = {
 
 const OBJECTIVE_META = {
   max_output: {
-    label: "最大化总产出",
-    note: "功利主义目标：将资源优先分配至边际健康产出最高的国家/地区（类似「水填充」算法），以最大化全系统总健康产出。优先受益方为投入边际效率高的中低收入国家。",
+    label: "最大化总产出（资金）",
+    note: "功利主义目标：将资金优先分配至边际健康产出最高的省份/国家（类似「水填充」算法），以最大化全系统总健康产出。优先受益方为投入边际效率高的中低收入地区。",
   },
   maximin: {
-    label: "最小化最大不平等（Rawlsian）",
-    note: "罗尔斯正义目标：优先提升最弱势国家的健康水平，实现「最大化最低产出」。通过减少资源集中、向低产出地区再分配来缩小健康不平等，基尼系数降幅通常大于最大产出方案。",
+    label: "最小化不平等（资金）",
+    note: "罗尔斯正义目标：通过资金再分配优先提升最弱势省份的健康水平，实现「最大化最低产出」。通过减少资源集中、向低产出地区再分配来缩小健康不平等。",
+  },
+  max_output_personnel: {
+    label: "最大化总产出（人力）",
+    note: "功利主义目标：将卫生人力资源优先分配至边际健康产出最高的省份，以最大化全系统总健康产出。优先受益方为人力资源边际效率高的欠发达省份。",
+  },
+  maximin_personnel: {
+    label: "最小化不平等（人力）",
+    note: "罗尔斯正义目标：通过卫生人力再分配优先提升最弱势省份的健康水平，实现「最大化最低产出」。关注人力资源的公平分布，减少城乡和区域间卫生服务可及性差距。",
   },
 };
 
@@ -301,6 +309,8 @@ const OBJECTIVE_ALIASES = {
   maximize_need_weighted_health_output: "max_output",
   projected_need_weighted_allocation: "max_output",
   maximin: "maximin",
+  max_output_personnel: "max_output_personnel",
+  maximin_personnel: "maximin_personnel",
 };
 
 const NO_DATA_LABEL = "暂无";
