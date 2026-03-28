@@ -134,6 +134,19 @@ _OPTIMIZATION_OBJECTIVES = {
     },
 }
 
+_OPTIMIZATION_OBJECTIVES_PERSONNEL = {
+    "max_output_personnel": {
+        "label": "最大化总产出（人力再分配）",
+        "description": "以各国医生密度为资源输入，模拟全球人力资源最优再分配，最大化总体健康产出。",
+        "solver": optimize_allocation_max_output,
+    },
+    "maximin_personnel": {
+        "label": "最小化健康不平等（人力再分配）",
+        "description": "以各国医生密度为资源输入，模拟全球人力资源最优再分配，最大化最低产出国家的健康水平。",
+        "solver": optimize_allocation_maximin,
+    },
+}
+
 
 @dataclass
 class SimpleForecastResult:
@@ -258,8 +271,10 @@ def _build_optimization_scenario(
     budget_multiplier: float,
     a_coef: float,
     b_coef: float,
+    objectives_dict: dict | None = None,
 ) -> dict:
-    objective_meta = _OPTIMIZATION_OBJECTIVES[objective]
+    _all_objectives = {**_OPTIMIZATION_OBJECTIVES, **_OPTIMIZATION_OBJECTIVES_PERSONNEL}
+    objective_meta = (objectives_dict or _all_objectives)[objective]
     _merge_cols = [c for c in ["iso3", "country_name", "who_region", "wb_income",
                                "quadrant", "theoretical_need", "gap", "efficiency",
                                "output_index", "life_expectancy"] if c in optimize_base.columns]
@@ -1180,6 +1195,73 @@ def build_dimension3_outputs(master: pd.DataFrame, resource_panel: pd.DataFrame,
                 default_allocation = pd.DataFrame(scenario_payload["allocation"])
             scenario_rows.append(scenario_payload)
 
+    # --- Personnel (physician density) optimization loop ---
+    _pers_cols = [c for c in ["iso3", "country_name", "who_region", "wb_income",
+                               "physicians_per_1000", "output_index", "theoretical_need",
+                               "gap", "efficiency", "quadrant", "life_expectancy"] if c in latest.columns]
+    optimize_base_pers = latest[_pers_cols].dropna(subset=["physicians_per_1000", "output_index"]).copy()
+    optimize_base_pers["physicians_per_1000"] = optimize_base_pers["physicians_per_1000"].clip(lower=0.01)
+    a_coef_p, b_coef_p = _fit_output_curve(
+        optimize_base_pers["physicians_per_1000"].to_numpy(dtype=float),
+        optimize_base_pers["output_index"].to_numpy(dtype=float),
+    )
+
+    for objective_code, meta in _OPTIMIZATION_OBJECTIVES_PERSONNEL.items():
+        for budget_multiplier in _OPTIMIZATION_BUDGETS:
+            try:
+                result = meta["solver"](
+                    optimize_base_pers,
+                    output_col="output_index",
+                    input_col="physicians_per_1000",
+                    budget_multiplier=budget_multiplier,
+                )
+                scenario_payload = _build_optimization_scenario(
+                    optimize_base=optimize_base_pers,
+                    result=result,
+                    objective=objective_code,
+                    budget_multiplier=budget_multiplier,
+                    a_coef=a_coef_p,
+                    b_coef=b_coef_p,
+                    objectives_dict=_OPTIMIZATION_OBJECTIVES_PERSONNEL,
+                )
+            except Exception as exc:
+                logger.exception("Personnel optimization scenario failed: %s / %.1f", objective_code, budget_multiplier)
+                fallback_result_p = optimize_base_pers.assign(
+                    current=optimize_base_pers["physicians_per_1000"],
+                    optimal=optimize_base_pers["physicians_per_1000"],
+                    change=0.0,
+                    change_pct=0.0,
+                )
+                _merge_cols_p = [c for c in ["iso3", "country_name", "who_region", "wb_income",
+                                              "quadrant", "theoretical_need", "gap", "efficiency",
+                                              "output_index"] if c in optimize_base_pers.columns]
+                scenario_payload = {
+                    "scenario_id": _scenario_id(objective_code, budget_multiplier),
+                    "objective": objective_code,
+                    "objective_label": meta["label"],
+                    "objective_description": meta["description"],
+                    "budget_multiplier": float(budget_multiplier),
+                    "budget_change_pct": float((budget_multiplier - 1.0) * 100.0),
+                    "status": f"error: {exc}",
+                    "objective_value": 0.0,
+                    "summary": {
+                        "country_count": int(len(fallback_result_p)),
+                        "current_budget": float(fallback_result_p["current"].sum()),
+                        "optimal_budget": float(fallback_result_p["optimal"].sum()),
+                        "projected_output_current": 0.0,
+                        "projected_output_optimal": 0.0,
+                        "projected_output_gain_pct": 0.0,
+                        "recipient_count": 0,
+                        "donor_count": 0,
+                        "top_recipients": [],
+                        "top_donors": [],
+                    },
+                    "allocation": fallback_result_p[_merge_cols_p + ["current", "optimal", "change", "change_pct"]].to_dict(orient="records"),
+                }
+            scenario_rows.append(scenario_payload)
+
+    _all_obj_meta = {**_OPTIMIZATION_OBJECTIVES, **_OPTIMIZATION_OBJECTIVES_PERSONNEL}
+
     export_dim3_optimization(
         {
             "latest_year": latest_year,
@@ -1187,13 +1269,13 @@ def build_dimension3_outputs(master: pd.DataFrame, resource_panel: pd.DataFrame,
             "scenario_options": {
                 "objectives": [
                     {"code": code, "label": meta["label"], "description": meta["description"]}
-                    for code, meta in _OPTIMIZATION_OBJECTIVES.items()
+                    for code, meta in _all_obj_meta.items()
                 ],
                 "budget_multipliers": _OPTIMIZATION_BUDGETS,
             },
             "available_objectives": [
                 {"code": code, "label": meta["label"], "description": meta["description"]}
-                for code, meta in _OPTIMIZATION_OBJECTIVES.items()
+                for code, meta in _all_obj_meta.items()
             ],
             "budget_options": _OPTIMIZATION_BUDGETS,
             "scenarios": scenario_rows,
