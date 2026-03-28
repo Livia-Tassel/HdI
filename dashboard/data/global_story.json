@@ -730,6 +730,8 @@
         "status": "optimal_waterfill",
         "objective_value": 38.22816649643675,
         "summary": {
+          "label": "Maximize Aggregate Health Output · 90%",
+          "budget_label": "90%",
           "country_count": 191,
           "current_budget": 253791.31696532,
           "optimal_budget": 228412.18526878802,
@@ -738,6 +740,7 @@
           "projected_output_gain_pct": 2565.6308210442266,
           "recipient_count": 156,
           "donor_count": 35,
+          "moved_budget": 54519.69216618446,
           "top_recipients": [
             {
               "iso3": "AFG",
@@ -4272,6 +4275,8 @@
         "status": "optimal_waterfill",
         "objective_value": 42.95860543342071,
         "summary": {
+          "label": "Maximize Aggregate Health Output · 基准（100%）",
+          "budget_label": "基准（100%）",
           "country_count": 191,
           "current_budget": 253791.31696532,
           "optimal_budget": 253791.3169653201,
@@ -4280,6 +4285,7 @@
           "projected_output_gain_pct": 2870.7335007969227,
           "recipient_count": 163,
           "donor_count": 28,
+          "moved_budget": 68883.38596728574,
           "top_recipients": [
             {
               "iso3": "AFG",
@@ -7814,6 +7820,8 @@
         "status": "optimal_waterfill",
         "objective_value": 46.65860946433629,
         "summary": {
+          "label": "Maximize Aggregate Health Output · 110%",
+          "budget_label": "110%",
           "country_count": 191,
           "current_budget": 253791.31696532003,
           "optimal_budget": 279170.448661852,
@@ -7822,6 +7830,7 @@
           "projected_output_gain_pct": 3109.375445015294,
           "recipient_count": 168,
           "donor_count": 23,
+          "moved_budget": 81686.38047221623,
           "top_recipients": [
             {
               "iso3": "AFG",
@@ -11356,6 +11365,8 @@
         "status": "optimal_slsqp",
         "objective_value": -1.2464522867764138,
         "summary": {
+          "label": "Protect Lowest-Outcome Countries · 90%",
+          "budget_label": "90%",
           "country_count": 191,
           "current_budget": 253791.31696532,
           "optimal_budget": 228412.18526878807,
@@ -11364,6 +11375,7 @@
           "projected_output_gain_pct": -523.5645161504999,
           "recipient_count": 9,
           "donor_count": 182,
+          "moved_budget": 76.41577221092525,
           "top_recipients": [
             {
               "iso3": "SOM",
@@ -14898,6 +14910,8 @@
         "status": "optimal_slsqp",
         "objective_value": -1.246452286587599,
         "summary": {
+          "label": "Protect Lowest-Outcome Countries · 基准（100%）",
+          "budget_label": "基准（100%）",
           "country_count": 191,
           "current_budget": 253791.31696532003,
           "optimal_budget": 253791.31696532003,
@@ -14906,6 +14920,7 @@
           "projected_output_gain_pct": 69.54774481292958,
           "recipient_count": 9,
           "donor_count": 182,
+          "moved_budget": 72.56075060039097,
           "top_recipients": [
             {
               "iso3": "SOM",
@@ -18440,6 +18455,8 @@
         "status": "optimal_slsqp",
         "objective_value": -1.2464522865875962,
         "summary": {
+          "label": "Protect Lowest-Outcome Countries · 110%",
+          "budget_label": "110%",
           "country_count": 191,
           "current_budget": 253791.31696532003,
           "optimal_budget": 279170.4486618521,
@@ -18448,6 +18465,7 @@
           "projected_output_gain_pct": 604.9361682007752,
           "recipient_count": 191,
           "donor_count": 0,
+          "moved_budget": 25379.131696532062,
           "top_recipients": [
             {
               "iso3": "SOM",

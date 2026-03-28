@@ -294,6 +294,7 @@ def _build_optimization_scenario(
     projected_optimal = float(allocation["projected_output_optimal"].sum())
     projected_gain_pct = ((projected_optimal - projected_current) / abs(projected_current) * 100.0) if abs(projected_current) > 1e-9 else 0.0
 
+    budget_label = f"{budget_multiplier:.0%}" if budget_multiplier != 1.0 else "基准（100%）"
     return {
         "scenario_id": _scenario_id(objective, budget_multiplier),
         "objective": objective,
@@ -304,6 +305,8 @@ def _build_optimization_scenario(
         "status": result.status,
         "objective_value": float(result.objective_value),
         "summary": {
+            "label": f"{objective_meta['label']} · {budget_label}",
+            "budget_label": budget_label,
             "country_count": int(len(allocation)),
             "current_budget": current_total,
             "optimal_budget": optimal_total,
@@ -312,6 +315,7 @@ def _build_optimization_scenario(
             "projected_output_gain_pct": projected_gain_pct,
             "recipient_count": int((allocation["change_pct"] > 0).sum()),
             "donor_count": int((allocation["change_pct"] < 0).sum()),
+            "moved_budget": float(allocation.loc[allocation["change"] > 0, "change"].sum()),
             "top_recipients": recipients.to_dict(orient="records"),
             "top_donors": donors.to_dict(orient="records"),
         },

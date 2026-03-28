@@ -2285,23 +2285,30 @@ function renderDim3Context() {
   const profile = store.profiles[state.country];
   const latest = profile?.latest ?? {};
   const selected = getScenarioRow(state.country);
-  const recipients = [...(scenario?.allocation ?? [])]
-    .filter((row) => (row.change ?? 0) > 0)
-    .sort((left, right) => (right.change_pct ?? -Infinity) - (left.change_pct ?? -Infinity))
-    .slice(0, 5);
-  const donors = [...(scenario?.allocation ?? [])]
-    .filter((row) => (row.change ?? 0) < 0)
-    .sort((left, right) => (left.change_pct ?? Infinity) - (right.change_pct ?? Infinity))
-    .slice(0, 5);
+  // Use pre-computed top_recipients/top_donors from scenario summary if available
+  const recipients = scenario?.summary?.top_recipients?.length
+    ? scenario.summary.top_recipients.slice(0, 5)
+    : [...(scenario?.allocation ?? [])]
+        .filter((row) => (row.change ?? 0) > 0)
+        .sort((left, right) => (right.change_pct ?? -Infinity) - (left.change_pct ?? -Infinity))
+        .slice(0, 5);
+  const donors = scenario?.summary?.top_donors?.length
+    ? scenario.summary.top_donors.slice(0, 5)
+    : [...(scenario?.allocation ?? [])]
+        .filter((row) => (row.change ?? 0) < 0)
+        .sort((left, right) => (left.change_pct ?? Infinity) - (right.change_pct ?? Infinity))
+        .slice(0, 5);
 
+  const scenarioSummary = scenario?.summary ?? {};
+  const topRecipient = scenarioSummary.top_recipients?.[0];
   const summaryGrid = `
     <div class="lab-summary-grid">
-      ${renderLabStat("情景", scenario?.summary?.label ?? NO_DATA_LABEL)}
-      ${renderLabStat("预算规模", scenario?.summary?.budget_label ?? budgetLabel(state.budgetMultiplier))}
-      ${renderLabStat("受益国家数", formatInteger(scenario?.summary?.recipient_count))}
-      ${renderLabStat("捐出国家数", formatInteger(scenario?.summary?.donor_count))}
-      ${renderLabStat("调配预算", formatCurrency(scenario?.summary?.moved_budget))}
-      ${renderLabStat("首要受益国", scenario?.summary?.top_recipient ?? NO_DATA_LABEL)}
+      ${renderLabStat("优化目标", scenario?.objective_label ?? objectiveLabel(state.objective))}
+      ${renderLabStat("预算规模", budgetLabel(scenario?.budget_multiplier ?? state.budgetMultiplier))}
+      ${renderLabStat("受益国家数", formatInteger(scenarioSummary.recipient_count))}
+      ${renderLabStat("捐出国家数", formatInteger(scenarioSummary.donor_count))}
+      ${renderLabStat("产出提升", scenarioSummary.projected_output_gain_pct != null ? `+${scenarioSummary.projected_output_gain_pct.toFixed(0)}%` : NO_DATA_LABEL)}
+      ${renderLabStat("首要受益国", topRecipient ? (countryLabel(topRecipient) || topRecipient.iso3) : NO_DATA_LABEL)}
     </div>
   `;
 
@@ -2316,11 +2323,25 @@ function renderDim3Context() {
     ],
   };
 
+  // Quadrant recommendation for selected country
+  const countryQuadrant = latest.quadrant ?? selected?.quadrant ?? "";
+  const globalRecs = _globalQuadrantRecommendations();
+  const countryRec = countryQuadrant ? globalRecs[countryQuadrant] : null;
+  const recBlock = countryRec ? `
+    <div class="context-rec-block">
+      <div class="rec-badge rec-${countryQuadrant.replace(/[^a-zA-Z0-9]/g, "_").toLowerCase()}">${escapeHtml(countryQuadrant.replace(/_/g, " "))}</div>
+      <div class="rec-title">${escapeHtml(countryRec.title)}</div>
+      <div class="rec-body">${escapeHtml(countryRec.policy)}</div>
+      <div class="rec-priority"><span>优先行动：</span>${escapeHtml(countryRec.priority)}</div>
+    </div>
+  ` : "";
+
   document.getElementById("context-panel").innerHTML = `
     <p class="context-lede">${escapeHtml(
       OBJECTIVE_META[state.objective]?.note ?? "当前情景设置已应用到最新资源面板。",
     )}</p>
     ${summaryGrid}
+    ${recBlock}
     ${renderContextColumns([
       {
         title: "受益最多国家",
@@ -2333,6 +2354,31 @@ function renderDim3Context() {
       detailColumn,
     ])}
   `;
+}
+
+function _globalQuadrantRecommendations() {
+  return {
+    "Q1_high_input_high_output": {
+      title: "高投入高产出：保持领先，分享经验",
+      policy: "该国卫生体系资源充足且健康产出优良。应在国际合作中发挥引领作用，向低产出国家分享管理经验与技术，同时持续优化资源结构、防范资源过剩浪费。",
+      priority: "推动南南合作与知识转移，分享高效卫生体系建设经验",
+    },
+    "Q2_low_input_high_output": {
+      title: "低投入高产出：效率领先，推广经验",
+      policy: "该国以有限投入实现优异健康产出，代表高效能卫生体系典型。其经验做法（初级卫生保健强化、预防为主）值得总结推广，并可争取适度增加投入以巩固优势。",
+      priority: "提炼可复制的低成本高效卫生模式，争取增加基础卫生投资",
+    },
+    "Q3_high_input_low_output": {
+      title: "高投入低产出：提升效率，优化结构",
+      policy: "该国投入充足但健康产出不足，反映卫生体系效率低下或资源错配。需推进体系改革，建立绩效考核机制，将重点从扩大投入总量转向提升服务质量与效率。",
+      priority: "开展卫生体系效率审计，推进绩效导向的资源分配机制",
+    },
+    "Q4_low_input_low_output": {
+      title: "低投入低产出：双轨并行，增投提效",
+      policy: "该国卫生资源严重不足且健康产出偏低，需同步增加投入与提升效率。优先保障基础设施和基层医疗人才，争取国际援助与技术支持，同时借鉴Q2经验避免低效扩张。",
+      priority: "争取国际援助，优先补足初级卫生保健基础设施和人力资源",
+    },
+  };
 }
 
 function renderDim4Context() {
