@@ -20,7 +20,9 @@
       "infant_mortality": 2.7,
       "hospital_beds_per_1000": 5.41,
       "physicians_per_1000": 4.82,
-      "nurses_per_1000": 5.43
+      "nurses_per_1000": 5.43,
+      "gdp_per_capita": 190321,
+      "urban_income_per_capita": 84834
     },
     {
       "province": "云南省",
@@ -41,7 +43,9 @@
       "infant_mortality": 9.2,
       "hospital_beds_per_1000": 6.51,
       "physicians_per_1000": 2.62,
-      "nurses_per_1000": 3.65
+      "nurses_per_1000": 3.65,
+      "gdp_per_capita": 49272,
+      "urban_income_per_capita": 38437
     },
     {
       "province": "内蒙古自治区",
@@ -62,7 +66,9 @@
       "infant_mortality": 6.1,
       "hospital_beds_per_1000": 6.82,
       "physicians_per_1000": 3.21,
-      "nurses_per_1000": 4.04
+      "nurses_per_1000": 4.04,
+      "gdp_per_capita": 102040,
+      "urban_income_per_capita": 43635
     },
     {
       "province": "北京市",
@@ -83,7 +89,9 @@
       "infant_mortality": 2.3,
       "hospital_beds_per_1000": 5.93,
       "physicians_per_1000": 5.79,
-      "nurses_per_1000": 6.39
+      "nurses_per_1000": 6.39,
+      "gdp_per_capita": 200278,
+      "urban_income_per_capita": 77588
     },
     {
       "province": "吉林省",
@@ -104,7 +112,9 @@
       "infant_mortality": 5.3,
       "hospital_beds_per_1000": 5.73,
       "physicians_per_1000": 3.4,
-      "nurses_per_1000": 4.25
+      "nurses_per_1000": 4.25,
+      "gdp_per_capita": 48312,
+      "urban_income_per_capita": 38046
     },
     {
       "province": "四川省",
@@ -125,7 +135,9 @@
       "infant_mortality": 5.6,
       "hospital_beds_per_1000": 6.78,
       "physicians_per_1000": 2.89,
-      "nurses_per_1000": 4.45
+      "nurses_per_1000": 4.45,
+      "gdp_per_capita": 67620,
+      "urban_income_per_capita": 42256
     },
     {
       "province": "天津市",
@@ -146,7 +158,9 @@
       "infant_mortality": 2.8,
       "hospital_beds_per_1000": 4.88,
       "physicians_per_1000": 3.83,
-      "nurses_per_1000": 4.61
+      "nurses_per_1000": 4.61,
+      "gdp_per_capita": 118390,
+      "urban_income_per_capita": 52088
     },
     {
       "province": "宁夏回族自治区",
@@ -167,7 +181,9 @@
       "infant_mortality": 7.1,
       "hospital_beds_per_1000": 5.6,
       "physicians_per_1000": 2.9,
-      "nurses_per_1000": 3.42
+      "nurses_per_1000": 3.42,
+      "gdp_per_capita": 68712,
+      "urban_income_per_capita": 39254
     },
     {
       "province": "安徽省",
@@ -188,7 +204,9 @@
       "infant_mortality": 5.8,
       "hospital_beds_per_1000": 5.39,
       "physicians_per_1000": 2.76,
-      "nurses_per_1000": 3.42
+      "nurses_per_1000": 3.42,
+      "gdp_per_capita": 67192,
+      "urban_income_per_capita": 42628
     },
     {
       "province": "山东省",
@@ -209,7 +227,9 @@
       "infant_mortality": 4.3,
       "hospital_beds_per_1000": 5.8,
       "physicians_per_1000": 3.2,
-      "nurses_per_1000": 3.86
+      "nurses_per_1000": 3.86,
+      "gdp_per_capita": 88394,
+      "urban_income_per_capita": 47285
     },
     {
       "province": "山西省",
@@ -230,7 +250,9 @@
       "infant_mortality": 5.2,
       "hospital_beds_per_1000": 6.31,
       "physicians_per_1000": 3.08,
-      "nurses_per_1000": 3.58
+      "nurses_per_1000": 3.58,
+      "gdp_per_capita": 64373,
+      "urban_income_per_capita": 35697
     },
     {
       "province": "广东省",
@@ -251,7 +273,9 @@
       "infant_mortality": 4.5,
       "hospital_beds_per_1000": 4.4,
       "physicians_per_1000": 2.8,
-      "nurses_per_1000": 3.38
+      "nurses_per_1000": 3.38,
+      "gdp_per_capita": 105118,
+      "urban_income_per_capita": 55316
     },
     {
       "province": "广西壮族自治区",
@@ -272,7 +296,9 @@
       "infant_mortality": 6.0,
       "hospital_beds_per_1000": 5.86,
       "physicians_per_1000": 2.72,
-      "nurses_per_1000": 3.76
+      "nurses_per_1000": 3.76,
+      "gdp_per_capita": 48603,
+      "urban_income_per_capita": 37897
     },
     {
       "province": "新疆维吾尔自治区",
@@ -293,7 +319,9 @@
       "infant_mortality": 9.6,
       "hospital_beds_per_1000": 7.02,
       "physicians_per_1000": 3.05,
-      "nurses_per_1000": 3.93
+      "nurses_per_1000": 3.93,
+      "gdp_per_capita": 64501,
+      "urban_income_per_capita": 37950
     },
     {
       "province": "江苏省",
@@ -314,7 +342,9 @@
       "infant_mortality": 3.2,
       "hospital_beds_per_1000": 4.9,
       "physicians_per_1000": 3.2,
-      "nurses_per_1000": 3.88
+      "nurses_per_1000": 3.88,
+      "gdp_per_capita": 152745,
+      "urban_income_per_capita": 57589
     },
     {
       "province": "江西省",
@@ -335,7 +365,9 @@
       "infant_mortality": 5.5,
       "hospital_beds_per_1000": 5.42,
       "physicians_per_1000": 2.48,
-      "nurses_per_1000": 3.57
+      "nurses_per_1000": 3.57,
+      "gdp_per_capita": 58774,
+      "urban_income_per_capita": 41249
     },
     {
       "province": "河北省",
@@ -356,7 +388,9 @@
       "infant_mortality": 4.9,
       "hospital_beds_per_1000": 5.48,
       "physicians_per_1000": 2.85,
-      "nurses_per_1000": 3.17
+      "nurses_per_1000": 3.17,
+      "gdp_per_capita": 55535,
+      "urban_income_per_capita": 37831
     },
     {
       "province": "河南省",
@@ -377,7 +411,9 @@
       "infant_mortality": 5.7,
       "hospital_beds_per_1000": 6.01,
       "physicians_per_1000": 2.78,
-      "nurses_per_1000": 3.49
+      "nurses_per_1000": 3.49,
+      "gdp_per_capita": 59410,
+      "urban_income_per_capita": 39230
     },
     {
       "province": "浙江省",
@@ -398,7 +434,9 @@
       "infant_mortality": 3.5,
       "hospital_beds_per_1000": 4.8,
       "physicians_per_1000": 3.72,
-      "nurses_per_1000": 4.68
+      "nurses_per_1000": 4.68,
+      "gdp_per_capita": 122699,
+      "urban_income_per_capita": 65213
     },
     {
       "province": "海南省",
@@ -419,7 +457,9 @@
       "infant_mortality": 5.8,
       "hospital_beds_per_1000": 4.95,
       "physicians_per_1000": 2.97,
-      "nurses_per_1000": 3.43
+      "nurses_per_1000": 3.43,
+      "gdp_per_capita": 68590,
+      "urban_income_per_capita": 39879
     },
     {
       "province": "湖北省",
@@ -440,7 +480,9 @@
       "infant_mortality": 5.0,
       "hospital_beds_per_1000": 6.35,
       "physicians_per_1000": 2.92,
-      "nurses_per_1000": 4.14
+      "nurses_per_1000": 4.14,
+      "gdp_per_capita": 93426,
+      "urban_income_per_capita": 43697
     },
     {
       "province": "湖南省",
@@ -461,7 +503,9 @@
       "infant_mortality": 5.4,
       "hospital_beds_per_1000": 6.07,
       "physicians_per_1000": 2.8,
-      "nurses_per_1000": 3.86
+      "nurses_per_1000": 3.86,
+      "gdp_per_capita": 68975,
+      "urban_income_per_capita": 42823
     },
     {
       "province": "甘肃省",
@@ -482,7 +526,9 @@
       "infant_mortality": 8.5,
       "hospital_beds_per_1000": 5.95,
       "physicians_per_1000": 2.9,
-      "nurses_per_1000": 3.46
+      "nurses_per_1000": 3.46,
+      "gdp_per_capita": 38356,
+      "urban_income_per_capita": 36083
     },
     {
       "province": "福建省",
@@ -503,7 +549,9 @@
       "infant_mortality": 4.0,
       "hospital_beds_per_1000": 4.45,
       "physicians_per_1000": 2.83,
-      "nurses_per_1000": 3.21
+      "nurses_per_1000": 3.21,
+      "gdp_per_capita": 125018,
+      "urban_income_per_capita": 52952
     },
     {
       "province": "西藏自治区",
@@ -524,7 +572,9 @@
       "infant_mortality": 16.8,
       "hospital_beds_per_1000": 4.65,
       "physicians_per_1000": 2.21,
-      "nurses_per_1000": 2.96
+      "nurses_per_1000": 2.96,
+      "gdp_per_capita": 59134,
+      "urban_income_per_capita": 41124
     },
     {
       "province": "贵州省",
@@ -545,7 +595,9 @@
       "infant_mortality": 8.8,
       "hospital_beds_per_1000": 6.31,
       "physicians_per_1000": 2.4,
-      "nurses_per_1000": 3.62
+      "nurses_per_1000": 3.62,
+      "gdp_per_capita": 47539,
+      "urban_income_per_capita": 37726
     },
     {
       "province": "辽宁省",
@@ -566,7 +618,9 @@
       "infant_mortality": 4.1,
       "hospital_beds_per_1000": 5.56,
       "physicians_per_1000": 3.48,
-      "nurses_per_1000": 4.27
+      "nurses_per_1000": 4.27,
+      "gdp_per_capita": 68433,
+      "urban_income_per_capita": 42624
     },
     {
       "province": "重庆市",
@@ -587,7 +641,9 @@
       "infant_mortality": 4.8,
       "hospital_beds_per_1000": 6.11,
       "physicians_per_1000": 2.98,
-      "nurses_per_1000": 3.97
+      "nurses_per_1000": 3.97,
+      "gdp_per_capita": 91763,
+      "urban_income_per_capita": 43555
     },
     {
       "province": "陕西省",
@@ -608,7 +664,9 @@
       "infant_mortality": 4.4,
       "hospital_beds_per_1000": 6.47,
       "physicians_per_1000": 3.27,
-      "nurses_per_1000": 4.08
+      "nurses_per_1000": 4.08,
+      "gdp_per_capita": 83527,
+      "urban_income_per_capita": 41897
     },
     {
       "province": "青海省",
@@ -629,7 +687,9 @@
       "infant_mortality": 10.2,
       "hospital_beds_per_1000": 5.28,
       "physicians_per_1000": 2.81,
-      "nurses_per_1000": 3.36
+      "nurses_per_1000": 3.36,
+      "gdp_per_capita": 60035,
+      "urban_income_per_capita": 37932
     },
     {
       "province": "黑龙江省",
@@ -650,7 +710,9 @@
       "infant_mortality": 5.0,
       "hospital_beds_per_1000": 5.18,
       "physicians_per_1000": 3.17,
-      "nurses_per_1000": 3.81
+      "nurses_per_1000": 3.81,
+      "gdp_per_capita": 42396,
+      "urban_income_per_capita": 38099
     }
   ],
   "resource_gap": [
@@ -673,7 +735,9 @@
       "infant_mortality": 2.7,
       "hospital_beds_per_1000": 5.41,
       "physicians_per_1000": 4.82,
-      "nurses_per_1000": 5.43
+      "nurses_per_1000": 5.43,
+      "gdp_per_capita": 190321,
+      "urban_income_per_capita": 84834
     },
     {
       "province": "云南省",
@@ -694,7 +758,9 @@
       "infant_mortality": 9.2,
       "hospital_beds_per_1000": 6.51,
       "physicians_per_1000": 2.62,
-      "nurses_per_1000": 3.65
+      "nurses_per_1000": 3.65,
+      "gdp_per_capita": 49272,
+      "urban_income_per_capita": 38437
     },
     {
       "province": "内蒙古自治区",
@@ -715,7 +781,9 @@
       "infant_mortality": 6.1,
       "hospital_beds_per_1000": 6.82,
       "physicians_per_1000": 3.21,
-      "nurses_per_1000": 4.04
+      "nurses_per_1000": 4.04,
+      "gdp_per_capita": 102040,
+      "urban_income_per_capita": 43635
     },
     {
       "province": "北京市",
@@ -736,7 +804,9 @@
       "infant_mortality": 2.3,
       "hospital_beds_per_1000": 5.93,
       "physicians_per_1000": 5.79,
-      "nurses_per_1000": 6.39
+      "nurses_per_1000": 6.39,
+      "gdp_per_capita": 200278,
+      "urban_income_per_capita": 77588
     },
     {
       "province": "吉林省",
@@ -757,7 +827,9 @@
       "infant_mortality": 5.3,
       "hospital_beds_per_1000": 5.73,
       "physicians_per_1000": 3.4,
-      "nurses_per_1000": 4.25
+      "nurses_per_1000": 4.25,
+      "gdp_per_capita": 48312,
+      "urban_income_per_capita": 38046
     },
     {
       "province": "四川省",
@@ -778,7 +850,9 @@
       "infant_mortality": 5.6,
       "hospital_beds_per_1000": 6.78,
       "physicians_per_1000": 2.89,
-      "nurses_per_1000": 4.45
+      "nurses_per_1000": 4.45,
+      "gdp_per_capita": 67620,
+      "urban_income_per_capita": 42256
     },
     {
       "province": "天津市",
@@ -799,7 +873,9 @@
       "infant_mortality": 2.8,
       "hospital_beds_per_1000": 4.88,
       "physicians_per_1000": 3.83,
-      "nurses_per_1000": 4.61
+      "nurses_per_1000": 4.61,
+      "gdp_per_capita": 118390,
+      "urban_income_per_capita": 52088
     },
     {
       "province": "宁夏回族自治区",
@@ -820,7 +896,9 @@
       "infant_mortality": 7.1,
       "hospital_beds_per_1000": 5.6,
       "physicians_per_1000": 2.9,
-      "nurses_per_1000": 3.42
+      "nurses_per_1000": 3.42,
+      "gdp_per_capita": 68712,
+      "urban_income_per_capita": 39254
     },
     {
       "province": "安徽省",
@@ -841,7 +919,9 @@
       "infant_mortality": 5.8,
       "hospital_beds_per_1000": 5.39,
       "physicians_per_1000": 2.76,
-      "nurses_per_1000": 3.42
+      "nurses_per_1000": 3.42,
+      "gdp_per_capita": 67192,
+      "urban_income_per_capita": 42628
     },
     {
       "province": "山东省",
@@ -862,7 +942,9 @@
       "infant_mortality": 4.3,
       "hospital_beds_per_1000": 5.8,
       "physicians_per_1000": 3.2,
-      "nurses_per_1000": 3.86
+      "nurses_per_1000": 3.86,
+      "gdp_per_capita": 88394,
+      "urban_income_per_capita": 47285
     },
     {
       "province": "山西省",
@@ -883,7 +965,9 @@
       "infant_mortality": 5.2,
       "hospital_beds_per_1000": 6.31,
       "physicians_per_1000": 3.08,
-      "nurses_per_1000": 3.58
+      "nurses_per_1000": 3.58,
+      "gdp_per_capita": 64373,
+      "urban_income_per_capita": 35697
     },
     {
       "province": "广东省",
@@ -904,7 +988,9 @@
       "infant_mortality": 4.5,
       "hospital_beds_per_1000": 4.4,
       "physicians_per_1000": 2.8,
-      "nurses_per_1000": 3.38
+      "nurses_per_1000": 3.38,
+      "gdp_per_capita": 105118,
+      "urban_income_per_capita": 55316
     },
     {
       "province": "广西壮族自治区",
@@ -925,7 +1011,9 @@
       "infant_mortality": 6.0,
       "hospital_beds_per_1000": 5.86,
       "physicians_per_1000": 2.72,
-      "nurses_per_1000": 3.76
+      "nurses_per_1000": 3.76,
+      "gdp_per_capita": 48603,
+      "urban_income_per_capita": 37897
     },
     {
       "province": "新疆维吾尔自治区",
@@ -946,7 +1034,9 @@
       "infant_mortality": 9.6,
       "hospital_beds_per_1000": 7.02,
       "physicians_per_1000": 3.05,
-      "nurses_per_1000": 3.93
+      "nurses_per_1000": 3.93,
+      "gdp_per_capita": 64501,
+      "urban_income_per_capita": 37950
     },
     {
       "province": "江苏省",
@@ -967,7 +1057,9 @@
       "infant_mortality": 3.2,
       "hospital_beds_per_1000": 4.9,
       "physicians_per_1000": 3.2,
-      "nurses_per_1000": 3.88
+      "nurses_per_1000": 3.88,
+      "gdp_per_capita": 152745,
+      "urban_income_per_capita": 57589
     },
     {
       "province": "江西省",
@@ -988,7 +1080,9 @@
       "infant_mortality": 5.5,
       "hospital_beds_per_1000": 5.42,
       "physicians_per_1000": 2.48,
-      "nurses_per_1000": 3.57
+      "nurses_per_1000": 3.57,
+      "gdp_per_capita": 58774,
+      "urban_income_per_capita": 41249
     },
     {
       "province": "河北省",
@@ -1009,7 +1103,9 @@
       "infant_mortality": 4.9,
       "hospital_beds_per_1000": 5.48,
       "physicians_per_1000": 2.85,
-      "nurses_per_1000": 3.17
+      "nurses_per_1000": 3.17,
+      "gdp_per_capita": 55535,
+      "urban_income_per_capita": 37831
     },
     {
       "province": "河南省",
@@ -1030,7 +1126,9 @@
       "infant_mortality": 5.7,
       "hospital_beds_per_1000": 6.01,
       "physicians_per_1000": 2.78,
-      "nurses_per_1000": 3.49
+      "nurses_per_1000": 3.49,
+      "gdp_per_capita": 59410,
+      "urban_income_per_capita": 39230
     },
     {
       "province": "浙江省",
@@ -1051,7 +1149,9 @@
       "infant_mortality": 3.5,
       "hospital_beds_per_1000": 4.8,
       "physicians_per_1000": 3.72,
-      "nurses_per_1000": 4.68
+      "nurses_per_1000": 4.68,
+      "gdp_per_capita": 122699,
+      "urban_income_per_capita": 65213
     },
     {
       "province": "海南省",
@@ -1072,7 +1172,9 @@
       "infant_mortality": 5.8,
       "hospital_beds_per_1000": 4.95,
       "physicians_per_1000": 2.97,
-      "nurses_per_1000": 3.43
+      "nurses_per_1000": 3.43,
+      "gdp_per_capita": 68590,
+      "urban_income_per_capita": 39879
     },
     {
       "province": "湖北省",
@@ -1093,7 +1195,9 @@
       "infant_mortality": 5.0,
       "hospital_beds_per_1000": 6.35,
       "physicians_per_1000": 2.92,
-      "nurses_per_1000": 4.14
+      "nurses_per_1000": 4.14,
+      "gdp_per_capita": 93426,
+      "urban_income_per_capita": 43697
     },
     {
       "province": "湖南省",
@@ -1114,7 +1218,9 @@
       "infant_mortality": 5.4,
       "hospital_beds_per_1000": 6.07,
       "physicians_per_1000": 2.8,
-      "nurses_per_1000": 3.86
+      "nurses_per_1000": 3.86,
+      "gdp_per_capita": 68975,
+      "urban_income_per_capita": 42823
     },
     {
       "province": "甘肃省",
@@ -1135,7 +1241,9 @@
       "infant_mortality": 8.5,
       "hospital_beds_per_1000": 5.95,
       "physicians_per_1000": 2.9,
-      "nurses_per_1000": 3.46
+      "nurses_per_1000": 3.46,
+      "gdp_per_capita": 38356,
+      "urban_income_per_capita": 36083
     },
     {
       "province": "福建省",
@@ -1156,7 +1264,9 @@
       "infant_mortality": 4.0,
       "hospital_beds_per_1000": 4.45,
       "physicians_per_1000": 2.83,
-      "nurses_per_1000": 3.21
+      "nurses_per_1000": 3.21,
+      "gdp_per_capita": 125018,
+      "urban_income_per_capita": 52952
     },
     {
       "province": "西藏自治区",
@@ -1177,7 +1287,9 @@
       "infant_mortality": 16.8,
       "hospital_beds_per_1000": 4.65,
       "physicians_per_1000": 2.21,
-      "nurses_per_1000": 2.96
+      "nurses_per_1000": 2.96,
+      "gdp_per_capita": 59134,
+      "urban_income_per_capita": 41124
     },
     {
       "province": "贵州省",
@@ -1198,7 +1310,9 @@
       "infant_mortality": 8.8,
       "hospital_beds_per_1000": 6.31,
       "physicians_per_1000": 2.4,
-      "nurses_per_1000": 3.62
+      "nurses_per_1000": 3.62,
+      "gdp_per_capita": 47539,
+      "urban_income_per_capita": 37726
     },
     {
       "province": "辽宁省",
@@ -1219,7 +1333,9 @@
       "infant_mortality": 4.1,
       "hospital_beds_per_1000": 5.56,
       "physicians_per_1000": 3.48,
-      "nurses_per_1000": 4.27
+      "nurses_per_1000": 4.27,
+      "gdp_per_capita": 68433,
+      "urban_income_per_capita": 42624
     },
     {
       "province": "重庆市",
@@ -1240,7 +1356,9 @@
       "infant_mortality": 4.8,
       "hospital_beds_per_1000": 6.11,
       "physicians_per_1000": 2.98,
-      "nurses_per_1000": 3.97
+      "nurses_per_1000": 3.97,
+      "gdp_per_capita": 91763,
+      "urban_income_per_capita": 43555
     },
     {
       "province": "陕西省",
@@ -1261,7 +1379,9 @@
       "infant_mortality": 4.4,
       "hospital_beds_per_1000": 6.47,
       "physicians_per_1000": 3.27,
-      "nurses_per_1000": 4.08
+      "nurses_per_1000": 4.08,
+      "gdp_per_capita": 83527,
+      "urban_income_per_capita": 41897
     },
     {
       "province": "青海省",
@@ -1282,7 +1402,9 @@
       "infant_mortality": 10.2,
       "hospital_beds_per_1000": 5.28,
       "physicians_per_1000": 2.81,
-      "nurses_per_1000": 3.36
+      "nurses_per_1000": 3.36,
+      "gdp_per_capita": 60035,
+      "urban_income_per_capita": 37932
     },
     {
       "province": "黑龙江省",
@@ -1303,7 +1425,9 @@
       "infant_mortality": 5.0,
       "hospital_beds_per_1000": 5.18,
       "physicians_per_1000": 3.17,
-      "nurses_per_1000": 3.81
+      "nurses_per_1000": 3.81,
+      "gdp_per_capita": 42396,
+      "urban_income_per_capita": 38099
     }
   ],
   "quadrant_counts": {
@@ -1330,6 +1454,7 @@
       "avg_output_index": 0.784597142094754,
       "avg_hospital_beds_per_1000": 5.141818181818182,
       "avg_physicians_per_1000": 3.5900000000000003,
+      "avg_gdp_per_capita": 117774.63636363637,
       "region_en": "Eastern"
     },
     {
@@ -1343,6 +1468,7 @@
       "avg_output_index": 0.10774856619136419,
       "avg_hospital_beds_per_1000": 5.8075,
       "avg_physicians_per_1000": 2.92375,
+      "avg_gdp_per_capita": 62857.25,
       "region_en": "Central"
     },
     {
@@ -1356,6 +1482,7 @@
       "avg_output_index": -0.7910464243811063,
       "avg_hospital_beds_per_1000": 6.113333333333333,
       "avg_physicians_per_1000": 2.83,
+      "avg_gdp_per_capita": 65091.833333333336,
       "region_en": "Western"
     }
   ],

@@ -464,7 +464,8 @@ def _build_china_optimization_scenarios(snap: pd.DataFrame, panel: pd.DataFrame)
         duplicates="drop",
     )
     # Include extended health resource columns (present only if data available)
-    _extra_cols = [c for c in ["hospital_beds_per_1000", "physicians_per_1000", "nurses_per_1000"] if c in snap.columns]
+    _extra_cols = [c for c in ["hospital_beds_per_1000", "physicians_per_1000", "nurses_per_1000",
+                               "gdp_per_capita", "urban_income_per_capita"] if c in snap.columns]
     gap_records = snap[[
         "province", "province_en", "region", "region_en",
         "input_index", "theoretical_need", "gap", "gap_grade",
@@ -488,6 +489,8 @@ def _build_china_optimization_scenarios(snap: pd.DataFrame, panel: pd.DataFrame)
         _by_region_agg["avg_hospital_beds_per_1000"] = ("hospital_beds_per_1000", "mean")
     if "physicians_per_1000" in snap.columns:
         _by_region_agg["avg_physicians_per_1000"] = ("physicians_per_1000", "mean")
+    if "gdp_per_capita" in snap.columns:
+        _by_region_agg["avg_gdp_per_capita"] = ("gdp_per_capita", "mean")
     by_region = snap.groupby("region").agg(**_by_region_agg).reset_index().rename(columns={"region": "region_cn"})
     by_region["region_en"] = by_region["region_cn"].map(_PROVINCE_REGION_EN_MAP)
 

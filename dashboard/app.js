@@ -38,7 +38,7 @@ const DIMENSIONS = {
     defaultMetric: "prov_gap",
     mapTitle: "中国大陆省级卫生资源配置分析",
     note: "探索中国大陆31个省级行政区的卫生资源配置、效率与优化方案。",
-    metrics: ["prov_gap", "prov_efficiency", "prov_life_expectancy", "prov_infant_mortality", "prov_personnel_per_1000", "prov_hospital_beds_per_1000", "prov_physicians_per_1000", "prov_nurses_per_1000", "prov_health_exp", "prov_optimization_change"],
+    metrics: ["prov_gap", "prov_efficiency", "prov_life_expectancy", "prov_infant_mortality", "prov_personnel_per_1000", "prov_hospital_beds_per_1000", "prov_physicians_per_1000", "prov_nurses_per_1000", "prov_health_exp", "prov_gdp_per_capita", "prov_optimization_change"],
   },
   dim5: {
     label: "健康全景",
@@ -174,6 +174,12 @@ const METRIC_META = {
     colorscale: [[0, "#0c1929"], [0.25, "#0e3a5e"], [0.5, "#1d4ed8"], [0.75, "#38bdf8"], [1, "#bae6fd"]],
     formatter: (value) => value == null ? NO_DATA_LABEL : `¥${Number(value).toLocaleString()}`,
     accessor: (row) => row.health_exp_per_capita,
+  },
+  prov_gdp_per_capita: {
+    label: "人均GDP（元，2023）",
+    colorscale: [[0, "#071a17"], [0.25, "#0c3a32"], [0.5, "#12705f"], [0.75, "#34d399"], [1, "#6ee7b7"]],
+    formatter: (value) => value == null ? NO_DATA_LABEL : `¥${Number(value).toLocaleString()}`,
+    accessor: (row) => row.gdp_per_capita,
   },
   prov_optimization_change: {
     label: "最优化调整方案（%）",
@@ -1469,6 +1475,7 @@ function renderCountryPanel() {
       ["执业医师密度", provData.physicians_per_1000 != null ? `${provData.physicians_per_1000.toFixed(2)}/千人` : NO_DATA_LABEL, "violet"],
       ["医院床位密度", provData.hospital_beds_per_1000 != null ? `${provData.hospital_beds_per_1000.toFixed(2)}/千人` : NO_DATA_LABEL, "teal"],
       ["人均卫生支出", provData.health_exp_per_capita != null ? `¥${Math.round(provData.health_exp_per_capita).toLocaleString()}` : NO_DATA_LABEL, "cyan"],
+      ["人均GDP", provData.gdp_per_capita != null ? `¥${Math.round(provData.gdp_per_capita).toLocaleString()}` : NO_DATA_LABEL, "teal"],
       ["优化调整", optRow.change_pct != null ? `${optRow.change_pct > 0 ? "+" : ""}${optRow.change_pct.toFixed(1)}%` : NO_DATA_LABEL, "amber"],
     ];
   } else {

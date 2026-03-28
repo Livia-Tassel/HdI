@@ -262,6 +262,76 @@ _NURSES_PER_1000_2020: dict[str, float] = {
     "新疆维吾尔自治区": 3.93,
 }
 
+# GDP per capita (元/人, 2023) — NBS National Economic and Social Development Statistics Bulletin 2023
+_GDP_PER_CAPITA_2023: dict[str, float] = {
+    "北京市": 200278,
+    "天津市": 118390,
+    "河北省": 55535,
+    "山西省": 64373,
+    "内蒙古自治区": 102040,
+    "辽宁省": 68433,
+    "吉林省": 48312,
+    "黑龙江省": 42396,
+    "上海市": 190321,
+    "江苏省": 152745,
+    "浙江省": 122699,
+    "安徽省": 67192,
+    "福建省": 125018,
+    "江西省": 58774,
+    "山东省": 88394,
+    "河南省": 59410,
+    "湖北省": 93426,
+    "湖南省": 68975,
+    "广东省": 105118,
+    "广西壮族自治区": 48603,
+    "海南省": 68590,
+    "重庆市": 91763,
+    "四川省": 67620,
+    "贵州省": 47539,
+    "云南省": 49272,
+    "西藏自治区": 59134,
+    "陕西省": 83527,
+    "甘肃省": 38356,
+    "青海省": 60035,
+    "宁夏回族自治区": 68712,
+    "新疆维吾尔自治区": 64501,
+}
+
+# Urban household income per capita (元/人, 2023) — NBS
+_URBAN_INCOME_PER_CAPITA_2023: dict[str, float] = {
+    "北京市": 77588,
+    "天津市": 52088,
+    "河北省": 37831,
+    "山西省": 35697,
+    "内蒙古自治区": 43635,
+    "辽宁省": 42624,
+    "吉林省": 38046,
+    "黑龙江省": 38099,
+    "上海市": 84834,
+    "江苏省": 57589,
+    "浙江省": 65213,
+    "安徽省": 42628,
+    "福建省": 52952,
+    "江西省": 41249,
+    "山东省": 47285,
+    "河南省": 39230,
+    "湖北省": 43697,
+    "湖南省": 42823,
+    "广东省": 55316,
+    "广西壮族自治区": 37897,
+    "海南省": 39879,
+    "重庆市": 43555,
+    "四川省": 42256,
+    "贵州省": 37726,
+    "云南省": 38437,
+    "西藏自治区": 41124,
+    "陕西省": 41897,
+    "甘肃省": 36083,
+    "青海省": 37932,
+    "宁夏回族自治区": 39254,
+    "新疆维吾尔自治区": 37950,
+}
+
 # English province names
 PROVINCE_EN: dict[str, str] = {
     "北京市": "Beijing",
@@ -404,6 +474,8 @@ def load_china_provincial_panel(data_dir: Path | None = None) -> pd.DataFrame:
     panel["hospital_beds_per_1000"] = panel["province"].map(_HOSPITAL_BEDS_PER_1000_2020)
     panel["physicians_per_1000"] = panel["province"].map(_PHYSICIANS_PER_1000_2020)
     panel["nurses_per_1000"] = panel["province"].map(_NURSES_PER_1000_2020)
+    panel["gdp_per_capita"] = panel["province"].map(_GDP_PER_CAPITA_2023)
+    panel["urban_income_per_capita"] = panel["province"].map(_URBAN_INCOME_PER_CAPITA_2023)
 
     # Per-capita density (both columns are in 万 units, so wan/wan × 1000 = per 1000)
     panel["personnel_per_1000"] = panel["health_personnel_wan"] / panel["population_wan"] * 1000.0
