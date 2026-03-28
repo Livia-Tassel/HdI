@@ -879,6 +879,24 @@ def build_dimension3_outputs(master: pd.DataFrame, resource_panel: pd.DataFrame,
     latest_year = int(resource_panel["year"].max())
     latest = resource_panel[resource_panel["year"] == latest_year].copy()
 
+    # Forward-fill physicians_per_1000 and beds_per_1000 from most recent available year
+    # (these metrics lag in official reports by 2-4 years)
+    for _lag_col in ["physicians_per_1000", "beds_per_1000"]:
+        if _lag_col not in latest.columns:
+            continue
+        missing_mask = latest[_lag_col].isna()
+        if not missing_mask.any():
+            continue
+        for _backfill_yr in range(latest_year - 1, max(latest_year - 6, 2015), -1):
+            _back = resource_panel[resource_panel["year"] == _backfill_yr][["iso3", _lag_col]].dropna(subset=[_lag_col])
+            if _back.empty:
+                continue
+            _fill_map = _back.set_index("iso3")[_lag_col]
+            still_missing = latest[_lag_col].isna()
+            latest.loc[still_missing, _lag_col] = latest.loc[still_missing, "iso3"].map(_fill_map)
+            if not latest[_lag_col].isna().any():
+                break
+
     latest["input_index"] = pd.concat(
         [
             _standardize(latest["physicians_per_1000"]),
