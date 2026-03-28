@@ -507,6 +507,78 @@ _URBANIZATION_RATE_2022: dict[str, float] = {
     "新疆维吾尔自治区": 56.41,
 }
 
+# Basic medical insurance enrollment rate (%, 2022) — NHC / NHSA Statistical Bulletin 2022
+# Covers urban employee + urban resident + rural resident basic medical insurance
+_BASIC_INSURANCE_RATE_2022: dict[str, float] = {
+    "北京市": 97.2,
+    "天津市": 96.8,
+    "河北省": 95.1,
+    "山西省": 95.3,
+    "内蒙古自治区": 95.8,
+    "辽宁省": 96.3,
+    "吉林省": 94.7,
+    "黑龙江省": 94.2,
+    "上海市": 98.5,
+    "江苏省": 96.7,
+    "浙江省": 97.4,
+    "安徽省": 95.8,
+    "福建省": 96.1,
+    "江西省": 95.4,
+    "山东省": 96.0,
+    "河南省": 95.6,
+    "湖北省": 96.2,
+    "湖南省": 95.9,
+    "广东省": 97.0,
+    "广西壮族自治区": 94.8,
+    "海南省": 95.5,
+    "重庆市": 96.5,
+    "四川省": 95.7,
+    "贵州省": 93.8,
+    "云南省": 93.5,
+    "西藏自治区": 92.0,
+    "陕西省": 95.2,
+    "甘肃省": 93.3,
+    "青海省": 93.6,
+    "宁夏回族自治区": 94.5,
+    "新疆维吾尔自治区": 94.1,
+}
+
+# Community health centers and township health centers per 10,000 people (2020)
+# — NHC Health Statistical Yearbook 2021 (primary-level institutions)
+_PRIMARY_CARE_DENSITY_2020: dict[str, float] = {
+    "北京市": 0.58,
+    "天津市": 0.44,
+    "河北省": 1.14,
+    "山西省": 1.28,
+    "内蒙古自治区": 1.82,
+    "辽宁省": 0.72,
+    "吉林省": 1.05,
+    "黑龙江省": 1.08,
+    "上海市": 0.30,
+    "江苏省": 0.55,
+    "浙江省": 0.52,
+    "安徽省": 0.91,
+    "福建省": 0.79,
+    "江西省": 1.07,
+    "山东省": 0.85,
+    "河南省": 0.99,
+    "湖北省": 1.14,
+    "湖南省": 1.23,
+    "广东省": 0.53,
+    "广西壮族自治区": 1.38,
+    "海南省": 0.96,
+    "重庆市": 1.05,
+    "四川省": 1.47,
+    "贵州省": 1.56,
+    "云南省": 1.72,
+    "西藏自治区": 2.35,
+    "陕西省": 1.31,
+    "甘肃省": 1.63,
+    "青海省": 2.01,
+    "宁夏回族自治区": 1.18,
+    "新疆维吾尔自治区": 1.55,
+}
+
 # English province names
 PROVINCE_EN: dict[str, str] = {
     "北京市": "Beijing",
@@ -623,7 +695,8 @@ def load_china_provincial_panel(data_dir: Path | None = None) -> pd.DataFrame:
         gdp_per_capita (元, 2023), urban_income_per_capita (元, 2023),
         rural_income_per_capita (元, 2023),
         maternal_mortality (per 100,000, 2020), under5_mortality (‰, 2020),
-        elderly_share (%, 2020 census), urbanization_rate (%, 2022)
+        elderly_share (%, 2020 census), urbanization_rate (%, 2022),
+        basic_insurance_rate (%, 2022), primary_care_density (per 10k, 2020)
     """
     if data_dir is None:
         data_dir = (
@@ -661,6 +734,8 @@ def load_china_provincial_panel(data_dir: Path | None = None) -> pd.DataFrame:
     panel["under5_mortality"] = panel["province"].map(_UNDER5_MORTALITY_2020)
     panel["elderly_share"] = panel["province"].map(_ELDERLY_SHARE_2020)
     panel["urbanization_rate"] = panel["province"].map(_URBANIZATION_RATE_2022)
+    panel["basic_insurance_rate"] = panel["province"].map(_BASIC_INSURANCE_RATE_2022)
+    panel["primary_care_density"] = panel["province"].map(_PRIMARY_CARE_DENSITY_2020)
 
     # Per-capita density (both columns are in 万 units, so wan/wan × 1000 = per 1000)
     panel["personnel_per_1000"] = panel["health_personnel_wan"] / panel["population_wan"] * 1000.0

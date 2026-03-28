@@ -27,7 +27,9 @@
       "maternal_mortality": 3.6,
       "under5_mortality": 3.2,
       "elderly_share": 16.28,
-      "urbanization_rate": 89.3
+      "urbanization_rate": 89.3,
+      "basic_insurance_rate": 98.5,
+      "primary_care_density": 0.3
     },
     {
       "province": "云南省",
@@ -55,7 +57,9 @@
       "maternal_mortality": 30.4,
       "under5_mortality": 12.4,
       "elderly_share": 11.54,
-      "urbanization_rate": 51.69
+      "urbanization_rate": 51.69,
+      "basic_insurance_rate": 93.5,
+      "primary_care_density": 1.72
     },
     {
       "province": "内蒙古自治区",
@@ -83,7 +87,9 @@
       "maternal_mortality": 16.7,
       "under5_mortality": 7.8,
       "elderly_share": 13.23,
-      "urbanization_rate": 69.64
+      "urbanization_rate": 69.64,
+      "basic_insurance_rate": 95.8,
+      "primary_care_density": 1.82
     },
     {
       "province": "北京市",
@@ -111,7 +117,9 @@
       "maternal_mortality": 3.9,
       "under5_mortality": 2.9,
       "elderly_share": 13.3,
-      "urbanization_rate": 87.5
+      "urbanization_rate": 87.5,
+      "basic_insurance_rate": 97.2,
+      "primary_care_density": 0.58
     },
     {
       "province": "吉林省",
@@ -139,7 +147,9 @@
       "maternal_mortality": 12.1,
       "under5_mortality": 6.3,
       "elderly_share": 15.61,
-      "urbanization_rate": 68.94
+      "urbanization_rate": 68.94,
+      "basic_insurance_rate": 94.7,
+      "primary_care_density": 1.05
     },
     {
       "province": "四川省",
@@ -167,7 +177,9 @@
       "maternal_mortality": 20.4,
       "under5_mortality": 7.0,
       "elderly_share": 17.24,
-      "urbanization_rate": 57.97
+      "urbanization_rate": 57.97,
+      "basic_insurance_rate": 95.7,
+      "primary_care_density": 1.47
     },
     {
       "province": "天津市",
@@ -195,7 +207,9 @@
       "maternal_mortality": 3.2,
       "under5_mortality": 3.5,
       "elderly_share": 14.75,
-      "urbanization_rate": 85.11
+      "urbanization_rate": 85.11,
+      "basic_insurance_rate": 96.8,
+      "primary_care_density": 0.44
     },
     {
       "province": "宁夏回族自治区",
@@ -223,7 +237,9 @@
       "maternal_mortality": 16.8,
       "under5_mortality": 9.0,
       "elderly_share": 10.63,
-      "urbanization_rate": 68.02
+      "urbanization_rate": 68.02,
+      "basic_insurance_rate": 94.5,
+      "primary_care_density": 1.18
     },
     {
       "province": "安徽省",
@@ -251,7 +267,9 @@
       "maternal_mortality": 13.2,
       "under5_mortality": 7.2,
       "elderly_share": 16.79,
-      "urbanization_rate": 60.22
+      "urbanization_rate": 60.22,
+      "basic_insurance_rate": 95.8,
+      "primary_care_density": 0.91
     },
     {
       "province": "山东省",
@@ -279,7 +297,9 @@
       "maternal_mortality": 9.8,
       "under5_mortality": 5.1,
       "elderly_share": 15.13,
-      "urbanization_rate": 65.5
+      "urbanization_rate": 65.5,
+      "basic_insurance_rate": 96.0,
+      "primary_care_density": 0.85
     },
     {
       "province": "山西省",
@@ -307,7 +327,9 @@
       "maternal_mortality": 11.2,
       "under5_mortality": 6.2,
       "elderly_share": 13.5,
-      "urbanization_rate": 64.92
+      "urbanization_rate": 64.92,
+      "basic_insurance_rate": 95.3,
+      "primary_care_density": 1.28
     },
     {
       "province": "广东省",
@@ -335,7 +357,9 @@
       "maternal_mortality": 10.1,
       "under5_mortality": 5.2,
       "elderly_share": 8.58,
-      "urbanization_rate": 75.24
+      "urbanization_rate": 75.24,
+      "basic_insurance_rate": 97.0,
+      "primary_care_density": 0.53
     },
     {
       "province": "广西壮族自治区",
@@ -363,7 +387,9 @@
       "maternal_mortality": 22.5,
       "under5_mortality": 7.6,
       "elderly_share": 14.05,
-      "urbanization_rate": 58.93
+      "urbanization_rate": 58.93,
+      "basic_insurance_rate": 94.8,
+      "primary_care_density": 1.38
     },
     {
       "province": "新疆维吾尔自治区",
@@ -391,7 +417,9 @@
       "maternal_mortality": 24.0,
       "under5_mortality": 12.7,
       "elderly_share": 8.33,
-      "urbanization_rate": 56.41
+      "urbanization_rate": 56.41,
+      "basic_insurance_rate": 94.1,
+      "primary_care_density": 1.55
     },
     {
       "province": "江苏省",
@@ -419,7 +447,9 @@
       "maternal_mortality": 4.5,
       "under5_mortality": 3.8,
       "elderly_share": 16.2,
-      "urbanization_rate": 74.42
+      "urbanization_rate": 74.42,
+      "basic_insurance_rate": 96.7,
+      "primary_care_density": 0.55
     },
     {
       "province": "江西省",
@@ -447,7 +477,9 @@
       "maternal_mortality": 15.4,
       "under5_mortality": 7.0,
       "elderly_share": 13.18,
-      "urbanization_rate": 60.68
+      "urbanization_rate": 60.68,
+      "basic_insurance_rate": 95.4,
+      "primary_care_density": 1.07
     },
     {
       "province": "河北省",
@@ -475,7 +507,9 @@
       "maternal_mortality": 8.9,
       "under5_mortality": 5.6,
       "elderly_share": 13.62,
-      "urbanization_rate": 60.12
+      "urbanization_rate": 60.12,
+      "basic_insurance_rate": 95.1,
+      "primary_care_density": 1.14
     },
     {
       "province": "河南省",
@@ -503,7 +537,9 @@
       "maternal_mortality": 19.1,
       "under5_mortality": 6.9,
       "elderly_share": 14.41,
-      "urbanization_rate": 58.11
+      "urbanization_rate": 58.11,
+      "basic_insurance_rate": 95.6,
+      "primary_care_density": 0.99
     },
     {
       "province": "浙江省",
@@ -531,7 +567,9 @@
       "maternal_mortality": 3.6,
       "under5_mortality": 4.1,
       "elderly_share": 13.3,
-      "urbanization_rate": 73.4
+      "urbanization_rate": 73.4,
+      "basic_insurance_rate": 97.4,
+      "primary_care_density": 0.52
     },
     {
       "province": "海南省",
@@ -559,7 +597,9 @@
       "maternal_mortality": 12.8,
       "under5_mortality": 7.2,
       "elderly_share": 10.98,
-      "urbanization_rate": 62.24
+      "urbanization_rate": 62.24,
+      "basic_insurance_rate": 95.5,
+      "primary_care_density": 0.96
     },
     {
       "province": "湖北省",
@@ -587,7 +627,9 @@
       "maternal_mortality": 17.9,
       "under5_mortality": 6.1,
       "elderly_share": 15.45,
-      "urbanization_rate": 64.06
+      "urbanization_rate": 64.06,
+      "basic_insurance_rate": 96.2,
+      "primary_care_density": 1.14
     },
     {
       "province": "湖南省",
@@ -615,7 +657,9 @@
       "maternal_mortality": 14.8,
       "under5_mortality": 6.6,
       "elderly_share": 15.06,
-      "urbanization_rate": 59.97
+      "urbanization_rate": 59.97,
+      "basic_insurance_rate": 95.9,
+      "primary_care_density": 1.23
     },
     {
       "province": "甘肃省",
@@ -643,7 +687,9 @@
       "maternal_mortality": 20.2,
       "under5_mortality": 11.5,
       "elderly_share": 14.97,
-      "urbanization_rate": 52.56
+      "urbanization_rate": 52.56,
+      "basic_insurance_rate": 93.3,
+      "primary_care_density": 1.63
     },
     {
       "province": "福建省",
@@ -671,7 +717,9 @@
       "maternal_mortality": 8.3,
       "under5_mortality": 4.7,
       "elderly_share": 11.52,
-      "urbanization_rate": 70.1
+      "urbanization_rate": 70.1,
+      "basic_insurance_rate": 96.1,
+      "primary_care_density": 0.79
     },
     {
       "province": "西藏自治区",
@@ -699,7 +747,9 @@
       "maternal_mortality": 92.0,
       "under5_mortality": 24.0,
       "elderly_share": 7.43,
-      "urbanization_rate": 38.7
+      "urbanization_rate": 38.7,
+      "basic_insurance_rate": 92.0,
+      "primary_care_density": 2.35
     },
     {
       "province": "贵州省",
@@ -727,7 +777,9 @@
       "maternal_mortality": 31.1,
       "under5_mortality": 11.8,
       "elderly_share": 12.1,
-      "urbanization_rate": 54.33
+      "urbanization_rate": 54.33,
+      "basic_insurance_rate": 93.8,
+      "primary_care_density": 1.56
     },
     {
       "province": "辽宁省",
@@ -755,7 +807,9 @@
       "maternal_mortality": 5.8,
       "under5_mortality": 4.8,
       "elderly_share": 17.42,
-      "urbanization_rate": 72.24
+      "urbanization_rate": 72.24,
+      "basic_insurance_rate": 96.3,
+      "primary_care_density": 0.72
     },
     {
       "province": "重庆市",
@@ -783,7 +837,9 @@
       "maternal_mortality": 14.5,
       "under5_mortality": 5.9,
       "elderly_share": 17.08,
-      "urbanization_rate": 70.32
+      "urbanization_rate": 70.32,
+      "basic_insurance_rate": 96.5,
+      "primary_care_density": 1.05
     },
     {
       "province": "陕西省",
@@ -811,7 +867,9 @@
       "maternal_mortality": 12.7,
       "under5_mortality": 5.3,
       "elderly_share": 13.31,
-      "urbanization_rate": 64.87
+      "urbanization_rate": 64.87,
+      "basic_insurance_rate": 95.2,
+      "primary_care_density": 1.31
     },
     {
       "province": "青海省",
@@ -839,7 +897,9 @@
       "maternal_mortality": 30.0,
       "under5_mortality": 14.2,
       "elderly_share": 9.39,
-      "urbanization_rate": 59.46
+      "urbanization_rate": 59.46,
+      "basic_insurance_rate": 93.6,
+      "primary_care_density": 2.01
     },
     {
       "province": "黑龙江省",
@@ -867,7 +927,9 @@
       "maternal_mortality": 11.4,
       "under5_mortality": 6.1,
       "elderly_share": 15.61,
-      "urbanization_rate": 67.88
+      "urbanization_rate": 67.88,
+      "basic_insurance_rate": 94.2,
+      "primary_care_density": 1.08
     }
   ],
   "resource_gap": [
@@ -897,7 +959,9 @@
       "maternal_mortality": 3.6,
       "under5_mortality": 3.2,
       "elderly_share": 16.28,
-      "urbanization_rate": 89.3
+      "urbanization_rate": 89.3,
+      "basic_insurance_rate": 98.5,
+      "primary_care_density": 0.3
     },
     {
       "province": "云南省",
@@ -925,7 +989,9 @@
       "maternal_mortality": 30.4,
       "under5_mortality": 12.4,
       "elderly_share": 11.54,
-      "urbanization_rate": 51.69
+      "urbanization_rate": 51.69,
+      "basic_insurance_rate": 93.5,
+      "primary_care_density": 1.72
     },
     {
       "province": "内蒙古自治区",
@@ -953,7 +1019,9 @@
       "maternal_mortality": 16.7,
       "under5_mortality": 7.8,
       "elderly_share": 13.23,
-      "urbanization_rate": 69.64
+      "urbanization_rate": 69.64,
+      "basic_insurance_rate": 95.8,
+      "primary_care_density": 1.82
     },
     {
       "province": "北京市",
@@ -981,7 +1049,9 @@
       "maternal_mortality": 3.9,
       "under5_mortality": 2.9,
       "elderly_share": 13.3,
-      "urbanization_rate": 87.5
+      "urbanization_rate": 87.5,
+      "basic_insurance_rate": 97.2,
+      "primary_care_density": 0.58
     },
     {
       "province": "吉林省",
@@ -1009,7 +1079,9 @@
       "maternal_mortality": 12.1,
       "under5_mortality": 6.3,
       "elderly_share": 15.61,
-      "urbanization_rate": 68.94
+      "urbanization_rate": 68.94,
+      "basic_insurance_rate": 94.7,
+      "primary_care_density": 1.05
     },
     {
       "province": "四川省",
@@ -1037,7 +1109,9 @@
       "maternal_mortality": 20.4,
       "under5_mortality": 7.0,
       "elderly_share": 17.24,
-      "urbanization_rate": 57.97
+      "urbanization_rate": 57.97,
+      "basic_insurance_rate": 95.7,
+      "primary_care_density": 1.47
     },
     {
       "province": "天津市",
@@ -1065,7 +1139,9 @@
       "maternal_mortality": 3.2,
       "under5_mortality": 3.5,
       "elderly_share": 14.75,
-      "urbanization_rate": 85.11
+      "urbanization_rate": 85.11,
+      "basic_insurance_rate": 96.8,
+      "primary_care_density": 0.44
     },
     {
       "province": "宁夏回族自治区",
@@ -1093,7 +1169,9 @@
       "maternal_mortality": 16.8,
       "under5_mortality": 9.0,
       "elderly_share": 10.63,
-      "urbanization_rate": 68.02
+      "urbanization_rate": 68.02,
+      "basic_insurance_rate": 94.5,
+      "primary_care_density": 1.18
     },
     {
       "province": "安徽省",
@@ -1121,7 +1199,9 @@
       "maternal_mortality": 13.2,
       "under5_mortality": 7.2,
       "elderly_share": 16.79,
-      "urbanization_rate": 60.22
+      "urbanization_rate": 60.22,
+      "basic_insurance_rate": 95.8,
+      "primary_care_density": 0.91
     },
     {
       "province": "山东省",
@@ -1149,7 +1229,9 @@
       "maternal_mortality": 9.8,
       "under5_mortality": 5.1,
       "elderly_share": 15.13,
-      "urbanization_rate": 65.5
+      "urbanization_rate": 65.5,
+      "basic_insurance_rate": 96.0,
+      "primary_care_density": 0.85
     },
     {
       "province": "山西省",
@@ -1177,7 +1259,9 @@
       "maternal_mortality": 11.2,
       "under5_mortality": 6.2,
       "elderly_share": 13.5,
-      "urbanization_rate": 64.92
+      "urbanization_rate": 64.92,
+      "basic_insurance_rate": 95.3,
+      "primary_care_density": 1.28
     },
     {
       "province": "广东省",
@@ -1205,7 +1289,9 @@
       "maternal_mortality": 10.1,
       "under5_mortality": 5.2,
       "elderly_share": 8.58,
-      "urbanization_rate": 75.24
+      "urbanization_rate": 75.24,
+      "basic_insurance_rate": 97.0,
+      "primary_care_density": 0.53
     },
     {
       "province": "广西壮族自治区",
@@ -1233,7 +1319,9 @@
       "maternal_mortality": 22.5,
       "under5_mortality": 7.6,
       "elderly_share": 14.05,
-      "urbanization_rate": 58.93
+      "urbanization_rate": 58.93,
+      "basic_insurance_rate": 94.8,
+      "primary_care_density": 1.38
     },
     {
       "province": "新疆维吾尔自治区",
@@ -1261,7 +1349,9 @@
       "maternal_mortality": 24.0,
       "under5_mortality": 12.7,
       "elderly_share": 8.33,
-      "urbanization_rate": 56.41
+      "urbanization_rate": 56.41,
+      "basic_insurance_rate": 94.1,
+      "primary_care_density": 1.55
     },
     {
       "province": "江苏省",
@@ -1289,7 +1379,9 @@
       "maternal_mortality": 4.5,
       "under5_mortality": 3.8,
       "elderly_share": 16.2,
-      "urbanization_rate": 74.42
+      "urbanization_rate": 74.42,
+      "basic_insurance_rate": 96.7,
+      "primary_care_density": 0.55
     },
     {
       "province": "江西省",
@@ -1317,7 +1409,9 @@
       "maternal_mortality": 15.4,
       "under5_mortality": 7.0,
       "elderly_share": 13.18,
-      "urbanization_rate": 60.68
+      "urbanization_rate": 60.68,
+      "basic_insurance_rate": 95.4,
+      "primary_care_density": 1.07
     },
     {
       "province": "河北省",
@@ -1345,7 +1439,9 @@
       "maternal_mortality": 8.9,
       "under5_mortality": 5.6,
       "elderly_share": 13.62,
-      "urbanization_rate": 60.12
+      "urbanization_rate": 60.12,
+      "basic_insurance_rate": 95.1,
+      "primary_care_density": 1.14
     },
     {
       "province": "河南省",
@@ -1373,7 +1469,9 @@
       "maternal_mortality": 19.1,
       "under5_mortality": 6.9,
       "elderly_share": 14.41,
-      "urbanization_rate": 58.11
+      "urbanization_rate": 58.11,
+      "basic_insurance_rate": 95.6,
+      "primary_care_density": 0.99
     },
     {
       "province": "浙江省",
@@ -1401,7 +1499,9 @@
       "maternal_mortality": 3.6,
       "under5_mortality": 4.1,
       "elderly_share": 13.3,
-      "urbanization_rate": 73.4
+      "urbanization_rate": 73.4,
+      "basic_insurance_rate": 97.4,
+      "primary_care_density": 0.52
     },
     {
       "province": "海南省",
@@ -1429,7 +1529,9 @@
       "maternal_mortality": 12.8,
       "under5_mortality": 7.2,
       "elderly_share": 10.98,
-      "urbanization_rate": 62.24
+      "urbanization_rate": 62.24,
+      "basic_insurance_rate": 95.5,
+      "primary_care_density": 0.96
     },
     {
       "province": "湖北省",
@@ -1457,7 +1559,9 @@
       "maternal_mortality": 17.9,
       "under5_mortality": 6.1,
       "elderly_share": 15.45,
-      "urbanization_rate": 64.06
+      "urbanization_rate": 64.06,
+      "basic_insurance_rate": 96.2,
+      "primary_care_density": 1.14
     },
     {
       "province": "湖南省",
@@ -1485,7 +1589,9 @@
       "maternal_mortality": 14.8,
       "under5_mortality": 6.6,
       "elderly_share": 15.06,
-      "urbanization_rate": 59.97
+      "urbanization_rate": 59.97,
+      "basic_insurance_rate": 95.9,
+      "primary_care_density": 1.23
     },
     {
       "province": "甘肃省",
@@ -1513,7 +1619,9 @@
       "maternal_mortality": 20.2,
       "under5_mortality": 11.5,
       "elderly_share": 14.97,
-      "urbanization_rate": 52.56
+      "urbanization_rate": 52.56,
+      "basic_insurance_rate": 93.3,
+      "primary_care_density": 1.63
     },
     {
       "province": "福建省",
@@ -1541,7 +1649,9 @@
       "maternal_mortality": 8.3,
       "under5_mortality": 4.7,
       "elderly_share": 11.52,
-      "urbanization_rate": 70.1
+      "urbanization_rate": 70.1,
+      "basic_insurance_rate": 96.1,
+      "primary_care_density": 0.79
     },
     {
       "province": "西藏自治区",
@@ -1569,7 +1679,9 @@
       "maternal_mortality": 92.0,
       "under5_mortality": 24.0,
       "elderly_share": 7.43,
-      "urbanization_rate": 38.7
+      "urbanization_rate": 38.7,
+      "basic_insurance_rate": 92.0,
+      "primary_care_density": 2.35
     },
     {
       "province": "贵州省",
@@ -1597,7 +1709,9 @@
       "maternal_mortality": 31.1,
       "under5_mortality": 11.8,
       "elderly_share": 12.1,
-      "urbanization_rate": 54.33
+      "urbanization_rate": 54.33,
+      "basic_insurance_rate": 93.8,
+      "primary_care_density": 1.56
     },
     {
       "province": "辽宁省",
@@ -1625,7 +1739,9 @@
       "maternal_mortality": 5.8,
       "under5_mortality": 4.8,
       "elderly_share": 17.42,
-      "urbanization_rate": 72.24
+      "urbanization_rate": 72.24,
+      "basic_insurance_rate": 96.3,
+      "primary_care_density": 0.72
     },
     {
       "province": "重庆市",
@@ -1653,7 +1769,9 @@
       "maternal_mortality": 14.5,
       "under5_mortality": 5.9,
       "elderly_share": 17.08,
-      "urbanization_rate": 70.32
+      "urbanization_rate": 70.32,
+      "basic_insurance_rate": 96.5,
+      "primary_care_density": 1.05
     },
     {
       "province": "陕西省",
@@ -1681,7 +1799,9 @@
       "maternal_mortality": 12.7,
       "under5_mortality": 5.3,
       "elderly_share": 13.31,
-      "urbanization_rate": 64.87
+      "urbanization_rate": 64.87,
+      "basic_insurance_rate": 95.2,
+      "primary_care_density": 1.31
     },
     {
       "province": "青海省",
@@ -1709,7 +1829,9 @@
       "maternal_mortality": 30.0,
       "under5_mortality": 14.2,
       "elderly_share": 9.39,
-      "urbanization_rate": 59.46
+      "urbanization_rate": 59.46,
+      "basic_insurance_rate": 93.6,
+      "primary_care_density": 2.01
     },
     {
       "province": "黑龙江省",
@@ -1737,7 +1859,9 @@
       "maternal_mortality": 11.4,
       "under5_mortality": 6.1,
       "elderly_share": 15.61,
-      "urbanization_rate": 67.88
+      "urbanization_rate": 67.88,
+      "basic_insurance_rate": 94.2,
+      "primary_care_density": 1.08
     }
   ],
   "quadrant_counts": {
@@ -1989,6 +2113,8 @@
       "avg_under5_mortality": 4.554545454545455,
       "avg_elderly_share": 13.734545454545456,
       "avg_urbanization_rate": 74.10636363636364,
+      "avg_basic_insurance_rate": 96.6,
+      "avg_primary_care_density": 0.6709090909090909,
       "region_en": "Eastern"
     },
     {
@@ -2007,6 +2133,8 @@
       "avg_under5_mortality": 6.55,
       "avg_elderly_share": 14.95125,
       "avg_urbanization_rate": 63.0975,
+      "avg_basic_insurance_rate": 95.3875,
+      "avg_primary_care_density": 1.09375,
       "region_en": "Central"
     },
     {
@@ -2025,6 +2153,8 @@
       "avg_under5_mortality": 10.766666666666666,
       "avg_elderly_share": 12.441666666666668,
       "avg_urbanization_rate": 58.574999999999996,
+      "avg_basic_insurance_rate": 94.39999999999999,
+      "avg_primary_care_density": 1.5858333333333334,
       "region_en": "Western"
     }
   ],

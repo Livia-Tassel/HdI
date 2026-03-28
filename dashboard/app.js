@@ -38,7 +38,7 @@ const DIMENSIONS = {
     defaultMetric: "prov_gap",
     mapTitle: "中国大陆省级卫生资源配置分析",
     note: "探索中国大陆31个省级行政区的卫生资源配置、效率与优化方案。",
-    metrics: ["prov_gap", "prov_efficiency", "prov_life_expectancy", "prov_infant_mortality", "prov_maternal_mortality", "prov_under5_mortality", "prov_personnel_per_1000", "prov_hospital_beds_per_1000", "prov_physicians_per_1000", "prov_nurses_per_1000", "prov_health_exp", "prov_gdp_per_capita", "prov_rural_income", "prov_optimization_change", "prov_elderly_share", "prov_urbanization"],
+    metrics: ["prov_gap", "prov_efficiency", "prov_life_expectancy", "prov_infant_mortality", "prov_maternal_mortality", "prov_under5_mortality", "prov_personnel_per_1000", "prov_hospital_beds_per_1000", "prov_physicians_per_1000", "prov_nurses_per_1000", "prov_health_exp", "prov_gdp_per_capita", "prov_rural_income", "prov_optimization_change", "prov_elderly_share", "prov_urbanization", "prov_basic_insurance", "prov_primary_care"],
   },
   dim5: {
     label: "健康全景",
@@ -217,6 +217,18 @@ const METRIC_META = {
     colorscale: [[0, "#071a17"], [0.25, "#0c3a32"], [0.5, "#12705f"], [0.75, "#1db99a"], [1, "#2dd4bf"]],
     formatter: (value) => value == null ? NO_DATA_LABEL : `${Number(value).toFixed(1)} %`,
     accessor: (row) => row.urbanization_rate,
+  },
+  prov_basic_insurance: {
+    label: "基本医疗保险参保率（%，2022）",
+    colorscale: [[0, "#1a0f2e"], [0.25, "#2d1b69"], [0.5, "#6366f1"], [0.75, "#818cf8"], [1, "#c7d2fe"]],
+    formatter: (value) => value == null ? NO_DATA_LABEL : `${Number(value).toFixed(1)} %`,
+    accessor: (row) => row.basic_insurance_rate,
+  },
+  prov_primary_care: {
+    label: "基层医疗机构密度（/万人，2020）",
+    colorscale: [[0, "#071a17"], [0.25, "#0c3a32"], [0.5, "#12705f"], [0.75, "#34d399"], [1, "#6ee7b7"]],
+    formatter: (value) => value == null ? NO_DATA_LABEL : `${Number(value).toFixed(2)} /万人`,
+    accessor: (row) => row.primary_care_density,
   },
   hdi: {
     label: "人类发展指数",
@@ -1554,6 +1566,8 @@ function renderCountryPanel() {
       ["5岁以下死亡率", provData.under5_mortality != null ? `${provData.under5_mortality.toFixed(1)} ‰` : NO_DATA_LABEL, "amber"],
       ["老龄化率", provData.elderly_share != null ? `${provData.elderly_share.toFixed(1)} %` : NO_DATA_LABEL, "violet"],
       ["城镇化率", provData.urbanization_rate != null ? `${provData.urbanization_rate.toFixed(1)} %` : NO_DATA_LABEL, "teal"],
+      ["基本医保参保率", provData.basic_insurance_rate != null ? `${provData.basic_insurance_rate.toFixed(1)} %` : NO_DATA_LABEL, "blue"],
+      ["基层医疗密度", provData.primary_care_density != null ? `${provData.primary_care_density.toFixed(2)}/万人` : NO_DATA_LABEL, "emerald"],
       ["优化调整", optRow.change_pct != null ? `${optRow.change_pct > 0 ? "+" : ""}${optRow.change_pct.toFixed(1)}%` : NO_DATA_LABEL, "cyan"],
     ];
   } else {
