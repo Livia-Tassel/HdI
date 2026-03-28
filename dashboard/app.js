@@ -263,11 +263,11 @@ const THEME = {
 const OBJECTIVE_META = {
   max_output: {
     label: "最大化总产出",
-    note: "优先提升全系统的总体健康产出。",
+    note: "功利主义目标：将资源优先分配至边际健康产出最高的国家/地区（类似「水填充」算法），以最大化全系统总健康产出。优先受益方为投入边际效率高的中低收入国家。",
   },
   maximin: {
-    label: "公平最大化",
-    note: "优先提升最弱势国家的健康水平。",
+    label: "最小化最大不平等（Rawlsian）",
+    note: "罗尔斯正义目标：优先提升最弱势国家的健康水平，实现「最大化最低产出」。通过减少资源集中、向低产出地区再分配来缩小健康不平等，基尼系数降幅通常大于最大产出方案。",
   },
 };
 
@@ -3134,6 +3134,7 @@ function renderSpotlightContent(iso3) {
   renderSpotlightChart(profile.trend ?? [], scenarioRow?.optimal ?? latest.optimal);
   renderSpotlightRisks(risks);
   renderSpotlightAllocation(scenarioRow, latest);
+  renderSpotlightRec(latest.quadrant);
 }
 
 function renderSpotlightChart(trend, optimalValue) {
@@ -3222,7 +3223,16 @@ function renderSpotlightRisks(risks) {
 
 function renderSpotlightAllocation(scenarioRow, latest) {
   const container = document.getElementById("spotlight-allocation");
+  const QUADRANT_ZH = {
+    "Q1_high_input_high_output": "Q1 高投入高产出",
+    "Q2_low_input_high_output": "Q2 低投入高产出",
+    "Q3_high_input_low_output": "Q3 高投入低产出",
+    "Q4_low_input_low_output": "Q4 低投入低产出",
+    "unclassified": "未分类",
+  };
   const items = [
+    ["象限类型", QUADRANT_ZH[latest.quadrant] ?? latest.quadrant ?? NO_DATA_LABEL],
+    ["资源缺口", formatSigned(latest.gap)],
     ["当前支出", formatCurrency(scenarioRow?.current ?? latest.current)],
     ["优化目标", formatCurrency(scenarioRow?.optimal ?? latest.optimal)],
     ["建议调整", formatSignedPercent(scenarioRow?.change_pct ?? latest.change_pct)],
@@ -3237,6 +3247,26 @@ function renderSpotlightAllocation(scenarioRow, latest) {
         )}</span><span class="sa-value">${escapeHtml(value)}</span></div>`,
     )
     .join("");
+}
+
+function renderSpotlightRec(quadrant) {
+  const section = document.getElementById("spotlight-rec-section");
+  const content = document.getElementById("spotlight-rec-content");
+  if (!quadrant || quadrant === "unclassified" || !section || !content) {
+    if (section) section.style.display = "none";
+    return;
+  }
+  const recs = _globalQuadrantRecommendations();
+  const rec = recs[quadrant];
+  if (!rec) { section.style.display = "none"; return; }
+  section.style.display = "";
+  content.innerHTML = `
+    <div class="context-rec-block">
+      <div class="rec-title">${escapeHtml(rec.title)}</div>
+      <div class="rec-body">${escapeHtml(rec.policy)}</div>
+      <div class="rec-priority"><span>优先行动：</span>${escapeHtml(rec.priority)}</div>
+    </div>
+  `;
 }
 
 function closeSpotlightModal() {
