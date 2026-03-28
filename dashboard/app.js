@@ -1939,9 +1939,25 @@ function renderCompanionChart() {
     return;
   }
 
-  document.getElementById("companion-title").textContent = "情景赢家与捐助者";
-  document.getElementById("companion-pill").textContent = budgetLabel(state.budgetMultiplier);
-  renderOptimizationBar();
+  const dim3ToggleHtml = `<span class="companion-toggle" id="companion-toggle">` +
+    `<button class="companion-toggle-btn ${state.companionView !== "equity" ? "is-active" : ""}" data-view="reallocation">重分配</button>` +
+    `<button class="companion-toggle-btn ${state.companionView === "equity" ? "is-active" : ""}" data-view="equity">公平</button>` +
+    `</span>`;
+  document.getElementById("companion-title").innerHTML =
+    state.companionView === "equity" ? `全球健康公平趋势${dim3ToggleHtml}` : `情景赢家与捐助者${dim3ToggleHtml}`;
+  document.getElementById("companion-pill").textContent =
+    state.companionView === "equity" ? "基尼系数" : budgetLabel(state.budgetMultiplier);
+  document.querySelectorAll(".companion-toggle-btn").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      state.companionView = btn.dataset.view;
+      renderCompanionChart();
+    });
+  });
+  if (state.companionView === "equity") {
+    renderEquityChart();
+  } else {
+    renderOptimizationBar();
+  }
 }
 
 function renderGlobalDiseaseTrend() {
