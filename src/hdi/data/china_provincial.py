@@ -297,10 +297,10 @@ def load_china_provincial_panel(data_dir: Path | None = None) -> pd.DataFrame:
     panel["infant_mortality"] = panel["province"].map(_INFANT_MORTALITY_2020)
     panel["health_exp_per_capita"] = panel["province"].map(_HEALTH_EXP_PER_CAPITA_2020)
 
-    # Per-capita density (uses 2020 population as denominator for all years, as approximation)
-    panel["personnel_per_1000"] = panel["health_personnel_wan"] / panel["population_wan"] * 10.0
-    # institutions per 10,000 people — institutions CSV values are in 万个
-    panel["institutions_per_10k"] = panel["health_institutions"] / panel["population_wan"] * 10.0
+    # Per-capita density (both columns are in 万 units, so wan/wan × 1000 = per 1000)
+    panel["personnel_per_1000"] = panel["health_personnel_wan"] / panel["population_wan"] * 1000.0
+    # institutions per 10,000 people — health_institutions is raw count, population_wan is in 万人
+    panel["institutions_per_10k"] = panel["health_institutions"] / panel["population_wan"]
 
     panel = panel.sort_values(["province", "year"]).reset_index(drop=True)
     return panel

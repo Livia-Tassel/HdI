@@ -497,8 +497,15 @@ def _build_china_optimization_scenarios(snap: pd.DataFrame, panel: pd.DataFrame)
         prov_en = _PROVINCE_EN_MAP.get(prov, prov)
         personnel_history[prov_en] = prov_data[["year", "health_personnel_wan"]].dropna().to_dict(orient="records")
 
+    # National aggregate trend
+    nat_trend = panel.groupby("year", as_index=False)["health_personnel_wan"].sum()
+    national_trend = {
+        "health_personnel": nat_trend.rename(columns={"health_personnel_wan": "value"}).to_dict(orient="records"),
+    }
+
     return {
         "latest_year": latest_year,
+        "provinces": gap_records,   # alias for dashboard consumption
         "resource_gap": gap_records,
         "quadrant_counts": quadrant_counts,
         "equity_metrics": {
@@ -519,6 +526,7 @@ def _build_china_optimization_scenarios(snap: pd.DataFrame, panel: pd.DataFrame)
             "scenarios": scenarios,
         },
         "personnel_history": personnel_history,
+        "national_trend": national_trend,
     }
 
 
