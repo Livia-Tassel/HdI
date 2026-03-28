@@ -2766,10 +2766,30 @@ function renderDim3Context() {
     })),
   } : null;
 
+  const whoGroups = globalEquity.by_who_region ?? [];
+  const WHO_LABELS = { AFRO: "非洲区", AMRO: "美洲区", EMRO: "东地中海区", EURO: "欧洲区", SEARO: "东南亚区", WPRO: "西太平洋区" };
+  const whoColumn = whoGroups.length ? {
+    title: "WHO区域资源差异",
+    items: whoGroups
+      .sort((a, b) => (b.avg_life_expectancy ?? 0) - (a.avg_life_expectancy ?? 0))
+      .map((g) => ({
+        name: WHO_LABELS[g.region] ?? g.region,
+        value: `寿命 ${g.avg_life_expectancy != null ? g.avg_life_expectancy.toFixed(1) + "岁" : NO_DATA_LABEL}｜支出 $${g.avg_health_exp != null ? Math.round(g.avg_health_exp) : "—"}`,
+      })),
+  } : null;
+
+  // Show Gini improvement from optimization in summary
+  const giniBeforeStr = scenarioSummary.gini_before != null ? scenarioSummary.gini_before.toFixed(4) : null;
+  const giniAfterStr = scenarioSummary.gini_after != null ? scenarioSummary.gini_after.toFixed(4) : null;
+  const giniImprovNote = (giniBeforeStr && giniAfterStr)
+    ? `<p class="context-lede" style="font-size:0.8rem;opacity:0.8">基尼系数（预期寿命）：优化前 ${giniBeforeStr} → 优化后 ${giniAfterStr}（${scenarioSummary.gini_change > 0 ? "+" : ""}${scenarioSummary.gini_change?.toFixed(4) ?? "—"}）</p>`
+    : "";
+
   document.getElementById("context-panel").innerHTML = `
     <p class="context-lede">${escapeHtml(
       OBJECTIVE_META[state.objective]?.note ?? "当前情景设置已应用到最新资源面板。",
     )}</p>
+    ${giniImprovNote}
     ${summaryGrid}
     ${recBlock}
     ${renderContextColumns([
@@ -2781,7 +2801,7 @@ function renderDim3Context() {
         title: "主要捐出国家",
         items: donors.map((row) => ({ name: countryLabel(row), value: formatSignedPercent(row.change_pct) })),
       },
-      incomeColumn ?? detailColumn,
+      whoColumn ?? incomeColumn ?? detailColumn,
     ])}
   `;
 }
