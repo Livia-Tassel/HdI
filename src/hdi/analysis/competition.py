@@ -592,6 +592,7 @@ def _build_china_optimization_scenarios(snap: pd.DataFrame, panel: pd.DataFrame)
         "maternal_mortality", "under5_mortality",
         "elderly_share", "urbanization_rate",
         "basic_insurance_rate", "primary_care_density",
+        "hypertension_prevalence", "diabetes_prevalence", "obesity_prevalence",
     ] if c in snap.columns]
     gap_records = snap[[
         "province", "province_en", "region", "region_en",
@@ -630,6 +631,12 @@ def _build_china_optimization_scenarios(snap: pd.DataFrame, panel: pd.DataFrame)
         _by_region_agg["avg_basic_insurance_rate"] = ("basic_insurance_rate", "mean")
     if "primary_care_density" in snap.columns:
         _by_region_agg["avg_primary_care_density"] = ("primary_care_density", "mean")
+    if "hypertension_prevalence" in snap.columns:
+        _by_region_agg["avg_hypertension_prevalence"] = ("hypertension_prevalence", "mean")
+    if "diabetes_prevalence" in snap.columns:
+        _by_region_agg["avg_diabetes_prevalence"] = ("diabetes_prevalence", "mean")
+    if "obesity_prevalence" in snap.columns:
+        _by_region_agg["avg_obesity_prevalence"] = ("obesity_prevalence", "mean")
     by_region = snap.groupby("region").agg(**_by_region_agg).reset_index().rename(columns={"region": "region_cn"})
     by_region["region_en"] = by_region["region_cn"].map(_PROVINCE_REGION_EN_MAP)
 

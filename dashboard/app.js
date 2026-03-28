@@ -41,7 +41,7 @@ const DIMENSIONS = {
     defaultMetric: "prov_gap",
     mapTitle: "中国大陆省级卫生资源配置分析",
     note: "探索中国大陆31个省级行政区的卫生资源配置、效率与优化方案。",
-    metrics: ["prov_gap", "prov_efficiency", "prov_life_expectancy", "prov_infant_mortality", "prov_maternal_mortality", "prov_under5_mortality", "prov_personnel_per_1000", "prov_hospital_beds_per_1000", "prov_physicians_per_1000", "prov_nurses_per_1000", "prov_health_exp", "prov_gdp_per_capita", "prov_rural_income", "prov_optimization_change", "prov_elderly_share", "prov_urbanization", "prov_basic_insurance", "prov_primary_care"],
+    metrics: ["prov_gap", "prov_efficiency", "prov_life_expectancy", "prov_infant_mortality", "prov_maternal_mortality", "prov_under5_mortality", "prov_personnel_per_1000", "prov_hospital_beds_per_1000", "prov_physicians_per_1000", "prov_nurses_per_1000", "prov_health_exp", "prov_gdp_per_capita", "prov_rural_income", "prov_optimization_change", "prov_elderly_share", "prov_urbanization", "prov_basic_insurance", "prov_primary_care", "prov_hypertension", "prov_diabetes", "prov_obesity"],
   },
   dim5: {
     label: "健康全景",
@@ -232,6 +232,27 @@ const METRIC_META = {
     colorscale: [[0, "#071a17"], [0.25, "#0c3a32"], [0.5, "#12705f"], [0.75, "#34d399"], [1, "#6ee7b7"]],
     formatter: (value) => value == null ? NO_DATA_LABEL : `${Number(value).toFixed(2)} /万人`,
     accessor: (row) => row.primary_care_density,
+  },
+  prov_hypertension: {
+    label: "高血压患病率（%，2018）",
+    colorscale: [[0, "#f0fdf4"], [0.25, "#6ee7b7"], [0.5, "#fbbf24"], [0.75, "#ef4444"], [1, "#7f1d1d"]],
+    formatter: (value) => value == null ? NO_DATA_LABEL : `${Number(value).toFixed(1)} %`,
+    accessor: (row) => row.hypertension_prevalence,
+    invertGradient: true,
+  },
+  prov_diabetes: {
+    label: "糖尿病患病率（%，2018）",
+    colorscale: [[0, "#f0fdf4"], [0.25, "#bae6fd"], [0.5, "#6366f1"], [0.75, "#7c3aed"], [1, "#4c1d95"]],
+    formatter: (value) => value == null ? NO_DATA_LABEL : `${Number(value).toFixed(1)} %`,
+    accessor: (row) => row.diabetes_prevalence,
+    invertGradient: true,
+  },
+  prov_obesity: {
+    label: "超重/肥胖率（BMI≥28，%，2018）",
+    colorscale: [[0, "#f0fdf4"], [0.25, "#6ee7b7"], [0.5, "#fbbf24"], [0.75, "#f97316"], [1, "#7f1d1d"]],
+    formatter: (value) => value == null ? NO_DATA_LABEL : `${Number(value).toFixed(1)} %`,
+    accessor: (row) => row.obesity_prevalence,
+    invertGradient: true,
   },
   hdi: {
     label: "人类发展指数",
@@ -1640,6 +1661,9 @@ function renderCountryPanel() {
       ["城镇化率", provData.urbanization_rate != null ? `${provData.urbanization_rate.toFixed(1)} %` : NO_DATA_LABEL, "teal"],
       ["基本医保参保率", provData.basic_insurance_rate != null ? `${provData.basic_insurance_rate.toFixed(1)} %` : NO_DATA_LABEL, "blue"],
       ["基层医疗密度", provData.primary_care_density != null ? `${provData.primary_care_density.toFixed(2)}/万人` : NO_DATA_LABEL, "emerald"],
+      ["高血压患病率", provData.hypertension_prevalence != null ? `${provData.hypertension_prevalence.toFixed(1)} %` : NO_DATA_LABEL, "rose"],
+      ["糖尿病患病率", provData.diabetes_prevalence != null ? `${provData.diabetes_prevalence.toFixed(1)} %` : NO_DATA_LABEL, "violet"],
+      ["超重/肥胖率", provData.obesity_prevalence != null ? `${provData.obesity_prevalence.toFixed(1)} %` : NO_DATA_LABEL, "amber"],
       ["优化调整", optRow.change_pct != null ? `${optRow.change_pct > 0 ? "+" : ""}${optRow.change_pct.toFixed(1)}%` : NO_DATA_LABEL, "cyan"],
     ];
   } else {
@@ -2106,18 +2130,21 @@ function renderCompanionChart() {
 
   if (state.dimension === "dim4") {
     const dim4ToggleHtml = `<span class="companion-toggle" id="companion-toggle">` +
-      `<button class="companion-toggle-btn ${!["quadrant","lorenz"].includes(state.companionView) ? "is-active" : ""}" data-view="trend">趋势</button>` +
+      `<button class="companion-toggle-btn ${!["quadrant","lorenz","lorenz_opt"].includes(state.companionView) ? "is-active" : ""}" data-view="trend">趋势</button>` +
       `<button class="companion-toggle-btn ${state.companionView === "quadrant" ? "is-active" : ""}" data-view="quadrant">象限</button>` +
       `<button class="companion-toggle-btn ${state.companionView === "lorenz" ? "is-active" : ""}" data-view="lorenz">洛伦兹</button>` +
+      `<button class="companion-toggle-btn ${state.companionView === "lorenz_opt" ? "is-active" : ""}" data-view="lorenz_opt">优化洛伦兹</button>` +
       `</span>`;
     const dim4Titles = {
       quadrant: `省级象限分布${dim4ToggleHtml}`,
       lorenz: `省级洛伦兹曲线${dim4ToggleHtml}`,
+      lorenz_opt: `省级优化前后洛伦兹${dim4ToggleHtml}`,
     };
     document.getElementById("companion-title").innerHTML = dim4Titles[state.companionView] ?? `省份卫生人员趋势${dim4ToggleHtml}`;
     document.getElementById("companion-pill").textContent =
       state.companionView === "quadrant" ? "投入-产出散点" :
       state.companionView === "lorenz" ? "省级不平等分布" :
+      state.companionView === "lorenz_opt" ? "优化前后健康产出" :
       state.province || "选择省份";
 
     document.querySelectorAll(".companion-toggle-btn").forEach((btn) => {
@@ -2130,6 +2157,8 @@ function renderCompanionChart() {
       renderChinaQuadrantScatter();
     } else if (state.companionView === "lorenz") {
       renderChinaLorenzChart();
+    } else if (state.companionView === "lorenz_opt") {
+      renderChinaOptimizationLorenz();
     } else {
       renderChinaProvincePersonnelTrend();
     }
@@ -2144,18 +2173,21 @@ function renderCompanionChart() {
   }
 
   const dim3ToggleHtml = `<span class="companion-toggle" id="companion-toggle">` +
-    `<button class="companion-toggle-btn ${state.companionView === "reallocation" || !["equity","quadrant"].includes(state.companionView) ? "is-active" : ""}" data-view="reallocation">重分配</button>` +
+    `<button class="companion-toggle-btn ${state.companionView === "reallocation" || !["equity","quadrant","lorenz_opt"].includes(state.companionView) ? "is-active" : ""}" data-view="reallocation">重分配</button>` +
     `<button class="companion-toggle-btn ${state.companionView === "quadrant" ? "is-active" : ""}" data-view="quadrant">象限</button>` +
     `<button class="companion-toggle-btn ${state.companionView === "equity" ? "is-active" : ""}" data-view="equity">公平</button>` +
+    `<button class="companion-toggle-btn ${state.companionView === "lorenz_opt" ? "is-active" : ""}" data-view="lorenz_opt">洛伦兹</button>` +
     `</span>`;
   const dim3Titles = {
     equity: `全球健康公平趋势${dim3ToggleHtml}`,
     quadrant: `全球投入-产出象限${dim3ToggleHtml}`,
+    lorenz_opt: `优化前后洛伦兹曲线${dim3ToggleHtml}`,
   };
   document.getElementById("companion-title").innerHTML = dim3Titles[state.companionView] ?? `情景赢家与捐助者${dim3ToggleHtml}`;
   document.getElementById("companion-pill").textContent =
     state.companionView === "equity" ? "基尼系数" :
     state.companionView === "quadrant" ? "四象限分类" :
+    state.companionView === "lorenz_opt" ? "健康产出分布" :
     budgetLabel(state.budgetMultiplier);
   document.querySelectorAll(".companion-toggle-btn").forEach((btn) => {
     btn.addEventListener("click", () => {
@@ -2167,6 +2199,8 @@ function renderCompanionChart() {
     renderEquityChart();
   } else if (state.companionView === "quadrant") {
     renderGlobalQuadrantScatter();
+  } else if (state.companionView === "lorenz_opt") {
+    renderOptimizationLorenz();
   } else {
     renderOptimizationBar();
   }
@@ -2301,6 +2335,84 @@ function renderOptimizationBar() {
     baseLayout({
       xaxis: { title: "建议调整幅度（%）" },
       yaxis: { automargin: true },
+    }),
+    { responsive: true, displayModeBar: false, scrollZoom: false },
+  );
+}
+
+function _computeLorenzFromArray(values) {
+  // Returns {x, y} as percentage arrays for Lorenz curve (sorted ascending)
+  const sorted = values.filter((v) => v != null && isFinite(v)).sort((a, b) => a - b);
+  if (!sorted.length) return null;
+  const n = sorted.length;
+  const total = sorted.reduce((acc, v) => acc + v, 0);
+  if (total <= 0) return null;
+  const x = [0], y = [0];
+  let cumSum = 0;
+  for (let i = 0; i < n; i++) {
+    cumSum += sorted[i];
+    x.push(((i + 1) / n) * 100);
+    y.push((cumSum / total) * 100);
+  }
+  return { x, y };
+}
+
+function renderOptimizationLorenz() {
+  const scenario = getCurrentScenario();
+  if (!scenario?.allocation?.length) {
+    emptyPlot("companion-chart", "暂无优化情景数据。");
+    return;
+  }
+
+  const allocation = scenario.allocation;
+  const curValues = allocation.map((r) => r.projected_output_current ?? r.output_index).filter((v) => v != null);
+  const optValues = allocation.map((r) => r.projected_output_optimal ?? r.output_index).filter((v) => v != null);
+
+  const curLorenz = _computeLorenzFromArray(curValues);
+  const optLorenz = _computeLorenzFromArray(optValues);
+
+  if (!curLorenz && !optLorenz) {
+    emptyPlot("companion-chart", "暂无产出分布数据。");
+    return;
+  }
+
+  const summary = scenario.summary ?? {};
+  const giniB = summary.gini_before != null ? summary.gini_before.toFixed(3) : "—";
+  const giniA = summary.gini_after != null ? summary.gini_after.toFixed(3) : "—";
+
+  const traces = [
+    {
+      x: [0, 100], y: [0, 100],
+      mode: "lines", name: "完全平等线",
+      line: { color: "rgba(148,163,184,0.35)", width: 1.5, dash: "dot" },
+      hoverinfo: "skip",
+    },
+  ];
+  if (curLorenz) {
+    traces.push({
+      x: curLorenz.x, y: curLorenz.y,
+      mode: "lines", name: `优化前（基尼=${giniB}）`,
+      line: { color: THEME.rose, width: 2.5, shape: "spline" },
+      fill: "tonexty", fillcolor: "rgba(251,113,133,0.06)",
+      hovertemplate: "底部 %{x:.0f}% 国家占 %{y:.1f}% 健康产出<extra></extra>",
+    });
+  }
+  if (optLorenz) {
+    traces.push({
+      x: optLorenz.x, y: optLorenz.y,
+      mode: "lines", name: `优化后（基尼=${giniA}）`,
+      line: { color: THEME.teal, width: 2.5, shape: "spline" },
+      hovertemplate: "底部 %{x:.0f}% 国家占 %{y:.1f}% 健康产出<extra></extra>",
+    });
+  }
+
+  Plotly.react(
+    "companion-chart",
+    traces,
+    baseLayout({
+      xaxis: { title: "国家累计比例（%，按健康产出升序）", range: [0, 100] },
+      yaxis: { title: "健康产出累计比例（%）", range: [0, 100] },
+      legend: { orientation: "h", y: -0.22, x: 0, font: { size: 10 } },
     }),
     { responsive: true, displayModeBar: false, scrollZoom: false },
   );
@@ -2616,6 +2728,78 @@ function renderChinaLorenzChart() {
     baseLayout({
       xaxis: { title: "省份累计比例（%）", range: [0, 100] },
       yaxis: { title: "指标累计比例（%）", range: [0, 100] },
+      legend: { orientation: "h", y: -0.22, x: 0, font: { size: 10 } },
+    }),
+    { responsive: true, displayModeBar: false, scrollZoom: false },
+  );
+}
+
+function renderChinaOptimizationLorenz() {
+  const data = store.chinaDeepDive;
+  const opt = data?.optimization ?? {};
+  const scenarios = opt.scenarios ?? [];
+
+  // Find current scenario
+  const objKey = OBJECTIVE_ALIASES[state.objective] ?? state.objective;
+  const budgetKey = Number(state.budgetMultiplier).toFixed(1);
+  const scenario = scenarios.find((s) => {
+    const obj = OBJECTIVE_ALIASES[s.objective] ?? s.objective;
+    return obj === objKey && Number(s.budget_multiplier).toFixed(1) === budgetKey;
+  }) ?? scenarios[0];
+
+  if (!scenario?.allocation?.length) {
+    emptyPlot("companion-chart", "暂无中国省级优化情景数据。");
+    return;
+  }
+
+  const allocation = scenario.allocation;
+  const curValues = allocation.map((r) => r.projected_output_current).filter((v) => v != null && isFinite(v));
+  const optValues = allocation.map((r) => r.projected_output_optimal).filter((v) => v != null && isFinite(v));
+
+  const curLorenz = _computeLorenzFromArray(curValues);
+  const optLorenz = _computeLorenzFromArray(optValues);
+
+  if (!curLorenz && !optLorenz) {
+    emptyPlot("companion-chart", "暂无省级产出分布数据。");
+    return;
+  }
+
+  const summary = scenario.summary ?? {};
+  const giniB = summary.gini_before != null ? summary.gini_before.toFixed(3) : "—";
+  const giniA = summary.gini_after != null ? summary.gini_after.toFixed(3) : "—";
+
+  const traces = [
+    {
+      x: [0, 100], y: [0, 100],
+      mode: "lines", name: "完全平等线",
+      line: { color: "rgba(148,163,184,0.35)", width: 1.5, dash: "dot" },
+      hoverinfo: "skip",
+    },
+  ];
+  if (curLorenz) {
+    traces.push({
+      x: curLorenz.x, y: curLorenz.y,
+      mode: "lines", name: `优化前（基尼=${giniB}）`,
+      line: { color: THEME.rose, width: 2.5, shape: "spline" },
+      fill: "tonexty", fillcolor: "rgba(251,113,133,0.06)",
+      hovertemplate: "底部 %{x:.0f}% 省份占 %{y:.1f}% 健康产出<extra></extra>",
+    });
+  }
+  if (optLorenz) {
+    traces.push({
+      x: optLorenz.x, y: optLorenz.y,
+      mode: "lines", name: `优化后（基尼=${giniA}）`,
+      line: { color: THEME.teal, width: 2.5, shape: "spline" },
+      hovertemplate: "底部 %{x:.0f}% 省份占 %{y:.1f}% 健康产出<extra></extra>",
+    });
+  }
+
+  Plotly.react(
+    "companion-chart",
+    traces,
+    baseLayout({
+      xaxis: { title: "省份累计比例（%，按健康产出升序）", range: [0, 100] },
+      yaxis: { title: "健康产出累计比例（%）", range: [0, 100] },
       legend: { orientation: "h", y: -0.22, x: 0, font: { size: 10 } },
     }),
     { responsive: true, displayModeBar: false, scrollZoom: false },

@@ -579,6 +579,114 @@ _PRIMARY_CARE_DENSITY_2020: dict[str, float] = {
     "新疆维吾尔自治区": 1.55,
 }
 
+# Hypertension prevalence (%, age-standardized, adults ≥18) — 2018 China
+# Hypertension Survey (Wang et al., Circulation 2018 / NHC Report)
+_HYPERTENSION_PREVALENCE_2018: dict[str, float] = {
+    "北京市": 29.5,
+    "天津市": 31.2,
+    "河北省": 32.8,
+    "山西省": 30.5,
+    "内蒙古自治区": 35.0,
+    "辽宁省": 35.2,
+    "吉林省": 33.6,
+    "黑龙江省": 36.6,
+    "上海市": 28.8,
+    "江苏省": 27.5,
+    "浙江省": 25.4,
+    "安徽省": 30.1,
+    "福建省": 24.3,
+    "江西省": 27.0,
+    "山东省": 34.5,
+    "河南省": 31.0,
+    "湖北省": 27.8,
+    "湖南省": 28.5,
+    "广东省": 23.6,
+    "广西壮族自治区": 27.0,
+    "海南省": 24.6,
+    "重庆市": 25.4,
+    "四川省": 24.8,
+    "贵州省": 26.2,
+    "云南省": 28.1,
+    "西藏自治区": 25.0,
+    "陕西省": 29.0,
+    "甘肃省": 32.1,
+    "青海省": 28.5,
+    "宁夏回族自治区": 30.2,
+    "新疆维吾尔自治区": 34.8,
+}
+
+# Diabetes prevalence (%, age-standardized, adults ≥18) — 2018 China National
+# Diabetes Survey (Li et al., JAMA 2020 / NHC)
+_DIABETES_PREVALENCE_2018: dict[str, float] = {
+    "北京市": 13.8,
+    "天津市": 14.5,
+    "河北省": 11.5,
+    "山西省": 10.3,
+    "内蒙古自治区": 11.8,
+    "辽宁省": 13.0,
+    "吉林省": 11.9,
+    "黑龙江省": 12.2,
+    "上海市": 15.5,
+    "江苏省": 13.0,
+    "浙江省": 12.1,
+    "安徽省": 10.8,
+    "福建省": 10.5,
+    "江西省": 9.8,
+    "山东省": 11.2,
+    "河南省": 10.2,
+    "湖北省": 10.9,
+    "湖南省": 10.5,
+    "广东省": 11.1,
+    "广西壮族自治区": 9.5,
+    "海南省": 9.0,
+    "重庆市": 10.6,
+    "四川省": 10.4,
+    "贵州省": 8.4,
+    "云南省": 9.3,
+    "西藏自治区": 5.3,
+    "陕西省": 10.6,
+    "甘肃省": 9.8,
+    "青海省": 8.8,
+    "宁夏回族自治区": 10.5,
+    "新疆维吾尔自治区": 11.5,
+}
+
+# Obesity prevalence (BMI≥28, %, adults ≥18) — 2018 Report on Nutrition and
+# Chronic Disease Status of Chinese Residents / NHC
+_OBESITY_PREVALENCE_2018: dict[str, float] = {
+    "北京市": 28.4,
+    "天津市": 27.6,
+    "河北省": 26.2,
+    "山西省": 24.5,
+    "内蒙古自治区": 27.8,
+    "辽宁省": 28.0,
+    "吉林省": 25.8,
+    "黑龙江省": 27.2,
+    "上海市": 23.5,
+    "江苏省": 22.8,
+    "浙江省": 20.6,
+    "安徽省": 22.5,
+    "福建省": 18.2,
+    "江西省": 20.1,
+    "山东省": 27.0,
+    "河南省": 24.3,
+    "湖北省": 23.1,
+    "湖南省": 22.0,
+    "广东省": 17.6,
+    "广西壮族自治区": 20.5,
+    "海南省": 17.9,
+    "重庆市": 22.8,
+    "四川省": 22.0,
+    "贵州省": 19.8,
+    "云南省": 21.2,
+    "西藏自治区": 14.0,
+    "陕西省": 24.2,
+    "甘肃省": 22.5,
+    "青海省": 22.8,
+    "宁夏回族自治区": 26.5,
+    "新疆维吾尔自治区": 27.5,
+}
+
 # English province names
 PROVINCE_EN: dict[str, str] = {
     "北京市": "Beijing",
@@ -696,7 +804,9 @@ def load_china_provincial_panel(data_dir: Path | None = None) -> pd.DataFrame:
         rural_income_per_capita (元, 2023),
         maternal_mortality (per 100,000, 2020), under5_mortality (‰, 2020),
         elderly_share (%, 2020 census), urbanization_rate (%, 2022),
-        basic_insurance_rate (%, 2022), primary_care_density (per 10k, 2020)
+        basic_insurance_rate (%, 2022), primary_care_density (per 10k, 2020),
+        hypertension_prevalence (%, 2018), diabetes_prevalence (%, 2018),
+        obesity_prevalence (%, 2018)
     """
     if data_dir is None:
         data_dir = (
@@ -736,6 +846,9 @@ def load_china_provincial_panel(data_dir: Path | None = None) -> pd.DataFrame:
     panel["urbanization_rate"] = panel["province"].map(_URBANIZATION_RATE_2022)
     panel["basic_insurance_rate"] = panel["province"].map(_BASIC_INSURANCE_RATE_2022)
     panel["primary_care_density"] = panel["province"].map(_PRIMARY_CARE_DENSITY_2020)
+    panel["hypertension_prevalence"] = panel["province"].map(_HYPERTENSION_PREVALENCE_2018)
+    panel["diabetes_prevalence"] = panel["province"].map(_DIABETES_PREVALENCE_2018)
+    panel["obesity_prevalence"] = panel["province"].map(_OBESITY_PREVALENCE_2018)
 
     # Per-capita density (both columns are in 万 units, so wan/wan × 1000 = per 1000)
     panel["personnel_per_1000"] = panel["health_personnel_wan"] / panel["population_wan"] * 1000.0

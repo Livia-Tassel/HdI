@@ -29,7 +29,10 @@
       "elderly_share": 16.28,
       "urbanization_rate": 89.3,
       "basic_insurance_rate": 98.5,
-      "primary_care_density": 0.3
+      "primary_care_density": 0.3,
+      "hypertension_prevalence": 28.8,
+      "diabetes_prevalence": 15.5,
+      "obesity_prevalence": 23.5
     },
     {
       "province": "云南省",
@@ -59,7 +62,10 @@
       "elderly_share": 11.54,
       "urbanization_rate": 51.69,
       "basic_insurance_rate": 93.5,
-      "primary_care_density": 1.72
+      "primary_care_density": 1.72,
+      "hypertension_prevalence": 28.1,
+      "diabetes_prevalence": 9.3,
+      "obesity_prevalence": 21.2
     },
     {
       "province": "内蒙古自治区",
@@ -89,7 +95,10 @@
       "elderly_share": 13.23,
       "urbanization_rate": 69.64,
       "basic_insurance_rate": 95.8,
-      "primary_care_density": 1.82
+      "primary_care_density": 1.82,
+      "hypertension_prevalence": 35.0,
+      "diabetes_prevalence": 11.8,
+      "obesity_prevalence": 27.8
     },
     {
       "province": "北京市",
@@ -119,7 +128,10 @@
       "elderly_share": 13.3,
       "urbanization_rate": 87.5,
       "basic_insurance_rate": 97.2,
-      "primary_care_density": 0.58
+      "primary_care_density": 0.58,
+      "hypertension_prevalence": 29.5,
+      "diabetes_prevalence": 13.8,
+      "obesity_prevalence": 28.4
     },
     {
       "province": "吉林省",
@@ -149,7 +161,10 @@
       "elderly_share": 15.61,
       "urbanization_rate": 68.94,
       "basic_insurance_rate": 94.7,
-      "primary_care_density": 1.05
+      "primary_care_density": 1.05,
+      "hypertension_prevalence": 33.6,
+      "diabetes_prevalence": 11.9,
+      "obesity_prevalence": 25.8
     },
     {
       "province": "四川省",
@@ -179,7 +194,10 @@
       "elderly_share": 17.24,
       "urbanization_rate": 57.97,
       "basic_insurance_rate": 95.7,
-      "primary_care_density": 1.47
+      "primary_care_density": 1.47,
+      "hypertension_prevalence": 24.8,
+      "diabetes_prevalence": 10.4,
+      "obesity_prevalence": 22.0
     },
     {
       "province": "天津市",
@@ -209,7 +227,10 @@
       "elderly_share": 14.75,
       "urbanization_rate": 85.11,
       "basic_insurance_rate": 96.8,
-      "primary_care_density": 0.44
+      "primary_care_density": 0.44,
+      "hypertension_prevalence": 31.2,
+      "diabetes_prevalence": 14.5,
+      "obesity_prevalence": 27.6
     },
     {
       "province": "宁夏回族自治区",
@@ -239,7 +260,10 @@
       "elderly_share": 10.63,
       "urbanization_rate": 68.02,
       "basic_insurance_rate": 94.5,
-      "primary_care_density": 1.18
+      "primary_care_density": 1.18,
+      "hypertension_prevalence": 30.2,
+      "diabetes_prevalence": 10.5,
+      "obesity_prevalence": 26.5
     },
     {
       "province": "安徽省",
@@ -269,7 +293,10 @@
       "elderly_share": 16.79,
       "urbanization_rate": 60.22,
       "basic_insurance_rate": 95.8,
-      "primary_care_density": 0.91
+      "primary_care_density": 0.91,
+      "hypertension_prevalence": 30.1,
+      "diabetes_prevalence": 10.8,
+      "obesity_prevalence": 22.5
     },
     {
       "province": "山东省",
@@ -299,7 +326,10 @@
       "elderly_share": 15.13,
       "urbanization_rate": 65.5,
       "basic_insurance_rate": 96.0,
-      "primary_care_density": 0.85
+      "primary_care_density": 0.85,
+      "hypertension_prevalence": 34.5,
+      "diabetes_prevalence": 11.2,
+      "obesity_prevalence": 27.0
     },
     {
       "province": "山西省",
@@ -329,7 +359,10 @@
       "elderly_share": 13.5,
       "urbanization_rate": 64.92,
       "basic_insurance_rate": 95.3,
-      "primary_care_density": 1.28
+      "primary_care_density": 1.28,
+      "hypertension_prevalence": 30.5,
+      "diabetes_prevalence": 10.3,
+      "obesity_prevalence": 24.5
     },
     {
       "province": "广东省",
@@ -359,7 +392,10 @@
       "elderly_share": 8.58,
       "urbanization_rate": 75.24,
       "basic_insurance_rate": 97.0,
-      "primary_care_density": 0.53
+      "primary_care_density": 0.53,
+      "hypertension_prevalence": 23.6,
+      "diabetes_prevalence": 11.1,
+      "obesity_prevalence": 17.6
     },
     {
       "province": "广西壮族自治区",
@@ -389,7 +425,10 @@
       "elderly_share": 14.05,
       "urbanization_rate": 58.93,
       "basic_insurance_rate": 94.8,
-      "primary_care_density": 1.38
+      "primary_care_density": 1.38,
+      "hypertension_prevalence": 27.0,
+      "diabetes_prevalence": 9.5,
+      "obesity_prevalence": 20.5
     },
     {
       "province": "新疆维吾尔自治区",
@@ -419,7 +458,10 @@
       "elderly_share": 8.33,
       "urbanization_rate": 56.41,
       "basic_insurance_rate": 94.1,
-      "primary_care_density": 1.55
+      "primary_care_density": 1.55,
+      "hypertension_prevalence": 34.8,
+      "diabetes_prevalence": 11.5,
+      "obesity_prevalence": 27.5
     },
     {
       "province": "江苏省",
@@ -449,7 +491,10 @@
       "elderly_share": 16.2,
       "urbanization_rate": 74.42,
       "basic_insurance_rate": 96.7,
-      "primary_care_density": 0.55
+      "primary_care_density": 0.55,
+      "hypertension_prevalence": 27.5,
+      "diabetes_prevalence": 13.0,
+      "obesity_prevalence": 22.8
     },
     {
       "province": "江西省",
@@ -479,7 +524,10 @@
       "elderly_share": 13.18,
       "urbanization_rate": 60.68,
       "basic_insurance_rate": 95.4,
-      "primary_care_density": 1.07
+      "primary_care_density": 1.07,
+      "hypertension_prevalence": 27.0,
+      "diabetes_prevalence": 9.8,
+      "obesity_prevalence": 20.1
     },
     {
       "province": "河北省",
@@ -509,7 +557,10 @@
       "elderly_share": 13.62,
       "urbanization_rate": 60.12,
       "basic_insurance_rate": 95.1,
-      "primary_care_density": 1.14
+      "primary_care_density": 1.14,
+      "hypertension_prevalence": 32.8,
+      "diabetes_prevalence": 11.5,
+      "obesity_prevalence": 26.2
     },
     {
       "province": "河南省",
@@ -539,7 +590,10 @@
       "elderly_share": 14.41,
       "urbanization_rate": 58.11,
       "basic_insurance_rate": 95.6,
-      "primary_care_density": 0.99
+      "primary_care_density": 0.99,
+      "hypertension_prevalence": 31.0,
+      "diabetes_prevalence": 10.2,
+      "obesity_prevalence": 24.3
     },
     {
       "province": "浙江省",
@@ -569,7 +623,10 @@
       "elderly_share": 13.3,
       "urbanization_rate": 73.4,
       "basic_insurance_rate": 97.4,
-      "primary_care_density": 0.52
+      "primary_care_density": 0.52,
+      "hypertension_prevalence": 25.4,
+      "diabetes_prevalence": 12.1,
+      "obesity_prevalence": 20.6
     },
     {
       "province": "海南省",
@@ -599,7 +656,10 @@
       "elderly_share": 10.98,
       "urbanization_rate": 62.24,
       "basic_insurance_rate": 95.5,
-      "primary_care_density": 0.96
+      "primary_care_density": 0.96,
+      "hypertension_prevalence": 24.6,
+      "diabetes_prevalence": 9.0,
+      "obesity_prevalence": 17.9
     },
     {
       "province": "湖北省",
@@ -629,7 +689,10 @@
       "elderly_share": 15.45,
       "urbanization_rate": 64.06,
       "basic_insurance_rate": 96.2,
-      "primary_care_density": 1.14
+      "primary_care_density": 1.14,
+      "hypertension_prevalence": 27.8,
+      "diabetes_prevalence": 10.9,
+      "obesity_prevalence": 23.1
     },
     {
       "province": "湖南省",
@@ -659,7 +722,10 @@
       "elderly_share": 15.06,
       "urbanization_rate": 59.97,
       "basic_insurance_rate": 95.9,
-      "primary_care_density": 1.23
+      "primary_care_density": 1.23,
+      "hypertension_prevalence": 28.5,
+      "diabetes_prevalence": 10.5,
+      "obesity_prevalence": 22.0
     },
     {
       "province": "甘肃省",
@@ -689,7 +755,10 @@
       "elderly_share": 14.97,
       "urbanization_rate": 52.56,
       "basic_insurance_rate": 93.3,
-      "primary_care_density": 1.63
+      "primary_care_density": 1.63,
+      "hypertension_prevalence": 32.1,
+      "diabetes_prevalence": 9.8,
+      "obesity_prevalence": 22.5
     },
     {
       "province": "福建省",
@@ -719,7 +788,10 @@
       "elderly_share": 11.52,
       "urbanization_rate": 70.1,
       "basic_insurance_rate": 96.1,
-      "primary_care_density": 0.79
+      "primary_care_density": 0.79,
+      "hypertension_prevalence": 24.3,
+      "diabetes_prevalence": 10.5,
+      "obesity_prevalence": 18.2
     },
     {
       "province": "西藏自治区",
@@ -749,7 +821,10 @@
       "elderly_share": 7.43,
       "urbanization_rate": 38.7,
       "basic_insurance_rate": 92.0,
-      "primary_care_density": 2.35
+      "primary_care_density": 2.35,
+      "hypertension_prevalence": 25.0,
+      "diabetes_prevalence": 5.3,
+      "obesity_prevalence": 14.0
     },
     {
       "province": "贵州省",
@@ -779,7 +854,10 @@
       "elderly_share": 12.1,
       "urbanization_rate": 54.33,
       "basic_insurance_rate": 93.8,
-      "primary_care_density": 1.56
+      "primary_care_density": 1.56,
+      "hypertension_prevalence": 26.2,
+      "diabetes_prevalence": 8.4,
+      "obesity_prevalence": 19.8
     },
     {
       "province": "辽宁省",
@@ -809,7 +887,10 @@
       "elderly_share": 17.42,
       "urbanization_rate": 72.24,
       "basic_insurance_rate": 96.3,
-      "primary_care_density": 0.72
+      "primary_care_density": 0.72,
+      "hypertension_prevalence": 35.2,
+      "diabetes_prevalence": 13.0,
+      "obesity_prevalence": 28.0
     },
     {
       "province": "重庆市",
@@ -839,7 +920,10 @@
       "elderly_share": 17.08,
       "urbanization_rate": 70.32,
       "basic_insurance_rate": 96.5,
-      "primary_care_density": 1.05
+      "primary_care_density": 1.05,
+      "hypertension_prevalence": 25.4,
+      "diabetes_prevalence": 10.6,
+      "obesity_prevalence": 22.8
     },
     {
       "province": "陕西省",
@@ -869,7 +953,10 @@
       "elderly_share": 13.31,
       "urbanization_rate": 64.87,
       "basic_insurance_rate": 95.2,
-      "primary_care_density": 1.31
+      "primary_care_density": 1.31,
+      "hypertension_prevalence": 29.0,
+      "diabetes_prevalence": 10.6,
+      "obesity_prevalence": 24.2
     },
     {
       "province": "青海省",
@@ -899,7 +986,10 @@
       "elderly_share": 9.39,
       "urbanization_rate": 59.46,
       "basic_insurance_rate": 93.6,
-      "primary_care_density": 2.01
+      "primary_care_density": 2.01,
+      "hypertension_prevalence": 28.5,
+      "diabetes_prevalence": 8.8,
+      "obesity_prevalence": 22.8
     },
     {
       "province": "黑龙江省",
@@ -929,7 +1019,10 @@
       "elderly_share": 15.61,
       "urbanization_rate": 67.88,
       "basic_insurance_rate": 94.2,
-      "primary_care_density": 1.08
+      "primary_care_density": 1.08,
+      "hypertension_prevalence": 36.6,
+      "diabetes_prevalence": 12.2,
+      "obesity_prevalence": 27.2
     }
   ],
   "resource_gap": [
@@ -961,7 +1054,10 @@
       "elderly_share": 16.28,
       "urbanization_rate": 89.3,
       "basic_insurance_rate": 98.5,
-      "primary_care_density": 0.3
+      "primary_care_density": 0.3,
+      "hypertension_prevalence": 28.8,
+      "diabetes_prevalence": 15.5,
+      "obesity_prevalence": 23.5
     },
     {
       "province": "云南省",
@@ -991,7 +1087,10 @@
       "elderly_share": 11.54,
       "urbanization_rate": 51.69,
       "basic_insurance_rate": 93.5,
-      "primary_care_density": 1.72
+      "primary_care_density": 1.72,
+      "hypertension_prevalence": 28.1,
+      "diabetes_prevalence": 9.3,
+      "obesity_prevalence": 21.2
     },
     {
       "province": "内蒙古自治区",
@@ -1021,7 +1120,10 @@
       "elderly_share": 13.23,
       "urbanization_rate": 69.64,
       "basic_insurance_rate": 95.8,
-      "primary_care_density": 1.82
+      "primary_care_density": 1.82,
+      "hypertension_prevalence": 35.0,
+      "diabetes_prevalence": 11.8,
+      "obesity_prevalence": 27.8
     },
     {
       "province": "北京市",
@@ -1051,7 +1153,10 @@
       "elderly_share": 13.3,
       "urbanization_rate": 87.5,
       "basic_insurance_rate": 97.2,
-      "primary_care_density": 0.58
+      "primary_care_density": 0.58,
+      "hypertension_prevalence": 29.5,
+      "diabetes_prevalence": 13.8,
+      "obesity_prevalence": 28.4
     },
     {
       "province": "吉林省",
@@ -1081,7 +1186,10 @@
       "elderly_share": 15.61,
       "urbanization_rate": 68.94,
       "basic_insurance_rate": 94.7,
-      "primary_care_density": 1.05
+      "primary_care_density": 1.05,
+      "hypertension_prevalence": 33.6,
+      "diabetes_prevalence": 11.9,
+      "obesity_prevalence": 25.8
     },
     {
       "province": "四川省",
@@ -1111,7 +1219,10 @@
       "elderly_share": 17.24,
       "urbanization_rate": 57.97,
       "basic_insurance_rate": 95.7,
-      "primary_care_density": 1.47
+      "primary_care_density": 1.47,
+      "hypertension_prevalence": 24.8,
+      "diabetes_prevalence": 10.4,
+      "obesity_prevalence": 22.0
     },
     {
       "province": "天津市",
@@ -1141,7 +1252,10 @@
       "elderly_share": 14.75,
       "urbanization_rate": 85.11,
       "basic_insurance_rate": 96.8,
-      "primary_care_density": 0.44
+      "primary_care_density": 0.44,
+      "hypertension_prevalence": 31.2,
+      "diabetes_prevalence": 14.5,
+      "obesity_prevalence": 27.6
     },
     {
       "province": "宁夏回族自治区",
@@ -1171,7 +1285,10 @@
       "elderly_share": 10.63,
       "urbanization_rate": 68.02,
       "basic_insurance_rate": 94.5,
-      "primary_care_density": 1.18
+      "primary_care_density": 1.18,
+      "hypertension_prevalence": 30.2,
+      "diabetes_prevalence": 10.5,
+      "obesity_prevalence": 26.5
     },
     {
       "province": "安徽省",
@@ -1201,7 +1318,10 @@
       "elderly_share": 16.79,
       "urbanization_rate": 60.22,
       "basic_insurance_rate": 95.8,
-      "primary_care_density": 0.91
+      "primary_care_density": 0.91,
+      "hypertension_prevalence": 30.1,
+      "diabetes_prevalence": 10.8,
+      "obesity_prevalence": 22.5
     },
     {
       "province": "山东省",
@@ -1231,7 +1351,10 @@
       "elderly_share": 15.13,
       "urbanization_rate": 65.5,
       "basic_insurance_rate": 96.0,
-      "primary_care_density": 0.85
+      "primary_care_density": 0.85,
+      "hypertension_prevalence": 34.5,
+      "diabetes_prevalence": 11.2,
+      "obesity_prevalence": 27.0
     },
     {
       "province": "山西省",
@@ -1261,7 +1384,10 @@
       "elderly_share": 13.5,
       "urbanization_rate": 64.92,
       "basic_insurance_rate": 95.3,
-      "primary_care_density": 1.28
+      "primary_care_density": 1.28,
+      "hypertension_prevalence": 30.5,
+      "diabetes_prevalence": 10.3,
+      "obesity_prevalence": 24.5
     },
     {
       "province": "广东省",
@@ -1291,7 +1417,10 @@
       "elderly_share": 8.58,
       "urbanization_rate": 75.24,
       "basic_insurance_rate": 97.0,
-      "primary_care_density": 0.53
+      "primary_care_density": 0.53,
+      "hypertension_prevalence": 23.6,
+      "diabetes_prevalence": 11.1,
+      "obesity_prevalence": 17.6
     },
     {
       "province": "广西壮族自治区",
@@ -1321,7 +1450,10 @@
       "elderly_share": 14.05,
       "urbanization_rate": 58.93,
       "basic_insurance_rate": 94.8,
-      "primary_care_density": 1.38
+      "primary_care_density": 1.38,
+      "hypertension_prevalence": 27.0,
+      "diabetes_prevalence": 9.5,
+      "obesity_prevalence": 20.5
     },
     {
       "province": "新疆维吾尔自治区",
@@ -1351,7 +1483,10 @@
       "elderly_share": 8.33,
       "urbanization_rate": 56.41,
       "basic_insurance_rate": 94.1,
-      "primary_care_density": 1.55
+      "primary_care_density": 1.55,
+      "hypertension_prevalence": 34.8,
+      "diabetes_prevalence": 11.5,
+      "obesity_prevalence": 27.5
     },
     {
       "province": "江苏省",
@@ -1381,7 +1516,10 @@
       "elderly_share": 16.2,
       "urbanization_rate": 74.42,
       "basic_insurance_rate": 96.7,
-      "primary_care_density": 0.55
+      "primary_care_density": 0.55,
+      "hypertension_prevalence": 27.5,
+      "diabetes_prevalence": 13.0,
+      "obesity_prevalence": 22.8
     },
     {
       "province": "江西省",
@@ -1411,7 +1549,10 @@
       "elderly_share": 13.18,
       "urbanization_rate": 60.68,
       "basic_insurance_rate": 95.4,
-      "primary_care_density": 1.07
+      "primary_care_density": 1.07,
+      "hypertension_prevalence": 27.0,
+      "diabetes_prevalence": 9.8,
+      "obesity_prevalence": 20.1
     },
     {
       "province": "河北省",
@@ -1441,7 +1582,10 @@
       "elderly_share": 13.62,
       "urbanization_rate": 60.12,
       "basic_insurance_rate": 95.1,
-      "primary_care_density": 1.14
+      "primary_care_density": 1.14,
+      "hypertension_prevalence": 32.8,
+      "diabetes_prevalence": 11.5,
+      "obesity_prevalence": 26.2
     },
     {
       "province": "河南省",
@@ -1471,7 +1615,10 @@
       "elderly_share": 14.41,
       "urbanization_rate": 58.11,
       "basic_insurance_rate": 95.6,
-      "primary_care_density": 0.99
+      "primary_care_density": 0.99,
+      "hypertension_prevalence": 31.0,
+      "diabetes_prevalence": 10.2,
+      "obesity_prevalence": 24.3
     },
     {
       "province": "浙江省",
@@ -1501,7 +1648,10 @@
       "elderly_share": 13.3,
       "urbanization_rate": 73.4,
       "basic_insurance_rate": 97.4,
-      "primary_care_density": 0.52
+      "primary_care_density": 0.52,
+      "hypertension_prevalence": 25.4,
+      "diabetes_prevalence": 12.1,
+      "obesity_prevalence": 20.6
     },
     {
       "province": "海南省",
@@ -1531,7 +1681,10 @@
       "elderly_share": 10.98,
       "urbanization_rate": 62.24,
       "basic_insurance_rate": 95.5,
-      "primary_care_density": 0.96
+      "primary_care_density": 0.96,
+      "hypertension_prevalence": 24.6,
+      "diabetes_prevalence": 9.0,
+      "obesity_prevalence": 17.9
     },
     {
       "province": "湖北省",
@@ -1561,7 +1714,10 @@
       "elderly_share": 15.45,
       "urbanization_rate": 64.06,
       "basic_insurance_rate": 96.2,
-      "primary_care_density": 1.14
+      "primary_care_density": 1.14,
+      "hypertension_prevalence": 27.8,
+      "diabetes_prevalence": 10.9,
+      "obesity_prevalence": 23.1
     },
     {
       "province": "湖南省",
@@ -1591,7 +1747,10 @@
       "elderly_share": 15.06,
       "urbanization_rate": 59.97,
       "basic_insurance_rate": 95.9,
-      "primary_care_density": 1.23
+      "primary_care_density": 1.23,
+      "hypertension_prevalence": 28.5,
+      "diabetes_prevalence": 10.5,
+      "obesity_prevalence": 22.0
     },
     {
       "province": "甘肃省",
@@ -1621,7 +1780,10 @@
       "elderly_share": 14.97,
       "urbanization_rate": 52.56,
       "basic_insurance_rate": 93.3,
-      "primary_care_density": 1.63
+      "primary_care_density": 1.63,
+      "hypertension_prevalence": 32.1,
+      "diabetes_prevalence": 9.8,
+      "obesity_prevalence": 22.5
     },
     {
       "province": "福建省",
@@ -1651,7 +1813,10 @@
       "elderly_share": 11.52,
       "urbanization_rate": 70.1,
       "basic_insurance_rate": 96.1,
-      "primary_care_density": 0.79
+      "primary_care_density": 0.79,
+      "hypertension_prevalence": 24.3,
+      "diabetes_prevalence": 10.5,
+      "obesity_prevalence": 18.2
     },
     {
       "province": "西藏自治区",
@@ -1681,7 +1846,10 @@
       "elderly_share": 7.43,
       "urbanization_rate": 38.7,
       "basic_insurance_rate": 92.0,
-      "primary_care_density": 2.35
+      "primary_care_density": 2.35,
+      "hypertension_prevalence": 25.0,
+      "diabetes_prevalence": 5.3,
+      "obesity_prevalence": 14.0
     },
     {
       "province": "贵州省",
@@ -1711,7 +1879,10 @@
       "elderly_share": 12.1,
       "urbanization_rate": 54.33,
       "basic_insurance_rate": 93.8,
-      "primary_care_density": 1.56
+      "primary_care_density": 1.56,
+      "hypertension_prevalence": 26.2,
+      "diabetes_prevalence": 8.4,
+      "obesity_prevalence": 19.8
     },
     {
       "province": "辽宁省",
@@ -1741,7 +1912,10 @@
       "elderly_share": 17.42,
       "urbanization_rate": 72.24,
       "basic_insurance_rate": 96.3,
-      "primary_care_density": 0.72
+      "primary_care_density": 0.72,
+      "hypertension_prevalence": 35.2,
+      "diabetes_prevalence": 13.0,
+      "obesity_prevalence": 28.0
     },
     {
       "province": "重庆市",
@@ -1771,7 +1945,10 @@
       "elderly_share": 17.08,
       "urbanization_rate": 70.32,
       "basic_insurance_rate": 96.5,
-      "primary_care_density": 1.05
+      "primary_care_density": 1.05,
+      "hypertension_prevalence": 25.4,
+      "diabetes_prevalence": 10.6,
+      "obesity_prevalence": 22.8
     },
     {
       "province": "陕西省",
@@ -1801,7 +1978,10 @@
       "elderly_share": 13.31,
       "urbanization_rate": 64.87,
       "basic_insurance_rate": 95.2,
-      "primary_care_density": 1.31
+      "primary_care_density": 1.31,
+      "hypertension_prevalence": 29.0,
+      "diabetes_prevalence": 10.6,
+      "obesity_prevalence": 24.2
     },
     {
       "province": "青海省",
@@ -1831,7 +2011,10 @@
       "elderly_share": 9.39,
       "urbanization_rate": 59.46,
       "basic_insurance_rate": 93.6,
-      "primary_care_density": 2.01
+      "primary_care_density": 2.01,
+      "hypertension_prevalence": 28.5,
+      "diabetes_prevalence": 8.8,
+      "obesity_prevalence": 22.8
     },
     {
       "province": "黑龙江省",
@@ -1861,7 +2044,10 @@
       "elderly_share": 15.61,
       "urbanization_rate": 67.88,
       "basic_insurance_rate": 94.2,
-      "primary_care_density": 1.08
+      "primary_care_density": 1.08,
+      "hypertension_prevalence": 36.6,
+      "diabetes_prevalence": 12.2,
+      "obesity_prevalence": 27.2
     }
   ],
   "quadrant_counts": {
@@ -2115,6 +2301,9 @@
       "avg_urbanization_rate": 74.10636363636364,
       "avg_basic_insurance_rate": 96.6,
       "avg_primary_care_density": 0.6709090909090909,
+      "avg_hypertension_prevalence": 28.854545454545452,
+      "avg_diabetes_prevalence": 12.29090909090909,
+      "avg_obesity_prevalence": 23.436363636363637,
       "region_en": "Eastern"
     },
     {
@@ -2135,6 +2324,9 @@
       "avg_urbanization_rate": 63.0975,
       "avg_basic_insurance_rate": 95.3875,
       "avg_primary_care_density": 1.09375,
+      "avg_hypertension_prevalence": 30.637500000000003,
+      "avg_diabetes_prevalence": 10.825,
+      "avg_obesity_prevalence": 23.6875,
       "region_en": "Central"
     },
     {
@@ -2155,6 +2347,9 @@
       "avg_urbanization_rate": 58.574999999999996,
       "avg_basic_insurance_rate": 94.39999999999999,
       "avg_primary_care_density": 1.5858333333333334,
+      "avg_hypertension_prevalence": 28.84166666666667,
+      "avg_diabetes_prevalence": 9.708333333333334,
+      "avg_obesity_prevalence": 22.633333333333336,
       "region_en": "Western"
     }
   ],
