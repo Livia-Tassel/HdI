@@ -22163,5 +22163,94 @@
       "sigma": 0.109287,
       "country_count": 194
     }
-  ]
+  ],
+  "equity_snapshot": {
+    "gini_life_expectancy": 0.060042548860659926,
+    "gini_health_expenditure": 0.6918970670645813,
+    "concentration_index": 0.050050904867354654,
+    "by_income_group": [
+      {
+        "income_group": "HIC",
+        "country_count": 70,
+        "avg_life_expectancy": 78.90051791158906,
+        "avg_health_exp": 3472.1676722936504,
+        "avg_input_index": 0.6876001914080075,
+        "avg_output_index": 0.8227777578368349
+      },
+      {
+        "income_group": "LIC",
+        "country_count": 25,
+        "avg_life_expectancy": 62.047039999999996,
+        "avg_health_exp": 43.378650353750004,
+        "avg_input_index": -0.38707151095672887,
+        "avg_output_index": -1.4423138973933716
+      },
+      {
+        "income_group": "LMC",
+        "country_count": 50,
+        "avg_life_expectancy": 67.044475609756,
+        "avg_health_exp": 145.931717072,
+        "avg_input_index": -0.4956731795042548,
+        "avg_output_index": -0.5583204464571717
+      },
+      {
+        "income_group": "UMC",
+        "country_count": 53,
+        "avg_life_expectancy": 72.4175830648868,
+        "avg_health_exp": 509.0661911603846,
+        "avg_input_index": -0.1941711302695869,
+        "avg_output_index": 0.23901618678702102
+      }
+    ],
+    "by_who_region": [
+      {
+        "region": "AFRO",
+        "country_count": 48,
+        "avg_life_expectancy": 62.180071138210415,
+        "avg_health_exp": 127.02304057604168,
+        "avg_input_index": -0.5409976845058667,
+        "avg_output_index": -1.275297992548862
+      },
+      {
+        "region": "AMRO",
+        "country_count": 38,
+        "avg_life_expectancy": 74.04745442875526,
+        "avg_health_exp": 1257.9713240235294,
+        "avg_input_index": 0.06969938365346873,
+        "avg_output_index": 0.3692847060815132
+      },
+      {
+        "region": "EMRO",
+        "country_count": 23,
+        "avg_life_expectancy": 74.01460869565217,
+        "avg_health_exp": 855.768988568261,
+        "avg_input_index": -0.24938790833774424,
+        "avg_output_index": 0.23810557794565798
+      },
+      {
+        "region": "EURO",
+        "country_count": 52,
+        "avg_life_expectancy": 77.43155550025305,
+        "avg_health_exp": 2925.4060671941174,
+        "avg_input_index": 0.5489992934588855,
+        "avg_output_index": 0.7456535263870647
+      },
+      {
+        "region": "SEARO",
+        "country_count": 6,
+        "avg_life_expectancy": 73.60066666666667,
+        "avg_health_exp": 279.93442281166665,
+        "avg_input_index": -0.5642131288729505,
+        "avg_output_index": 0.19071866921883043
+      },
+      {
+        "region": "WPRO",
+        "country_count": 33,
+        "avg_life_expectancy": 73.04606422764333,
+        "avg_health_exp": 1185.0063206906898,
+        "avg_input_index": 0.07105987780583817,
+        "avg_output_index": 0.17992788228190487
+      }
+    ]
+  }
 }

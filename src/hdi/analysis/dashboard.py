@@ -398,6 +398,26 @@ def _build_china_deep_dive(china: pd.DataFrame) -> dict[str, Any]:
     return payload
 
 
+def _load_global_equity_snapshot() -> dict[str, Any]:
+    """Load global equity breakdown (by income, by region) from api_output."""
+    equity_path = API_OUTPUT / "dim3" / "equity.json"
+    if not equity_path.exists():
+        return {}
+    import json
+    with open(equity_path, encoding="utf-8") as _f:
+        wrapped = json.load(_f)
+    data = wrapped.get("data", wrapped) if isinstance(wrapped, dict) else {}
+    return {
+        "equity_snapshot": {
+            "gini_life_expectancy": data.get("gini_life_expectancy"),
+            "gini_health_expenditure": data.get("gini_health_expenditure"),
+            "concentration_index": data.get("concentration_index_exp_vs_life_expectancy"),
+            "by_income_group": data.get("by_income_group", []),
+            "by_who_region": data.get("by_who_region", []),
+        }
+    }
+
+
 def _build_equity_data(master: pd.DataFrame) -> dict[str, Any]:
     """Compute per-year health equity metrics across countries."""
     years = sorted(master["year"].unique())
@@ -659,6 +679,7 @@ def build_dashboard_assets() -> dict[str, Any]:
             "scenarios": optimization_lab["scenarios"],
         },
         **_build_equity_data(master),
+        **_load_global_equity_snapshot(),
     }
 
     country_profiles: dict[str, Any] = {}

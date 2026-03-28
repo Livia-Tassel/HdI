@@ -1987,13 +1987,19 @@ function renderCompanionChart() {
   }
 
   const dim3ToggleHtml = `<span class="companion-toggle" id="companion-toggle">` +
-    `<button class="companion-toggle-btn ${state.companionView !== "equity" ? "is-active" : ""}" data-view="reallocation">重分配</button>` +
+    `<button class="companion-toggle-btn ${state.companionView === "reallocation" || !["equity","quadrant"].includes(state.companionView) ? "is-active" : ""}" data-view="reallocation">重分配</button>` +
+    `<button class="companion-toggle-btn ${state.companionView === "quadrant" ? "is-active" : ""}" data-view="quadrant">象限</button>` +
     `<button class="companion-toggle-btn ${state.companionView === "equity" ? "is-active" : ""}" data-view="equity">公平</button>` +
     `</span>`;
-  document.getElementById("companion-title").innerHTML =
-    state.companionView === "equity" ? `全球健康公平趋势${dim3ToggleHtml}` : `情景赢家与捐助者${dim3ToggleHtml}`;
+  const dim3Titles = {
+    equity: `全球健康公平趋势${dim3ToggleHtml}`,
+    quadrant: `全球投入-产出象限${dim3ToggleHtml}`,
+  };
+  document.getElementById("companion-title").innerHTML = dim3Titles[state.companionView] ?? `情景赢家与捐助者${dim3ToggleHtml}`;
   document.getElementById("companion-pill").textContent =
-    state.companionView === "equity" ? "基尼系数" : budgetLabel(state.budgetMultiplier);
+    state.companionView === "equity" ? "基尼系数" :
+    state.companionView === "quadrant" ? "四象限分类" :
+    budgetLabel(state.budgetMultiplier);
   document.querySelectorAll(".companion-toggle-btn").forEach((btn) => {
     btn.addEventListener("click", () => {
       state.companionView = btn.dataset.view;
@@ -2002,6 +2008,8 @@ function renderCompanionChart() {
   });
   if (state.companionView === "equity") {
     renderEquityChart();
+  } else if (state.companionView === "quadrant") {
+    renderGlobalQuadrantScatter();
   } else {
     renderOptimizationBar();
   }
@@ -2180,6 +2188,86 @@ function renderEquityChart() {
     }),
     { responsive: true, displayModeBar: false, scrollZoom: false },
   );
+}
+
+function renderGlobalQuadrantScatter() {
+  const countries = store.overview?.countries ?? [];
+  if (!countries.length) {
+    emptyPlot("companion-chart", "暂无全球效率数据。");
+    return;
+  }
+
+  const QUADRANT_COLORS = {
+    "Q1_high_input_high_output": THEME.teal,
+    "Q2_low_input_high_output": THEME.emerald,
+    "Q3_high_input_low_output": THEME.rose,
+    "Q4_low_input_low_output": THEME.amber,
+    "unclassified": THEME.dim,
+  };
+  const QUADRANT_LABELS = {
+    "Q1_high_input_high_output": "高投入高产出",
+    "Q2_low_input_high_output": "低投入高产出",
+    "Q3_high_input_low_output": "高投入低产出",
+    "Q4_low_input_low_output": "低投入低产出",
+    "unclassified": "未分类",
+  };
+
+  const byQuadrant = {};
+  for (const c of countries) {
+    if (c.input_index == null || c.output_index == null) continue;
+    const q = c.quadrant ?? "unclassified";
+    if (!byQuadrant[q]) byQuadrant[q] = [];
+    byQuadrant[q].push(c);
+  }
+
+  const traces = Object.entries(byQuadrant).map(([q, cs]) => ({
+    type: "scatter",
+    mode: "markers",
+    x: cs.map((c) => c.input_index),
+    y: cs.map((c) => c.output_index),
+    marker: {
+      size: cs.map((c) => c.iso3 === state.country ? 12 : 7),
+      color: cs.map((c) => c.iso3 === state.country ? THEME.amber : (QUADRANT_COLORS[q] ?? THEME.dim)),
+      opacity: 0.8,
+      line: { color: "rgba(255,255,255,0.15)", width: 1 },
+    },
+    name: QUADRANT_LABELS[q] ?? q,
+    hovertemplate: cs.map((c) =>
+      `<b>${c.country_name ?? c.iso3}</b><br>投入指数：${c.input_index.toFixed(2)}<br>产出指数：${c.output_index.toFixed(2)}<br>象限：${QUADRANT_LABELS[q] ?? q}<extra></extra>`
+    ),
+    customdata: cs.map((c) => c.iso3),
+  }));
+
+  const shapes = [
+    { type: "line", x0: 0, x1: 0, y0: -5, y1: 5, line: { color: "rgba(148,163,184,0.25)", width: 1, dash: "dash" } },
+    { type: "line", x0: -5, x1: 5, y0: 0, y1: 0, line: { color: "rgba(148,163,184,0.25)", width: 1, dash: "dash" } },
+  ];
+
+  Plotly.react(
+    "companion-chart",
+    traces,
+    baseLayout({
+      xaxis: { title: "投入指数（标准化）", zeroline: false },
+      yaxis: { title: "产出指数（标准化）", zeroline: false },
+      legend: { orientation: "h", y: -0.18, x: 0, font: { size: 10 } },
+      shapes,
+    }),
+    { responsive: true, displayModeBar: false, scrollZoom: false },
+  );
+
+  const scatterNode = document.getElementById("companion-chart");
+  if (scatterNode && !scatterNode.dataset.globalQuadrantBound) {
+    scatterNode.on("plotly_click", (event) => {
+      if (state.dimension !== "dim3") return;
+      const iso3 = event.points?.[0]?.customdata;
+      if (iso3) {
+        state.country = iso3;
+        renderPanels();
+        updateMapHighlight(iso3);
+      }
+    });
+    scatterNode.dataset.globalQuadrantBound = "1";
+  }
 }
 
 function renderChinaNationalTrend() {
@@ -2447,6 +2535,7 @@ function renderDim3Context() {
 
   const scenarioSummary = scenario?.summary ?? {};
   const topRecipient = scenarioSummary.top_recipients?.[0];
+  const globalEquity = store.globalStory?.equity_snapshot ?? {};
   const summaryGrid = `
     <div class="lab-summary-grid">
       ${renderLabStat("优化目标", scenario?.objective_label ?? objectiveLabel(state.objective))}
@@ -2455,6 +2544,9 @@ function renderDim3Context() {
       ${renderLabStat("捐出国家数", formatInteger(scenarioSummary.donor_count))}
       ${renderLabStat("产出提升", scenarioSummary.projected_output_gain_pct != null ? `+${scenarioSummary.projected_output_gain_pct.toFixed(0)}%` : NO_DATA_LABEL)}
       ${renderLabStat("首要受益国", topRecipient ? (countryLabel(topRecipient) || topRecipient.iso3) : NO_DATA_LABEL)}
+      ${renderLabStat("全球基尼（预期寿命）", globalEquity.gini_life_expectancy != null ? globalEquity.gini_life_expectancy.toFixed(4) : NO_DATA_LABEL)}
+      ${renderLabStat("全球基尼（卫生支出）", globalEquity.gini_health_expenditure != null ? globalEquity.gini_health_expenditure.toFixed(4) : NO_DATA_LABEL)}
+      ${renderLabStat("集中指数（支出→寿命）", globalEquity.concentration_index != null ? globalEquity.concentration_index.toFixed(4) : NO_DATA_LABEL)}
     </div>
   `;
 
@@ -2482,6 +2574,16 @@ function renderDim3Context() {
     </div>
   ` : "";
 
+  const incomeGroups = globalEquity.by_income_group ?? [];
+  const INCOME_LABELS = { HIC: "高收入", UMC: "中高收入", LMC: "中低收入", LIC: "低收入" };
+  const incomeColumn = incomeGroups.length ? {
+    title: "收入组健康差距",
+    items: incomeGroups.map((g) => ({
+      name: INCOME_LABELS[g.income_group] ?? g.income_group,
+      value: `寿命 ${g.avg_life_expectancy != null ? g.avg_life_expectancy.toFixed(1) + "岁" : NO_DATA_LABEL}`,
+    })),
+  } : null;
+
   document.getElementById("context-panel").innerHTML = `
     <p class="context-lede">${escapeHtml(
       OBJECTIVE_META[state.objective]?.note ?? "当前情景设置已应用到最新资源面板。",
@@ -2497,7 +2599,7 @@ function renderDim3Context() {
         title: "主要捐出国家",
         items: donors.map((row) => ({ name: countryLabel(row), value: formatSignedPercent(row.change_pct) })),
       },
-      detailColumn,
+      incomeColumn ?? detailColumn,
     ])}
   `;
 }
