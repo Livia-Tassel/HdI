@@ -5,6 +5,7 @@ const DATA_SOURCES = {
   profiles: "./data/country_profiles.json",
   timeseries: "./data/overview_timeseries.json",
   chinaDeepDive: "./data/china_deep_dive.json",
+  chinaProvinces: "./data/china_provinces.json",
   panorama: "./data/panorama.json",
   bubbleTimeseries: "./data/bubble_timeseries.json",
   riskIndicators: "./data/risk_indicators.json",
@@ -34,10 +35,10 @@ const DIMENSIONS = {
   },
   dim4: {
     label: "中国大陆聚焦",
-    defaultMetric: "health_personnel",
-    mapTitle: "中国大陆省级卫生资源深度分析",
-    note: "探索中国大陆31个省级行政区的卫生人员与机构分布。",
-    metrics: ["health_personnel", "health_institutions"],
+    defaultMetric: "prov_gap",
+    mapTitle: "中国大陆省级卫生资源配置分析",
+    note: "探索中国大陆31个省级行政区的卫生资源配置、效率与优化方案。",
+    metrics: ["prov_gap", "prov_efficiency", "prov_life_expectancy", "prov_infant_mortality", "prov_personnel_per_1000", "prov_optimization_change"],
   },
   dim5: {
     label: "健康全景",
@@ -117,6 +118,45 @@ const METRIC_META = {
     colorscale: [[0, "#1a0808"], [0.25, "#4a1010"], [0.5, "#8b2020"], [0.75, "#dc2626"], [1, "#f87171"]],
     formatter: (value) => value == null ? NO_DATA_LABEL : `${formatCompact(value)} 个`,
     accessor: (row) => row.value,
+  },
+  prov_gap: {
+    label: "省级资源缺口",
+    colorscale: [[0, "#fb7185"], [0.25, "#4a1525"], [0.5, "#111827"], [0.75, "#0c3a32"], [1, "#2dd4bf"]],
+    formatter: (value) => formatSigned(value),
+    accessor: (row) => row.gap,
+    diverging: true,
+  },
+  prov_efficiency: {
+    label: "省级资源效率",
+    colorscale: [[0, "#fb7185"], [0.25, "#4a1525"], [0.5, "#111827"], [0.75, "#0c3a32"], [1, "#2dd4bf"]],
+    formatter: (value) => formatSigned(value),
+    accessor: (row) => row.efficiency,
+    diverging: true,
+  },
+  prov_life_expectancy: {
+    label: "平均预期寿命",
+    colorscale: [[0, "#0c1929"], [0.25, "#0e3a5e"], [0.5, "#0d6577"], [0.75, "#17a2b8"], [1, "#22d3ee"]],
+    formatter: (value) => value == null ? NO_DATA_LABEL : `${Number(value).toFixed(1)} 岁`,
+    accessor: (row) => row.life_expectancy,
+  },
+  prov_infant_mortality: {
+    label: "婴儿死亡率",
+    colorscale: [[0, "#0c1929"], [0.25, "#1e3a5f"], [0.5, "#7a5518"], [0.75, "#d4941a"], [1, "#fbbf24"]],
+    formatter: (value) => value == null ? NO_DATA_LABEL : `${Number(value).toFixed(1)} ‰`,
+    accessor: (row) => row.infant_mortality,
+  },
+  prov_personnel_per_1000: {
+    label: "卫生人员密度（每千人）",
+    colorscale: [[0, "#071a17"], [0.25, "#0c3a32"], [0.5, "#12705f"], [0.75, "#2dd4bf"], [1, "#99f6e4"]],
+    formatter: (value) => value == null ? NO_DATA_LABEL : `${Number(value).toFixed(2)}/千人`,
+    accessor: (row) => row.personnel_per_1000,
+  },
+  prov_optimization_change: {
+    label: "最优化调整方案（%）",
+    colorscale: [[0, "#fb7185"], [0.25, "#4a1525"], [0.5, "#111827"], [0.75, "#164e63"], [1, "#22d3ee"]],
+    formatter: (value) => formatSignedPercent(value),
+    accessor: (row) => row.prov_change_pct,
+    diverging: true,
   },
   hdi: {
     label: "人类发展指数",
@@ -310,6 +350,8 @@ const state = {
   animationTimer: null,
   province: "",
   companionView: "transition",
+  chinaObjective: "max_output",
+  chinaBudgetMultiplier: 1.0,
 };
 
 const store = {
@@ -319,6 +361,7 @@ const store = {
   profiles: null,
   timeseries: null,
   chinaDeepDive: null,
+  chinaProvinces: null,
   panorama: null,
   bubbleTimeseries: null,
   riskIndicators: null,
@@ -331,6 +374,11 @@ const store = {
   panoramaIndex: new Map(),
   riskIndicatorIndex: new Map(),
   bubbleYears: [],
+  chinaProvinceIndex: new Map(),
+  chinaOptimizationScenarios: [],
+  chinaScenarioIndex: new Map(),
+  chinaObjective: "max_output",
+  chinaBudgetMultiplier: 1.0,
 };
 
 document.addEventListener("DOMContentLoaded", async () => {
@@ -404,6 +452,20 @@ async function loadData() {
     store.bubbleYears = store.bubbleTimeseries.years;
   }
 
+  // Build China province index (by Chinese province name)
+  for (const prov of store.chinaDeepDive?.provinces ?? []) {
+    store.chinaProvinceIndex.set(prov.province, prov);
+  }
+
+  // Build China optimization scenarios index
+  const chinaOpt = store.chinaDeepDive?.optimization;
+  if (chinaOpt?.scenarios?.length) {
+    store.chinaOptimizationScenarios = chinaOpt.scenarios;
+    store.chinaScenarioIndex = new Map(
+      chinaOpt.scenarios.map((sc) => [sc.scenario_id, sc])
+    );
+  }
+
   primeState();
   populateCountryDatalist();
 }
@@ -423,6 +485,12 @@ function primeState() {
 
   state.risk = store.riskLatest.available_risks?.[0]?.risk_code ?? "";
   syncScenarioSelection();
+
+  // Default province: Beijing (北京市)
+  if (!state.province && store.chinaDeepDive?.provinces?.length) {
+    const bj = store.chinaDeepDive.provinces.find((p) => p.province === "北京市");
+    state.province = bj?.province ?? store.chinaDeepDive.provinces[0]?.province ?? "";
+  }
 }
 
 function normalizeOptimizationScenarios() {
@@ -944,7 +1012,7 @@ function getMapRecords() {
 
 function renderMap() {
   if (state.dimension === "dim4") {
-    renderChinaProvinceBar();
+    renderChinaMap();
     return;
   }
 
@@ -1049,48 +1117,131 @@ function renderMap() {
   }
 }
 
+function getCurrentChinaScenario() {
+  const id = `${state.chinaObjective}_budget_${String(Math.round(state.chinaBudgetMultiplier * 100)).padStart(3, "0")}`;
+  return store.chinaScenarioIndex.get(id) ?? store.chinaOptimizationScenarios[0] ?? null;
+}
+
+function getChinaProvinceRow(province) {
+  return store.chinaProvinceIndex.get(province) ?? null;
+}
+
 function renderChinaProvinceBar() {
+  renderChinaMap();
+}
+
+function renderChinaMap() {
   const data = store.chinaDeepDive;
-  if (!data?.rankings) {
+  const geojson = store.chinaProvinces;
+
+  if (!data?.provinces?.length || !geojson?.features) {
     emptyPlot("map-chart", "暂无中国大陆省级数据。");
     return;
   }
 
-  const metricKey = state.metric === "health_institutions" ? "health_institutions" : "health_personnel";
-  const ranking = [...(data.rankings[metricKey] ?? [])].reverse();
-  if (!ranking.length) {
-    emptyPlot("map-chart", "该指标暂无排名数据。");
-    return;
+  const metric = METRIC_META[state.metric] ?? METRIC_META["prov_gap"];
+  const isOptMetric = state.metric === "prov_optimization_change";
+
+  // Build province → value mapping
+  let provinceValues = {};
+  if (isOptMetric) {
+    const sc = getCurrentChinaScenario();
+    for (const row of sc?.allocation ?? []) {
+      provinceValues[row.province] = row.change_pct;
+    }
+  } else {
+    for (const prov of data.provinces) {
+      provinceValues[prov.province] = metric.accessor(prov);
+    }
   }
 
-  const barColors = ranking.map((r) =>
-    r.province === state.province ? "#f87171" : "rgba(239, 68, 68, 0.45)",
-  );
+  const locations = [];
+  const z = [];
+  const hovertext = [];
+  const customdata = [];
+
+  for (const feature of geojson.features) {
+    const name = feature.properties?.name;
+    if (!name || name === "") continue;
+    const val = provinceValues[name];
+    if (val == null) continue;
+    const provData = store.chinaProvinceIndex.get(name) ?? {};
+    locations.push(name);
+    z.push(val);
+    customdata.push(name);
+    hovertext.push(
+      `<b>${name}</b><br>` +
+      `地区：${provData.region ?? ""}（${provData.region_en ?? ""}）<br>` +
+      `${metric.label}：${metric.formatter(val)}<br>` +
+      `类型：${provData.quadrant ?? "—"}<br>` +
+      `预期寿命：${provData.life_expectancy != null ? provData.life_expectancy.toFixed(1) + " 岁" : "暂无"}`
+    );
+  }
+
+  const allVals = z.filter((v) => v != null && isFinite(v));
+  const isDivergent = metric.diverging || isOptMetric;
+  const absMax = isDivergent ? Math.max(Math.abs(Math.min(...allVals)), Math.abs(Math.max(...allVals))) : null;
+  const zmin = isDivergent ? -absMax : Math.min(...allVals);
+  const zmax = isDivergent ? absMax : Math.max(...allVals);
 
   Plotly.react(
     "map-chart",
     [
       {
-        type: "bar",
-        x: ranking.map((r) => r.value),
-        y: ranking.map((r) => provinceLabel(r.province)),
-        customdata: ranking.map((r) => r.province),
-        orientation: "h",
+        type: "choropleth",
+        geojson: geojson,
+        locations: locations,
+        z: z,
+        featureidkey: "properties.name",
+        text: hovertext,
+        hovertemplate: "%{text}<extra></extra>",
+        customdata: customdata,
+        colorscale: metric.colorscale,
+        zmin: zmin,
+        zmax: zmax,
+        zmid: isDivergent ? 0 : undefined,
         marker: {
-          color: barColors,
-          cornerradius: 4,
-          line: { width: 0 },
+          line: {
+            color: locations.map((n) => n === state.province ? "rgba(251,191,36,0.95)" : "rgba(148,163,184,0.25)"),
+            width: locations.map((n) => n === state.province ? 2.5 : 0.5),
+          },
         },
-        hovertemplate: "<b>%{y}</b><br>%{x:,.0f}<extra></extra>",
+        colorbar: {
+          title: metric.label,
+          thickness: 12,
+          len: 0.72,
+          x: 0.02,
+          xanchor: "left",
+          tickfont: { family: "SFMono-Regular, ui-monospace, monospace", size: 11, color: THEME.muted },
+          titlefont: { family: "system-ui, sans-serif", size: 12, color: THEME.muted },
+          outlinewidth: 0,
+        },
       },
     ],
     {
-      ...baseLayout({
-        xaxis: { title: METRIC_META[metricKey].label },
-        yaxis: { automargin: true, dtick: 1 },
-        margin: { l: 120, r: 20, t: 8, b: 42 },
-      }),
-      height: Math.max(500, ranking.length * 22),
+      paper_bgcolor: "rgba(0,0,0,0)",
+      plot_bgcolor: "rgba(0,0,0,0)",
+      margin: { l: 0, r: 0, t: 4, b: 0 },
+      geo: {
+        scope: "asia",
+        fitbounds: "geojson",
+        resolution: 50,
+        showframe: false,
+        showcoastlines: true,
+        coastlinecolor: "rgba(148,163,184,0.2)",
+        showland: true,
+        landcolor: "rgba(15,23,42,0.85)",
+        showocean: true,
+        oceancolor: "rgba(15,23,42,0.5)",
+        showcountries: true,
+        countrycolor: "rgba(148,163,184,0.15)",
+        bgcolor: "rgba(0,0,0,0)",
+        showlakes: false,
+        projection: { type: "mercator" },
+        center: { lon: 104, lat: 35 },
+        lonaxis: { range: [72, 140] },
+        lataxis: { range: [15, 55] },
+      },
     },
     { responsive: true, displayModeBar: false, scrollZoom: false },
   );
@@ -1103,7 +1254,7 @@ function renderChinaProvinceBar() {
       if (province) {
         state.province = province;
         renderPanels();
-        renderChinaProvinceBar();
+        renderChinaMap();
       }
     });
     mapNode.dataset.dim4Bound = "1";
@@ -1241,24 +1392,21 @@ function renderCountryPanel() {
     ];
   } else if (state.dimension === "dim4") {
     const chinaData = store.chinaDeepDive;
-    const prov = state.province || (chinaData?.provinces?.[0] ?? "");
-    const metricKey = state.metric === "health_institutions" ? "health_institutions" : "health_personnel";
-    const series = chinaData?.[metricKey]?.[prov] ?? [];
-    const latestVal = series.length ? series[series.length - 1].value : null;
-    const firstVal = series.length ? series[0].value : null;
-    const growth = firstVal && latestVal ? (((latestVal - firstVal) / firstVal) * 100).toFixed(1) : NO_DATA_LABEL;
-    const ranking = chinaData?.rankings?.[metricKey] ?? [];
-    const rank = ranking.findIndex((r) => r.province === prov) + 1;
+    const provinces = chinaData?.provinces ?? [];
+    const prov = state.province || (provinces[0]?.province ?? "");
+    const provData = store.chinaProvinceIndex.get(prov) ?? {};
+    const chinaScenario = getCurrentChinaScenario();
+    const optRow = (chinaScenario?.allocation ?? []).find((r) => r.province === prov) ?? {};
 
-    document.getElementById("country-title").textContent = prov ? provinceLabel(prov) : "选择省份";
-    document.getElementById("country-tag").textContent = "中国大陆省份";
+    document.getElementById("country-title").textContent = prov || "选择省份";
+    document.getElementById("country-tag").textContent = `${provData.region ?? "中国"} · ${provData.region_en ?? ""}`;
     items = [
-      ["省份", provinceLabel(prov), "rose"],
-      [METRIC_META[metricKey].label, METRIC_META[metricKey].formatter(latestVal), "cyan"],
-      ["全国排名", rank > 0 ? `第 ${rank} / ${ranking.length} 名` : NO_DATA_LABEL, "amber"],
-      ["期间增长", growth !== NO_DATA_LABEL ? `${growth}%` : NO_DATA_LABEL, "teal"],
-      ["数据点", `${series.length} 年`, "blue"],
-      ["最新年份", chinaData?.latest_year ? String(chinaData.latest_year) : NO_DATA_LABEL, "violet"],
+      ["象限类型", provData.quadrant ?? NO_DATA_LABEL, "rose"],
+      ["资源缺口", formatSigned(provData.gap), "teal"],
+      ["资源效率", formatSigned(provData.efficiency), "violet"],
+      ["预期寿命", provData.life_expectancy != null ? `${provData.life_expectancy.toFixed(1)} 岁` : NO_DATA_LABEL, "cyan"],
+      ["婴儿死亡率", provData.infant_mortality != null ? `${provData.infant_mortality.toFixed(1)} ‰` : NO_DATA_LABEL, "amber"],
+      ["优化调整", optRow.change_pct != null ? `${optRow.change_pct > 0 ? "+" : ""}${optRow.change_pct.toFixed(1)}%` : NO_DATA_LABEL, "blue"],
     ];
   } else {
     items = [
@@ -1345,16 +1493,25 @@ function renderRankingList() {
 
 function renderDim4RankingList() {
   const data = store.chinaDeepDive;
-  const metricKey = state.metric === "health_institutions" ? "health_institutions" : "health_personnel";
-  const ranking = data?.rankings?.[metricKey] ?? [];
-  const topRows = ranking.slice(0, 10);
-  const maxValue = topRows.length ? Math.max(...topRows.map((r) => Math.abs(r.value ?? 0)), 1) : 1;
+  const provinces = data?.provinces ?? [];
+  const metric = METRIC_META[state.metric] ?? METRIC_META["prov_gap"];
 
-  document.getElementById("ranking-caption").textContent = `${METRIC_META[metricKey].label} | 最新值`;
+  // Build sortable rows from province data
+  const rows = provinces
+    .map((p) => ({ province: p.province, value: metric.accessor(p) }))
+    .filter((r) => r.value != null && isFinite(r.value))
+    .sort((a, b) => b.value - a.value)
+    .slice(0, 12);
 
-  document.getElementById("ranking-list").innerHTML = topRows
+  const maxAbs = rows.length ? Math.max(...rows.map((r) => Math.abs(r.value)), 1) : 1;
+  document.getElementById("ranking-caption").textContent = `${metric.label} | 省级排名`;
+
+  document.getElementById("ranking-list").innerHTML = rows
     .map((row, index) => {
-      const progress = Math.round((Math.abs(row.value ?? 0) / maxValue) * 100);
+      const progress = Math.round((Math.abs(row.value) / maxAbs) * 100);
+      const accent = metric.diverging
+        ? row.value >= 0 ? "style='--bar-color:rgba(34,211,238,0.5)'" : "style='--bar-color:rgba(251,113,133,0.5)'"
+        : "";
       return `
         <button
           class="ranking-row ${row.province === state.province ? "is-selected" : ""}"
@@ -1365,10 +1522,10 @@ function renderDim4RankingList() {
         >
           <span class="rank-badge">${index + 1}</span>
           <span class="row-info">
-            <b>${escapeHtml(provinceLabel(row.province))}</b>
-            <small>中国大陆</small>
+            <b>${escapeHtml(row.province)}</b>
+            <small>${escapeHtml(store.chinaProvinceIndex.get(row.province)?.region ?? "中国大陆")}</small>
           </span>
-          <span class="row-value">${escapeHtml(METRIC_META[metricKey].formatter(row.value))}</span>
+          <span class="row-value">${escapeHtml(metric.formatter(row.value))}</span>
         </button>
       `;
     })
@@ -1378,18 +1535,80 @@ function renderDim4RankingList() {
     button.addEventListener("click", () => {
       state.province = button.dataset.province;
       renderPanels();
-      renderChinaProvinceBar();
+      renderChinaMap();
     });
   });
+}
+
+function renderChinaOptimizationDetail() {
+  const sc = getCurrentChinaScenario();
+  if (!sc?.allocation?.length) {
+    emptyPlot("detail-chart", "暂无省级优化数据。请确认数据已加载。");
+    return;
+  }
+
+  const rows = [...sc.allocation]
+    .filter((r) => r.change_pct != null)
+    .sort((a, b) => b.change_pct - a.change_pct);
+
+  const selectedProv = state.province;
+
+  Plotly.react(
+    "detail-chart",
+    [
+      {
+        type: "bar",
+        x: rows.map((r) => r.change_pct),
+        y: rows.map((r) => r.province),
+        customdata: rows.map((r) => r.province),
+        orientation: "h",
+        marker: {
+          color: rows.map((r) =>
+            r.province === selectedProv
+              ? THEME.amber
+              : r.change_pct >= 0
+              ? "rgba(34,211,238,0.65)"
+              : "rgba(251,113,133,0.55)"
+          ),
+          cornerradius: 4,
+          line: { width: 0 },
+        },
+        hovertemplate: "<b>%{y}</b><br>调整幅度：%{x:.1f}%<extra></extra>",
+      },
+    ],
+    {
+      ...baseLayout({
+        xaxis: { title: "建议调整幅度（%）", zeroline: true, zerolinecolor: "rgba(148,163,184,0.3)" },
+        yaxis: { automargin: true, dtick: 1 },
+        margin: { l: 110, r: 24, t: 8, b: 42 },
+      }),
+      height: Math.max(400, rows.length * 20),
+    },
+    { responsive: true, displayModeBar: false, scrollZoom: false },
+  );
+
+  const node = document.getElementById("detail-chart");
+  if (!node.dataset.chinaOptBound) {
+    node.on("plotly_click", (event) => {
+      if (state.dimension !== "dim4") return;
+      const prov = event?.points?.[0]?.customdata;
+      if (prov) {
+        state.province = prov;
+        renderPanels();
+        renderChinaMap();
+      }
+    });
+    node.dataset.chinaOptBound = "1";
+  }
 }
 
 function renderDetailChart() {
   const profile = store.profiles[state.country];
 
   if (state.dimension === "dim4") {
-    document.getElementById("detail-title").textContent = "省份时间序列";
-    document.getElementById("detail-pill").textContent = state.province ? provinceLabel(state.province) : "选择省份";
-    renderChinaDetailChart();
+    document.getElementById("detail-title").textContent = "省级优化方案对比";
+    document.getElementById("detail-pill").textContent = state.province || "省级资源调整";
+    renderChinaOptimizationDetail();
     return;
   }
 
@@ -1644,9 +1863,9 @@ function renderCompanionChart() {
   }
 
   if (state.dimension === "dim4") {
-    document.getElementById("companion-title").textContent = "全国汇总趋势";
-    document.getElementById("companion-pill").textContent = "全国";
-    renderChinaNationalTrend();
+    document.getElementById("companion-title").textContent = "省份卫生人员趋势";
+    document.getElementById("companion-pill").textContent = state.province || "选择省份";
+    renderChinaProvincePersonnelTrend();
     return;
   }
 
@@ -1868,6 +2087,60 @@ function renderChinaNationalTrend() {
   );
 }
 
+function renderChinaProvincePersonnelTrend() {
+  const data = store.chinaDeepDive;
+  const prov = state.province;
+  if (!prov) {
+    emptyPlot("companion-chart", "请在地图上点击选择省份。");
+    return;
+  }
+
+  const provEn = store.chinaProvinceIndex.get(prov)?.province_en;
+  const series = (data?.personnel_history?.[provEn] ?? []);
+
+  if (!series.length) {
+    emptyPlot("companion-chart", `暂无 ${prov} 的卫生人员历史数据。`);
+    return;
+  }
+
+  const natSeries = data?.national_trend?.health_personnel ?? [];
+
+  const traces = [
+    {
+      x: series.map((r) => r.year),
+      y: series.map((r) => r.health_personnel_wan),
+      name: prov,
+      mode: "lines+markers",
+      line: { color: THEME.amber, width: 3, shape: "spline" },
+      marker: { size: 6, color: THEME.amber },
+      fill: "tozeroy",
+      fillcolor: "rgba(251,191,36,0.07)",
+    },
+  ];
+
+  if (natSeries.length) {
+    traces.push({
+      x: natSeries.map((r) => r.year),
+      y: natSeries.map((r) => r.value),
+      name: "全国",
+      mode: "lines",
+      line: { color: THEME.dim, width: 1.5, dash: "dot" },
+      yaxis: "y2",
+    });
+  }
+
+  Plotly.react(
+    "companion-chart",
+    traces,
+    baseLayout({
+      yaxis: { title: "卫生人员（万人）" },
+      yaxis2: { title: "全国（万人）", overlaying: "y", side: "right", showgrid: false },
+      legend: { orientation: "h", y: 1.05, x: 0 },
+    }),
+    { responsive: true, displayModeBar: false, scrollZoom: false },
+  );
+}
+
 function renderContextPanel() {
   if (state.dimension === "dim1") {
     document.getElementById("context-title").textContent = "全球极值与结构对比";
@@ -1882,7 +2155,8 @@ function renderContextPanel() {
   }
 
   if (state.dimension === "dim4") {
-    document.getElementById("context-title").textContent = "省级比较分析";
+    document.getElementById("context-title").textContent = "省级优化与公平分析";
+    document.getElementById("context-pill").textContent = "中国视角";
     renderDim4Context();
     return;
   }
@@ -2005,35 +2279,94 @@ function renderDim4Context() {
     return;
   }
 
-  const metricKey = state.metric === "health_institutions" ? "health_institutions" : "health_personnel";
-  const ranking = data.rankings?.[metricKey] ?? [];
-  const top5 = ranking.slice(0, 5);
-  const bottom5 = ranking.slice(-5).reverse();
+  const provinces = data.provinces ?? [];
+  const byRegion = data.by_region ?? [];
+  const equity = data.equity_metrics ?? {};
+  const chinaScenario = getCurrentChinaScenario();
+  const allocation = chinaScenario?.allocation ?? [];
 
-  // Growth analysis
-  const growthList = (data.provinces ?? []).map((prov) => {
-    const series = data[metricKey]?.[prov] ?? [];
-    if (series.length < 2) return { province: prov, growth: 0 };
-    const first = series[0].value;
-    const last = series[series.length - 1].value;
-    return { province: prov, growth: first ? ((last - first) / first) * 100 : 0 };
-  }).sort((a, b) => b.growth - a.growth);
-  const fastGrowing = growthList.slice(0, 5);
+  // Top 5 recipients and donors in current China optimization scenario
+  const recipients = [...allocation].filter((r) => r.change_pct > 0)
+    .sort((a, b) => b.change_pct - a.change_pct).slice(0, 5);
+  const donors = [...allocation].filter((r) => r.change_pct < 0)
+    .sort((a, b) => a.change_pct - b.change_pct).slice(0, 5);
 
-  document.getElementById("context-panel").innerHTML = renderContextColumns([
-    {
-      title: `前 5 名${METRIC_META[metricKey].label}`,
-      items: top5.map((r) => ({ name: provinceLabel(r.province), value: METRIC_META[metricKey].formatter(r.value) })),
+  // Quadrant counts
+  const qcounts = data.quadrant_counts ?? {};
+  const quadrantRecs = _chinaQuadrantRecommendations();
+
+  const prov = state.province;
+  const provData = store.chinaProvinceIndex.get(prov) ?? {};
+  const quadrant = provData.quadrant ?? "";
+  const rec = quadrantRecs[quadrant] ?? { title: "政策建议", policy: "根据省份资源配置类型制定差异化政策。", priority: "—" };
+
+  const equityBlock = `
+    <div class="lab-summary-grid">
+      ${renderLabStat("基尼系数（预期寿命）", equity.gini_life_expectancy != null ? equity.gini_life_expectancy.toFixed(4) : NO_DATA_LABEL)}
+      ${renderLabStat("基尼系数（卫生支出）", equity.gini_health_expenditure != null ? equity.gini_health_expenditure.toFixed(4) : NO_DATA_LABEL)}
+      ${renderLabStat("婴儿死亡率集中指数", equity.concentration_index_exp_vs_life_expectancy != null ? equity.concentration_index_exp_vs_life_expectancy.toFixed(4) : NO_DATA_LABEL)}
+      ${renderLabStat("优化目标", chinaScenario?.objective_label ?? NO_DATA_LABEL)}
+      ${renderLabStat("预算情景", chinaScenario ? `${((chinaScenario.budget_multiplier - 1) * 100 >= 0 ? "+" : "")}${((chinaScenario.budget_multiplier - 1) * 100).toFixed(0)}%` : NO_DATA_LABEL)}
+      ${renderLabStat("预计产出提升", chinaScenario?.summary?.projected_output_gain_pct != null ? `${chinaScenario.summary.projected_output_gain_pct.toFixed(2)}%` : NO_DATA_LABEL)}
+    </div>
+  `;
+
+  const recBlock = quadrant ? `
+    <div class="context-rec-block">
+      <div class="rec-badge rec-${quadrant.replace(/[^a-zA-Z]/g, "_").toLowerCase()}">${escapeHtml(quadrant)}</div>
+      <div class="rec-title">${escapeHtml(rec.title)}</div>
+      <div class="rec-body">${escapeHtml(rec.policy)}</div>
+      <div class="rec-priority"><span>优先行动：</span>${escapeHtml(rec.priority)}</div>
+    </div>
+  ` : "";
+
+  document.getElementById("context-panel").innerHTML = `
+    <p class="context-lede">中国省级卫生资源配置分析 · ${chinaScenario?.objective_label ?? "最优化模型"}</p>
+    ${equityBlock}
+    ${recBlock}
+    ${renderContextColumns([
+      {
+        title: "优化建议受益省份",
+        items: recipients.map((r) => ({ name: r.province, value: `+${r.change_pct.toFixed(1)}%` })),
+      },
+      {
+        title: "优化建议减少省份",
+        items: donors.map((r) => ({ name: r.province, value: `${r.change_pct.toFixed(1)}%` })),
+      },
+      {
+        title: "分地区资源汇总",
+        items: byRegion.map((r) => ({
+          name: `${r.region_cn ?? r.region_en}（${r.province_count} 省）`,
+          value: `人均支出：${r.avg_health_exp != null ? "¥" + Math.round(r.avg_health_exp).toLocaleString() : NO_DATA_LABEL}`,
+        })),
+      },
+    ])}
+  `;
+}
+
+function _chinaQuadrantRecommendations() {
+  return {
+    "Q1_高投入高产出": {
+      title: "高投入高产出：保持优势，扩大经验辐射",
+      policy: "该类省份资源充足、健康产出优良，应总结管理经验，向欠发达地区输出模式。重点防范资源浪费，优化结构而非扩大总量。",
+      priority: "建立区域帮扶机制，分享精细化管理模式",
     },
-    {
-      title: `后 5 名${METRIC_META[metricKey].label}`,
-      items: bottom5.map((r) => ({ name: provinceLabel(r.province), value: METRIC_META[metricKey].formatter(r.value) })),
+    "Q2_低投入高产出": {
+      title: "低投入高产出：效率领先，推广可复制经验",
+      policy: "该类省份以有限资源实现高健康产出，具有较强管理效率和资源使用能力。应总结经验做法，形成可复制推广的低成本高效模式。",
+      priority: "提炼效率管理经验，争取适度增加投入以巩固优势",
     },
-    {
-      title: "增速最快（观察期）",
-      items: fastGrowing.map((r) => ({ name: provinceLabel(r.province), value: `${r.growth.toFixed(1)}%` })),
+    "Q3_高投入低产出": {
+      title: "高投入低产出：提升效率，优化资源结构",
+      policy: "该类省份投入充足但产出不足，反映管理效率低下或资源错配。应开展资源使用审计，优化激励机制，引入绩效管理，将重点从量的增加转向质的提升。",
+      priority: "推进卫生体系管理改革，建立绩效考核机制",
     },
-  ]);
+    "Q4_低投入低产出": {
+      title: "低投入低产出：双轨并行，增投提效",
+      policy: "该类省份资源严重不足且健康产出偏低，需要同步增加投入与提升效率。应优先保障基础卫生设施和基层医疗人才，同时借鉴Q2省份经验，避免重蹈投入低效覆辙。",
+      priority: "争取中央转移支付，优先补齐基层医疗短板",
+    },
+  };
 }
 
 // ── dim5 Charts ─────────────────────────────────────────────────
@@ -2829,7 +3162,10 @@ function incomeLabel(value) {
 
 function provinceLabel(value) {
   if (!value) return NO_DATA_LABEL;
-  return PROVINCE_LABELS[value] ?? String(value);
+  // Handle English names → Chinese (PROVINCE_LABELS map)
+  if (PROVINCE_LABELS[value]) return PROVINCE_LABELS[value];
+  // Chinese names are passed through directly (from new province data)
+  return String(value);
 }
 
 function resolveProvinceInput(input) {
