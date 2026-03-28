@@ -365,17 +365,37 @@ def _build_china_deep_dive(china: pd.DataFrame) -> dict[str, Any]:
         ],
     }
 
-    return {
-        "latest_year": latest_year,
-        "provinces": province_list,
+    # Load China optimization analysis from competition pipeline output (if available)
+    china_analysis_path = API_OUTPUT / "dim3" / "china_analysis.json"
+    china_analysis: dict[str, Any] = {}
+    if china_analysis_path.exists():
+        try:
+            with open(china_analysis_path, encoding="utf-8") as _f:
+                _wrapped = json.load(_f)
+            china_analysis = _wrapped.get("data", _wrapped)
+        except Exception:
+            pass
+
+    payload: dict[str, Any] = {
+        "latest_year": china_analysis.get("latest_year", latest_year),
+        # Full province objects from optimization analysis (personnel_per_1000, gap, quadrant, etc.)
+        "provinces": china_analysis.get("provinces", province_list),
+        "resource_gap": china_analysis.get("resource_gap", []),
+        "quadrant_counts": china_analysis.get("quadrant_counts", {}),
+        "equity_metrics": china_analysis.get("equity_metrics", {}),
+        "by_region": china_analysis.get("by_region", []),
+        "optimization": china_analysis.get("optimization", {}),
+        "personnel_history": china_analysis.get("personnel_history", {}),
+        # Time-series data from raw China panel CSV
         "health_personnel": staff_series,
         "health_institutions": inst_series,
         "rankings": {
             "health_personnel": staff_ranking,
             "health_institutions": inst_ranking,
         },
-        "national_trend": national_trend,
+        "national_trend": china_analysis.get("national_trend", national_trend),
     }
+    return payload
 
 
 def _build_equity_data(master: pd.DataFrame) -> dict[str, Any]:
