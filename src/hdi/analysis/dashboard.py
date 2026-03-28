@@ -651,6 +651,16 @@ def build_dashboard_assets() -> dict[str, Any]:
                     "optimal",
                     "change",
                     "change_pct",
+                    "infant_mortality",
+                    "under5_mortality",
+                    "adult_mortality_male",
+                    "adult_mortality_female",
+                    "basic_water_pct",
+                    "basic_sanitation_pct",
+                    "measles_immunization_pct",
+                    "urban_population_pct",
+                    "fertility_rate",
+                    "nurses_per_1000",
                 ]
             ].sort_values("country_name")
         ),

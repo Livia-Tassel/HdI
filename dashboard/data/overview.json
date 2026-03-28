@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-03-28T10:26:03.537158+00:00",
+  "generated_at": "2026-03-28T10:39:17.774064+00:00",
   "latest_year": 2023,
   "summary": {
     "dimension1": {
@@ -123,7 +123,17 @@
       "current": 80.6516037,
       "optimal": 161.3032074,
       "change": 80.6516037,
-      "change_pct": 100.0
+      "change_pct": 100.0,
+      "infant_mortality": 44.8,
+      "under5_mortality": 57.7,
+      "adult_mortality_male": 224.241,
+      "adult_mortality_female": 178.756,
+      "basic_water_pct": 76.0781091749,
+      "basic_sanitation_pct": 50.7145360811,
+      "measles_immunization_pct": 68.0,
+      "urban_population_pct": 25.4730529631167,
+      "fertility_rate": 4.523,
+      "nurses_per_1000": null
     },
     {
       "iso3": "ALB",
@@ -156,7 +166,17 @@
       "current": 414.35025024,
       "optimal": 828.70050048,
       "change": 414.35025024,
-      "change_pct": 100.0
+      "change_pct": 100.0,
+      "infant_mortality": 8.4,
+      "under5_mortality": 9.4,
+      "adult_mortality_male": 96.552,
+      "adult_mortality_female": 48.275,
+      "basic_water_pct": 94.091358059,
+      "basic_sanitation_pct": 99.2812795081,
+      "measles_immunization_pct": 86.0,
+      "urban_population_pct": 58.2106086137857,
+      "fertility_rate": 1.376,
+      "nurses_per_1000": null
     },
     {
       "iso3": "DZA",
@@ -189,7 +209,17 @@
       "current": 179.69688416,
       "optimal": 359.39376832,
       "change": 179.69688416,
-      "change_pct": 100.0
+      "change_pct": 100.0,
+      "infant_mortality": 18.7,
+      "under5_mortality": 21.8,
+      "adult_mortality_male": 80.475,
+      "adult_mortality_female": 64.68,
+      "basic_water_pct": 90.3747211505,
+      "basic_sanitation_pct": 79.6823778949,
+      "measles_immunization_pct": 79.0,
+      "urban_population_pct": 74.732808364138,
+      "fertility_rate": 2.829,
+      "nurses_per_1000": null
     },
     {
       "iso3": "ASM",
@@ -222,7 +252,17 @@
       "current": null,
       "optimal": null,
       "change": null,
-      "change_pct": null
+      "change_pct": null,
+      "infant_mortality": null,
+      "under5_mortality": null,
+      "adult_mortality_male": 209.063,
+      "adult_mortality_female": 120.599,
+      "basic_water_pct": 99.2447518117,
+      "basic_sanitation_pct": 54.1452985866,
+      "measles_immunization_pct": null,
+      "urban_population_pct": 81.3721542708222,
+      "fertility_rate": null,
+      "nurses_per_1000": null
     },
     {
       "iso3": "AND",
@@ -255,7 +295,17 @@
       "current": 3654.07470703,
       "optimal": 2965.674106086618,
       "change": -688.400600943382,
-      "change_pct": -18.839259077516452
+      "change_pct": -18.839259077516452,
+      "infant_mortality": 2.6,
+      "under5_mortality": 2.7,
+      "adult_mortality_male": 42.502,
+      "adult_mortality_female": 27.394,
+      "basic_water_pct": 100.0,
+      "basic_sanitation_pct": 100.0,
+      "measles_immunization_pct": 98.0,
+      "urban_population_pct": 88.8201609217082,
+      "fertility_rate": null,
+      "nurses_per_1000": null
     },
     {
       "iso3": "AGO",
@@ -288,7 +338,17 @@
       "current": 101.25614166,
       "optimal": 202.51228332,
       "change": 101.25614166,
-      "change_pct": 100.0
+      "change_pct": 100.0,
+      "infant_mortality": 45.7,
+      "under5_mortality": 66.9,
+      "adult_mortality_male": 271.059,
+      "adult_mortality_female": 184.253,
+      "basic_water_pct": 27.8082266101,
+      "basic_sanitation_pct": 24.1564006312,
+      "measles_immunization_pct": 37.0,
+      "urban_population_pct": 69.8515032220457,
+      "fertility_rate": 5.209,
+      "nurses_per_1000": null
     },
     {
       "iso3": "ATG",
@@ -321,7 +381,17 @@
       "current": 1084.88330078,
       "optimal": 2169.76660156,
       "change": 1084.88330078,
-      "change_pct": 100.0
+      "change_pct": 100.0,
+      "infant_mortality": 8.1,
+      "under5_mortality": 9.5,
+      "adult_mortality_male": 126.127,
+      "adult_mortality_female": 90.781,
+      "basic_water_pct": 98.3489563398,
+      "basic_sanitation_pct": 95.4005373284,
+      "measles_immunization_pct": 99.0,
+      "urban_population_pct": 24.4500156687422,
+      "fertility_rate": 1.58,
+      "nurses_per_1000": null
     },
     {
       "iso3": "ARG",
@@ -354,7 +424,17 @@
       "current": 1370.88464355,
       "optimal": 2741.7692871,
       "change": 1370.88464355,
-      "change_pct": 100.0
+      "change_pct": 100.0,
+      "infant_mortality": 8.4,
+      "under5_mortality": 9.4,
+      "adult_mortality_male": 123.699,
+      "adult_mortality_female": 82.434,
+      "basic_water_pct": 99.8173132585,
+      "basic_sanitation_pct": 98.4695992601,
+      "measles_immunization_pct": 83.0,
+      "urban_population_pct": 92.1945132257907,
+      "fertility_rate": 1.876,
+      "nurses_per_1000": null
     },
     {
       "iso3": "ARM",
@@ -387,7 +467,17 @@
       "current": 674.78619385,
       "optimal": 1349.5723877,
       "change": 674.78619385,
-      "change_pct": 100.0
+      "change_pct": 100.0,
+      "infant_mortality": 9.2,
+      "under5_mortality": 10.3,
+      "adult_mortality_male": 182.802,
+      "adult_mortality_female": 56.354,
+      "basic_water_pct": 99.9501400201,
+      "basic_sanitation_pct": 83.4730055679,
+      "measles_immunization_pct": 95.0,
+      "urban_population_pct": 65.6956882008852,
+      "fertility_rate": 1.575,
+      "nurses_per_1000": null
     },
     {
       "iso3": "AUS",
@@ -420,7 +510,17 @@
       "current": 6730.99511719,
       "optimal": 3365.497558595,
       "change": -3365.497558595,
-      "change_pct": -50.0
+      "change_pct": -50.0,
+      "infant_mortality": 3.2,
+      "under5_mortality": 3.8,
+      "adult_mortality_male": 72.64,
+      "adult_mortality_female": 41.647,
+      "basic_water_pct": 99.965,
+      "basic_sanitation_pct": 100.0,
+      "measles_immunization_pct": 96.0,
+      "urban_population_pct": 87.4866955653765,
+      "fertility_rate": 1.63,
+      "nurses_per_1000": 14.82
     },
     {
       "iso3": "AUT",
@@ -453,7 +553,17 @@
       "current": 6208.64453125,
       "optimal": 3104.322265625,
       "change": -3104.322265625,
-      "change_pct": -50.0
+      "change_pct": -50.0,
+      "infant_mortality": 2.6,
+      "under5_mortality": 3.2,
+      "adult_mortality_male": 75.084,
+      "adult_mortality_female": 39.538,
+      "basic_water_pct": 99.9999993664,
+      "basic_sanitation_pct": 99.9533680136,
+      "measles_immunization_pct": 95.0,
+      "urban_population_pct": 69.2265358276021,
+      "fertility_rate": 1.41,
+      "nurses_per_1000": null
     },
     {
       "iso3": "AZE",
@@ -486,7 +596,17 @@
       "current": 304.20162964,
       "optimal": 608.40325928,
       "change": 304.20162964,
-      "change_pct": 100.0
+      "change_pct": 100.0,
+      "infant_mortality": 16.1,
+      "under5_mortality": 18.1,
+      "adult_mortality_male": 145.082,
+      "adult_mortality_female": 69.216,
+      "basic_water_pct": 94.4949557338,
+      "basic_sanitation_pct": 96.4432786282,
+      "measles_immunization_pct": 93.0,
+      "urban_population_pct": 58.5075350483702,
+      "fertility_rate": 1.67,
+      "nurses_per_1000": null
     },
     {
       "iso3": "BHS",
@@ -519,7 +639,17 @@
       "current": 2341.32348633,
       "optimal": 2965.674106086618,
       "change": 624.350619756618,
-      "change_pct": 26.666568007451254
+      "change_pct": 26.666568007451254,
+      "infant_mortality": 11.2,
+      "under5_mortality": 12.9,
+      "adult_mortality_male": 207.906,
+      "adult_mortality_female": 121.419,
+      "basic_water_pct": null,
+      "basic_sanitation_pct": null,
+      "measles_immunization_pct": 80.0,
+      "urban_population_pct": 81.3213799173676,
+      "fertility_rate": 1.38,
+      "nurses_per_1000": null
     },
     {
       "iso3": "BHR",
@@ -552,7 +682,17 @@
       "current": 1110.67590332,
       "optimal": 2221.35180664,
       "change": 1110.67590332,
-      "change_pct": 100.0
+      "change_pct": 100.0,
+      "infant_mortality": 5.6,
+      "under5_mortality": 6.5,
+      "adult_mortality_male": 55.266,
+      "adult_mortality_female": 47.18,
+      "basic_water_pct": 99.919899021,
+      "basic_sanitation_pct": 100.0,
+      "measles_immunization_pct": 99.0,
+      "urban_population_pct": 100.0,
+      "fertility_rate": 1.797,
+      "nurses_per_1000": null
     },
     {
       "iso3": "BGD",
@@ -585,7 +725,17 @@
       "current": 61.09237671,
       "optimal": 122.18475342,
       "change": 61.09237671,
-      "change_pct": 100.0
+      "change_pct": 100.0,
+      "infant_mortality": 24.1,
+      "under5_mortality": 28.8,
+      "adult_mortality_male": 141.409,
+      "adult_mortality_female": 108.97,
+      "basic_water_pct": 97.7656611404,
+      "basic_sanitation_pct": 55.3981921966,
+      "measles_immunization_pct": 97.0,
+      "urban_population_pct": 32.1578465036834,
+      "fertility_rate": 1.95,
+      "nurses_per_1000": 0.613
     },
     {
       "iso3": "BRB",
@@ -618,7 +768,17 @@
       "current": 1302.0592041,
       "optimal": 2604.1184082,
       "change": 1302.0592041,
-      "change_pct": 100.0
+      "change_pct": 100.0,
+      "infant_mortality": 10.1,
+      "under5_mortality": 10.9,
+      "adult_mortality_male": 135.207,
+      "adult_mortality_female": 82.669,
+      "basic_water_pct": 98.5144504186,
+      "basic_sanitation_pct": 98.0924623116,
+      "measles_immunization_pct": 85.0,
+      "urban_population_pct": 59.4235740235775,
+      "fertility_rate": 1.634,
+      "nurses_per_1000": null
     },
     {
       "iso3": "BLR",
@@ -651,7 +811,17 @@
       "current": 529.01873779,
       "optimal": 1058.03747558,
       "change": 529.01873779,
-      "change_pct": 100.0
+      "change_pct": 100.0,
+      "infant_mortality": 1.9,
+      "under5_mortality": 2.6,
+      "adult_mortality_male": null,
+      "adult_mortality_female": null,
+      "basic_water_pct": 98.0697125556,
+      "basic_sanitation_pct": 98.2047821553,
+      "measles_immunization_pct": 98.0,
+      "urban_population_pct": 78.8146420666327,
+      "fertility_rate": 1.495,
+      "nurses_per_1000": null
     },
     {
       "iso3": "BEL",
@@ -684,7 +854,17 @@
       "current": 5404.62402344,
       "optimal": 2965.674106086618,
       "change": -2438.9499173533823,
-      "change_pct": -45.12709684846884
+      "change_pct": -45.12709684846884,
+      "infant_mortality": 3.1,
+      "under5_mortality": 3.7,
+      "adult_mortality_male": 76.294,
+      "adult_mortality_female": 46.992,
+      "basic_water_pct": 100.0,
+      "basic_sanitation_pct": 99.4861253854,
+      "measles_immunization_pct": 96.0,
+      "urban_population_pct": 87.551492636772,
+      "fertility_rate": 1.53,
+      "nurses_per_1000": 20.53
     },
     {
       "iso3": "BLZ",
@@ -717,7 +897,17 @@
       "current": 297.4163208,
       "optimal": 594.8326416,
       "change": 297.4163208,
-      "change_pct": 100.0
+      "change_pct": 100.0,
+      "infant_mortality": 9.4,
+      "under5_mortality": 10.9,
+      "adult_mortality_male": 190.839,
+      "adult_mortality_female": 102.326,
+      "basic_water_pct": 97.9952075789,
+      "basic_sanitation_pct": 83.6487867369,
+      "measles_immunization_pct": 81.0,
+      "urban_population_pct": 41.9459437504976,
+      "fertility_rate": 1.989,
+      "nurses_per_1000": null
     },
     {
       "iso3": "BEN",
@@ -750,7 +940,17 @@
       "current": 33.88216782,
       "optimal": 67.76433564,
       "change": 33.88216782,
-      "change_pct": 100.0
+      "change_pct": 100.0,
+      "infant_mortality": 53.6,
+      "under5_mortality": 80.8,
+      "adult_mortality_male": 289.487,
+      "adult_mortality_female": 244.603,
+      "basic_water_pct": 60.7737858109,
+      "basic_sanitation_pct": 9.6318655051,
+      "measles_immunization_pct": 68.0,
+      "urban_population_pct": 51.7457922964593,
+      "fertility_rate": 4.895,
+      "nurses_per_1000": null
     },
     {
       "iso3": "BMU",
@@ -783,7 +983,17 @@
       "current": null,
       "optimal": null,
       "change": null,
-      "change_pct": null
+      "change_pct": null,
+      "infant_mortality": null,
+      "under5_mortality": null,
+      "adult_mortality_male": 83.797,
+      "adult_mortality_female": 46.678,
+      "basic_water_pct": 99.9031400171,
+      "basic_sanitation_pct": 99.9416526016,
+      "measles_immunization_pct": null,
+      "urban_population_pct": 100.0,
+      "fertility_rate": 1.3,
+      "nurses_per_1000": null
     },
     {
       "iso3": "BTN",
@@ -816,7 +1026,17 @@
       "current": 154.48924255,
       "optimal": 308.9784851,
       "change": 154.48924255,
-      "change_pct": 100.0
+      "change_pct": 100.0,
+      "infant_mortality": 20.1,
+      "under5_mortality": 23.7,
+      "adult_mortality_male": 139.392,
+      "adult_mortality_female": 98.866,
+      "basic_water_pct": 98.8445628654,
+      "basic_sanitation_pct": 77.2105653701,
+      "measles_immunization_pct": 97.0,
+      "urban_population_pct": 41.7352457989939,
+      "fertility_rate": 1.398,
+      "nurses_per_1000": 2.21
     },
     {
       "iso3": "BOL",
@@ -849,7 +1069,17 @@
       "current": 307.13800049,
       "optimal": 614.27600098,
       "change": 307.13800049,
-      "change_pct": 100.0
+      "change_pct": 100.0,
+      "infant_mortality": 19.6,
+      "under5_mortality": 23.9,
+      "adult_mortality_male": 229.038,
+      "adult_mortality_female": 148.197,
+      "basic_water_pct": 80.9655530027,
+      "basic_sanitation_pct": 47.267730215,
+      "measles_immunization_pct": 69.0,
+      "urban_population_pct": 70.9151414044538,
+      "fertility_rate": 2.584,
+      "nurses_per_1000": null
     },
     {
       "iso3": "BIH",
@@ -882,7 +1112,17 @@
       "current": 667.29681396,
       "optimal": 1334.59362792,
       "change": 667.29681396,
-      "change_pct": 100.0
+      "change_pct": 100.0,
+      "infant_mortality": 5.2,
+      "under5_mortality": 6.0,
+      "adult_mortality_male": 119.15,
+      "adult_mortality_female": 60.236,
+      "basic_water_pct": 94.8457044013,
+      "basic_sanitation_pct": 98.8671783668,
+      "measles_immunization_pct": 58.0,
+      "urban_population_pct": 51.5657239834305,
+      "fertility_rate": 1.346,
+      "nurses_per_1000": null
     },
     {
       "iso3": "BWA",
@@ -915,7 +1155,17 @@
       "current": 477.83258057,
       "optimal": 955.66516114,
       "change": 477.83258057,
-      "change_pct": 100.0
+      "change_pct": 100.0,
+      "infant_mortality": 31.2,
+      "under5_mortality": 38.7,
+      "adult_mortality_male": 224.835,
+      "adult_mortality_female": 152.104,
+      "basic_water_pct": 79.6189409838,
+      "basic_sanitation_pct": 52.4239559687,
+      "measles_immunization_pct": 90.0,
+      "urban_population_pct": 67.0212655349864,
+      "fertility_rate": 2.754,
+      "nurses_per_1000": null
     },
     {
       "iso3": "BRA",
@@ -948,7 +1198,17 @@
       "current": 848.57122803,
       "optimal": 1697.14245606,
       "change": 848.57122803,
-      "change_pct": 100.0
+      "change_pct": 100.0,
+      "infant_mortality": 12.5,
+      "under5_mortality": 14.0,
+      "adult_mortality_male": 168.837,
+      "adult_mortality_female": 85.735,
+      "basic_water_pct": 97.9870921875,
+      "basic_sanitation_pct": 64.2075541466,
+      "measles_immunization_pct": 81.0,
+      "urban_population_pct": 87.6159710235763,
+      "fertility_rate": 1.626,
+      "nurses_per_1000": 5.513
     },
     {
       "iso3": "BRN",
@@ -981,7 +1241,17 @@
       "current": 665.86773682,
       "optimal": 1331.73547364,
       "change": 665.86773682,
-      "change_pct": 100.0
+      "change_pct": 100.0,
+      "infant_mortality": 8.5,
+      "under5_mortality": 9.7,
+      "adult_mortality_male": 137.466,
+      "adult_mortality_female": 94.428,
+      "basic_water_pct": 99.9000511641,
+      "basic_sanitation_pct": 99.4808254059,
+      "measles_immunization_pct": 97.0,
+      "urban_population_pct": 74.8199193881365,
+      "fertility_rate": 1.764,
+      "nurses_per_1000": 6.711
     },
     {
       "iso3": "BGR",
@@ -1014,7 +1284,17 @@
       "current": 1011.09472656,
       "optimal": 2022.18945312,
       "change": 1011.09472656,
-      "change_pct": 100.0
+      "change_pct": 100.0,
+      "infant_mortality": 5.0,
+      "under5_mortality": 6.1,
+      "adult_mortality_male": 234.351,
+      "adult_mortality_female": 118.345,
+      "basic_water_pct": 97.304277595,
+      "basic_sanitation_pct": 83.7151989506,
+      "measles_immunization_pct": 91.0,
+      "urban_population_pct": 73.7322671584613,
+      "fertility_rate": 1.78,
+      "nurses_per_1000": null
     },
     {
       "iso3": "BFA",
@@ -1047,7 +1327,17 @@
       "current": 56.75708389,
       "optimal": 113.51416778,
       "change": 56.75708389,
-      "change_pct": 100.0
+      "change_pct": 100.0,
+      "infant_mortality": 50.1,
+      "under5_mortality": 78.8,
+      "adult_mortality_male": 303.599,
+      "adult_mortality_female": 214.071,
+      "basic_water_pct": 34.8360456549,
+      "basic_sanitation_pct": 16.6142846137,
+      "measles_immunization_pct": 88.0,
+      "urban_population_pct": 27.7872478365158,
+      "fertility_rate": 4.665,
+      "nurses_per_1000": null
     },
     {
       "iso3": "BDI",
@@ -1080,7 +1370,17 @@
       "current": 24.68718529,
       "optimal": 49.37437058,
       "change": 24.68718529,
-      "change_pct": 100.0
+      "change_pct": 100.0,
+      "infant_mortality": 36.4,
+      "under5_mortality": 50.5,
+      "adult_mortality_male": 285.699,
+      "adult_mortality_female": 218.923,
+      "basic_water_pct": 57.6857652687,
+      "basic_sanitation_pct": 41.2453054817,
+      "measles_immunization_pct": 89.0,
+      "urban_population_pct": 23.5534768372276,
+      "fertility_rate": 4.98,
+      "nurses_per_1000": 0.758
     },
     {
       "iso3": "CPV",
@@ -1113,7 +1413,17 @@
       "current": 285.9694519,
       "optimal": 571.9389038,
       "change": 285.9694519,
-      "change_pct": 100.0
+      "change_pct": 100.0,
+      "infant_mortality": 10.6,
+      "under5_mortality": 12.3,
+      "adult_mortality_male": 162.081,
+      "adult_mortality_female": 59.668,
+      "basic_water_pct": 82.9222567954,
+      "basic_sanitation_pct": 76.6087313206,
+      "measles_immunization_pct": 95.0,
+      "urban_population_pct": 75.9064245753376,
+      "fertility_rate": 1.879,
+      "nurses_per_1000": null
     },
     {
       "iso3": "KHM",
@@ -1146,7 +1456,17 @@
       "current": 109.52975464,
       "optimal": 219.05950928,
       "change": 109.52975464,
-      "change_pct": 100.0
+      "change_pct": 100.0,
+      "infant_mortality": 20.3,
+      "under5_mortality": 23.7,
+      "adult_mortality_male": 208.418,
+      "adult_mortality_female": 132.779,
+      "basic_water_pct": 72.7644473307,
+      "basic_sanitation_pct": 71.2176686655,
+      "measles_immunization_pct": 83.0,
+      "urban_population_pct": 40.6290788072508,
+      "fertility_rate": 2.322,
+      "nurses_per_1000": null
     },
     {
       "iso3": "CMR",
@@ -1179,7 +1499,17 @@
       "current": 71.97737885,
       "optimal": 143.9547577,
       "change": 71.97737885,
-      "change_pct": 100.0
+      "change_pct": 100.0,
+      "infant_mortality": 47.0,
+      "under5_mortality": 69.8,
+      "adult_mortality_male": 274.97,
+      "adult_mortality_female": 195.633,
+      "basic_water_pct": 52.4611778364,
+      "basic_sanitation_pct": 21.6808490632,
+      "measles_immunization_pct": 65.0,
+      "urban_population_pct": 55.1286878511388,
+      "fertility_rate": 4.383,
+      "nurses_per_1000": 0.193
     },
     {
       "iso3": "CAN",
@@ -1212,7 +1542,17 @@
       "current": 6112.01953125,
       "optimal": 3056.009765625,
       "change": -3056.009765625,
-      "change_pct": -50.0
+      "change_pct": -50.0,
+      "infant_mortality": 4.3,
+      "under5_mortality": 4.9,
+      "adult_mortality_male": 96.219,
+      "adult_mortality_female": 55.366,
+      "basic_water_pct": 99.0604958994,
+      "basic_sanitation_pct": 98.5500661178,
+      "measles_immunization_pct": 92.0,
+      "urban_population_pct": 82.5250564408346,
+      "fertility_rate": 1.33,
+      "nurses_per_1000": 10.27
     },
     {
       "iso3": "CAF",
@@ -1245,7 +1585,17 @@
       "current": 47.91517639,
       "optimal": 95.83035278,
       "change": 47.91517639,
-      "change_pct": 100.0
+      "change_pct": 100.0,
+      "infant_mortality": 73.5,
+      "under5_mortality": 96.8,
+      "adult_mortality_male": 393.481,
+      "adult_mortality_female": 326.793,
+      "basic_water_pct": 27.3729689965,
+      "basic_sanitation_pct": 5.7350690635,
+      "measles_immunization_pct": 41.0,
+      "urban_population_pct": 43.6983692134165,
+      "fertility_rate": 5.918,
+      "nurses_per_1000": null
     },
     {
       "iso3": "TCD",
@@ -1278,7 +1628,17 @@
       "current": 40.17007446,
       "optimal": 80.34014892,
       "change": 40.17007446,
-      "change_pct": 100.0
+      "change_pct": 100.0,
+      "infant_mortality": 64.1,
+      "under5_mortality": 102.9,
+      "adult_mortality_male": 379.573,
+      "adult_mortality_female": 309.354,
+      "basic_water_pct": 43.7991962415,
+      "basic_sanitation_pct": 4.5129610081,
+      "measles_immunization_pct": 56.0,
+      "urban_population_pct": 26.3305395171046,
+      "fertility_rate": 6.215,
+      "nurses_per_1000": 0.198
     },
     {
       "iso3": "CHL",
@@ -1311,7 +1671,17 @@
       "current": 1714.8927002,
       "optimal": 2965.674106086618,
       "change": 1250.781405886618,
-      "change_pct": 72.93642370398715
+      "change_pct": 72.93642370398715,
+      "infant_mortality": 5.4,
+      "under5_mortality": 6.3,
+      "adult_mortality_male": 98.032,
+      "adult_mortality_female": 57.246,
+      "basic_water_pct": 99.9999982963,
+      "basic_sanitation_pct": 99.9999982963,
+      "measles_immunization_pct": 94.0,
+      "urban_population_pct": 88.8158617217972,
+      "fertility_rate": 1.539,
+      "nurses_per_1000": 4.601
     },
     {
       "iso3": "CHN",
@@ -1344,7 +1714,17 @@
       "current": 672.45159912,
       "optimal": 1344.90319824,
       "change": 672.45159912,
-      "change_pct": 100.0
+      "change_pct": 100.0,
+      "infant_mortality": 4.8,
+      "under5_mortality": 6.6,
+      "adult_mortality_male": 107.862,
+      "adult_mortality_female": 55.272,
+      "basic_water_pct": 96.4016075197,
+      "basic_sanitation_pct": 92.8822393222,
+      "measles_immunization_pct": 99.0,
+      "urban_population_pct": 65.5301448035523,
+      "fertility_rate": 1.175,
+      "nurses_per_1000": null
     },
     {
       "iso3": "COL",
@@ -1377,7 +1757,17 @@
       "current": 534.43713379,
       "optimal": 1068.87426758,
       "change": 534.43713379,
-      "change_pct": 100.0
+      "change_pct": 100.0,
+      "infant_mortality": 10.6,
+      "under5_mortality": 12.4,
+      "adult_mortality_male": 122.668,
+      "adult_mortality_female": 66.198,
+      "basic_water_pct": 86.6572547865,
+      "basic_sanitation_pct": 85.5185140653,
+      "measles_immunization_pct": 88.0,
+      "urban_population_pct": 78.275571579544,
+      "fertility_rate": 1.692,
+      "nurses_per_1000": 1.449
     },
     {
       "iso3": "COM",
@@ -1410,7 +1800,17 @@
       "current": 122.93584442,
       "optimal": 245.87168884,
       "change": 122.93584442,
-      "change_pct": 100.0
+      "change_pct": 100.0,
+      "infant_mortality": 38.2,
+      "under5_mortality": 48.2,
+      "adult_mortality_male": 229.855,
+      "adult_mortality_female": 165.765,
+      "basic_water_pct": null,
+      "basic_sanitation_pct": null,
+      "measles_immunization_pct": 86.0,
+      "urban_population_pct": 33.1502180946901,
+      "fertility_rate": 3.912,
+      "nurses_per_1000": null
     },
     {
       "iso3": "COD",
@@ -1443,7 +1843,17 @@
       "current": 24.38615036,
       "optimal": 48.77230072,
       "change": 24.38615036,
-      "change_pct": 100.0
+      "change_pct": 100.0,
+      "infant_mortality": 60.1,
+      "under5_mortality": 75.6,
+      "adult_mortality_male": 286.972,
+      "adult_mortality_female": 221.242,
+      "basic_water_pct": 13.8029467804,
+      "basic_sanitation_pct": 11.2200797463,
+      "measles_immunization_pct": 56.0,
+      "urban_population_pct": 44.3754734892194,
+      "fertility_rate": 6.106,
+      "nurses_per_1000": null
     },
     {
       "iso3": "COG",
@@ -1476,7 +1886,17 @@
       "current": 50.60568619,
       "optimal": 101.21137238,
       "change": 50.60568619,
-      "change_pct": 100.0
+      "change_pct": 100.0,
+      "infant_mortality": 31.2,
+      "under5_mortality": 41.6,
+      "adult_mortality_male": 273.121,
+      "adult_mortality_female": 216.393,
+      "basic_water_pct": 45.7244131772,
+      "basic_sanitation_pct": 6.2568496886,
+      "measles_immunization_pct": 65.0,
+      "urban_population_pct": 63.6626757615625,
+      "fertility_rate": 4.095,
+      "nurses_per_1000": null
     },
     {
       "iso3": "CRI",
@@ -1509,7 +1929,17 @@
       "current": 978.84155273,
       "optimal": 1957.68310546,
       "change": 978.84155273,
-      "change_pct": 100.0
+      "change_pct": 100.0,
+      "infant_mortality": 6.9,
+      "under5_mortality": 7.7,
+      "adult_mortality_male": 111.434,
+      "adult_mortality_female": 57.683,
+      "basic_water_pct": 99.64625,
+      "basic_sanitation_pct": 97.4081056837,
+      "measles_immunization_pct": 90.0,
+      "urban_population_pct": 78.8819393641702,
+      "fertility_rate": 1.522,
+      "nurses_per_1000": 3.063
     },
     {
       "iso3": "HRV",
@@ -1542,7 +1972,17 @@
       "current": 1344.19006348,
       "optimal": 2688.38012696,
       "change": 1344.19006348,
-      "change_pct": 100.0
+      "change_pct": 100.0,
+      "infant_mortality": 3.9,
+      "under5_mortality": 4.6,
+      "adult_mortality_male": 113.35,
+      "adult_mortality_female": 49.043,
+      "basic_water_pct": 100.0,
+      "basic_sanitation_pct": 94.1718212204,
+      "measles_immunization_pct": 90.0,
+      "urban_population_pct": 57.2431560672198,
+      "fertility_rate": 1.53,
+      "nurses_per_1000": null
     },
     {
       "iso3": "CUB",
@@ -1575,7 +2015,17 @@
       "current": null,
       "optimal": null,
       "change": null,
-      "change_pct": null
+      "change_pct": null,
+      "infant_mortality": 6.2,
+      "under5_mortality": 8.0,
+      "adult_mortality_male": 126.691,
+      "adult_mortality_female": 73.248,
+      "basic_water_pct": 91.8309365199,
+      "basic_sanitation_pct": 91.0634423739,
+      "measles_immunization_pct": 99.0,
+      "urban_population_pct": 77.1259872296321,
+      "fertility_rate": 1.449,
+      "nurses_per_1000": null
     },
     {
       "iso3": "CYP",
@@ -1608,7 +2058,17 @@
       "current": 2864.15649414,
       "optimal": 2965.674106086618,
       "change": 101.51761194661776,
-      "change_pct": 3.544415682394468
+      "change_pct": 3.544415682394468,
+      "infant_mortality": 2.7,
+      "under5_mortality": 3.5,
+      "adult_mortality_male": 57.023,
+      "adult_mortality_female": 30.446,
+      "basic_water_pct": 99.7251581175,
+      "basic_sanitation_pct": 98.7896942167,
+      "measles_immunization_pct": 86.0,
+      "urban_population_pct": 66.6739477522639,
+      "fertility_rate": 1.311,
+      "nurses_per_1000": 4.628
     },
     {
       "iso3": "CZE",
@@ -1641,7 +2101,17 @@
       "current": 2609.24072266,
       "optimal": 2965.674106086618,
       "change": 356.4333834266181,
-      "change_pct": 13.660425438372387
+      "change_pct": 13.660425438372387,
+      "infant_mortality": 2.1,
+      "under5_mortality": 2.6,
+      "adult_mortality_male": 126.9,
+      "adult_mortality_female": 61.338,
+      "basic_water_pct": 99.8175993035,
+      "basic_sanitation_pct": 99.0927419355,
+      "measles_immunization_pct": 97.0,
+      "urban_population_pct": 72.7352388396817,
+      "fertility_rate": 1.6177466029,
+      "nurses_per_1000": null
     },
     {
       "iso3": "CIV",
@@ -1674,7 +2144,17 @@
       "current": 86.15213013,
       "optimal": 172.30426026,
       "change": 86.15213013,
-      "change_pct": 100.0
+      "change_pct": 100.0,
+      "infant_mortality": 52.4,
+      "under5_mortality": 69.4,
+      "adult_mortality_male": 319.935,
+      "adult_mortality_female": 264.408,
+      "basic_water_pct": 58.0474399634,
+      "basic_sanitation_pct": 21.6975777454,
+      "measles_immunization_pct": 65.0,
+      "urban_population_pct": 53.4075201638704,
+      "fertility_rate": 4.342,
+      "nurses_per_1000": null
     },
     {
       "iso3": "DNK",
@@ -1707,7 +2187,17 @@
       "current": 6432.37158203,
       "optimal": 3216.185791015,
       "change": -3216.185791015,
-      "change_pct": -50.0
+      "change_pct": -50.0,
+      "infant_mortality": 3.1,
+      "under5_mortality": 3.5,
+      "adult_mortality_male": 68.774,
+      "adult_mortality_female": 40.91,
+      "basic_water_pct": 100.0,
+      "basic_sanitation_pct": 99.5971802618,
+      "measles_immunization_pct": 95.0,
+      "urban_population_pct": 88.552638542867,
+      "fertility_rate": 1.55,
+      "nurses_per_1000": null
     },
     {
       "iso3": "DJI",
@@ -1740,7 +2230,17 @@
       "current": 81.80969238,
       "optimal": 163.61938476,
       "change": 81.80969238,
-      "change_pct": 100.0
+      "change_pct": 100.0,
+      "infant_mortality": 44.1,
+      "under5_mortality": 51.9,
+      "adult_mortality_male": 249.365,
+      "adult_mortality_female": 174.89,
+      "basic_water_pct": 47.2807329319,
+      "basic_sanitation_pct": 21.9040610046,
+      "measles_immunization_pct": 50.0,
+      "urban_population_pct": 72.8408245988921,
+      "fertility_rate": 2.757,
+      "nurses_per_1000": null
     },
     {
       "iso3": "DMA",
@@ -1773,7 +2273,17 @@
       "current": 574.41748047,
       "optimal": 1148.83496094,
       "change": 574.41748047,
-      "change_pct": 100.0
+      "change_pct": 100.0,
+      "infant_mortality": 30.8,
+      "under5_mortality": 32.2,
+      "adult_mortality_male": 180.736,
+      "adult_mortality_female": 86.519,
+      "basic_water_pct": null,
+      "basic_sanitation_pct": null,
+      "measles_immunization_pct": 83.0,
+      "urban_population_pct": 73.1105011438027,
+      "fertility_rate": 1.588,
+      "nurses_per_1000": null
     },
     {
       "iso3": "DOM",
@@ -1806,7 +2316,17 @@
       "current": 462.26287842,
       "optimal": 924.52575684,
       "change": 462.26287842,
-      "change_pct": 100.0
+      "change_pct": 100.0,
+      "infant_mortality": 26.8,
+      "under5_mortality": 32.4,
+      "adult_mortality_male": 172.196,
+      "adult_mortality_female": 99.021,
+      "basic_water_pct": 91.4289783999,
+      "basic_sanitation_pct": 79.1065030307,
+      "measles_immunization_pct": 91.0,
+      "urban_population_pct": 72.3577991823338,
+      "fertility_rate": 2.247,
+      "nurses_per_1000": null
     },
     {
       "iso3": "ECU",
@@ -1839,7 +2359,17 @@
       "current": 492.83575439,
       "optimal": 985.67150878,
       "change": 492.83575439,
-      "change_pct": 100.0
+      "change_pct": 100.0,
+      "infant_mortality": 10.5,
+      "under5_mortality": 12.2,
+      "adult_mortality_male": 140.92,
+      "adult_mortality_female": 81.378,
+      "basic_water_pct": 87.8728298731,
+      "basic_sanitation_pct": 90.6511089739,
+      "measles_immunization_pct": 74.0,
+      "urban_population_pct": 63.1307729554263,
+      "fertility_rate": 2.003,
+      "nurses_per_1000": null
     },
     {
       "iso3": "EGY",
@@ -1872,7 +2402,17 @@
       "current": 170.97909546,
       "optimal": 341.95819092,
       "change": 170.97909546,
-      "change_pct": 100.0
+      "change_pct": 100.0,
+      "infant_mortality": 15.5,
+      "under5_mortality": 18.1,
+      "adult_mortality_male": 164.923,
+      "adult_mortality_female": 100.929,
+      "basic_water_pct": 98.3792867224,
+      "basic_sanitation_pct": 95.8499663385,
+      "measles_immunization_pct": 96.0,
+      "urban_population_pct": 42.7098115041919,
+      "fertility_rate": 2.878,
+      "nurses_per_1000": null
     },
     {
       "iso3": "SLV",
@@ -1905,7 +2445,17 @@
       "current": 501.24411011,
       "optimal": 1002.48822022,
       "change": 501.24411011,
-      "change_pct": 100.0
+      "change_pct": 100.0,
+      "infant_mortality": 10.2,
+      "under5_mortality": 11.9,
+      "adult_mortality_male": 281.2,
+      "adult_mortality_female": 115.406,
+      "basic_water_pct": 94.4245971213,
+      "basic_sanitation_pct": 77.4478309849,
+      "measles_immunization_pct": 65.0,
+      "urban_population_pct": 74.6080675149903,
+      "fertility_rate": 1.785,
+      "nurses_per_1000": 2.635
     },
     {
       "iso3": "GNQ",
@@ -1938,7 +2488,17 @@
       "current": 190.09381104,
       "optimal": 380.18762208,
       "change": 190.09381104,
-      "change_pct": 100.0
+      "change_pct": 100.0,
+      "infant_mortality": 55.1,
+      "under5_mortality": 73.4,
+      "adult_mortality_male": 260.787,
+      "adult_mortality_female": 200.877,
+      "basic_water_pct": null,
+      "basic_sanitation_pct": null,
+      "measles_immunization_pct": 53.0,
+      "urban_population_pct": 71.1290664883517,
+      "fertility_rate": 4.17,
+      "nurses_per_1000": null
     },
     {
       "iso3": "ERI",
@@ -1971,7 +2531,17 @@
       "current": 27.08350372,
       "optimal": 54.16700744,
       "change": 27.08350372,
-      "change_pct": 100.0
+      "change_pct": 100.0,
+      "infant_mortality": 28.0,
+      "under5_mortality": 36.6,
+      "adult_mortality_male": 216.592,
+      "adult_mortality_female": 158.518,
+      "basic_water_pct": null,
+      "basic_sanitation_pct": null,
+      "measles_immunization_pct": 93.0,
+      "urban_population_pct": 34.696403503418,
+      "fertility_rate": 3.786,
+      "nurses_per_1000": null
     },
     {
       "iso3": "EST",
@@ -2004,7 +2574,17 @@
       "current": 1998.88549805,
       "optimal": 2965.674106086618,
       "change": 966.7886080366179,
-      "change_pct": 48.366382615700715
+      "change_pct": 48.366382615700715,
+      "infant_mortality": 1.5,
+      "under5_mortality": 1.9,
+      "adult_mortality_male": null,
+      "adult_mortality_female": null,
+      "basic_water_pct": 100.0,
+      "basic_sanitation_pct": 98.9205663558,
+      "measles_immunization_pct": 82.0,
+      "urban_population_pct": 70.6770085523126,
+      "fertility_rate": 1.41,
+      "nurses_per_1000": 11.18
     },
     {
       "iso3": "SWZ",
@@ -2037,7 +2617,17 @@
       "current": 283.88345337,
       "optimal": 567.76690674,
       "change": 283.88345337,
-      "change_pct": 100.0
+      "change_pct": 100.0,
+      "infant_mortality": 39.7,
+      "under5_mortality": 50.0,
+      "adult_mortality_male": 348.872,
+      "adult_mortality_female": 232.498,
+      "basic_water_pct": 65.4879931309,
+      "basic_sanitation_pct": 51.5920704158,
+      "measles_immunization_pct": 83.0,
+      "urban_population_pct": 25.8081878500755,
+      "fertility_rate": 2.785,
+      "nurses_per_1000": null
     },
     {
       "iso3": "ETH",
@@ -2070,7 +2660,17 @@
       "current": 27.0685215,
       "optimal": 54.137043,
       "change": 27.0685215,
-      "change_pct": 100.0
+      "change_pct": 100.0,
+      "infant_mortality": 33.9,
+      "under5_mortality": 46.2,
+      "adult_mortality_male": 246.063,
+      "adult_mortality_female": 148.814,
+      "basic_water_pct": 42.2175167972,
+      "basic_sanitation_pct": 5.5468502614,
+      "measles_immunization_pct": 56.0,
+      "urban_population_pct": 23.0586471557617,
+      "fertility_rate": 4.063,
+      "nurses_per_1000": null
     },
     {
       "iso3": "FJI",
@@ -2103,7 +2703,17 @@
       "current": 212.88697815,
       "optimal": 425.7739563,
       "change": 212.88697815,
-      "change_pct": 100.0
+      "change_pct": 100.0,
+      "infant_mortality": 23.6,
+      "under5_mortality": 28.2,
+      "adult_mortality_male": 246.803,
+      "adult_mortality_female": 184.708,
+      "basic_water_pct": 91.060852695,
+      "basic_sanitation_pct": 93.0092336108,
+      "measles_immunization_pct": 99.0,
+      "urban_population_pct": 58.6069049738768,
+      "fertility_rate": 2.462,
+      "nurses_per_1000": null
     },
     {
       "iso3": "FIN",
@@ -2136,7 +2746,17 @@
       "current": 4902.0390625,
       "optimal": 2965.674106086618,
       "change": -1936.364956413382,
-      "change_pct": -39.50121432581673
+      "change_pct": -39.50121432581673,
+      "infant_mortality": 1.9,
+      "under5_mortality": 2.3,
+      "adult_mortality_male": 85.942,
+      "adult_mortality_female": 42.882,
+      "basic_water_pct": 100.0,
+      "basic_sanitation_pct": 99.4470046083,
+      "measles_immunization_pct": 94.0,
+      "urban_population_pct": 74.0062548602828,
+      "fertility_rate": 1.32,
+      "nurses_per_1000": null
     },
     {
       "iso3": "FRA",
@@ -2169,7 +2789,17 @@
       "current": 4865.17822266,
       "optimal": 2965.674106086618,
       "change": -1899.504116573382,
-      "change_pct": -39.04284755132449
+      "change_pct": -39.04284755132449,
+      "infant_mortality": 3.3,
+      "under5_mortality": 4.1,
+      "adult_mortality_male": 92.753,
+      "adult_mortality_female": 46.498,
+      "basic_water_pct": 100.0,
+      "basic_sanitation_pct": 98.5901309164,
+      "measles_immunization_pct": 94.0,
+      "urban_population_pct": 78.7804323126547,
+      "fertility_rate": 1.794,
+      "nurses_per_1000": null
     },
     {
       "iso3": "GAB",
@@ -2202,7 +2832,17 @@
       "current": 247.09622192,
       "optimal": 494.19244384,
       "change": 247.09622192,
-      "change_pct": 100.0
+      "change_pct": 100.0,
+      "infant_mortality": 28.8,
+      "under5_mortality": 38.8,
+      "adult_mortality_male": 245.916,
+      "adult_mortality_female": 157.007,
+      "basic_water_pct": 54.8533105131,
+      "basic_sanitation_pct": 39.7263858993,
+      "measles_immunization_pct": 52.0,
+      "urban_population_pct": 91.6375962797313,
+      "fertility_rate": 3.46,
+      "nurses_per_1000": null
     },
     {
       "iso3": "GMB",
@@ -2235,7 +2875,17 @@
       "current": 28.89956109,
       "optimal": 57.79912218,
       "change": 28.89956109,
-      "change_pct": 100.0
+      "change_pct": 100.0,
+      "infant_mortality": 32.8,
+      "under5_mortality": 45.6,
+      "adult_mortality_male": 245.646,
+      "adult_mortality_female": 196.053,
+      "basic_water_pct": 76.390574243,
+      "basic_sanitation_pct": 24.0495081423,
+      "measles_immunization_pct": 74.0,
+      "urban_population_pct": 63.8020182456108,
+      "fertility_rate": 4.586,
+      "nurses_per_1000": null
     },
     {
       "iso3": "GEO",
@@ -2268,7 +2918,17 @@
       "current": 477.70956421,
       "optimal": 955.41912842,
       "change": 477.70956421,
-      "change_pct": 100.0
+      "change_pct": 100.0,
+      "infant_mortality": 8.3,
+      "under5_mortality": 9.3,
+      "adult_mortality_male": 217.028,
+      "adult_mortality_female": 73.986,
+      "basic_water_pct": 88.5414881004,
+      "basic_sanitation_pct": 72.2074017961,
+      "measles_immunization_pct": 90.0,
+      "urban_population_pct": 60.7523077799724,
+      "fertility_rate": 2.063,
+      "nurses_per_1000": 5.875
     },
     {
       "iso3": "DEU",
@@ -2301,7 +2961,17 @@
       "current": 6232.59130859,
       "optimal": 3116.295654295,
       "change": -3116.295654295,
-      "change_pct": -50.0
+      "change_pct": -50.0,
+      "infant_mortality": 3.0,
+      "under5_mortality": 3.6,
+      "adult_mortality_male": null,
+      "adult_mortality_female": null,
+      "basic_water_pct": 99.9999985569,
+      "basic_sanitation_pct": 98.9919354839,
+      "measles_immunization_pct": 97.0,
+      "urban_population_pct": 81.9034366692129,
+      "fertility_rate": 1.455,
+      "nurses_per_1000": null
     },
     {
       "iso3": "GHA",
@@ -2334,7 +3004,17 @@
       "current": 82.32108307,
       "optimal": 164.64216614,
       "change": 82.32108307,
-      "change_pct": 100.0
+      "change_pct": 100.0,
+      "infant_mortality": 31.6,
+      "under5_mortality": 42.3,
+      "adult_mortality_male": 267.399,
+      "adult_mortality_female": 192.754,
+      "basic_water_pct": 74.1217993042,
+      "basic_sanitation_pct": 21.381187627,
+      "measles_immunization_pct": 95.0,
+      "urban_population_pct": 57.8074737774654,
+      "fertility_rate": 3.507,
+      "nurses_per_1000": null
     },
     {
       "iso3": "GRC",
@@ -2367,7 +3047,17 @@
       "current": 1768.11071777,
       "optimal": 2965.674106086618,
       "change": 1197.5633883166179,
-      "change_pct": 67.73124421908514
+      "change_pct": 67.73124421908514,
+      "infant_mortality": 3.3,
+      "under5_mortality": 3.9,
+      "adult_mortality_male": 78.167,
+      "adult_mortality_female": 33.628,
+      "basic_water_pct": 99.9999994922,
+      "basic_sanitation_pct": 98.1447124304,
+      "measles_immunization_pct": 97.0,
+      "urban_population_pct": 78.7746303842088,
+      "fertility_rate": 1.43,
+      "nurses_per_1000": null
     },
     {
       "iso3": "GRL",
@@ -2400,7 +3090,17 @@
       "current": null,
       "optimal": null,
       "change": null,
-      "change_pct": null
+      "change_pct": null,
+      "infant_mortality": null,
+      "under5_mortality": null,
+      "adult_mortality_male": 221.736,
+      "adult_mortality_female": 154.03,
+      "basic_water_pct": 100.0,
+      "basic_sanitation_pct": 62.5,
+      "measles_immunization_pct": null,
+      "urban_population_pct": 88.0631147749908,
+      "fertility_rate": 1.839,
+      "nurses_per_1000": null
     },
     {
       "iso3": "GRD",
@@ -2433,7 +3133,17 @@
       "current": 521.23730469,
       "optimal": 1042.47460938,
       "change": 521.23730469,
-      "change_pct": 100.0
+      "change_pct": 100.0,
+      "infant_mortality": 14.4,
+      "under5_mortality": 16.0,
+      "adult_mortality_male": 159.659,
+      "adult_mortality_female": 105.663,
+      "basic_water_pct": null,
+      "basic_sanitation_pct": null,
+      "measles_immunization_pct": 76.0,
+      "urban_population_pct": 36.462128238584,
+      "fertility_rate": 1.986,
+      "nurses_per_1000": null
     },
     {
       "iso3": "GUM",
@@ -2466,7 +3176,17 @@
       "current": null,
       "optimal": null,
       "change": null,
-      "change_pct": null
+      "change_pct": null,
+      "infant_mortality": null,
+      "under5_mortality": null,
+      "adult_mortality_male": 196.21,
+      "adult_mortality_female": 99.071,
+      "basic_water_pct": 99.6952,
+      "basic_sanitation_pct": 90.3765791488,
+      "measles_immunization_pct": null,
+      "urban_population_pct": 94.1349341638921,
+      "fertility_rate": 2.55,
+      "nurses_per_1000": null
     },
     {
       "iso3": "GTM",
@@ -2499,7 +3219,17 @@
       "current": 396.07998657,
       "optimal": 792.15997314,
       "change": 396.07998657,
-      "change_pct": 100.0
+      "change_pct": 100.0,
+      "infant_mortality": 18.8,
+      "under5_mortality": 22.1,
+      "adult_mortality_male": 201.633,
+      "adult_mortality_female": 123.436,
+      "basic_water_pct": 91.0494206523,
+      "basic_sanitation_pct": 57.7262462004,
+      "measles_immunization_pct": 83.0,
+      "urban_population_pct": 55.6082319565539,
+      "fertility_rate": 2.354,
+      "nurses_per_1000": null
     },
     {
       "iso3": "GIN",
@@ -2532,7 +3262,17 @@
       "current": 55.03785324,
       "optimal": 110.07570648,
       "change": 55.03785324,
-      "change_pct": 100.0
+      "change_pct": 100.0,
+      "infant_mortality": 62.2,
+      "under5_mortality": 96.0,
+      "adult_mortality_male": 267.595,
+      "adult_mortality_female": 234.746,
+      "basic_water_pct": 59.0135051029,
+      "basic_sanitation_pct": 21.7442589489,
+      "measles_immunization_pct": 47.0,
+      "urban_population_pct": 37.6454083954705,
+      "fertility_rate": 4.303,
+      "nurses_per_1000": null
     },
     {
       "iso3": "GNB",
@@ -2565,7 +3305,17 @@
       "current": 66.05480957,
       "optimal": 132.10961914,
       "change": 66.05480957,
-      "change_pct": 100.0
+      "change_pct": 100.0,
+      "infant_mortality": 48.6,
+      "under5_mortality": 71.9,
+      "adult_mortality_male": 272.839,
+      "adult_mortality_female": 193.592,
+      "basic_water_pct": 52.5184046413,
+      "basic_sanitation_pct": 16.1661032138,
+      "measles_immunization_pct": 75.0,
+      "urban_population_pct": 45.5923843383789,
+      "fertility_rate": 3.925,
+      "nurses_per_1000": 1.053
     },
     {
       "iso3": "GUY",
@@ -2598,7 +3348,17 @@
       "current": 531.62786865,
       "optimal": 1063.2557373,
       "change": 531.62786865,
-      "change_pct": 100.0
+      "change_pct": 100.0,
+      "infant_mortality": 22.3,
+      "under5_mortality": 26.6,
+      "adult_mortality_male": 265.074,
+      "adult_mortality_female": 143.802,
+      "basic_water_pct": 95.8030527105,
+      "basic_sanitation_pct": 90.1738445506,
+      "measles_immunization_pct": 95.0,
+      "urban_population_pct": 26.4651457279878,
+      "fertility_rate": 2.369,
+      "nurses_per_1000": null
     },
     {
       "iso3": "HTI",
@@ -2631,7 +3391,17 @@
       "current": 52.29947662,
       "optimal": 104.59895324,
       "change": 52.29947662,
-      "change_pct": 100.0
+      "change_pct": 100.0,
+      "infant_mortality": 44.0,
+      "under5_mortality": 56.5,
+      "adult_mortality_male": 281.279,
+      "adult_mortality_female": 167.358,
+      "basic_water_pct": 42.845700095,
+      "basic_sanitation_pct": 25.4488735045,
+      "measles_immunization_pct": 65.0,
+      "urban_population_pct": 54.4496819335618,
+      "fertility_rate": 2.773,
+      "nurses_per_1000": null
     },
     {
       "iso3": "HND",
@@ -2664,7 +3434,17 @@
       "current": 251.04405212,
       "optimal": 502.08810424,
       "change": 251.04405212,
-      "change_pct": 100.0
+      "change_pct": 100.0,
+      "infant_mortality": 13.8,
+      "under5_mortality": 16.0,
+      "adult_mortality_male": 175.428,
+      "adult_mortality_female": 111.772,
+      "basic_water_pct": 90.7699538508,
+      "basic_sanitation_pct": 79.4106588076,
+      "measles_immunization_pct": 77.0,
+      "urban_population_pct": 58.3132392705102,
+      "fertility_rate": 2.34,
+      "nurses_per_1000": null
     },
     {
       "iso3": "HUN",
@@ -2697,7 +3477,17 @@
       "current": 1407.48730469,
       "optimal": 2814.97460938,
       "change": 1407.48730469,
-      "change_pct": 100.0
+      "change_pct": 100.0,
+      "infant_mortality": 3.3,
+      "under5_mortality": 4.0,
+      "adult_mortality_male": null,
+      "adult_mortality_female": null,
+      "basic_water_pct": 100.0,
+      "basic_sanitation_pct": 97.7551020408,
+      "measles_immunization_pct": 99.0,
+      "urban_population_pct": 70.2923026891431,
+      "fertility_rate": 1.52,
+      "nurses_per_1000": 6.604
     },
     {
       "iso3": "ISL",
@@ -2730,7 +3520,17 @@
       "current": 7196.90917969,
       "optimal": 3598.454589845,
       "change": -3598.454589845,
-      "change_pct": -50.0
+      "change_pct": -50.0,
+      "infant_mortality": 2.0,
+      "under5_mortality": 2.6,
+      "adult_mortality_male": 67.81,
+      "adult_mortality_female": 41.259,
+      "basic_water_pct": 100.0,
+      "basic_sanitation_pct": 98.7012987013,
+      "measles_immunization_pct": 91.0,
+      "urban_population_pct": 94.1518261784801,
+      "fertility_rate": 1.589,
+      "nurses_per_1000": null
     },
     {
       "iso3": "IND",
@@ -2763,7 +3563,17 @@
       "current": 79.51509857,
       "optimal": 159.03019714,
       "change": 79.51509857,
-      "change_pct": 100.0
+      "change_pct": 100.0,
+      "infant_mortality": 25.5,
+      "under5_mortality": 29.1,
+      "adult_mortality_male": 177.914,
+      "adult_mortality_female": 122.021,
+      "basic_water_pct": 91.9221582885,
+      "basic_sanitation_pct": 74.8559767577,
+      "measles_immunization_pct": 95.0,
+      "urban_population_pct": 35.0676918424186,
+      "fertility_rate": 2.011,
+      "nurses_per_1000": null
     },
     {
       "iso3": "IDN",
@@ -2796,7 +3606,17 @@
       "current": 127.44384766,
       "optimal": 254.88769532,
       "change": 127.44384766,
-      "change_pct": 100.0
+      "change_pct": 100.0,
+      "infant_mortality": 18.1,
+      "under5_mortality": 21.3,
+      "adult_mortality_male": 189.258,
+      "adult_mortality_female": 137.866,
+      "basic_water_pct": 88.2909973982,
+      "basic_sanitation_pct": 83.569463684,
+      "measles_immunization_pct": 84.0,
+      "urban_population_pct": 58.1179353397878,
+      "fertility_rate": 2.153,
+      "nurses_per_1000": null
     },
     {
       "iso3": "IRN",
@@ -2829,7 +3649,17 @@
       "current": 237.82546997,
       "optimal": 475.65093994,
       "change": 237.82546997,
-      "change_pct": 100.0
+      "change_pct": 100.0,
+      "infant_mortality": 10.3,
+      "under5_mortality": 12.0,
+      "adult_mortality_male": 107.691,
+      "adult_mortality_female": 54.773,
+      "basic_water_pct": 94.3779469795,
+      "basic_sanitation_pct": 82.3,
+      "measles_immunization_pct": 99.0,
+      "urban_population_pct": 76.6759567260742,
+      "fertility_rate": 1.681,
+      "nurses_per_1000": null
     },
     {
       "iso3": "IRQ",
@@ -2862,7 +3692,17 @@
       "current": 254.62432861,
       "optimal": 509.24865722,
       "change": 254.62432861,
-      "change_pct": 100.0
+      "change_pct": 100.0,
+      "infant_mortality": 20.0,
+      "under5_mortality": 23.5,
+      "adult_mortality_male": 154.735,
+      "adult_mortality_female": 110.395,
+      "basic_water_pct": 94.831146784,
+      "basic_sanitation_pct": 97.645451549,
+      "measles_immunization_pct": 88.0,
+      "urban_population_pct": 69.868278503418,
+      "fertility_rate": 3.445,
+      "nurses_per_1000": null
     },
     {
       "iso3": "IRL",
@@ -2895,7 +3735,17 @@
       "current": 6448.02197266,
       "optimal": 3224.01098633,
       "change": -3224.01098633,
-      "change_pct": -50.0
+      "change_pct": -50.0,
+      "infant_mortality": 2.7,
+      "under5_mortality": 3.1,
+      "adult_mortality_male": 72.803,
+      "adult_mortality_female": 44.086,
+      "basic_water_pct": 95.4066797252,
+      "basic_sanitation_pct": 86.8369189808,
+      "measles_immunization_pct": 90.0,
+      "urban_population_pct": 64.1152082461268,
+      "fertility_rate": 1.7,
+      "nurses_per_1000": 14.9
     },
     {
       "iso3": "ISR",
@@ -2928,7 +3778,17 @@
       "current": 4223.87255859,
       "optimal": 2965.674106086618,
       "change": -1258.1984525033822,
-      "change_pct": -29.78779390359708
+      "change_pct": -29.78779390359708,
+      "infant_mortality": 2.7,
+      "under5_mortality": 3.4,
+      "adult_mortality_male": 82.505,
+      "adult_mortality_female": 38.477,
+      "basic_water_pct": 100.0,
+      "basic_sanitation_pct": 98.9569587629,
+      "measles_immunization_pct": 99.0,
+      "urban_population_pct": 91.5089569794505,
+      "fertility_rate": 2.89,
+      "nurses_per_1000": 5.632
     },
     {
       "iso3": "ITA",
@@ -2961,7 +3821,17 @@
       "current": 3228.43505859,
       "optimal": 2965.674106086618,
       "change": -262.7609525033822,
-      "change_pct": -8.138957350380823
+      "change_pct": -8.138957350380823,
+      "infant_mortality": 2.2,
+      "under5_mortality": 2.6,
+      "adult_mortality_male": 67.426,
+      "adult_mortality_female": 37.941,
+      "basic_water_pct": 99.9170340741,
+      "basic_sanitation_pct": 99.8793152064,
+      "measles_immunization_pct": 94.0,
+      "urban_population_pct": 69.5381540123301,
+      "fertility_rate": 1.24,
+      "nurses_per_1000": 6.553
     },
     {
       "iso3": "JAM",
@@ -2994,7 +3864,17 @@
       "current": 468.34671021,
       "optimal": 936.69342042,
       "change": 468.34671021,
-      "change_pct": 100.0
+      "change_pct": 100.0,
+      "infant_mortality": 16.1,
+      "under5_mortality": 18.8,
+      "adult_mortality_male": 201.452,
+      "adult_mortality_female": 123.329,
+      "basic_water_pct": 85.3999121605,
+      "basic_sanitation_pct": 83.2323111819,
+      "measles_immunization_pct": 91.0,
+      "urban_population_pct": 58.4510149367429,
+      "fertility_rate": 1.34,
+      "nurses_per_1000": null
     },
     {
       "iso3": "JPN",
@@ -3027,7 +3907,17 @@
       "current": 3889.35717773,
       "optimal": 2965.674106086618,
       "change": -923.6830716433819,
-      "change_pct": -23.748990628381527
+      "change_pct": -23.748990628381527,
+      "infant_mortality": 1.7,
+      "under5_mortality": 2.3,
+      "adult_mortality_male": 65.632,
+      "adult_mortality_female": 36.684,
+      "basic_water_pct": 99.1367421724,
+      "basic_sanitation_pct": 99.9376889486,
+      "measles_immunization_pct": 98.0,
+      "urban_population_pct": 92.0826903891473,
+      "fertility_rate": 1.26,
+      "nurses_per_1000": null
     },
     {
       "iso3": "JOR",
@@ -3060,7 +3950,17 @@
       "current": 295.13876343,
       "optimal": 590.27752686,
       "change": 295.13876343,
-      "change_pct": 100.0
+      "change_pct": 100.0,
+      "infant_mortality": 12.2,
+      "under5_mortality": 14.1,
+      "adult_mortality_male": 87.402,
+      "adult_mortality_female": 57.068,
+      "basic_water_pct": 96.9763947975,
+      "basic_sanitation_pct": 95.3610693747,
+      "measles_immunization_pct": 76.0,
+      "urban_population_pct": 92.682236868336,
+      "fertility_rate": 2.786,
+      "nurses_per_1000": null
     },
     {
       "iso3": "KAZ",
@@ -3093,7 +3993,17 @@
       "current": 420.97982788,
       "optimal": 841.95965576,
       "change": 420.97982788,
-      "change_pct": 100.0
+      "change_pct": 100.0,
+      "infant_mortality": 8.7,
+      "under5_mortality": 9.7,
+      "adult_mortality_male": 205.609,
+      "adult_mortality_female": 82.152,
+      "basic_water_pct": 98.0007313274,
+      "basic_sanitation_pct": 97.0348621384,
+      "measles_immunization_pct": 99.0,
+      "urban_population_pct": 61.7560919499181,
+      "fertility_rate": 3.05,
+      "nurses_per_1000": null
     },
     {
       "iso3": "KEN",
@@ -3126,7 +4036,17 @@
       "current": 90.43982697,
       "optimal": 180.87965394,
       "change": 90.43982697,
-      "change_pct": 100.0
+      "change_pct": 100.0,
+      "infant_mortality": 30.5,
+      "under5_mortality": 41.1,
+      "adult_mortality_male": 356.092,
+      "adult_mortality_female": 274.702,
+      "basic_water_pct": 53.2662965147,
+      "basic_sanitation_pct": 35.1776816615,
+      "measles_immunization_pct": 90.0,
+      "urban_population_pct": 31.6330340816429,
+      "fertility_rate": 3.296,
+      "nurses_per_1000": null
     },
     {
       "iso3": "KIR",
@@ -3159,7 +4079,17 @@
       "current": 217.68276978,
       "optimal": 435.36553956,
       "change": 217.68276978,
-      "change_pct": 100.0
+      "change_pct": 100.0,
+      "infant_mortality": 43.9,
+      "under5_mortality": 56.4,
+      "adult_mortality_male": 221.742,
+      "adult_mortality_female": 171.574,
+      "basic_water_pct": 59.5301953458,
+      "basic_sanitation_pct": 41.2905735933,
+      "measles_immunization_pct": 85.0,
+      "urban_population_pct": 61.5244676194408,
+      "fertility_rate": 3.271,
+      "nurses_per_1000": null
     },
     {
       "iso3": "KOR",
@@ -3192,7 +4122,17 @@
       "current": 3269.70385742,
       "optimal": 2965.674106086618,
       "change": -304.02975133338214,
-      "change_pct": -9.29838800671326
+      "change_pct": -9.29838800671326,
+      "infant_mortality": 2.4,
+      "under5_mortality": 2.8,
+      "adult_mortality_male": 44.26,
+      "adult_mortality_female": 20.698,
+      "basic_water_pct": 100.0,
+      "basic_sanitation_pct": 99.816782255,
+      "measles_immunization_pct": 97.0,
+      "urban_population_pct": 81.1645551720421,
+      "fertility_rate": 0.778,
+      "nurses_per_1000": null
     },
     {
       "iso3": "PRK",
@@ -3225,7 +4165,17 @@
       "current": null,
       "optimal": null,
       "change": null,
-      "change_pct": null
+      "change_pct": null,
+      "infant_mortality": 13.6,
+      "under5_mortality": 17.0,
+      "adult_mortality_male": 155.936,
+      "adult_mortality_female": 103.216,
+      "basic_water_pct": 88.753624883,
+      "basic_sanitation_pct": 73.0553440717,
+      "measles_immunization_pct": 0.0,
+      "urban_population_pct": 63.5382165423021,
+      "fertility_rate": 1.793,
+      "nurses_per_1000": null
     },
     {
       "iso3": "KWT",
@@ -3258,7 +4208,17 @@
       "current": 1700.31958008,
       "optimal": 2965.674106086618,
       "change": 1265.354526006618,
-      "change_pct": 74.41862934655397
+      "change_pct": 74.41862934655397,
+      "infant_mortality": 7.4,
+      "under5_mortality": 8.6,
+      "adult_mortality_male": 52.352,
+      "adult_mortality_female": 28.106,
+      "basic_water_pct": 100.0,
+      "basic_sanitation_pct": 100.0,
+      "measles_immunization_pct": 99.0,
+      "urban_population_pct": 100.0,
+      "fertility_rate": 2.092,
+      "nurses_per_1000": null
     },
     {
       "iso3": "KGZ",
@@ -3291,7 +4251,17 @@
       "current": 85.87857056,
       "optimal": 171.75714112,
       "change": 85.87857056,
-      "change_pct": 100.0
+      "change_pct": 100.0,
+      "infant_mortality": 15.4,
+      "under5_mortality": 17.3,
+      "adult_mortality_male": 218.531,
+      "adult_mortality_female": 95.94,
+      "basic_water_pct": 85.7707186152,
+      "basic_sanitation_pct": 95.1283981461,
+      "measles_immunization_pct": 94.0,
+      "urban_population_pct": 34.706439175362,
+      "fertility_rate": 2.8,
+      "nurses_per_1000": null
     },
     {
       "iso3": "LAO",
@@ -3324,7 +4294,17 @@
       "current": 41.34779739,
       "optimal": 82.69559478,
       "change": 41.34779739,
-      "change_pct": 100.0
+      "change_pct": 100.0,
+      "infant_mortality": 32.7,
+      "under5_mortality": 40.4,
+      "adult_mortality_male": 200.594,
+      "adult_mortality_female": 136.37,
+      "basic_water_pct": 78.4729594216,
+      "basic_sanitation_pct": 68.5942870952,
+      "measles_immunization_pct": 76.0,
+      "urban_population_pct": 38.8070088517156,
+      "fertility_rate": 2.448,
+      "nurses_per_1000": null
     },
     {
       "iso3": "LVA",
@@ -3357,7 +4337,17 @@
       "current": 1642.47131348,
       "optimal": 2965.674106086618,
       "change": 1323.202792606618,
-      "change_pct": 80.56169881001276
+      "change_pct": 80.56169881001276,
+      "infant_mortality": 2.8,
+      "under5_mortality": 3.2,
+      "adult_mortality_male": null,
+      "adult_mortality_female": null,
+      "basic_water_pct": 98.8708687212,
+      "basic_sanitation_pct": 84.1676154672,
+      "measles_immunization_pct": 96.0,
+      "urban_population_pct": 68.3586316343061,
+      "fertility_rate": 1.47,
+      "nurses_per_1000": null
     },
     {
       "iso3": "LBN",
@@ -3390,7 +4380,17 @@
       "current": 392.38327026,
       "optimal": 784.76654052,
       "change": 392.38327026,
-      "change_pct": 100.0
+      "change_pct": 100.0,
+      "infant_mortality": 14.9,
+      "under5_mortality": 17.4,
+      "adult_mortality_male": 84.565,
+      "adult_mortality_female": 57.747,
+      "basic_water_pct": 92.6,
+      "basic_sanitation_pct": 99.2,
+      "measles_immunization_pct": 67.0,
+      "urban_population_pct": 90.4524074197598,
+      "fertility_rate": 2.08,
+      "nurses_per_1000": null
     },
     {
       "iso3": "LSO",
@@ -3423,7 +4423,17 @@
       "current": 133.70170593,
       "optimal": 267.40341186,
       "change": 133.70170593,
-      "change_pct": 100.0
+      "change_pct": 100.0,
+      "infant_mortality": 56.4,
+      "under5_mortality": 72.2,
+      "adult_mortality_male": 470.601,
+      "adult_mortality_female": 361.613,
+      "basic_water_pct": 65.8543452801,
+      "basic_sanitation_pct": 47.3020158409,
+      "measles_immunization_pct": 81.0,
+      "urban_population_pct": 42.6781596804785,
+      "fertility_rate": 2.98,
+      "nurses_per_1000": null
     },
     {
       "iso3": "LBR",
@@ -3456,7 +4466,17 @@
       "current": 99.65045929,
       "optimal": 199.30091858,
       "change": 99.65045929,
-      "change_pct": 100.0
+      "change_pct": 100.0,
+      "infant_mortality": 54.9,
+      "under5_mortality": 73.2,
+      "adult_mortality_male": 288.302,
+      "adult_mortality_female": 244.811,
+      "basic_water_pct": 65.4668168711,
+      "basic_sanitation_pct": 9.2125856285,
+      "measles_immunization_pct": 79.0,
+      "urban_population_pct": 54.997863482224,
+      "fertility_rate": 4.016,
+      "nurses_per_1000": null
     },
     {
       "iso3": "LBY",
@@ -3489,7 +4509,17 @@
       "current": 278.3821106,
       "optimal": 556.7642212,
       "change": 278.3821106,
-      "change_pct": 100.0
+      "change_pct": 100.0,
+      "infant_mortality": 8.9,
+      "under5_mortality": 10.3,
+      "adult_mortality_male": 180.185,
+      "adult_mortality_female": 169.907,
+      "basic_water_pct": 99.8915237988,
+      "basic_sanitation_pct": 92.106002209,
+      "measles_immunization_pct": 73.0,
+      "urban_population_pct": 87.8647197919848,
+      "fertility_rate": 2.402,
+      "nurses_per_1000": null
     },
     {
       "iso3": "LTU",
@@ -3522,7 +4552,17 @@
       "current": 1988.94665527,
       "optimal": 2965.674106086618,
       "change": 976.7274508166179,
-      "change_pct": 49.1077751245182
+      "change_pct": 49.1077751245182,
+      "infant_mortality": 2.9,
+      "under5_mortality": 3.5,
+      "adult_mortality_male": null,
+      "adult_mortality_female": null,
+      "basic_water_pct": 93.7827802292,
+      "basic_sanitation_pct": 90.5285992161,
+      "measles_immunization_pct": 87.0,
+      "urban_population_pct": 68.575454583199,
+      "fertility_rate": 1.27,
+      "nurses_per_1000": 9.663
     },
     {
       "iso3": "LUX",
@@ -3555,7 +4595,17 @@
       "current": 7504.58496094,
       "optimal": 3752.29248047,
       "change": -3752.29248047,
-      "change_pct": -50.0
+      "change_pct": -50.0,
+      "infant_mortality": 2.2,
+      "under5_mortality": 2.7,
+      "adult_mortality_male": 57.261,
+      "adult_mortality_female": 33.668,
+      "basic_water_pct": 98.5952380952,
+      "basic_sanitation_pct": 97.4831046931,
+      "measles_immunization_pct": 99.0,
+      "urban_population_pct": 94.8015300320787,
+      "fertility_rate": 1.31,
+      "nurses_per_1000": null
     },
     {
       "iso3": "MDG",
@@ -3588,7 +4638,17 @@
       "current": 16.32154655,
       "optimal": 32.6430931,
       "change": 16.32154655,
-      "change_pct": 100.0
+      "change_pct": 100.0,
+      "infant_mortality": 45.1,
+      "under5_mortality": 65.8,
+      "adult_mortality_male": 258.636,
+      "adult_mortality_female": 207.398,
+      "basic_water_pct": 36.0279754993,
+      "basic_sanitation_pct": 10.1880420602,
+      "measles_immunization_pct": 44.0,
+      "urban_population_pct": 31.9799438860946,
+      "fertility_rate": 3.791,
+      "nurses_per_1000": null
     },
     {
       "iso3": "MWI",
@@ -3621,7 +4681,17 @@
       "current": 39.65991211,
       "optimal": 79.31982422,
       "change": 39.65991211,
-      "change_pct": 100.0
+      "change_pct": 100.0,
+      "infant_mortality": 30.1,
+      "under5_mortality": 40.1,
+      "adult_mortality_male": 275.376,
+      "adult_mortality_female": 164.479,
+      "basic_water_pct": 68.7896882602,
+      "basic_sanitation_pct": 48.0363192648,
+      "measles_immunization_pct": 82.0,
+      "urban_population_pct": 16.9748746665356,
+      "fertility_rate": 3.849,
+      "nurses_per_1000": null
     },
     {
       "iso3": "MYS",
@@ -3654,7 +4724,17 @@
       "current": 458.21963501,
       "optimal": 916.43927002,
       "change": 458.21963501,
-      "change_pct": 100.0
+      "change_pct": 100.0,
+      "infant_mortality": 6.7,
+      "under5_mortality": 7.8,
+      "adult_mortality_male": 152.173,
+      "adult_mortality_female": 83.783,
+      "basic_water_pct": 90.0532759046,
+      "basic_sanitation_pct": 95.7789694067,
+      "measles_immunization_pct": 96.0,
+      "urban_population_pct": 76.4434752105739,
+      "fertility_rate": 1.787,
+      "nurses_per_1000": null
     },
     {
       "iso3": "MDV",
@@ -3687,7 +4767,17 @@
       "current": 1150.68554688,
       "optimal": 2301.37109376,
       "change": 1150.68554688,
-      "change_pct": 100.0
+      "change_pct": 100.0,
+      "infant_mortality": 4.8,
+      "under5_mortality": 5.6,
+      "adult_mortality_male": 44.231,
+      "adult_mortality_female": 28.89,
+      "basic_water_pct": 99.0506888549,
+      "basic_sanitation_pct": 99.6641088119,
+      "measles_immunization_pct": 98.0,
+      "urban_population_pct": 41.5096832933973,
+      "fertility_rate": 1.678,
+      "nurses_per_1000": null
     },
     {
       "iso3": "MLI",
@@ -3720,7 +4810,17 @@
       "current": 29.74292755,
       "optimal": 59.4858551,
       "change": 29.74292755,
-      "change_pct": 100.0
+      "change_pct": 100.0,
+      "infant_mortality": 60.1,
+      "under5_mortality": 93.8,
+      "adult_mortality_male": 279.475,
+      "adult_mortality_female": 220.406,
+      "basic_water_pct": 74.4469622562,
+      "basic_sanitation_pct": 41.9236399288,
+      "measles_immunization_pct": 70.0,
+      "urban_population_pct": 31.0031889023235,
+      "fertility_rate": 5.867,
+      "nurses_per_1000": null
     },
     {
       "iso3": "MLT",
@@ -3753,7 +4853,17 @@
       "current": 3352.77490234,
       "optimal": 2965.674106086618,
       "change": -387.1007962533822,
-      "change_pct": -11.545684023798113
+      "change_pct": -11.545684023798113,
+      "infant_mortality": 4.9,
+      "under5_mortality": 5.6,
+      "adult_mortality_male": 51.952,
+      "adult_mortality_female": 41.319,
+      "basic_water_pct": 100.0,
+      "basic_sanitation_pct": 99.9625,
+      "measles_immunization_pct": 96.0,
+      "urban_population_pct": 95.6272277147965,
+      "fertility_rate": 1.15,
+      "nurses_per_1000": null
     },
     {
       "iso3": "MHL",
@@ -3786,7 +4896,17 @@
       "current": 758.44873047,
       "optimal": 1516.89746094,
       "change": 758.44873047,
-      "change_pct": 100.0
+      "change_pct": 100.0,
+      "infant_mortality": 24.0,
+      "under5_mortality": 28.6,
+      "adult_mortality_male": 263.403,
+      "adult_mortality_female": 197.941,
+      "basic_water_pct": 84.4713204294,
+      "basic_sanitation_pct": 61.916931395,
+      "measles_immunization_pct": 81.0,
+      "urban_population_pct": 78.3593928884282,
+      "fertility_rate": 2.672,
+      "nurses_per_1000": null
     },
     {
       "iso3": "MRT",
@@ -3819,7 +4939,17 @@
       "current": 90.41540527,
       "optimal": 180.83081054,
       "change": 90.41540527,
-      "change_pct": 100.0
+      "change_pct": 100.0,
+      "infant_mortality": 31.4,
+      "under5_mortality": 39.2,
+      "adult_mortality_male": 204.702,
+      "adult_mortality_female": 154.072,
+      "basic_water_pct": 55.6408629218,
+      "basic_sanitation_pct": 25.0110635848,
+      "measles_immunization_pct": 72.0,
+      "urban_population_pct": 59.7142464747058,
+      "fertility_rate": 4.342,
+      "nurses_per_1000": null
     },
     {
       "iso3": "MUS",
@@ -3852,7 +4982,17 @@
       "current": 590.93572998,
       "optimal": 1181.87145996,
       "change": 590.93572998,
-      "change_pct": 100.0
+      "change_pct": 100.0,
+      "infant_mortality": 13.4,
+      "under5_mortality": 15.0,
+      "adult_mortality_male": 184.988,
+      "adult_mortality_female": 98.967,
+      "basic_water_pct": 99.9999995491,
+      "basic_sanitation_pct": 95.802810736,
+      "measles_immunization_pct": 98.0,
+      "urban_population_pct": 39.0039901092226,
+      "fertility_rate": 1.32,
+      "nurses_per_1000": null
     },
     {
       "iso3": "MEX",
@@ -3885,7 +5025,17 @@
       "current": 650.97070313,
       "optimal": 1301.94140626,
       "change": 650.97070313,
-      "change_pct": 100.0
+      "change_pct": 100.0,
+      "infant_mortality": 11.0,
+      "under5_mortality": 12.8,
+      "adult_mortality_male": 196.81,
+      "adult_mortality_female": 96.938,
+      "basic_water_pct": 98.4300955471,
+      "basic_sanitation_pct": 87.7425994364,
+      "measles_immunization_pct": 86.0,
+      "urban_population_pct": 79.4734935748046,
+      "fertility_rate": 1.803,
+      "nurses_per_1000": null
     },
     {
       "iso3": "FSM",
@@ -3918,7 +5068,17 @@
       "current": 396.7605896,
       "optimal": 793.5211792,
       "change": 396.7605896,
-      "change_pct": 100.0
+      "change_pct": 100.0,
+      "infant_mortality": 20.5,
+      "under5_mortality": 24.2,
+      "adult_mortality_male": 309.777,
+      "adult_mortality_female": 173.952,
+      "basic_water_pct": null,
+      "basic_sanitation_pct": null,
+      "measles_immunization_pct": 69.0,
+      "urban_population_pct": 22.4334012451903,
+      "fertility_rate": 2.669,
+      "nurses_per_1000": null
     },
     {
       "iso3": "MDA",
@@ -3951,7 +5111,17 @@
       "current": 398.14910889,
       "optimal": 796.29821778,
       "change": 398.14910889,
-      "change_pct": 100.0
+      "change_pct": 100.0,
+      "infant_mortality": 12.2,
+      "under5_mortality": 14.2,
+      "adult_mortality_male": 276.817,
+      "adult_mortality_female": 115.122,
+      "basic_water_pct": 87.7231500332,
+      "basic_sanitation_pct": 80.6993624316,
+      "measles_immunization_pct": 84.0,
+      "urban_population_pct": 43.0011825561523,
+      "fertility_rate": 1.8,
+      "nurses_per_1000": null
     },
     {
       "iso3": "MCO",
@@ -3984,7 +5154,17 @@
       "current": 7655.94042969,
       "optimal": 3827.970214845,
       "change": -3827.970214845,
-      "change_pct": -50.0
+      "change_pct": -50.0,
+      "infant_mortality": 2.3,
+      "under5_mortality": 2.8,
+      "adult_mortality_male": 31.218,
+      "adult_mortality_female": 19.35,
+      "basic_water_pct": 100.0,
+      "basic_sanitation_pct": 100.0,
+      "measles_immunization_pct": 88.0,
+      "urban_population_pct": 100.0,
+      "fertility_rate": null,
+      "nurses_per_1000": null
     },
     {
       "iso3": "MNG",
@@ -4017,7 +5197,17 @@
       "current": 448.24212646,
       "optimal": 896.48425292,
       "change": 448.24212646,
-      "change_pct": 100.0
+      "change_pct": 100.0,
+      "infant_mortality": 11.5,
+      "under5_mortality": 13.4,
+      "adult_mortality_male": 273.791,
+      "adult_mortality_female": 108.898,
+      "basic_water_pct": 59.7355866427,
+      "basic_sanitation_pct": 56.9756946218,
+      "measles_immunization_pct": 94.0,
+      "urban_population_pct": 70.4464492797852,
+      "fertility_rate": 2.774,
+      "nurses_per_1000": null
     },
     {
       "iso3": "MNE",
@@ -4050,7 +5240,17 @@
       "current": 1107.06445313,
       "optimal": 2214.12890626,
       "change": 1107.06445313,
-      "change_pct": 100.0
+      "change_pct": 100.0,
+      "infant_mortality": 2.3,
+      "under5_mortality": 2.7,
+      "adult_mortality_male": 135.13,
+      "adult_mortality_female": 68.922,
+      "basic_water_pct": 98.1618875438,
+      "basic_sanitation_pct": 93.9103390169,
+      "measles_immunization_pct": 33.0,
+      "urban_population_pct": 65.4731667624849,
+      "fertility_rate": 1.8,
+      "nurses_per_1000": 5.676
     },
     {
       "iso3": "MAR",
@@ -4083,7 +5283,17 @@
       "current": 199.21412659,
       "optimal": 398.42825318,
       "change": 199.21412659,
-      "change_pct": 100.0
+      "change_pct": 100.0,
+      "infant_mortality": 14.8,
+      "under5_mortality": 17.3,
+      "adult_mortality_male": 116.849,
+      "adult_mortality_female": 76.769,
+      "basic_water_pct": 65.5911766623,
+      "basic_sanitation_pct": 71.3723800455,
+      "measles_immunization_pct": 99.0,
+      "urban_population_pct": 62.673750838878,
+      "fertility_rate": 2.299,
+      "nurses_per_1000": null
     },
     {
       "iso3": "MOZ",
@@ -4116,7 +5326,17 @@
       "current": 49.4729538,
       "optimal": 98.9459076,
       "change": 49.4729538,
-      "change_pct": 100.0
+      "change_pct": 100.0,
+      "infant_mortality": 48.7,
+      "under5_mortality": 66.2,
+      "adult_mortality_male": 314.917,
+      "adult_mortality_female": 177.515,
+      "basic_water_pct": 48.3162721869,
+      "basic_sanitation_pct": 22.581857301,
+      "measles_immunization_pct": 84.0,
+      "urban_population_pct": 35.7149783148407,
+      "fertility_rate": 4.561,
+      "nurses_per_1000": 0.568
     },
     {
       "iso3": "MMR",
@@ -4149,7 +5369,17 @@
       "current": 57.96875763,
       "optimal": 115.93751526,
       "change": 57.96875763,
-      "change_pct": 100.0
+      "change_pct": 100.0,
+      "infant_mortality": 32.5,
+      "under5_mortality": 40.1,
+      "adult_mortality_male": 263.186,
+      "adult_mortality_female": 153.773,
+      "basic_water_pct": 77.1335833794,
+      "basic_sanitation_pct": 71.7044907924,
+      "measles_immunization_pct": 75.0,
+      "urban_population_pct": 30.3820718069466,
+      "fertility_rate": 2.127,
+      "nurses_per_1000": null
     },
     {
       "iso3": "NAM",
@@ -4182,7 +5412,17 @@
       "current": 405.59393311,
       "optimal": 811.18786622,
       "change": 405.59393311,
-      "change_pct": 100.0
+      "change_pct": 100.0,
+      "infant_mortality": 28.6,
+      "under5_mortality": 37.9,
+      "adult_mortality_male": 304.125,
+      "adult_mortality_female": 172.414,
+      "basic_water_pct": 73.8017284072,
+      "basic_sanitation_pct": 19.5506753622,
+      "measles_immunization_pct": 91.0,
+      "urban_population_pct": 49.9545837830821,
+      "fertility_rate": 3.248,
+      "nurses_per_1000": null
     },
     {
       "iso3": "NRU",
@@ -4215,7 +5455,17 @@
       "current": 2264.20239258,
       "optimal": 2965.674106086618,
       "change": 701.471713506618,
-      "change_pct": 30.980963354044917
+      "change_pct": 30.980963354044917,
+      "infant_mortality": 22.3,
+      "under5_mortality": 26.5,
+      "adult_mortality_male": 385.956,
+      "adult_mortality_female": 306.914,
+      "basic_water_pct": null,
+      "basic_sanitation_pct": 65.9320445778,
+      "measles_immunization_pct": 98.0,
+      "urban_population_pct": 100.0,
+      "fertility_rate": 3.463,
+      "nurses_per_1000": null
     },
     {
       "iso3": "NPL",
@@ -4248,7 +5498,17 @@
       "current": 88.26616669,
       "optimal": 176.53233338,
       "change": 88.26616669,
-      "change_pct": 100.0
+      "change_pct": 100.0,
+      "infant_mortality": 23.0,
+      "under5_mortality": 27.3,
+      "adult_mortality_male": 180.738,
+      "adult_mortality_female": 139.231,
+      "basic_water_pct": 89.9666489874,
+      "basic_sanitation_pct": 79.0592906729,
+      "measles_immunization_pct": 90.0,
+      "urban_population_pct": 66.5432933453944,
+      "fertility_rate": 2.008,
+      "nurses_per_1000": 3.489
     },
     {
       "iso3": "NLD",
@@ -4281,7 +5541,17 @@
       "current": 5796.03466797,
       "optimal": 2965.674106086618,
       "change": -2830.3605618833817,
-      "change_pct": -48.832705876044834
+      "change_pct": -48.832705876044834,
+      "infant_mortality": 3.4,
+      "under5_mortality": 3.9,
+      "adult_mortality_male": 65.755,
+      "adult_mortality_female": 46.728,
+      "basic_water_pct": 99.9999974368,
+      "basic_sanitation_pct": 97.5,
+      "measles_immunization_pct": 89.0,
+      "urban_population_pct": 95.3221682092129,
+      "fertility_rate": 1.487,
+      "nurses_per_1000": null
     },
     {
       "iso3": "NZL",
@@ -4314,7 +5584,17 @@
       "current": 4804.37792969,
       "optimal": 2965.674106086618,
       "change": -1838.7038236033823,
-      "change_pct": -38.271423491490886
+      "change_pct": -38.271423491490886,
+      "infant_mortality": 3.9,
+      "under5_mortality": 4.6,
+      "adult_mortality_male": 77.693,
+      "adult_mortality_female": 49.188,
+      "basic_water_pct": 100.0,
+      "basic_sanitation_pct": 100.0,
+      "measles_immunization_pct": 90.0,
+      "urban_population_pct": 83.8898991461229,
+      "fertility_rate": 1.66,
+      "nurses_per_1000": 11.43
     },
     {
       "iso3": "NIC",
@@ -4347,7 +5627,17 @@
       "current": 208.47544861,
       "optimal": 416.95089722,
       "change": 208.47544861,
-      "change_pct": 100.0
+      "change_pct": 100.0,
+      "infant_mortality": 13.1,
+      "under5_mortality": 15.2,
+      "adult_mortality_male": 165.764,
+      "adult_mortality_female": 92.041,
+      "basic_water_pct": null,
+      "basic_sanitation_pct": null,
+      "measles_immunization_pct": 93.0,
+      "urban_population_pct": 59.1250953674316,
+      "fertility_rate": 2.284,
+      "nurses_per_1000": null
     },
     {
       "iso3": "NER",
@@ -4380,7 +5670,17 @@
       "current": 26.50681686,
       "optimal": 53.01363372,
       "change": 26.50681686,
-      "change_pct": 100.0
+      "change_pct": 100.0,
+      "infant_mortality": 60.3,
+      "under5_mortality": 117.3,
+      "adult_mortality_male": 224.152,
+      "adult_mortality_female": 186.491,
+      "basic_water_pct": 40.8941686691,
+      "basic_sanitation_pct": 9.007325633,
+      "measles_immunization_pct": 65.0,
+      "urban_population_pct": 17.7506873295237,
+      "fertility_rate": 6.749,
+      "nurses_per_1000": null
     },
     {
       "iso3": "NGA",
@@ -4413,7 +5713,17 @@
       "current": 90.92185211,
       "optimal": 181.84370422,
       "change": 90.92185211,
-      "change_pct": 100.0
+      "change_pct": 100.0,
+      "infant_mortality": 68.5,
+      "under5_mortality": 107.2,
+      "adult_mortality_male": 356.354,
+      "adult_mortality_female": 342.633,
+      "basic_water_pct": 63.4791073467,
+      "basic_sanitation_pct": 33.8982837352,
+      "measles_immunization_pct": 60.0,
+      "urban_population_pct": 62.1746763155343,
+      "fertility_rate": 5.143,
+      "nurses_per_1000": 1.564
     },
     {
       "iso3": "MKD",
@@ -4446,7 +5756,17 @@
       "current": 561.69281006,
       "optimal": 1123.38562012,
       "change": 561.69281006,
-      "change_pct": 100.0
+      "change_pct": 100.0,
+      "infant_mortality": 4.1,
+      "under5_mortality": 4.6,
+      "adult_mortality_male": 105.979,
+      "adult_mortality_female": 57.911,
+      "basic_water_pct": 97.435730226,
+      "basic_sanitation_pct": 97.737692054,
+      "measles_immunization_pct": 71.0,
+      "urban_population_pct": 62.2518322545779,
+      "fertility_rate": 1.6,
+      "nurses_per_1000": null
     },
     {
       "iso3": "MNP",
@@ -4479,7 +5799,17 @@
       "current": null,
       "optimal": null,
       "change": null,
-      "change_pct": null
+      "change_pct": null,
+      "infant_mortality": null,
+      "under5_mortality": null,
+      "adult_mortality_male": 87.915,
+      "adult_mortality_female": 61.572,
+      "basic_water_pct": 100.0,
+      "basic_sanitation_pct": 80.3272843397,
+      "measles_immunization_pct": null,
+      "urban_population_pct": 91.9754112887573,
+      "fertility_rate": null,
+      "nurses_per_1000": null
     },
     {
       "iso3": "NOR",
@@ -4512,7 +5842,17 @@
       "current": 8692.57617188,
       "optimal": 4346.28808594,
       "change": -4346.28808594,
-      "change_pct": -50.0
+      "change_pct": -50.0,
+      "infant_mortality": 1.8,
+      "under5_mortality": 2.2,
+      "adult_mortality_male": 60.699,
+      "adult_mortality_female": 38.98,
+      "basic_water_pct": 100.0,
+      "basic_sanitation_pct": 98.0,
+      "measles_immunization_pct": 96.0,
+      "urban_population_pct": 83.0718560702166,
+      "fertility_rate": 1.41,
+      "nurses_per_1000": 18.89
     },
     {
       "iso3": "OMN",
@@ -4545,7 +5885,17 @@
       "current": 706.92224121,
       "optimal": 1413.84448242,
       "change": 706.92224121,
-      "change_pct": 100.0
+      "change_pct": 100.0,
+      "infant_mortality": 9.0,
+      "under5_mortality": 10.5,
+      "adult_mortality_male": 57.837,
+      "adult_mortality_female": 36.747,
+      "basic_water_pct": 76.250779914,
+      "basic_sanitation_pct": 99.298554617,
+      "measles_immunization_pct": 97.0,
+      "urban_population_pct": 79.5702973228932,
+      "fertility_rate": 2.567,
+      "nurses_per_1000": null
     },
     {
       "iso3": "PAK",
@@ -4578,7 +5928,17 @@
       "current": 38.76602173,
       "optimal": 77.53204346,
       "change": 38.76602173,
-      "change_pct": 100.0
+      "change_pct": 100.0,
+      "infant_mortality": 51.0,
+      "under5_mortality": 61.0,
+      "adult_mortality_male": 201.044,
+      "adult_mortality_female": 129.882,
+      "basic_water_pct": 89.2618055503,
+      "basic_sanitation_pct": 63.3786971551,
+      "measles_immunization_pct": 82.0,
+      "urban_population_pct": 38.8191861872791,
+      "fertility_rate": 3.41,
+      "nurses_per_1000": null
     },
     {
       "iso3": "PLW",
@@ -4611,7 +5971,17 @@
       "current": 1978.85437012,
       "optimal": 2965.674106086618,
       "change": 986.8197359666178,
-      "change_pct": 49.86823441215515
+      "change_pct": 49.86823441215515,
+      "infant_mortality": 22.1,
+      "under5_mortality": 22.3,
+      "adult_mortality_male": 226.907,
+      "adult_mortality_female": 162.113,
+      "basic_water_pct": 99.3684433001,
+      "basic_sanitation_pct": 98.4283608173,
+      "measles_immunization_pct": 96.0,
+      "urban_population_pct": 79.1531991438847,
+      "fertility_rate": null,
+      "nurses_per_1000": null
     },
     {
       "iso3": "PAN",
@@ -4644,7 +6014,17 @@
       "current": 1472.04638672,
       "optimal": 2944.09277344,
       "change": 1472.04638672,
-      "change_pct": 100.0
+      "change_pct": 100.0,
+      "infant_mortality": 11.4,
+      "under5_mortality": 13.3,
+      "adult_mortality_male": 116.489,
+      "adult_mortality_female": 65.275,
+      "basic_water_pct": 86.0639755129,
+      "basic_sanitation_pct": 66.4101126477,
+      "measles_immunization_pct": 92.0,
+      "urban_population_pct": 65.8601271176084,
+      "fertility_rate": 2.297,
+      "nurses_per_1000": null
     },
     {
       "iso3": "PNG",
@@ -4677,7 +6057,17 @@
       "current": 81.11356354,
       "optimal": 162.22712708,
       "change": 81.11356354,
-      "change_pct": 100.0
+      "change_pct": 100.0,
+      "infant_mortality": 33.4,
+      "under5_mortality": 41.4,
+      "adult_mortality_male": 267.425,
+      "adult_mortality_female": 176.623,
+      "basic_water_pct": 44.4656955499,
+      "basic_sanitation_pct": 14.668807833,
+      "measles_immunization_pct": 44.0,
+      "urban_population_pct": 15.0581017891206,
+      "fertility_rate": 3.165,
+      "nurses_per_1000": 0.511
     },
     {
       "iso3": "PRY",
@@ -4710,7 +6100,17 @@
       "current": 480.19396973,
       "optimal": 960.38793946,
       "change": 480.19396973,
-      "change_pct": 100.0
+      "change_pct": 100.0,
+      "infant_mortality": 15.0,
+      "under5_mortality": 17.4,
+      "adult_mortality_male": 178.648,
+      "adult_mortality_female": 96.392,
+      "basic_water_pct": 99.1112275316,
+      "basic_sanitation_pct": 92.5844459346,
+      "measles_immunization_pct": 54.0,
+      "urban_population_pct": 69.3466081733694,
+      "fertility_rate": 2.444,
+      "nurses_per_1000": null
     },
     {
       "iso3": "PER",
@@ -4743,7 +6143,17 @@
       "current": 445.85757446,
       "optimal": 891.71514892,
       "change": 445.85757446,
-      "change_pct": 100.0
+      "change_pct": 100.0,
+      "infant_mortality": 11.7,
+      "under5_mortality": 15.1,
+      "adult_mortality_male": 136.882,
+      "adult_mortality_female": 92.646,
+      "basic_water_pct": 84.9378165898,
+      "basic_sanitation_pct": 60.2590981068,
+      "measles_immunization_pct": 74.0,
+      "urban_population_pct": 84.7810255849745,
+      "fertility_rate": 2.164,
+      "nurses_per_1000": 2.613
     },
     {
       "iso3": "PHL",
@@ -4776,7 +6186,17 @@
       "current": 194.05615234,
       "optimal": 388.11230468,
       "change": 194.05615234,
-      "change_pct": 100.0
+      "change_pct": 100.0,
+      "infant_mortality": 21.8,
+      "under5_mortality": 27.5,
+      "adult_mortality_male": 226.015,
+      "adult_mortality_female": 131.649,
+      "basic_water_pct": 92.2032753745,
+      "basic_sanitation_pct": 83.6622021519,
+      "measles_immunization_pct": 69.0,
+      "urban_population_pct": 55.1242716168851,
+      "fertility_rate": 2.725,
+      "nurses_per_1000": 4.755
     },
     {
       "iso3": "POL",
@@ -4809,7 +6229,17 @@
       "current": 1543.71240234,
       "optimal": 2965.674106086618,
       "change": 1421.961703746618,
-      "change_pct": 92.1131229878811
+      "change_pct": 92.1131229878811,
+      "infant_mortality": 3.8,
+      "under5_mortality": 4.4,
+      "adult_mortality_male": 144.165,
+      "adult_mortality_female": 55.751,
+      "basic_water_pct": 82.2053961756,
+      "basic_sanitation_pct": 98.7717502559,
+      "measles_immunization_pct": 71.0,
+      "urban_population_pct": 59.8859561370214,
+      "fertility_rate": 1.261,
+      "nurses_per_1000": null
     },
     {
       "iso3": "PRT",
@@ -4842,7 +6272,17 @@
       "current": 2743.57739258,
       "optimal": 2965.674106086618,
       "change": 222.09671350661802,
-      "change_pct": 8.095150299287281
+      "change_pct": 8.095150299287281,
+      "infant_mortality": 2.6,
+      "under5_mortality": 3.2,
+      "adult_mortality_male": 93.154,
+      "adult_mortality_female": 41.743,
+      "basic_water_pct": 97.8544494194,
+      "basic_sanitation_pct": 99.5963673058,
+      "measles_immunization_pct": 98.0,
+      "urban_population_pct": 61.2048652633664,
+      "fertility_rate": 1.43,
+      "nurses_per_1000": null
     },
     {
       "iso3": "PRI",
@@ -4875,7 +6315,17 @@
       "current": null,
       "optimal": null,
       "change": null,
-      "change_pct": null
+      "change_pct": null,
+      "infant_mortality": null,
+      "under5_mortality": null,
+      "adult_mortality_male": 109.459,
+      "adult_mortality_female": 39.323,
+      "basic_water_pct": 100.0,
+      "basic_sanitation_pct": 100.0,
+      "measles_immunization_pct": null,
+      "urban_population_pct": 94.1774359275881,
+      "fertility_rate": 0.9,
+      "nurses_per_1000": null
     },
     {
       "iso3": "QAT",
@@ -4908,7 +6358,17 @@
       "current": 1781.56030273,
       "optimal": 2965.674106086618,
       "change": 1184.1138033566178,
-      "change_pct": 66.4649858633538
+      "change_pct": 66.4649858633538,
+      "infant_mortality": 4.5,
+      "under5_mortality": 5.2,
+      "adult_mortality_male": 35.506,
+      "adult_mortality_female": 28.241,
+      "basic_water_pct": 99.9889721417,
+      "basic_sanitation_pct": 99.9365450838,
+      "measles_immunization_pct": 99.0,
+      "urban_population_pct": 99.2835325193835,
+      "fertility_rate": 1.781,
+      "nurses_per_1000": null
     },
     {
       "iso3": "ROU",
@@ -4941,7 +6401,17 @@
       "current": 902.2677002,
       "optimal": 1804.5354004,
       "change": 902.2677002,
-      "change_pct": 100.0
+      "change_pct": 100.0,
+      "infant_mortality": 5.5,
+      "under5_mortality": 6.8,
+      "adult_mortality_male": 179.555,
+      "adult_mortality_female": 73.073,
+      "basic_water_pct": 99.9999979733,
+      "basic_sanitation_pct": 77.3953985732,
+      "measles_immunization_pct": 83.0,
+      "urban_population_pct": 52.1645747011867,
+      "fertility_rate": 1.81,
+      "nurses_per_1000": null
     },
     {
       "iso3": "RUS",
@@ -4974,7 +6444,17 @@
       "current": 1078.23486328,
       "optimal": 2156.46972656,
       "change": 1078.23486328,
-      "change_pct": 100.0
+      "change_pct": 100.0,
+      "infant_mortality": 3.8,
+      "under5_mortality": 4.8,
+      "adult_mortality_male": 301.034,
+      "adult_mortality_female": 98.787,
+      "basic_water_pct": 91.5016356903,
+      "basic_sanitation_pct": 71.4268632578,
+      "measles_immunization_pct": 97.0,
+      "urban_population_pct": 74.9805047873279,
+      "fertility_rate": 1.416,
+      "nurses_per_1000": null
     },
     {
       "iso3": "RWA",
@@ -5007,7 +6487,17 @@
       "current": 76.83828735,
       "optimal": 153.6765747,
       "change": 76.83828735,
-      "change_pct": 100.0
+      "change_pct": 100.0,
+      "infant_mortality": 28.8,
+      "under5_mortality": 38.0,
+      "adult_mortality_male": 250.937,
+      "adult_mortality_female": 172.746,
+      "basic_water_pct": 60.1395688898,
+      "basic_sanitation_pct": 53.5726483086,
+      "measles_immunization_pct": 96.0,
+      "urban_population_pct": 28.8555310645477,
+      "fertility_rate": 3.749,
+      "nurses_per_1000": null
     },
     {
       "iso3": "WSM",
@@ -5040,7 +6530,17 @@
       "current": 236.22660828,
       "optimal": 472.45321656,
       "change": 236.22660828,
-      "change_pct": 100.0
+      "change_pct": 100.0,
+      "infant_mortality": 13.9,
+      "under5_mortality": 16.1,
+      "adult_mortality_male": 185.201,
+      "adult_mortality_female": 144.068,
+      "basic_water_pct": 98.8318316117,
+      "basic_sanitation_pct": 97.7635344175,
+      "measles_immunization_pct": 82.0,
+      "urban_population_pct": 17.5012799804602,
+      "fertility_rate": 3.875,
+      "nurses_per_1000": null
     },
     {
       "iso3": "SMR",
@@ -5073,7 +6573,17 @@
       "current": 3874.98535156,
       "optimal": 2965.674106086618,
       "change": -909.3112454733819,
-      "change_pct": -23.466185365250723
+      "change_pct": -23.466185365250723,
+      "infant_mortality": 1.3,
+      "under5_mortality": 1.5,
+      "adult_mortality_male": 36.504,
+      "adult_mortality_female": 30.328,
+      "basic_water_pct": 100.0,
+      "basic_sanitation_pct": 100.0,
+      "measles_immunization_pct": 91.0,
+      "urban_population_pct": 97.1317310361655,
+      "fertility_rate": null,
+      "nurses_per_1000": null
     },
     {
       "iso3": "SAU",
@@ -5106,7 +6616,17 @@
       "current": 1593.37145996,
       "optimal": 2965.674106086618,
       "change": 1372.302646126618,
-      "change_pct": 86.12572024862727
+      "change_pct": 86.12572024862727,
+      "infant_mortality": 5.5,
+      "under5_mortality": 6.4,
+      "adult_mortality_male": 95.551,
+      "adult_mortality_female": 56.185,
+      "basic_water_pct": 98.4064,
+      "basic_sanitation_pct": 92.2225,
+      "measles_immunization_pct": 98.0,
+      "urban_population_pct": 84.2962388315415,
+      "fertility_rate": 2.393,
+      "nurses_per_1000": 5.605
     },
     {
       "iso3": "SEN",
@@ -5139,7 +6659,17 @@
       "current": 63.73388672,
       "optimal": 127.46777344,
       "change": 63.73388672,
-      "change_pct": 100.0
+      "change_pct": 100.0,
+      "infant_mortality": 28.2,
+      "under5_mortality": 37.0,
+      "adult_mortality_male": 203.192,
+      "adult_mortality_female": 138.533,
+      "basic_water_pct": 76.9723292448,
+      "basic_sanitation_pct": 50.5549708204,
+      "measles_immunization_pct": 80.0,
+      "urban_population_pct": 54.6992276190794,
+      "fertility_rate": 4.314,
+      "nurses_per_1000": null
     },
     {
       "iso3": "SRB",
@@ -5172,7 +6702,17 @@
       "current": 903.11828613,
       "optimal": 1806.23657226,
       "change": 903.11828613,
-      "change_pct": 100.0
+      "change_pct": 100.0,
+      "infant_mortality": 4.4,
+      "under5_mortality": 5.1,
+      "adult_mortality_male": 140.834,
+      "adult_mortality_female": 70.81,
+      "basic_water_pct": 95.3814149114,
+      "basic_sanitation_pct": 95.5971273499,
+      "measles_immunization_pct": 81.0,
+      "urban_population_pct": 62.1434649229738,
+      "fertility_rate": 1.63,
+      "nurses_per_1000": null
     },
     {
       "iso3": "SYC",
@@ -5205,7 +6745,17 @@
       "current": 694.75085449,
       "optimal": 1389.50170898,
       "change": 694.75085449,
-      "change_pct": 100.0
+      "change_pct": 100.0,
+      "infant_mortality": 12.5,
+      "under5_mortality": 14.5,
+      "adult_mortality_male": 192.366,
+      "adult_mortality_female": 95.659,
+      "basic_water_pct": 96.418843559,
+      "basic_sanitation_pct": 100.0,
+      "measles_immunization_pct": 98.0,
+      "urban_population_pct": 45.0971081321658,
+      "fertility_rate": 2.32,
+      "nurses_per_1000": null
     },
     {
       "iso3": "SLE",
@@ -5238,7 +6788,17 @@
       "current": 39.31665802,
       "optimal": 78.63331604,
       "change": 39.31665802,
-      "change_pct": 100.0
+      "change_pct": 100.0,
+      "infant_mortality": 76.0,
+      "under5_mortality": 100.8,
+      "adult_mortality_male": 241.843,
+      "adult_mortality_female": 196.877,
+      "basic_water_pct": 54.0584078584,
+      "basic_sanitation_pct": 13.8703297746,
+      "measles_immunization_pct": 90.0,
+      "urban_population_pct": 44.809324991151,
+      "fertility_rate": 3.876,
+      "nurses_per_1000": null
     },
     {
       "iso3": "SGP",
@@ -5271,7 +6831,17 @@
       "current": 4320.51611328,
       "optimal": 2965.674106086618,
       "change": -1354.8420071933824,
-      "change_pct": -31.358337098408107
+      "change_pct": -31.358337098408107,
+      "infant_mortality": 1.8,
+      "under5_mortality": 2.2,
+      "adult_mortality_male": 72.035,
+      "adult_mortality_female": 37.601,
+      "basic_water_pct": 100.0,
+      "basic_sanitation_pct": 100.0,
+      "measles_immunization_pct": 96.0,
+      "urban_population_pct": 100.0,
+      "fertility_rate": 1.04,
+      "nurses_per_1000": null
     },
     {
       "iso3": "SVK",
@@ -5304,7 +6874,17 @@
       "current": 1642.39208984,
       "optimal": 2965.674106086618,
       "change": 1323.282016246618,
-      "change_pct": 80.5704085177085
+      "change_pct": 80.5704085177085,
+      "infant_mortality": 4.9,
+      "under5_mortality": 5.9,
+      "adult_mortality_male": null,
+      "adult_mortality_female": null,
+      "basic_water_pct": 99.6050940626,
+      "basic_sanitation_pct": 96.1841832833,
+      "measles_immunization_pct": 95.0,
+      "urban_population_pct": 53.190805019646,
+      "fertility_rate": 1.57,
+      "nurses_per_1000": 7.85
     },
     {
       "iso3": "SVN",
@@ -5337,7 +6917,17 @@
       "current": 3033.32104492,
       "optimal": 2965.674106086618,
       "change": -67.64693883338214,
-      "change_pct": -2.2301278971664615
+      "change_pct": -2.2301278971664615,
+      "infant_mortality": 1.9,
+      "under5_mortality": 2.3,
+      "adult_mortality_male": null,
+      "adult_mortality_female": null,
+      "basic_water_pct": 99.5,
+      "basic_sanitation_pct": 98.3111577509,
+      "measles_immunization_pct": 96.0,
+      "urban_population_pct": 55.5378927789875,
+      "fertility_rate": 1.55,
+      "nurses_per_1000": null
     },
     {
       "iso3": "SLB",
@@ -5370,7 +6960,17 @@
       "current": 96.73880768,
       "optimal": 193.47761536,
       "change": 96.73880768,
-      "change_pct": 100.0
+      "change_pct": 100.0,
+      "infant_mortality": 15.7,
+      "under5_mortality": 18.3,
+      "adult_mortality_male": 185.462,
+      "adult_mortality_female": 146.609,
+      "basic_water_pct": 59.4052674934,
+      "basic_sanitation_pct": 20.623605968,
+      "measles_immunization_pct": 90.0,
+      "urban_population_pct": 30.0088821088389,
+      "fertility_rate": 3.925,
+      "nurses_per_1000": null
     },
     {
       "iso3": "SOM",
@@ -5403,7 +7003,17 @@
       "current": 15.34639168,
       "optimal": 30.69278336,
       "change": 15.34639168,
-      "change_pct": 100.0
+      "change_pct": 100.0,
+      "infant_mortality": 68.0,
+      "under5_mortality": 106.1,
+      "adult_mortality_male": 325.45,
+      "adult_mortality_female": 232.382,
+      "basic_water_pct": 38.6453968625,
+      "basic_sanitation_pct": 25.8604930605,
+      "measles_immunization_pct": 46.0,
+      "urban_population_pct": 54.0714435506882,
+      "fertility_rate": 6.202,
+      "nurses_per_1000": null
     },
     {
       "iso3": "ZAF",
@@ -5436,7 +7046,17 @@
       "current": 569.84075928,
       "optimal": 1139.68151856,
       "change": 569.84075928,
-      "change_pct": 100.0
+      "change_pct": 100.0,
+      "infant_mortality": 27.7,
+      "under5_mortality": 34.5,
+      "adult_mortality_male": 327.232,
+      "adult_mortality_female": 212.621,
+      "basic_water_pct": 84.536522409,
+      "basic_sanitation_pct": 77.4902914243,
+      "measles_immunization_pct": 86.0,
+      "urban_population_pct": 63.5823705163545,
+      "fertility_rate": 2.341,
+      "nurses_per_1000": null
     },
     {
       "iso3": "SSD",
@@ -5469,7 +7089,17 @@
       "current": 49.41268158,
       "optimal": 98.82536316,
       "change": 49.41268158,
-      "change_pct": 100.0
+      "change_pct": 100.0,
+      "infant_mortality": 63.8,
+      "under5_mortality": 98.8,
+      "adult_mortality_male": 356.247,
+      "adult_mortality_female": 247.478,
+      "basic_water_pct": 33.5936288141,
+      "basic_sanitation_pct": 9.2774454309,
+      "measles_immunization_pct": 72.0,
+      "urban_population_pct": 21.0737755279692,
+      "fertility_rate": 4.337,
+      "nurses_per_1000": null
     },
     {
       "iso3": "ESP",
@@ -5502,7 +7132,17 @@
       "current": 2910.83764648,
       "optimal": 2965.674106086618,
       "change": 54.836459606618064,
-      "change_pct": 1.8838721449453002
+      "change_pct": 1.8838721449453002,
+      "infant_mortality": 2.5,
+      "under5_mortality": 3.0,
+      "adult_mortality_male": 71.991,
+      "adult_mortality_female": 36.57,
+      "basic_water_pct": 99.9079452055,
+      "basic_sanitation_pct": 99.8998998999,
+      "measles_immunization_pct": 96.0,
+      "urban_population_pct": 80.128491001856,
+      "fertility_rate": 1.16,
+      "nurses_per_1000": null
     },
     {
       "iso3": "LKA",
@@ -5535,7 +7175,17 @@
       "current": 145.55810547,
       "optimal": 291.11621094,
       "change": 145.55810547,
-      "change_pct": 100.0
+      "change_pct": 100.0,
+      "infant_mortality": 5.6,
+      "under5_mortality": 6.5,
+      "adult_mortality_male": 128.86,
+      "adult_mortality_female": 55.072,
+      "basic_water_pct": 87.2367276931,
+      "basic_sanitation_pct": 94.9476960993,
+      "measles_immunization_pct": 99.0,
+      "urban_population_pct": 20.1455348442463,
+      "fertility_rate": 1.974,
+      "nurses_per_1000": 2.439
     },
     {
       "iso3": "KNA",
@@ -5568,7 +7218,17 @@
       "current": 1160.26428223,
       "optimal": 2320.52856446,
       "change": 1160.26428223,
-      "change_pct": 100.0
+      "change_pct": 100.0,
+      "infant_mortality": 13.3,
+      "under5_mortality": 15.4,
+      "adult_mortality_male": 215.46,
+      "adult_mortality_female": 103.779,
+      "basic_water_pct": null,
+      "basic_sanitation_pct": null,
+      "measles_immunization_pct": 95.0,
+      "urban_population_pct": 31.7007809622822,
+      "fertility_rate": 1.512,
+      "nurses_per_1000": null
     },
     {
       "iso3": "LCA",
@@ -5601,7 +7261,17 @@
       "current": 644.80279541,
       "optimal": 1289.60559082,
       "change": 644.80279541,
-      "change_pct": 100.0
+      "change_pct": 100.0,
+      "infant_mortality": 16.0,
+      "under5_mortality": 17.3,
+      "adult_mortality_male": 192.836,
+      "adult_mortality_female": 92.32,
+      "basic_water_pct": 96.8140238277,
+      "basic_sanitation_pct": 79.4394780246,
+      "measles_immunization_pct": 81.0,
+      "urban_population_pct": 29.0976313248036,
+      "fertility_rate": 1.387,
+      "nurses_per_1000": null
     },
     {
       "iso3": "VCT",
@@ -5634,7 +7304,17 @@
       "current": 434.86938477,
       "optimal": 869.73876954,
       "change": 434.86938477,
-      "change_pct": 100.0
+      "change_pct": 100.0,
+      "infant_mortality": 10.1,
+      "under5_mortality": 10.9,
+      "adult_mortality_male": 220.803,
+      "adult_mortality_female": 136.978,
+      "basic_water_pct": null,
+      "basic_sanitation_pct": null,
+      "measles_immunization_pct": 96.0,
+      "urban_population_pct": 47.7169922340041,
+      "fertility_rate": 1.778,
+      "nurses_per_1000": null
     },
     {
       "iso3": "SDN",
@@ -5667,7 +7347,17 @@
       "current": 31.57727051,
       "optimal": 63.15454102,
       "change": 31.57727051,
-      "change_pct": 100.0
+      "change_pct": 100.0,
+      "infant_mortality": 37.0,
+      "under5_mortality": 51.6,
+      "adult_mortality_male": 259.538,
+      "adult_mortality_female": 158.465,
+      "basic_water_pct": 59.7163406042,
+      "basic_sanitation_pct": null,
+      "measles_immunization_pct": 81.0,
+      "urban_population_pct": 34.7960076976764,
+      "fertility_rate": 4.384,
+      "nurses_per_1000": null
     },
     {
       "iso3": "SUR",
@@ -5700,7 +7390,17 @@
       "current": 343.85302734,
       "optimal": 687.70605468,
       "change": 343.85302734,
-      "change_pct": 100.0
+      "change_pct": 100.0,
+      "infant_mortality": 14.8,
+      "under5_mortality": 16.6,
+      "adult_mortality_male": 195.888,
+      "adult_mortality_female": 121.186,
+      "basic_water_pct": 96.5744126253,
+      "basic_sanitation_pct": 82.3640781215,
+      "measles_immunization_pct": 74.0,
+      "urban_population_pct": 65.7562408447266,
+      "fertility_rate": 2.322,
+      "nurses_per_1000": null
     },
     {
       "iso3": "SWE",
@@ -5733,7 +7433,17 @@
       "current": 6152.33300781,
       "optimal": 3076.166503905,
       "change": -3076.166503905,
-      "change_pct": -50.0
+      "change_pct": -50.0,
+      "infant_mortality": 2.0,
+      "under5_mortality": 2.5,
+      "adult_mortality_male": 56.053,
+      "adult_mortality_female": 36.907,
+      "basic_water_pct": 99.5876453785,
+      "basic_sanitation_pct": 98.8222785435,
+      "measles_immunization_pct": 92.0,
+      "urban_population_pct": 88.631216160938,
+      "fertility_rate": 1.52,
+      "nurses_per_1000": null
     },
     {
       "iso3": "CHE",
@@ -5766,7 +7476,17 @@
       "current": 10963.43066406,
       "optimal": 5481.71533203,
       "change": -5481.71533203,
-      "change_pct": -50.0
+      "change_pct": -50.0,
+      "infant_mortality": 3.5,
+      "under5_mortality": 4.0,
+      "adult_mortality_male": 52.93,
+      "adult_mortality_female": 30.696,
+      "basic_water_pct": 100.0,
+      "basic_sanitation_pct": 99.8997995992,
+      "measles_immunization_pct": 96.0,
+      "urban_population_pct": 85.1854212679815,
+      "fertility_rate": 1.39,
+      "nurses_per_1000": null
     },
     {
       "iso3": "SYR",
@@ -5799,7 +7519,17 @@
       "current": 34.36484528,
       "optimal": 68.72969056,
       "change": 34.36484528,
-      "change_pct": 100.0
+      "change_pct": 100.0,
+      "infant_mortality": 17.8,
+      "under5_mortality": 21.4,
+      "adult_mortality_male": 167.61,
+      "adult_mortality_female": 107.757,
+      "basic_water_pct": 92.082745,
+      "basic_sanitation_pct": 93.5836415095,
+      "measles_immunization_pct": 41.0,
+      "urban_population_pct": 72.1673803143204,
+      "fertility_rate": 2.704,
+      "nurses_per_1000": null
     },
     {
       "iso3": "STP",
@@ -5832,7 +7562,17 @@
       "current": 180.3336792,
       "optimal": 360.6673584,
       "change": 180.3336792,
-      "change_pct": 100.0
+      "change_pct": 100.0,
+      "infant_mortality": 11.3,
+      "under5_mortality": 14.5,
+      "adult_mortality_male": 274.789,
+      "adult_mortality_female": 146.35,
+      "basic_water_pct": 71.1222885535,
+      "basic_sanitation_pct": 39.3087152449,
+      "measles_immunization_pct": 77.0,
+      "urban_population_pct": 68.6043921103568,
+      "fertility_rate": 3.751,
+      "nurses_per_1000": null
     },
     {
       "iso3": "TJK",
@@ -5865,7 +7605,17 @@
       "current": 78.61326599,
       "optimal": 157.22653198,
       "change": 78.61326599,
-      "change_pct": 100.0
+      "change_pct": 100.0,
+      "infant_mortality": 26.7,
+      "under5_mortality": 30.3,
+      "adult_mortality_male": 159.189,
+      "adult_mortality_female": 104.635,
+      "basic_water_pct": 76.643599204,
+      "basic_sanitation_pct": 94.0995489746,
+      "measles_immunization_pct": 98.0,
+      "urban_population_pct": 26.1890127571429,
+      "fertility_rate": 3.141,
+      "nurses_per_1000": null
     },
     {
       "iso3": "TZA",
@@ -5898,7 +7648,17 @@
       "current": 35.64775848,
       "optimal": 71.29551696,
       "change": 35.64775848,
-      "change_pct": 100.0
+      "change_pct": 100.0,
+      "infant_mortality": 30.0,
+      "under5_mortality": 40.5,
+      "adult_mortality_male": 282.362,
+      "adult_mortality_female": 202.378,
+      "basic_water_pct": 49.0184639583,
+      "basic_sanitation_pct": 21.2609028739,
+      "measles_immunization_pct": 86.0,
+      "urban_population_pct": 35.4748019434954,
+      "fertility_rate": 4.661,
+      "nurses_per_1000": null
     },
     {
       "iso3": "THA",
@@ -5931,7 +7691,17 @@
       "current": 369.97647095,
       "optimal": 739.9529419,
       "change": 369.97647095,
-      "change_pct": 100.0
+      "change_pct": 100.0,
+      "infant_mortality": 7.0,
+      "under5_mortality": 8.1,
+      "adult_mortality_male": 227.919,
+      "adult_mortality_female": 96.993,
+      "basic_water_pct": 100.0,
+      "basic_sanitation_pct": 98.4106438442,
+      "measles_immunization_pct": 96.0,
+      "urban_population_pct": 60.9341926574707,
+      "fertility_rate": 1.317,
+      "nurses_per_1000": null
     },
     {
       "iso3": "TLS",
@@ -5964,7 +7734,17 @@
       "current": 174.91215515,
       "optimal": 349.8243103,
       "change": 174.91215515,
-      "change_pct": 100.0
+      "change_pct": 100.0,
+      "infant_mortality": 41.5,
+      "under5_mortality": 48.6,
+      "adult_mortality_male": 204.31,
+      "adult_mortality_female": 158.013,
+      "basic_water_pct": 81.6248421956,
+      "basic_sanitation_pct": 52.0082942397,
+      "measles_immunization_pct": 79.0,
+      "urban_population_pct": 28.595471832952,
+      "fertility_rate": 3.047,
+      "nurses_per_1000": null
     },
     {
       "iso3": "TGO",
@@ -5997,7 +7777,17 @@
       "current": 54.01099014,
       "optimal": 108.02198028,
       "change": 54.01099014,
-      "change_pct": 100.0
+      "change_pct": 100.0,
+      "infant_mortality": 42.1,
+      "under5_mortality": 60.4,
+      "adult_mortality_male": 251.534,
+      "adult_mortality_female": 239.833,
+      "basic_water_pct": 58.4667063621,
+      "basic_sanitation_pct": 9.0786892189,
+      "measles_immunization_pct": 71.0,
+      "urban_population_pct": 43.2496853032436,
+      "fertility_rate": 4.196,
+      "nurses_per_1000": 0.397
     },
     {
       "iso3": "TON",
@@ -6030,7 +7820,17 @@
       "current": 378.30541992,
       "optimal": 756.61083984,
       "change": 378.30541992,
-      "change_pct": 100.0
+      "change_pct": 100.0,
+      "infant_mortality": 9.4,
+      "under5_mortality": 10.9,
+      "adult_mortality_male": 212.575,
+      "adult_mortality_female": 111.833,
+      "basic_water_pct": 98.5807922677,
+      "basic_sanitation_pct": 94.9344057344,
+      "measles_immunization_pct": 99.0,
+      "urban_population_pct": 21.147944541337,
+      "fertility_rate": 3.193,
+      "nurses_per_1000": 4.179
     },
     {
       "iso3": "TTO",
@@ -6063,7 +7863,17 @@
       "current": 1292.01806641,
       "optimal": 2584.03613282,
       "change": 1292.01806641,
-      "change_pct": 100.0
+      "change_pct": 100.0,
+      "infant_mortality": 13.8,
+      "under5_mortality": 15.4,
+      "adult_mortality_male": 187.474,
+      "adult_mortality_female": 105.843,
+      "basic_water_pct": 98.8751707692,
+      "basic_sanitation_pct": 93.9152110121,
+      "measles_immunization_pct": 92.0,
+      "urban_population_pct": 53.9536842104572,
+      "fertility_rate": 1.614,
+      "nurses_per_1000": null
     },
     {
       "iso3": "TUN",
@@ -6096,7 +7906,17 @@
       "current": 265.85464478,
       "optimal": 531.70928956,
       "change": 265.85464478,
-      "change_pct": 100.0
+      "change_pct": 100.0,
+      "infant_mortality": 9.9,
+      "under5_mortality": 11.5,
+      "adult_mortality_male": 115.043,
+      "adult_mortality_female": 57.648,
+      "basic_water_pct": 93.4210442211,
+      "basic_sanitation_pct": 97.1040035318,
+      "measles_immunization_pct": 95.0,
+      "urban_population_pct": 70.0266686486584,
+      "fertility_rate": 2.064,
+      "nurses_per_1000": null
     },
     {
       "iso3": "TKM",
@@ -6129,7 +7949,17 @@
       "current": 579.15454102,
       "optimal": 1158.30908204,
       "change": 579.15454102,
-      "change_pct": 100.0
+      "change_pct": 100.0,
+      "infant_mortality": 35.0,
+      "under5_mortality": 40.4,
+      "adult_mortality_male": 202.038,
+      "adult_mortality_female": 107.536,
+      "basic_water_pct": 100.0,
+      "basic_sanitation_pct": 99.7199192297,
+      "measles_immunization_pct": 98.0,
+      "urban_population_pct": 47.0678875054171,
+      "fertility_rate": 2.617,
+      "nurses_per_1000": null
     },
     {
       "iso3": "TUV",
@@ -6162,7 +7992,17 @@
       "current": 1084.66955566,
       "optimal": 2169.33911132,
       "change": 1084.66955566,
-      "change_pct": 100.0
+      "change_pct": 100.0,
+      "infant_mortality": 17.4,
+      "under5_mortality": 20.4,
+      "adult_mortality_male": 312.825,
+      "adult_mortality_female": 189.683,
+      "basic_water_pct": 99.0017825824,
+      "basic_sanitation_pct": 82.7550650343,
+      "measles_immunization_pct": 90.0,
+      "urban_population_pct": 64.0117206689787,
+      "fertility_rate": 3.144,
+      "nurses_per_1000": null
     },
     {
       "iso3": "TUR",
@@ -6195,7 +8035,17 @@
       "current": 385.87997437,
       "optimal": 771.75994874,
       "change": 385.87997437,
-      "change_pct": 100.0
+      "change_pct": 100.0,
+      "infant_mortality": 8.3,
+      "under5_mortality": 9.6,
+      "adult_mortality_male": 111.372,
+      "adult_mortality_female": 64.99,
+      "basic_water_pct": 96.0251697702,
+      "basic_sanitation_pct": 97.2495009772,
+      "measles_immunization_pct": 95.0,
+      "urban_population_pct": 89.0218446796121,
+      "fertility_rate": 1.882,
+      "nurses_per_1000": null
     },
     {
       "iso3": "UGA",
@@ -6228,7 +8078,17 @@
       "current": 44.14502716,
       "optimal": 88.29005432,
       "change": 44.14502716,
-      "change_pct": 100.0
+      "change_pct": 100.0,
+      "infant_mortality": 30.2,
+      "under5_mortality": 40.5,
+      "adult_mortality_male": 270.642,
+      "adult_mortality_female": 190.929,
+      "basic_water_pct": 51.8188449147,
+      "basic_sanitation_pct": 17.8543753307,
+      "measles_immunization_pct": 90.0,
+      "urban_population_pct": 30.6059359395495,
+      "fertility_rate": 4.468,
+      "nurses_per_1000": null
     },
     {
       "iso3": "UKR",
@@ -6261,7 +8121,17 @@
       "current": 369.90487671,
       "optimal": 739.80975342,
       "change": 369.90487671,
-      "change_pct": 100.0
+      "change_pct": 100.0,
+      "infant_mortality": 7.0,
+      "under5_mortality": 8.5,
+      "adult_mortality_male": 300.04,
+      "adult_mortality_female": 87.602,
+      "basic_water_pct": 90.8319564814,
+      "basic_sanitation_pct": 97.1652411725,
+      "measles_immunization_pct": 74.0,
+      "urban_population_pct": 69.4754455027606,
+      "fertility_rate": 1.265,
+      "nurses_per_1000": null
     },
     {
       "iso3": "ARE",
@@ -6294,7 +8164,17 @@
       "current": 2314.74511719,
       "optimal": 2965.674106086618,
       "change": 650.9289888966177,
-      "change_pct": 28.120979025406356
+      "change_pct": 28.120979025406356,
+      "infant_mortality": 4.3,
+      "under5_mortality": 5.3,
+      "adult_mortality_male": 36.55,
+      "adult_mortality_female": 18.473,
+      "basic_water_pct": 100.0,
+      "basic_sanitation_pct": 98.972717889,
+      "measles_immunization_pct": 98.0,
+      "urban_population_pct": 85.6680699002526,
+      "fertility_rate": 1.443,
+      "nurses_per_1000": null
     },
     {
       "iso3": "GBR",
@@ -6327,7 +8207,17 @@
       "current": 5366.77685547,
       "optimal": 2965.674106086618,
       "change": -2401.1027493833817,
-      "change_pct": -44.74012641192818
+      "change_pct": -44.74012641192818,
+      "infant_mortality": 3.6,
+      "under5_mortality": 4.1,
+      "adult_mortality_male": 90.741,
+      "adult_mortality_female": 56.403,
+      "basic_water_pct": 99.9999978822,
+      "basic_sanitation_pct": 99.0363966901,
+      "measles_immunization_pct": 90.0,
+      "urban_population_pct": 83.1601932891335,
+      "fertility_rate": 1.57,
+      "nurses_per_1000": 9.167
     },
     {
       "iso3": "USA",
@@ -6360,7 +8250,17 @@
       "current": 12434.43359375,
       "optimal": 6217.216796875,
       "change": -6217.216796875,
-      "change_pct": -50.0
+      "change_pct": -50.0,
+      "infant_mortality": 5.4,
+      "under5_mortality": 6.3,
+      "adult_mortality_male": 159.598,
+      "adult_mortality_female": 91.074,
+      "basic_water_pct": 99.9568039425,
+      "basic_sanitation_pct": 98.5253901871,
+      "measles_immunization_pct": 92.0,
+      "urban_population_pct": 80.071561119178,
+      "fertility_rate": 1.665,
+      "nurses_per_1000": null
     },
     {
       "iso3": "URY",
@@ -6393,7 +8293,17 @@
       "current": 1850.80737305,
       "optimal": 2965.674106086618,
       "change": 1114.866733036618,
-      "change_pct": 60.236778244480206
+      "change_pct": 60.236778244480206,
+      "infant_mortality": 5.6,
+      "under5_mortality": 6.6,
+      "adult_mortality_male": 139.813,
+      "adult_mortality_female": 73.848,
+      "basic_water_pct": 95.30083,
+      "basic_sanitation_pct": 98.2714469978,
+      "measles_immunization_pct": 96.0,
+      "urban_population_pct": 95.5439605712891,
+      "fertility_rate": 1.483,
+      "nurses_per_1000": 11.55
     },
     {
       "iso3": "UZB",
@@ -6426,7 +8336,17 @@
       "current": 169.43212891,
       "optimal": 338.86425782,
       "change": 169.43212891,
-      "change_pct": 100.0
+      "change_pct": 100.0,
+      "infant_mortality": 11.9,
+      "under5_mortality": 13.3,
+      "adult_mortality_male": 196.546,
+      "adult_mortality_female": 114.255,
+      "basic_water_pct": 95.2424563708,
+      "basic_sanitation_pct": 95.3800317283,
+      "measles_immunization_pct": 99.0,
+      "urban_population_pct": 50.9964841114568,
+      "fertility_rate": 3.308,
+      "nurses_per_1000": null
     },
     {
       "iso3": "VUT",
@@ -6459,7 +8379,17 @@
       "current": 135.42979431,
       "optimal": 270.85958862,
       "change": 135.42979431,
-      "change_pct": 100.0
+      "change_pct": 100.0,
+      "infant_mortality": 15.6,
+      "under5_mortality": 18.2,
+      "adult_mortality_male": 189.807,
+      "adult_mortality_female": 131.361,
+      "basic_water_pct": 88.6022683264,
+      "basic_sanitation_pct": 45.3954007551,
+      "measles_immunization_pct": 70.0,
+      "urban_population_pct": 22.2651966823901,
+      "fertility_rate": 3.697,
+      "nurses_per_1000": null
     },
     {
       "iso3": "VEN",
@@ -6492,7 +8422,17 @@
       "current": 208.56968689,
       "optimal": 417.13937378,
       "change": 208.56968689,
-      "change_pct": 100.0
+      "change_pct": 100.0,
+      "infant_mortality": 21.2,
+      "under5_mortality": 24.2,
+      "adult_mortality_male": 215.49,
+      "adult_mortality_female": 108.393,
+      "basic_water_pct": 93.3316109894,
+      "basic_sanitation_pct": 98.3955859788,
+      "measles_immunization_pct": 68.0,
+      "urban_population_pct": 89.249627620225,
+      "fertility_rate": 2.188,
+      "nurses_per_1000": null
     },
     {
       "iso3": "VNM",
@@ -6525,7 +8465,17 @@
       "current": 188.89749146,
       "optimal": 377.79498292,
       "change": 188.89749146,
-      "change_pct": 100.0
+      "change_pct": 100.0,
+      "infant_mortality": 16.2,
+      "under5_mortality": 20.3,
+      "adult_mortality_male": 180.766,
+      "adult_mortality_female": 73.842,
+      "basic_water_pct": 97.232074771,
+      "basic_sanitation_pct": 88.4436318289,
+      "measles_immunization_pct": 88.0,
+      "urban_population_pct": 38.1298904418945,
+      "fertility_rate": 1.941,
+      "nurses_per_1000": null
     },
     {
       "iso3": "VIR",
@@ -6558,7 +8508,17 @@
       "current": null,
       "optimal": null,
       "change": null,
-      "change_pct": null
+      "change_pct": null,
+      "infant_mortality": null,
+      "under5_mortality": null,
+      "adult_mortality_male": 178.79,
+      "adult_mortality_female": 53.103,
+      "basic_water_pct": null,
+      "basic_sanitation_pct": 99.1085439776,
+      "measles_immunization_pct": null,
+      "urban_population_pct": 95.2740790945924,
+      "fertility_rate": 2.0,
+      "nurses_per_1000": null
     },
     {
       "iso3": "PSE",
@@ -6591,7 +8551,17 @@
       "current": 350.63812256,
       "optimal": 701.27624512,
       "change": 350.63812256,
-      "change_pct": 100.0
+      "change_pct": 100.0,
+      "infant_mortality": 12.3,
+      "under5_mortality": 14.3,
+      "adult_mortality_male": 365.479,
+      "adult_mortality_female": 171.477,
+      "basic_water_pct": 97.9876539571,
+      "basic_sanitation_pct": 98.9690341513,
+      "measles_immunization_pct": 97.0,
+      "urban_population_pct": 86.8576870415886,
+      "fertility_rate": 3.436,
+      "nurses_per_1000": null
     },
     {
       "iso3": "YEM",
@@ -6624,7 +8594,17 @@
       "current": 38.11569214,
       "optimal": 76.23138428,
       "change": 38.11569214,
-      "change_pct": 100.0
+      "change_pct": 100.0,
+      "infant_mortality": 33.1,
+      "under5_mortality": 41.3,
+      "adult_mortality_male": 192.554,
+      "adult_mortality_female": 132.132,
+      "basic_water_pct": 51.8065037823,
+      "basic_sanitation_pct": 39.6363285785,
+      "measles_immunization_pct": 73.0,
+      "urban_population_pct": 36.5707979836506,
+      "fertility_rate": 3.716,
+      "nurses_per_1000": null
     },
     {
       "iso3": "ZMB",
@@ -6657,7 +8637,17 @@
       "current": 76.05962372,
       "optimal": 152.11924744,
       "change": 76.05962372,
-      "change_pct": 100.0
+      "change_pct": 100.0,
+      "infant_mortality": 39.0,
+      "under5_mortality": 55.6,
+      "adult_mortality_male": 232.519,
+      "adult_mortality_female": 155.33,
+      "basic_water_pct": 51.1156075207,
+      "basic_sanitation_pct": 31.5266042052,
+      "measles_immunization_pct": 90.0,
+      "urban_population_pct": 45.0285853521585,
+      "fertility_rate": 4.242,
+      "nurses_per_1000": 1.864
     },
     {
       "iso3": "ZWE",
@@ -6690,7 +8680,17 @@
       "current": 70.66313934,
       "optimal": 141.32627868,
       "change": 70.66313934,
-      "change_pct": 100.0
+      "change_pct": 100.0,
+      "infant_mortality": 34.6,
+      "under5_mortality": 47.7,
+      "adult_mortality_male": 365.982,
+      "adult_mortality_female": 278.051,
+      "basic_water_pct": 47.6955130205,
+      "basic_sanitation_pct": 31.8330309457,
+      "measles_immunization_pct": 90.0,
+      "urban_population_pct": 39.2919370795795,
+      "fertility_rate": 3.437,
+      "nurses_per_1000": null
     },
     {
       "iso3": "COK",
@@ -6723,7 +8723,17 @@
       "current": null,
       "optimal": null,
       "change": null,
-      "change_pct": null
+      "change_pct": null,
+      "infant_mortality": null,
+      "under5_mortality": null,
+      "adult_mortality_male": null,
+      "adult_mortality_female": null,
+      "basic_water_pct": null,
+      "basic_sanitation_pct": null,
+      "measles_immunization_pct": null,
+      "urban_population_pct": null,
+      "fertility_rate": null,
+      "nurses_per_1000": null
     },
     {
       "iso3": "NIU",
@@ -6756,7 +8766,17 @@
       "current": null,
       "optimal": null,
       "change": null,
-      "change_pct": null
+      "change_pct": null,
+      "infant_mortality": null,
+      "under5_mortality": null,
+      "adult_mortality_male": null,
+      "adult_mortality_female": null,
+      "basic_water_pct": null,
+      "basic_sanitation_pct": null,
+      "measles_immunization_pct": null,
+      "urban_population_pct": null,
+      "fertility_rate": null,
+      "nurses_per_1000": null
     },
     {
       "iso3": "TKL",
@@ -6789,7 +8809,17 @@
       "current": null,
       "optimal": null,
       "change": null,
-      "change_pct": null
+      "change_pct": null,
+      "infant_mortality": null,
+      "under5_mortality": null,
+      "adult_mortality_male": null,
+      "adult_mortality_female": null,
+      "basic_water_pct": null,
+      "basic_sanitation_pct": null,
+      "measles_immunization_pct": null,
+      "urban_population_pct": null,
+      "fertility_rate": null,
+      "nurses_per_1000": null
     }
   ]
 }

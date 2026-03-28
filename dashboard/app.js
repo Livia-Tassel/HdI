@@ -17,7 +17,10 @@ const DIMENSIONS = {
     defaultMetric: "life_expectancy",
     mapTitle: "全球疾病谱与健康结果",
     note: "点击国家查看预期寿命、疾病结构和卫生体系状况。",
-    metrics: ["life_expectancy", "ncd_share", "communicable_share", "health_exp_pct_gdp"],
+    metrics: ["life_expectancy", "ncd_share", "communicable_share", "health_exp_pct_gdp",
+              "infant_mortality", "under5_mortality", "physicians_per_1000", "beds_per_1000",
+              "basic_water_pct", "basic_sanitation_pct", "measles_immunization_pct",
+              "urban_population_pct", "fertility_rate"],
   },
   dim2: {
     label: "风险因素",
@@ -265,6 +268,62 @@ const METRIC_META = {
     colorscale: [[0, "#0c1929"], [0.25, "#0e3a5e"], [0.5, "#1d4ed8"], [0.75, "#38bdf8"], [1, "#bae6fd"]],
     formatter: (value) => formatCurrency(value),
     accessor: (row) => row.che_per_capita,
+  },
+  infant_mortality: {
+    label: "婴儿死亡率（‰）",
+    colorscale: [[0, "#f0fdf4"], [0.25, "#6ee7b7"], [0.5, "#fbbf24"], [0.75, "#ef4444"], [1, "#7f1d1d"]],
+    formatter: (value) => value == null ? NO_DATA_LABEL : `${Number(value).toFixed(1)} ‰`,
+    accessor: (row) => row.infant_mortality,
+    invertGradient: true,
+  },
+  under5_mortality: {
+    label: "5岁以下死亡率（‰）",
+    colorscale: [[0, "#f0fdf4"], [0.25, "#6ee7b7"], [0.5, "#fbbf24"], [0.75, "#ef4444"], [1, "#7f1d1d"]],
+    formatter: (value) => value == null ? NO_DATA_LABEL : `${Number(value).toFixed(1)} ‰`,
+    accessor: (row) => row.under5_mortality,
+    invertGradient: true,
+  },
+  basic_water_pct: {
+    label: "安全饮水覆盖率（%）",
+    colorscale: [[0, "#0c1929"], [0.25, "#0e3a5e"], [0.5, "#0d6577"], [0.75, "#17a2b8"], [1, "#22d3ee"]],
+    formatter: (value) => value == null ? NO_DATA_LABEL : `${Number(value).toFixed(1)} %`,
+    accessor: (row) => row.basic_water_pct,
+  },
+  basic_sanitation_pct: {
+    label: "基本卫生设施覆盖率（%）",
+    colorscale: [[0, "#071a17"], [0.25, "#0c3a32"], [0.5, "#12705f"], [0.75, "#1db99a"], [1, "#2dd4bf"]],
+    formatter: (value) => value == null ? NO_DATA_LABEL : `${Number(value).toFixed(1)} %`,
+    accessor: (row) => row.basic_sanitation_pct,
+  },
+  measles_immunization_pct: {
+    label: "麻疹疫苗接种率（%）",
+    colorscale: [[0, "#1a0f2e"], [0.25, "#2d1b69"], [0.5, "#6366f1"], [0.75, "#818cf8"], [1, "#c7d2fe"]],
+    formatter: (value) => value == null ? NO_DATA_LABEL : `${Number(value).toFixed(0)} %`,
+    accessor: (row) => row.measles_immunization_pct,
+  },
+  urban_population_pct: {
+    label: "城镇人口比例（%）",
+    colorscale: [[0, "#071a17"], [0.25, "#0c3a32"], [0.5, "#12705f"], [0.75, "#34d399"], [1, "#6ee7b7"]],
+    formatter: (value) => value == null ? NO_DATA_LABEL : `${Number(value).toFixed(1)} %`,
+    accessor: (row) => row.urban_population_pct,
+  },
+  fertility_rate: {
+    label: "总和生育率",
+    colorscale: [[0, "#071a17"], [0.25, "#4a3010"], [0.5, "#7a5518"], [0.75, "#d4941a"], [1, "#fbbf24"]],
+    formatter: (value) => value == null ? NO_DATA_LABEL : Number(value).toFixed(2),
+    accessor: (row) => row.fertility_rate,
+  },
+  physicians_per_1000: {
+    label: "医生密度（每千人）",
+    colorscale: [[0, "#0c1929"], [0.25, "#0e3a5e"], [0.5, "#0d6577"], [0.75, "#17a2b8"], [1, "#22d3ee"]],
+    formatter: (value) => value == null ? NO_DATA_LABEL : `${Number(value).toFixed(2)}/千人`,
+    accessor: (row) => row.physicians_per_1000,
+  },
+  beds_per_1000: {
+    label: "医院床位（每千人）",
+    colorscale: [[0, "#071a17"], [0.25, "#0c3a32"], [0.5, "#12705f"], [0.75, "#2dd4bf"], [1, "#99f6e4"]],
+    formatter: (value) => value == null ? NO_DATA_LABEL : `${Number(value).toFixed(2)}/千人`,
+    accessor: (row) => row.beds_per_1000,
   },
 };
 
@@ -1529,6 +1588,9 @@ function renderCountryPanel() {
       ["人均国内生产总值", formatCurrency(yearRecord.gdp_per_capita ?? latest.gdp_per_capita), "teal"],
       ["卫生支出占GDP比重", formatPercentValue(yearRecord.health_exp_pct_gdp), "blue"],
       ["首要风险", translateRiskName(yearRecord.top_risk_name ?? latest.top_risk_name), "rose"],
+      ...(latest.infant_mortality != null ? [["婴儿死亡率", `${Number(latest.infant_mortality).toFixed(1)} ‰`, "rose"]] : []),
+      ...(latest.under5_mortality != null ? [["5岁以下死亡率", `${Number(latest.under5_mortality).toFixed(1)} ‰`, "amber"]] : []),
+      ...(latest.physicians_per_1000 != null ? [["医生密度", `${Number(latest.physicians_per_1000).toFixed(2)}/千人`, "teal"]] : []),
     ];
   } else if (state.dimension === "dim2") {
     const selectedRisk = store.riskIndex.get(`${state.country}|${state.risk}`) ?? {};
@@ -3362,6 +3424,9 @@ function renderSpotlightContent(iso3) {
     ...(latest.basic_sanitation_pct != null ? [["卫生设施覆盖率", `${Number(latest.basic_sanitation_pct).toFixed(0)} %`, "blue"]] : []),
     ...(latest.urban_population_pct != null ? [["城镇人口比例", `${Number(latest.urban_population_pct).toFixed(1)} %`, "violet"]] : []),
     ...(latest.fertility_rate != null ? [["总和生育率", `${Number(latest.fertility_rate).toFixed(2)}`, "amber"]] : []),
+    ...(latest.infant_mortality != null ? [["婴儿死亡率", `${Number(latest.infant_mortality).toFixed(1)} ‰`, "rose"]] : []),
+    ...(latest.under5_mortality != null ? [["5岁以下死亡率", `${Number(latest.under5_mortality).toFixed(1)} ‰`, "amber"]] : []),
+    ...(latest.physicians_per_1000 != null && latest.doctor_density == null ? [["医生密度（每千人）", `${Number(latest.physicians_per_1000).toFixed(2)}/千人`, "teal"]] : []),
   ];
 
   document.getElementById("spotlight-metrics").innerHTML = metrics
