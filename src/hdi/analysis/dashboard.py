@@ -748,6 +748,13 @@ def build_dashboard_assets() -> dict[str, Any]:
         "health_exp_per_capita",
         "physicians_per_1000",
         "beds_per_1000",
+        "urban_population_pct",
+        "basic_water_pct",
+        "basic_sanitation_pct",
+        "measles_immunization_pct",
+        "fertility_rate",
+        "infant_mortality",
+        "under5_mortality",
     ]
     risk_history_base = (
         risk_deaths.groupby(["iso3", "year", "risk_code", "risk_factor"], as_index=False)["value"]

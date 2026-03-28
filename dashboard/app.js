@@ -3325,6 +3325,12 @@ function renderSpotlightContent(iso3) {
     latest.che_per_capita != null
       ? ["人均卫生支出", formatCurrency(latest.che_per_capita), "rose"]
       : ["资源缺口", formatSigned(latest.gap), "cyan"],
+    // Social determinants of health (shown when available)
+    ...(latest.measles_immunization_pct != null ? [["麻疹疫苗接种率", `${Number(latest.measles_immunization_pct).toFixed(0)} %`, "emerald"]] : []),
+    ...(latest.basic_water_pct != null ? [["安全饮水覆盖率", `${Number(latest.basic_water_pct).toFixed(0)} %`, "teal"]] : []),
+    ...(latest.basic_sanitation_pct != null ? [["卫生设施覆盖率", `${Number(latest.basic_sanitation_pct).toFixed(0)} %`, "blue"]] : []),
+    ...(latest.urban_population_pct != null ? [["城镇人口比例", `${Number(latest.urban_population_pct).toFixed(1)} %`, "violet"]] : []),
+    ...(latest.fertility_rate != null ? [["总和生育率", `${Number(latest.fertility_rate).toFixed(2)}`, "amber"]] : []),
   ];
 
   document.getElementById("spotlight-metrics").innerHTML = metrics
