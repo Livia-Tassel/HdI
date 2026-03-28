@@ -38,7 +38,7 @@ const DIMENSIONS = {
     defaultMetric: "prov_gap",
     mapTitle: "中国大陆省级卫生资源配置分析",
     note: "探索中国大陆31个省级行政区的卫生资源配置、效率与优化方案。",
-    metrics: ["prov_gap", "prov_efficiency", "prov_life_expectancy", "prov_infant_mortality", "prov_personnel_per_1000", "prov_hospital_beds_per_1000", "prov_physicians_per_1000", "prov_nurses_per_1000", "prov_health_exp", "prov_gdp_per_capita", "prov_optimization_change"],
+    metrics: ["prov_gap", "prov_efficiency", "prov_life_expectancy", "prov_infant_mortality", "prov_maternal_mortality", "prov_under5_mortality", "prov_personnel_per_1000", "prov_hospital_beds_per_1000", "prov_physicians_per_1000", "prov_nurses_per_1000", "prov_health_exp", "prov_gdp_per_capita", "prov_rural_income", "prov_optimization_change"],
   },
   dim5: {
     label: "健康全景",
@@ -180,6 +180,24 @@ const METRIC_META = {
     colorscale: [[0, "#071a17"], [0.25, "#0c3a32"], [0.5, "#12705f"], [0.75, "#34d399"], [1, "#6ee7b7"]],
     formatter: (value) => value == null ? NO_DATA_LABEL : `¥${Number(value).toLocaleString()}`,
     accessor: (row) => row.gdp_per_capita,
+  },
+  prov_rural_income: {
+    label: "农村人均收入（元，2023）",
+    colorscale: [[0, "#1c0533"], [0.25, "#4b1c6e"], [0.5, "#7c3aed"], [0.75, "#a78bfa"], [1, "#ddd6fe"]],
+    formatter: (value) => value == null ? NO_DATA_LABEL : `¥${Number(value).toLocaleString()}`,
+    accessor: (row) => row.rural_income_per_capita,
+  },
+  prov_maternal_mortality: {
+    label: "产妇死亡率（/10万，2020）",
+    colorscale: [[0, "#f0fdf4"], [0.25, "#6ee7b7"], [0.5, "#fbbf24"], [0.75, "#ef4444"], [1, "#7f1d1d"]],
+    formatter: (value) => value == null ? NO_DATA_LABEL : `${Number(value).toFixed(1)}/10万`,
+    accessor: (row) => row.maternal_mortality,
+  },
+  prov_under5_mortality: {
+    label: "5岁以下死亡率（‰，2020）",
+    colorscale: [[0, "#f0fdf4"], [0.25, "#6ee7b7"], [0.5, "#fbbf24"], [0.75, "#ef4444"], [1, "#7f1d1d"]],
+    formatter: (value) => value == null ? NO_DATA_LABEL : `${Number(value).toFixed(1)} ‰`,
+    accessor: (row) => row.under5_mortality,
   },
   prov_optimization_change: {
     label: "最优化调整方案（%）",
@@ -1476,7 +1494,10 @@ function renderCountryPanel() {
       ["医院床位密度", provData.hospital_beds_per_1000 != null ? `${provData.hospital_beds_per_1000.toFixed(2)}/千人` : NO_DATA_LABEL, "teal"],
       ["人均卫生支出", provData.health_exp_per_capita != null ? `¥${Math.round(provData.health_exp_per_capita).toLocaleString()}` : NO_DATA_LABEL, "cyan"],
       ["人均GDP", provData.gdp_per_capita != null ? `¥${Math.round(provData.gdp_per_capita).toLocaleString()}` : NO_DATA_LABEL, "teal"],
-      ["优化调整", optRow.change_pct != null ? `${optRow.change_pct > 0 ? "+" : ""}${optRow.change_pct.toFixed(1)}%` : NO_DATA_LABEL, "amber"],
+      ["农村人均收入", provData.rural_income_per_capita != null ? `¥${Math.round(provData.rural_income_per_capita).toLocaleString()}` : NO_DATA_LABEL, "violet"],
+      ["产妇死亡率", provData.maternal_mortality != null ? `${provData.maternal_mortality.toFixed(1)}/10万` : NO_DATA_LABEL, "rose"],
+      ["5岁以下死亡率", provData.under5_mortality != null ? `${provData.under5_mortality.toFixed(1)} ‰` : NO_DATA_LABEL, "amber"],
+      ["优化调整", optRow.change_pct != null ? `${optRow.change_pct > 0 ? "+" : ""}${optRow.change_pct.toFixed(1)}%` : NO_DATA_LABEL, "cyan"],
     ];
   } else {
     items = [
@@ -1933,9 +1954,28 @@ function renderCompanionChart() {
   }
 
   if (state.dimension === "dim4") {
-    document.getElementById("companion-title").textContent = "省份卫生人员趋势";
-    document.getElementById("companion-pill").textContent = state.province || "选择省份";
-    renderChinaProvincePersonnelTrend();
+    const dim4ToggleHtml = `<span class="companion-toggle" id="companion-toggle">` +
+      `<button class="companion-toggle-btn ${state.companionView !== "quadrant" ? "is-active" : ""}" data-view="trend">趋势</button>` +
+      `<button class="companion-toggle-btn ${state.companionView === "quadrant" ? "is-active" : ""}" data-view="quadrant">象限</button>` +
+      `</span>`;
+    if (state.companionView === "quadrant") {
+      document.getElementById("companion-title").innerHTML = `省级象限分布${dim4ToggleHtml}`;
+      document.getElementById("companion-pill").textContent = "投入-产出散点";
+    } else {
+      document.getElementById("companion-title").innerHTML = `省份卫生人员趋势${dim4ToggleHtml}`;
+      document.getElementById("companion-pill").textContent = state.province || "选择省份";
+    }
+    document.querySelectorAll(".companion-toggle-btn").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        state.companionView = btn.dataset.view;
+        renderCompanionChart();
+      });
+    });
+    if (state.companionView === "quadrant") {
+      renderChinaQuadrantScatter();
+    } else {
+      renderChinaProvincePersonnelTrend();
+    }
     return;
   }
 
@@ -2227,6 +2267,89 @@ function renderChinaProvincePersonnelTrend() {
   );
 }
 
+function renderChinaQuadrantScatter() {
+  const data = store.chinaDeepDive;
+  const provinces = data?.provinces ?? [];
+  if (!provinces.length) {
+    emptyPlot("companion-chart", "暂无省级象限数据。");
+    return;
+  }
+
+  const QUADRANT_COLORS = {
+    "Q1_高投入高产出": THEME.teal,
+    "Q2_低投入高产出": THEME.emerald,
+    "Q3_高投入低产出": THEME.rose,
+    "Q4_低投入低产出": THEME.amber,
+  };
+  const QUADRANT_LABELS = {
+    "Q1_高投入高产出": "高投入高产出",
+    "Q2_低投入高产出": "低投入高产出",
+    "Q3_高投入低产出": "高投入低产出",
+    "Q4_低投入低产出": "低投入低产出",
+  };
+
+  // Group provinces by quadrant
+  const byQuadrant = {};
+  for (const p of provinces) {
+    const q = p.quadrant ?? "未知";
+    if (!byQuadrant[q]) byQuadrant[q] = [];
+    byQuadrant[q].push(p);
+  }
+
+  const traces = Object.entries(byQuadrant).map(([q, provs]) => ({
+    type: "scatter",
+    mode: "markers+text",
+    x: provs.map((p) => p.input_index),
+    y: provs.map((p) => p.output_index),
+    text: provs.map((p) => p.province_en),
+    textposition: "top center",
+    textfont: { size: 9, color: "rgba(148,163,184,0.8)" },
+    marker: {
+      size: provs.map((p) => p.province === state.province ? 14 : 9),
+      color: provs.map((p) => p.province === state.province ? THEME.amber : (QUADRANT_COLORS[q] ?? THEME.dim)),
+      opacity: 0.85,
+      line: { color: "rgba(255,255,255,0.2)", width: 1 },
+    },
+    name: QUADRANT_LABELS[q] ?? q,
+    hovertemplate: provs.map((p) =>
+      `<b>${p.province}</b><br>投入指数：${p.input_index.toFixed(3)}<br>产出指数：${p.output_index.toFixed(3)}<br>象限：${p.quadrant}<extra></extra>`
+    ),
+    customdata: provs.map((p) => p.province),
+  }));
+
+  // Quadrant dividers at x=0, y=0
+  const shapes = [
+    { type: "line", x0: 0, x1: 0, y0: -3, y1: 3, line: { color: "rgba(148,163,184,0.25)", width: 1, dash: "dash" } },
+    { type: "line", x0: -3, x1: 3, y0: 0, y1: 0, line: { color: "rgba(148,163,184,0.25)", width: 1, dash: "dash" } },
+  ];
+
+  Plotly.react(
+    "companion-chart",
+    traces,
+    baseLayout({
+      xaxis: { title: "投入指数（标准化）", zeroline: false },
+      yaxis: { title: "产出指数（标准化）", zeroline: false },
+      legend: { orientation: "h", y: -0.18, x: 0, font: { size: 10 } },
+      shapes,
+    }),
+    { responsive: true, displayModeBar: false, scrollZoom: false },
+  );
+
+  const scatterNode = document.getElementById("companion-chart");
+  if (scatterNode && !scatterNode.dataset.quadrantBound) {
+    scatterNode.on("plotly_click", (event) => {
+      if (state.dimension !== "dim4") return;
+      const prov = event.points?.[0]?.customdata;
+      if (prov) {
+        state.province = prov;
+        renderPanels();
+        renderChinaMap();
+      }
+    });
+    scatterNode.dataset.quadrantBound = "1";
+  }
+}
+
 function renderContextPanel() {
   if (state.dimension === "dim1") {
     document.getElementById("context-title").textContent = "全球极值与结构对比";
@@ -2438,12 +2561,15 @@ function renderDim4Context() {
 
   const equityBlock = `
     <div class="lab-summary-grid">
-      ${renderLabStat("基尼系数（预期寿命）", equity.gini_life_expectancy != null ? equity.gini_life_expectancy.toFixed(4) : NO_DATA_LABEL)}
-      ${renderLabStat("基尼系数（卫生支出）", equity.gini_health_expenditure != null ? equity.gini_health_expenditure.toFixed(4) : NO_DATA_LABEL)}
-      ${renderLabStat("婴儿死亡率集中指数", equity.concentration_index_exp_vs_life_expectancy != null ? equity.concentration_index_exp_vs_life_expectancy.toFixed(4) : NO_DATA_LABEL)}
+      ${renderLabStat("基尼（预期寿命）", equity.gini_life_expectancy != null ? equity.gini_life_expectancy.toFixed(4) : NO_DATA_LABEL)}
+      ${renderLabStat("基尼（卫生支出）", equity.gini_health_expenditure != null ? equity.gini_health_expenditure.toFixed(4) : NO_DATA_LABEL)}
+      ${renderLabStat("基尼（婴儿死亡率）", equity.gini_infant_mortality != null ? equity.gini_infant_mortality.toFixed(4) : NO_DATA_LABEL)}
+      ${renderLabStat("基尼（产妇死亡率）", equity.gini_maternal_mortality != null ? equity.gini_maternal_mortality.toFixed(4) : NO_DATA_LABEL)}
+      ${renderLabStat("基尼（5岁以下死亡率）", equity.gini_under5_mortality != null ? equity.gini_under5_mortality.toFixed(4) : NO_DATA_LABEL)}
+      ${renderLabStat("集中指数（支出→寿命）", equity.concentration_index_exp_vs_life_expectancy != null ? equity.concentration_index_exp_vs_life_expectancy.toFixed(4) : NO_DATA_LABEL)}
       ${renderLabStat("优化目标", chinaScenario?.objective_label ?? NO_DATA_LABEL)}
       ${renderLabStat("预算情景", chinaScenario ? `${((chinaScenario.budget_multiplier - 1) * 100 >= 0 ? "+" : "")}${((chinaScenario.budget_multiplier - 1) * 100).toFixed(0)}%` : NO_DATA_LABEL)}
-      ${renderLabStat("预计产出提升", chinaScenario?.summary?.projected_output_gain_pct != null ? `${chinaScenario.summary.projected_output_gain_pct.toFixed(2)}%` : NO_DATA_LABEL)}
+      ${renderLabStat("基尼变化（优化后）", chinaScenario?.summary?.gini_change != null ? (chinaScenario.summary.gini_change > 0 ? "+" : "") + chinaScenario.summary.gini_change.toFixed(4) : NO_DATA_LABEL)}
     </div>
   `;
 

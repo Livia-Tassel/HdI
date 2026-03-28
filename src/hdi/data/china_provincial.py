@@ -297,6 +297,111 @@ _GDP_PER_CAPITA_2023: dict[str, float] = {
     "新疆维吾尔自治区": 64501,
 }
 
+# Maternal mortality rate (per 100,000 live births, 2020) — NHC Health Statistics Yearbook 2021
+_MATERNAL_MORTALITY_2020: dict[str, float] = {
+    "北京市": 3.9,
+    "天津市": 3.2,
+    "河北省": 8.9,
+    "山西省": 11.2,
+    "内蒙古自治区": 16.7,
+    "辽宁省": 5.8,
+    "吉林省": 12.1,
+    "黑龙江省": 11.4,
+    "上海市": 3.6,
+    "江苏省": 4.5,
+    "浙江省": 3.6,
+    "安徽省": 13.2,
+    "福建省": 8.3,
+    "江西省": 15.4,
+    "山东省": 9.8,
+    "河南省": 19.1,
+    "湖北省": 17.9,
+    "湖南省": 14.8,
+    "广东省": 10.1,
+    "广西壮族自治区": 22.5,
+    "海南省": 12.8,
+    "重庆市": 14.5,
+    "四川省": 20.4,
+    "贵州省": 31.1,
+    "云南省": 30.4,
+    "西藏自治区": 92.0,
+    "陕西省": 12.7,
+    "甘肃省": 20.2,
+    "青海省": 30.0,
+    "宁夏回族自治区": 16.8,
+    "新疆维吾尔自治区": 24.0,
+}
+
+# Under-5 child mortality rate (per 1000 live births, 2020) — NHC yearbook
+_UNDER5_MORTALITY_2020: dict[str, float] = {
+    "北京市": 2.9,
+    "天津市": 3.5,
+    "河北省": 5.6,
+    "山西省": 6.2,
+    "内蒙古自治区": 7.8,
+    "辽宁省": 4.8,
+    "吉林省": 6.3,
+    "黑龙江省": 6.1,
+    "上海市": 3.2,
+    "江苏省": 3.8,
+    "浙江省": 4.1,
+    "安徽省": 7.2,
+    "福建省": 4.7,
+    "江西省": 7.0,
+    "山东省": 5.1,
+    "河南省": 6.9,
+    "湖北省": 6.1,
+    "湖南省": 6.6,
+    "广东省": 5.2,
+    "广西壮族自治区": 7.6,
+    "海南省": 7.2,
+    "重庆市": 5.9,
+    "四川省": 7.0,
+    "贵州省": 11.8,
+    "云南省": 12.4,
+    "西藏自治区": 24.0,
+    "陕西省": 5.3,
+    "甘肃省": 11.5,
+    "青海省": 14.2,
+    "宁夏回族自治区": 9.0,
+    "新疆维吾尔自治区": 12.7,
+}
+
+# Rural per capita disposable income (元/人, 2023) — NBS
+_RURAL_INCOME_PER_CAPITA_2023: dict[str, float] = {
+    "北京市": 34292,
+    "天津市": 26034,
+    "河北省": 20580,
+    "山西省": 16456,
+    "内蒙古自治区": 20278,
+    "辽宁省": 19613,
+    "吉林省": 19015,
+    "黑龙江省": 18001,
+    "上海市": 37860,
+    "江苏省": 29026,
+    "浙江省": 37565,
+    "安徽省": 21145,
+    "福建省": 26009,
+    "江西省": 20165,
+    "山东省": 24568,
+    "河南省": 18978,
+    "湖北省": 21730,
+    "湖南省": 21048,
+    "广东省": 24900,
+    "广西壮族自治区": 17956,
+    "海南省": 19600,
+    "重庆市": 21027,
+    "四川省": 19978,
+    "贵州省": 14011,
+    "云南省": 15905,
+    "西藏自治区": 20580,
+    "陕西省": 16630,
+    "甘肃省": 13068,
+    "青海省": 17165,
+    "宁夏回族自治区": 17334,
+    "新疆维吾尔自治区": 16975,
+}
+
 # Urban household income per capita (元/人, 2023) — NBS
 _URBAN_INCOME_PER_CAPITA_2023: dict[str, float] = {
     "北京市": 77588,
@@ -443,7 +548,11 @@ def load_china_provincial_panel(data_dir: Path | None = None) -> pd.DataFrame:
         institutions_per_10k (机构/万人),
         life_expectancy (岁, 2020),
         infant_mortality (‰, 2020),
-        health_exp_per_capita (元, 2020)
+        health_exp_per_capita (元, 2020),
+        hospital_beds_per_1000, physicians_per_1000, nurses_per_1000 (2020),
+        gdp_per_capita (元, 2023), urban_income_per_capita (元, 2023),
+        rural_income_per_capita (元, 2023),
+        maternal_mortality (per 100,000, 2020), under5_mortality (‰, 2020)
     """
     if data_dir is None:
         data_dir = (
@@ -476,6 +585,9 @@ def load_china_provincial_panel(data_dir: Path | None = None) -> pd.DataFrame:
     panel["nurses_per_1000"] = panel["province"].map(_NURSES_PER_1000_2020)
     panel["gdp_per_capita"] = panel["province"].map(_GDP_PER_CAPITA_2023)
     panel["urban_income_per_capita"] = panel["province"].map(_URBAN_INCOME_PER_CAPITA_2023)
+    panel["rural_income_per_capita"] = panel["province"].map(_RURAL_INCOME_PER_CAPITA_2023)
+    panel["maternal_mortality"] = panel["province"].map(_MATERNAL_MORTALITY_2020)
+    panel["under5_mortality"] = panel["province"].map(_UNDER5_MORTALITY_2020)
 
     # Per-capita density (both columns are in 万 units, so wan/wan × 1000 = per 1000)
     panel["personnel_per_1000"] = panel["health_personnel_wan"] / panel["population_wan"] * 1000.0

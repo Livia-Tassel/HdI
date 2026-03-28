@@ -466,8 +466,11 @@ def _build_china_optimization_scenarios(snap: pd.DataFrame, panel: pd.DataFrame)
         duplicates="drop",
     )
     # Include extended health resource columns (present only if data available)
-    _extra_cols = [c for c in ["hospital_beds_per_1000", "physicians_per_1000", "nurses_per_1000",
-                               "gdp_per_capita", "urban_income_per_capita"] if c in snap.columns]
+    _extra_cols = [c for c in [
+        "hospital_beds_per_1000", "physicians_per_1000", "nurses_per_1000",
+        "gdp_per_capita", "urban_income_per_capita", "rural_income_per_capita",
+        "maternal_mortality", "under5_mortality",
+    ] if c in snap.columns]
     gap_records = snap[[
         "province", "province_en", "region", "region_en",
         "input_index", "theoretical_need", "gap", "gap_grade",
@@ -493,6 +496,10 @@ def _build_china_optimization_scenarios(snap: pd.DataFrame, panel: pd.DataFrame)
         _by_region_agg["avg_physicians_per_1000"] = ("physicians_per_1000", "mean")
     if "gdp_per_capita" in snap.columns:
         _by_region_agg["avg_gdp_per_capita"] = ("gdp_per_capita", "mean")
+    if "maternal_mortality" in snap.columns:
+        _by_region_agg["avg_maternal_mortality"] = ("maternal_mortality", "mean")
+    if "under5_mortality" in snap.columns:
+        _by_region_agg["avg_under5_mortality"] = ("under5_mortality", "mean")
     by_region = snap.groupby("region").agg(**_by_region_agg).reset_index().rename(columns={"region": "region_cn"})
     by_region["region_en"] = by_region["region_cn"].map(_PROVINCE_REGION_EN_MAP)
 
@@ -503,6 +510,8 @@ def _build_china_optimization_scenarios(snap: pd.DataFrame, panel: pd.DataFrame)
         snap["life_expectancy"].to_numpy(),
         snap["health_exp_per_capita"].to_numpy(),
     )
+    gini_maternal = _compute_gini(snap["maternal_mortality"].to_numpy()) if "maternal_mortality" in snap.columns else None
+    gini_under5 = _compute_gini(snap["under5_mortality"].to_numpy()) if "under5_mortality" in snap.columns else None
 
     quadrant_counts = snap["quadrant"].value_counts().to_dict()
 
@@ -530,6 +539,8 @@ def _build_china_optimization_scenarios(snap: pd.DataFrame, panel: pd.DataFrame)
             "gini_infant_mortality": gini_infant_mort,
             "gini_health_expenditure": gini_exp,
             "concentration_index_exp_vs_life_expectancy": ci_exp_vs_life,
+            "gini_maternal_mortality": gini_maternal,
+            "gini_under5_mortality": gini_under5,
         },
         "by_region": by_region.to_dict(orient="records"),
         "optimization": {

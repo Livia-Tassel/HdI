@@ -22,7 +22,10 @@
       "physicians_per_1000": 4.82,
       "nurses_per_1000": 5.43,
       "gdp_per_capita": 190321,
-      "urban_income_per_capita": 84834
+      "urban_income_per_capita": 84834,
+      "rural_income_per_capita": 37860,
+      "maternal_mortality": 3.6,
+      "under5_mortality": 3.2
     },
     {
       "province": "云南省",
@@ -45,7 +48,10 @@
       "physicians_per_1000": 2.62,
       "nurses_per_1000": 3.65,
       "gdp_per_capita": 49272,
-      "urban_income_per_capita": 38437
+      "urban_income_per_capita": 38437,
+      "rural_income_per_capita": 15905,
+      "maternal_mortality": 30.4,
+      "under5_mortality": 12.4
     },
     {
       "province": "内蒙古自治区",
@@ -68,7 +74,10 @@
       "physicians_per_1000": 3.21,
       "nurses_per_1000": 4.04,
       "gdp_per_capita": 102040,
-      "urban_income_per_capita": 43635
+      "urban_income_per_capita": 43635,
+      "rural_income_per_capita": 20278,
+      "maternal_mortality": 16.7,
+      "under5_mortality": 7.8
     },
     {
       "province": "北京市",
@@ -91,7 +100,10 @@
       "physicians_per_1000": 5.79,
       "nurses_per_1000": 6.39,
       "gdp_per_capita": 200278,
-      "urban_income_per_capita": 77588
+      "urban_income_per_capita": 77588,
+      "rural_income_per_capita": 34292,
+      "maternal_mortality": 3.9,
+      "under5_mortality": 2.9
     },
     {
       "province": "吉林省",
@@ -114,7 +126,10 @@
       "physicians_per_1000": 3.4,
       "nurses_per_1000": 4.25,
       "gdp_per_capita": 48312,
-      "urban_income_per_capita": 38046
+      "urban_income_per_capita": 38046,
+      "rural_income_per_capita": 19015,
+      "maternal_mortality": 12.1,
+      "under5_mortality": 6.3
     },
     {
       "province": "四川省",
@@ -137,7 +152,10 @@
       "physicians_per_1000": 2.89,
       "nurses_per_1000": 4.45,
       "gdp_per_capita": 67620,
-      "urban_income_per_capita": 42256
+      "urban_income_per_capita": 42256,
+      "rural_income_per_capita": 19978,
+      "maternal_mortality": 20.4,
+      "under5_mortality": 7.0
     },
     {
       "province": "天津市",
@@ -160,7 +178,10 @@
       "physicians_per_1000": 3.83,
       "nurses_per_1000": 4.61,
       "gdp_per_capita": 118390,
-      "urban_income_per_capita": 52088
+      "urban_income_per_capita": 52088,
+      "rural_income_per_capita": 26034,
+      "maternal_mortality": 3.2,
+      "under5_mortality": 3.5
     },
     {
       "province": "宁夏回族自治区",
@@ -183,7 +204,10 @@
       "physicians_per_1000": 2.9,
       "nurses_per_1000": 3.42,
       "gdp_per_capita": 68712,
-      "urban_income_per_capita": 39254
+      "urban_income_per_capita": 39254,
+      "rural_income_per_capita": 17334,
+      "maternal_mortality": 16.8,
+      "under5_mortality": 9.0
     },
     {
       "province": "安徽省",
@@ -206,7 +230,10 @@
       "physicians_per_1000": 2.76,
       "nurses_per_1000": 3.42,
       "gdp_per_capita": 67192,
-      "urban_income_per_capita": 42628
+      "urban_income_per_capita": 42628,
+      "rural_income_per_capita": 21145,
+      "maternal_mortality": 13.2,
+      "under5_mortality": 7.2
     },
     {
       "province": "山东省",
@@ -229,7 +256,10 @@
       "physicians_per_1000": 3.2,
       "nurses_per_1000": 3.86,
       "gdp_per_capita": 88394,
-      "urban_income_per_capita": 47285
+      "urban_income_per_capita": 47285,
+      "rural_income_per_capita": 24568,
+      "maternal_mortality": 9.8,
+      "under5_mortality": 5.1
     },
     {
       "province": "山西省",
@@ -252,7 +282,10 @@
       "physicians_per_1000": 3.08,
       "nurses_per_1000": 3.58,
       "gdp_per_capita": 64373,
-      "urban_income_per_capita": 35697
+      "urban_income_per_capita": 35697,
+      "rural_income_per_capita": 16456,
+      "maternal_mortality": 11.2,
+      "under5_mortality": 6.2
     },
     {
       "province": "广东省",
@@ -275,7 +308,10 @@
       "physicians_per_1000": 2.8,
       "nurses_per_1000": 3.38,
       "gdp_per_capita": 105118,
-      "urban_income_per_capita": 55316
+      "urban_income_per_capita": 55316,
+      "rural_income_per_capita": 24900,
+      "maternal_mortality": 10.1,
+      "under5_mortality": 5.2
     },
     {
       "province": "广西壮族自治区",
@@ -298,7 +334,10 @@
       "physicians_per_1000": 2.72,
       "nurses_per_1000": 3.76,
       "gdp_per_capita": 48603,
-      "urban_income_per_capita": 37897
+      "urban_income_per_capita": 37897,
+      "rural_income_per_capita": 17956,
+      "maternal_mortality": 22.5,
+      "under5_mortality": 7.6
     },
     {
       "province": "新疆维吾尔自治区",
@@ -321,7 +360,10 @@
       "physicians_per_1000": 3.05,
       "nurses_per_1000": 3.93,
       "gdp_per_capita": 64501,
-      "urban_income_per_capita": 37950
+      "urban_income_per_capita": 37950,
+      "rural_income_per_capita": 16975,
+      "maternal_mortality": 24.0,
+      "under5_mortality": 12.7
     },
     {
       "province": "江苏省",
@@ -344,7 +386,10 @@
       "physicians_per_1000": 3.2,
       "nurses_per_1000": 3.88,
       "gdp_per_capita": 152745,
-      "urban_income_per_capita": 57589
+      "urban_income_per_capita": 57589,
+      "rural_income_per_capita": 29026,
+      "maternal_mortality": 4.5,
+      "under5_mortality": 3.8
     },
     {
       "province": "江西省",
@@ -367,7 +412,10 @@
       "physicians_per_1000": 2.48,
       "nurses_per_1000": 3.57,
       "gdp_per_capita": 58774,
-      "urban_income_per_capita": 41249
+      "urban_income_per_capita": 41249,
+      "rural_income_per_capita": 20165,
+      "maternal_mortality": 15.4,
+      "under5_mortality": 7.0
     },
     {
       "province": "河北省",
@@ -390,7 +438,10 @@
       "physicians_per_1000": 2.85,
       "nurses_per_1000": 3.17,
       "gdp_per_capita": 55535,
-      "urban_income_per_capita": 37831
+      "urban_income_per_capita": 37831,
+      "rural_income_per_capita": 20580,
+      "maternal_mortality": 8.9,
+      "under5_mortality": 5.6
     },
     {
       "province": "河南省",
@@ -413,7 +464,10 @@
       "physicians_per_1000": 2.78,
       "nurses_per_1000": 3.49,
       "gdp_per_capita": 59410,
-      "urban_income_per_capita": 39230
+      "urban_income_per_capita": 39230,
+      "rural_income_per_capita": 18978,
+      "maternal_mortality": 19.1,
+      "under5_mortality": 6.9
     },
     {
       "province": "浙江省",
@@ -436,7 +490,10 @@
       "physicians_per_1000": 3.72,
       "nurses_per_1000": 4.68,
       "gdp_per_capita": 122699,
-      "urban_income_per_capita": 65213
+      "urban_income_per_capita": 65213,
+      "rural_income_per_capita": 37565,
+      "maternal_mortality": 3.6,
+      "under5_mortality": 4.1
     },
     {
       "province": "海南省",
@@ -459,7 +516,10 @@
       "physicians_per_1000": 2.97,
       "nurses_per_1000": 3.43,
       "gdp_per_capita": 68590,
-      "urban_income_per_capita": 39879
+      "urban_income_per_capita": 39879,
+      "rural_income_per_capita": 19600,
+      "maternal_mortality": 12.8,
+      "under5_mortality": 7.2
     },
     {
       "province": "湖北省",
@@ -482,7 +542,10 @@
       "physicians_per_1000": 2.92,
       "nurses_per_1000": 4.14,
       "gdp_per_capita": 93426,
-      "urban_income_per_capita": 43697
+      "urban_income_per_capita": 43697,
+      "rural_income_per_capita": 21730,
+      "maternal_mortality": 17.9,
+      "under5_mortality": 6.1
     },
     {
       "province": "湖南省",
@@ -505,7 +568,10 @@
       "physicians_per_1000": 2.8,
       "nurses_per_1000": 3.86,
       "gdp_per_capita": 68975,
-      "urban_income_per_capita": 42823
+      "urban_income_per_capita": 42823,
+      "rural_income_per_capita": 21048,
+      "maternal_mortality": 14.8,
+      "under5_mortality": 6.6
     },
     {
       "province": "甘肃省",
@@ -528,7 +594,10 @@
       "physicians_per_1000": 2.9,
       "nurses_per_1000": 3.46,
       "gdp_per_capita": 38356,
-      "urban_income_per_capita": 36083
+      "urban_income_per_capita": 36083,
+      "rural_income_per_capita": 13068,
+      "maternal_mortality": 20.2,
+      "under5_mortality": 11.5
     },
     {
       "province": "福建省",
@@ -551,7 +620,10 @@
       "physicians_per_1000": 2.83,
       "nurses_per_1000": 3.21,
       "gdp_per_capita": 125018,
-      "urban_income_per_capita": 52952
+      "urban_income_per_capita": 52952,
+      "rural_income_per_capita": 26009,
+      "maternal_mortality": 8.3,
+      "under5_mortality": 4.7
     },
     {
       "province": "西藏自治区",
@@ -574,7 +646,10 @@
       "physicians_per_1000": 2.21,
       "nurses_per_1000": 2.96,
       "gdp_per_capita": 59134,
-      "urban_income_per_capita": 41124
+      "urban_income_per_capita": 41124,
+      "rural_income_per_capita": 20580,
+      "maternal_mortality": 92.0,
+      "under5_mortality": 24.0
     },
     {
       "province": "贵州省",
@@ -597,7 +672,10 @@
       "physicians_per_1000": 2.4,
       "nurses_per_1000": 3.62,
       "gdp_per_capita": 47539,
-      "urban_income_per_capita": 37726
+      "urban_income_per_capita": 37726,
+      "rural_income_per_capita": 14011,
+      "maternal_mortality": 31.1,
+      "under5_mortality": 11.8
     },
     {
       "province": "辽宁省",
@@ -620,7 +698,10 @@
       "physicians_per_1000": 3.48,
       "nurses_per_1000": 4.27,
       "gdp_per_capita": 68433,
-      "urban_income_per_capita": 42624
+      "urban_income_per_capita": 42624,
+      "rural_income_per_capita": 19613,
+      "maternal_mortality": 5.8,
+      "under5_mortality": 4.8
     },
     {
       "province": "重庆市",
@@ -643,7 +724,10 @@
       "physicians_per_1000": 2.98,
       "nurses_per_1000": 3.97,
       "gdp_per_capita": 91763,
-      "urban_income_per_capita": 43555
+      "urban_income_per_capita": 43555,
+      "rural_income_per_capita": 21027,
+      "maternal_mortality": 14.5,
+      "under5_mortality": 5.9
     },
     {
       "province": "陕西省",
@@ -666,7 +750,10 @@
       "physicians_per_1000": 3.27,
       "nurses_per_1000": 4.08,
       "gdp_per_capita": 83527,
-      "urban_income_per_capita": 41897
+      "urban_income_per_capita": 41897,
+      "rural_income_per_capita": 16630,
+      "maternal_mortality": 12.7,
+      "under5_mortality": 5.3
     },
     {
       "province": "青海省",
@@ -689,7 +776,10 @@
       "physicians_per_1000": 2.81,
       "nurses_per_1000": 3.36,
       "gdp_per_capita": 60035,
-      "urban_income_per_capita": 37932
+      "urban_income_per_capita": 37932,
+      "rural_income_per_capita": 17165,
+      "maternal_mortality": 30.0,
+      "under5_mortality": 14.2
     },
     {
       "province": "黑龙江省",
@@ -712,7 +802,10 @@
       "physicians_per_1000": 3.17,
       "nurses_per_1000": 3.81,
       "gdp_per_capita": 42396,
-      "urban_income_per_capita": 38099
+      "urban_income_per_capita": 38099,
+      "rural_income_per_capita": 18001,
+      "maternal_mortality": 11.4,
+      "under5_mortality": 6.1
     }
   ],
   "resource_gap": [
@@ -737,7 +830,10 @@
       "physicians_per_1000": 4.82,
       "nurses_per_1000": 5.43,
       "gdp_per_capita": 190321,
-      "urban_income_per_capita": 84834
+      "urban_income_per_capita": 84834,
+      "rural_income_per_capita": 37860,
+      "maternal_mortality": 3.6,
+      "under5_mortality": 3.2
     },
     {
       "province": "云南省",
@@ -760,7 +856,10 @@
       "physicians_per_1000": 2.62,
       "nurses_per_1000": 3.65,
       "gdp_per_capita": 49272,
-      "urban_income_per_capita": 38437
+      "urban_income_per_capita": 38437,
+      "rural_income_per_capita": 15905,
+      "maternal_mortality": 30.4,
+      "under5_mortality": 12.4
     },
     {
       "province": "内蒙古自治区",
@@ -783,7 +882,10 @@
       "physicians_per_1000": 3.21,
       "nurses_per_1000": 4.04,
       "gdp_per_capita": 102040,
-      "urban_income_per_capita": 43635
+      "urban_income_per_capita": 43635,
+      "rural_income_per_capita": 20278,
+      "maternal_mortality": 16.7,
+      "under5_mortality": 7.8
     },
     {
       "province": "北京市",
@@ -806,7 +908,10 @@
       "physicians_per_1000": 5.79,
       "nurses_per_1000": 6.39,
       "gdp_per_capita": 200278,
-      "urban_income_per_capita": 77588
+      "urban_income_per_capita": 77588,
+      "rural_income_per_capita": 34292,
+      "maternal_mortality": 3.9,
+      "under5_mortality": 2.9
     },
     {
       "province": "吉林省",
@@ -829,7 +934,10 @@
       "physicians_per_1000": 3.4,
       "nurses_per_1000": 4.25,
       "gdp_per_capita": 48312,
-      "urban_income_per_capita": 38046
+      "urban_income_per_capita": 38046,
+      "rural_income_per_capita": 19015,
+      "maternal_mortality": 12.1,
+      "under5_mortality": 6.3
     },
     {
       "province": "四川省",
@@ -852,7 +960,10 @@
       "physicians_per_1000": 2.89,
       "nurses_per_1000": 4.45,
       "gdp_per_capita": 67620,
-      "urban_income_per_capita": 42256
+      "urban_income_per_capita": 42256,
+      "rural_income_per_capita": 19978,
+      "maternal_mortality": 20.4,
+      "under5_mortality": 7.0
     },
     {
       "province": "天津市",
@@ -875,7 +986,10 @@
       "physicians_per_1000": 3.83,
       "nurses_per_1000": 4.61,
       "gdp_per_capita": 118390,
-      "urban_income_per_capita": 52088
+      "urban_income_per_capita": 52088,
+      "rural_income_per_capita": 26034,
+      "maternal_mortality": 3.2,
+      "under5_mortality": 3.5
     },
     {
       "province": "宁夏回族自治区",
@@ -898,7 +1012,10 @@
       "physicians_per_1000": 2.9,
       "nurses_per_1000": 3.42,
       "gdp_per_capita": 68712,
-      "urban_income_per_capita": 39254
+      "urban_income_per_capita": 39254,
+      "rural_income_per_capita": 17334,
+      "maternal_mortality": 16.8,
+      "under5_mortality": 9.0
     },
     {
       "province": "安徽省",
@@ -921,7 +1038,10 @@
       "physicians_per_1000": 2.76,
       "nurses_per_1000": 3.42,
       "gdp_per_capita": 67192,
-      "urban_income_per_capita": 42628
+      "urban_income_per_capita": 42628,
+      "rural_income_per_capita": 21145,
+      "maternal_mortality": 13.2,
+      "under5_mortality": 7.2
     },
     {
       "province": "山东省",
@@ -944,7 +1064,10 @@
       "physicians_per_1000": 3.2,
       "nurses_per_1000": 3.86,
       "gdp_per_capita": 88394,
-      "urban_income_per_capita": 47285
+      "urban_income_per_capita": 47285,
+      "rural_income_per_capita": 24568,
+      "maternal_mortality": 9.8,
+      "under5_mortality": 5.1
     },
     {
       "province": "山西省",
@@ -967,7 +1090,10 @@
       "physicians_per_1000": 3.08,
       "nurses_per_1000": 3.58,
       "gdp_per_capita": 64373,
-      "urban_income_per_capita": 35697
+      "urban_income_per_capita": 35697,
+      "rural_income_per_capita": 16456,
+      "maternal_mortality": 11.2,
+      "under5_mortality": 6.2
     },
     {
       "province": "广东省",
@@ -990,7 +1116,10 @@
       "physicians_per_1000": 2.8,
       "nurses_per_1000": 3.38,
       "gdp_per_capita": 105118,
-      "urban_income_per_capita": 55316
+      "urban_income_per_capita": 55316,
+      "rural_income_per_capita": 24900,
+      "maternal_mortality": 10.1,
+      "under5_mortality": 5.2
     },
     {
       "province": "广西壮族自治区",
@@ -1013,7 +1142,10 @@
       "physicians_per_1000": 2.72,
       "nurses_per_1000": 3.76,
       "gdp_per_capita": 48603,
-      "urban_income_per_capita": 37897
+      "urban_income_per_capita": 37897,
+      "rural_income_per_capita": 17956,
+      "maternal_mortality": 22.5,
+      "under5_mortality": 7.6
     },
     {
       "province": "新疆维吾尔自治区",
@@ -1036,7 +1168,10 @@
       "physicians_per_1000": 3.05,
       "nurses_per_1000": 3.93,
       "gdp_per_capita": 64501,
-      "urban_income_per_capita": 37950
+      "urban_income_per_capita": 37950,
+      "rural_income_per_capita": 16975,
+      "maternal_mortality": 24.0,
+      "under5_mortality": 12.7
     },
     {
       "province": "江苏省",
@@ -1059,7 +1194,10 @@
       "physicians_per_1000": 3.2,
       "nurses_per_1000": 3.88,
       "gdp_per_capita": 152745,
-      "urban_income_per_capita": 57589
+      "urban_income_per_capita": 57589,
+      "rural_income_per_capita": 29026,
+      "maternal_mortality": 4.5,
+      "under5_mortality": 3.8
     },
     {
       "province": "江西省",
@@ -1082,7 +1220,10 @@
       "physicians_per_1000": 2.48,
       "nurses_per_1000": 3.57,
       "gdp_per_capita": 58774,
-      "urban_income_per_capita": 41249
+      "urban_income_per_capita": 41249,
+      "rural_income_per_capita": 20165,
+      "maternal_mortality": 15.4,
+      "under5_mortality": 7.0
     },
     {
       "province": "河北省",
@@ -1105,7 +1246,10 @@
       "physicians_per_1000": 2.85,
       "nurses_per_1000": 3.17,
       "gdp_per_capita": 55535,
-      "urban_income_per_capita": 37831
+      "urban_income_per_capita": 37831,
+      "rural_income_per_capita": 20580,
+      "maternal_mortality": 8.9,
+      "under5_mortality": 5.6
     },
     {
       "province": "河南省",
@@ -1128,7 +1272,10 @@
       "physicians_per_1000": 2.78,
       "nurses_per_1000": 3.49,
       "gdp_per_capita": 59410,
-      "urban_income_per_capita": 39230
+      "urban_income_per_capita": 39230,
+      "rural_income_per_capita": 18978,
+      "maternal_mortality": 19.1,
+      "under5_mortality": 6.9
     },
     {
       "province": "浙江省",
@@ -1151,7 +1298,10 @@
       "physicians_per_1000": 3.72,
       "nurses_per_1000": 4.68,
       "gdp_per_capita": 122699,
-      "urban_income_per_capita": 65213
+      "urban_income_per_capita": 65213,
+      "rural_income_per_capita": 37565,
+      "maternal_mortality": 3.6,
+      "under5_mortality": 4.1
     },
     {
       "province": "海南省",
@@ -1174,7 +1324,10 @@
       "physicians_per_1000": 2.97,
       "nurses_per_1000": 3.43,
       "gdp_per_capita": 68590,
-      "urban_income_per_capita": 39879
+      "urban_income_per_capita": 39879,
+      "rural_income_per_capita": 19600,
+      "maternal_mortality": 12.8,
+      "under5_mortality": 7.2
     },
     {
       "province": "湖北省",
@@ -1197,7 +1350,10 @@
       "physicians_per_1000": 2.92,
       "nurses_per_1000": 4.14,
       "gdp_per_capita": 93426,
-      "urban_income_per_capita": 43697
+      "urban_income_per_capita": 43697,
+      "rural_income_per_capita": 21730,
+      "maternal_mortality": 17.9,
+      "under5_mortality": 6.1
     },
     {
       "province": "湖南省",
@@ -1220,7 +1376,10 @@
       "physicians_per_1000": 2.8,
       "nurses_per_1000": 3.86,
       "gdp_per_capita": 68975,
-      "urban_income_per_capita": 42823
+      "urban_income_per_capita": 42823,
+      "rural_income_per_capita": 21048,
+      "maternal_mortality": 14.8,
+      "under5_mortality": 6.6
     },
     {
       "province": "甘肃省",
@@ -1243,7 +1402,10 @@
       "physicians_per_1000": 2.9,
       "nurses_per_1000": 3.46,
       "gdp_per_capita": 38356,
-      "urban_income_per_capita": 36083
+      "urban_income_per_capita": 36083,
+      "rural_income_per_capita": 13068,
+      "maternal_mortality": 20.2,
+      "under5_mortality": 11.5
     },
     {
       "province": "福建省",
@@ -1266,7 +1428,10 @@
       "physicians_per_1000": 2.83,
       "nurses_per_1000": 3.21,
       "gdp_per_capita": 125018,
-      "urban_income_per_capita": 52952
+      "urban_income_per_capita": 52952,
+      "rural_income_per_capita": 26009,
+      "maternal_mortality": 8.3,
+      "under5_mortality": 4.7
     },
     {
       "province": "西藏自治区",
@@ -1289,7 +1454,10 @@
       "physicians_per_1000": 2.21,
       "nurses_per_1000": 2.96,
       "gdp_per_capita": 59134,
-      "urban_income_per_capita": 41124
+      "urban_income_per_capita": 41124,
+      "rural_income_per_capita": 20580,
+      "maternal_mortality": 92.0,
+      "under5_mortality": 24.0
     },
     {
       "province": "贵州省",
@@ -1312,7 +1480,10 @@
       "physicians_per_1000": 2.4,
       "nurses_per_1000": 3.62,
       "gdp_per_capita": 47539,
-      "urban_income_per_capita": 37726
+      "urban_income_per_capita": 37726,
+      "rural_income_per_capita": 14011,
+      "maternal_mortality": 31.1,
+      "under5_mortality": 11.8
     },
     {
       "province": "辽宁省",
@@ -1335,7 +1506,10 @@
       "physicians_per_1000": 3.48,
       "nurses_per_1000": 4.27,
       "gdp_per_capita": 68433,
-      "urban_income_per_capita": 42624
+      "urban_income_per_capita": 42624,
+      "rural_income_per_capita": 19613,
+      "maternal_mortality": 5.8,
+      "under5_mortality": 4.8
     },
     {
       "province": "重庆市",
@@ -1358,7 +1532,10 @@
       "physicians_per_1000": 2.98,
       "nurses_per_1000": 3.97,
       "gdp_per_capita": 91763,
-      "urban_income_per_capita": 43555
+      "urban_income_per_capita": 43555,
+      "rural_income_per_capita": 21027,
+      "maternal_mortality": 14.5,
+      "under5_mortality": 5.9
     },
     {
       "province": "陕西省",
@@ -1381,7 +1558,10 @@
       "physicians_per_1000": 3.27,
       "nurses_per_1000": 4.08,
       "gdp_per_capita": 83527,
-      "urban_income_per_capita": 41897
+      "urban_income_per_capita": 41897,
+      "rural_income_per_capita": 16630,
+      "maternal_mortality": 12.7,
+      "under5_mortality": 5.3
     },
     {
       "province": "青海省",
@@ -1404,7 +1584,10 @@
       "physicians_per_1000": 2.81,
       "nurses_per_1000": 3.36,
       "gdp_per_capita": 60035,
-      "urban_income_per_capita": 37932
+      "urban_income_per_capita": 37932,
+      "rural_income_per_capita": 17165,
+      "maternal_mortality": 30.0,
+      "under5_mortality": 14.2
     },
     {
       "province": "黑龙江省",
@@ -1427,7 +1610,10 @@
       "physicians_per_1000": 3.17,
       "nurses_per_1000": 3.81,
       "gdp_per_capita": 42396,
-      "urban_income_per_capita": 38099
+      "urban_income_per_capita": 38099,
+      "rural_income_per_capita": 18001,
+      "maternal_mortality": 11.4,
+      "under5_mortality": 6.1
     }
   ],
   "quadrant_counts": {
@@ -1440,7 +1626,9 @@
     "gini_life_expectancy": 0.01583633577670107,
     "gini_infant_mortality": 0.23305167313245143,
     "gini_health_expenditure": 0.1724024423718055,
-    "concentration_index_exp_vs_life_expectancy": 0.006761088333954521
+    "concentration_index_exp_vs_life_expectancy": 0.006761088333954521,
+    "gini_maternal_mortality": 0.3884467949392802,
+    "gini_under5_mortality": 0.2647193952134989
   },
   "by_region": [
     {
@@ -1455,6 +1643,8 @@
       "avg_hospital_beds_per_1000": 5.141818181818182,
       "avg_physicians_per_1000": 3.5900000000000003,
       "avg_gdp_per_capita": 117774.63636363637,
+      "avg_maternal_mortality": 6.7727272727272725,
+      "avg_under5_mortality": 4.554545454545455,
       "region_en": "Eastern"
     },
     {
@@ -1469,6 +1659,8 @@
       "avg_hospital_beds_per_1000": 5.8075,
       "avg_physicians_per_1000": 2.92375,
       "avg_gdp_per_capita": 62857.25,
+      "avg_maternal_mortality": 14.3875,
+      "avg_under5_mortality": 6.55,
       "region_en": "Central"
     },
     {
@@ -1483,6 +1675,8 @@
       "avg_hospital_beds_per_1000": 6.113333333333333,
       "avg_physicians_per_1000": 2.83,
       "avg_gdp_per_capita": 65091.833333333336,
+      "avg_maternal_mortality": 27.608333333333334,
+      "avg_under5_mortality": 10.766666666666666,
       "region_en": "Western"
     }
   ],
