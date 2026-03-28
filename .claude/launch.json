@@ -1,0 +1,17 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "Dashboard (HTTP Server)",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["-m", "http.server", "8080", "-d", "dashboard/"],
+      "port": 8080
+    },
+    {
+      "name": "FastAPI (uvicorn)",
+      "runtimeExecutable": "python",
+      "runtimeArgs": ["-m", "uvicorn", "hdi.api.app:app", "--reload", "--port", "8000"],
+      "port": 8000
+    }
+  ]
+}

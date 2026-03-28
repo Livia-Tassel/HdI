@@ -38,7 +38,7 @@ const DIMENSIONS = {
     defaultMetric: "prov_gap",
     mapTitle: "中国大陆省级卫生资源配置分析",
     note: "探索中国大陆31个省级行政区的卫生资源配置、效率与优化方案。",
-    metrics: ["prov_gap", "prov_efficiency", "prov_life_expectancy", "prov_infant_mortality", "prov_maternal_mortality", "prov_under5_mortality", "prov_personnel_per_1000", "prov_hospital_beds_per_1000", "prov_physicians_per_1000", "prov_nurses_per_1000", "prov_health_exp", "prov_gdp_per_capita", "prov_rural_income", "prov_optimization_change"],
+    metrics: ["prov_gap", "prov_efficiency", "prov_life_expectancy", "prov_infant_mortality", "prov_maternal_mortality", "prov_under5_mortality", "prov_personnel_per_1000", "prov_hospital_beds_per_1000", "prov_physicians_per_1000", "prov_nurses_per_1000", "prov_health_exp", "prov_gdp_per_capita", "prov_rural_income", "prov_optimization_change", "prov_elderly_share", "prov_urbanization"],
   },
   dim5: {
     label: "健康全景",
@@ -205,6 +205,18 @@ const METRIC_META = {
     formatter: (value) => formatSignedPercent(value),
     accessor: (row) => row.prov_change_pct,
     diverging: true,
+  },
+  prov_elderly_share: {
+    label: "老龄化率（65岁以上，%，2020）",
+    colorscale: [[0, "#0c1929"], [0.25, "#1e3a5f"], [0.5, "#6366f1"], [0.75, "#c084fc"], [1, "#f0abfc"]],
+    formatter: (value) => value == null ? NO_DATA_LABEL : `${Number(value).toFixed(1)} %`,
+    accessor: (row) => row.elderly_share,
+  },
+  prov_urbanization: {
+    label: "城镇化率（%，2022）",
+    colorscale: [[0, "#071a17"], [0.25, "#0c3a32"], [0.5, "#12705f"], [0.75, "#1db99a"], [1, "#2dd4bf"]],
+    formatter: (value) => value == null ? NO_DATA_LABEL : `${Number(value).toFixed(1)} %`,
+    accessor: (row) => row.urbanization_rate,
   },
   hdi: {
     label: "人类发展指数",
@@ -1540,6 +1552,8 @@ function renderCountryPanel() {
       ["农村人均收入", provData.rural_income_per_capita != null ? `¥${Math.round(provData.rural_income_per_capita).toLocaleString()}` : NO_DATA_LABEL, "violet"],
       ["产妇死亡率", provData.maternal_mortality != null ? `${provData.maternal_mortality.toFixed(1)}/10万` : NO_DATA_LABEL, "rose"],
       ["5岁以下死亡率", provData.under5_mortality != null ? `${provData.under5_mortality.toFixed(1)} ‰` : NO_DATA_LABEL, "amber"],
+      ["老龄化率", provData.elderly_share != null ? `${provData.elderly_share.toFixed(1)} %` : NO_DATA_LABEL, "violet"],
+      ["城镇化率", provData.urbanization_rate != null ? `${provData.urbanization_rate.toFixed(1)} %` : NO_DATA_LABEL, "teal"],
       ["优化调整", optRow.change_pct != null ? `${optRow.change_pct > 0 ? "+" : ""}${optRow.change_pct.toFixed(1)}%` : NO_DATA_LABEL, "cyan"],
     ];
   } else {
@@ -2869,7 +2883,11 @@ function renderDim4Context() {
         title: "分地区资源汇总",
         items: byRegion.map((r) => ({
           name: `${r.region_cn ?? r.region_en}（${r.province_count} 省）`,
-          value: `人均支出：${r.avg_health_exp != null ? "¥" + Math.round(r.avg_health_exp).toLocaleString() : NO_DATA_LABEL}`,
+          value: [
+            `人均支出：${r.avg_health_exp != null ? "¥" + Math.round(r.avg_health_exp).toLocaleString() : NO_DATA_LABEL}`,
+            `老龄化：${r.avg_elderly_share != null ? r.avg_elderly_share.toFixed(1) + "%" : NO_DATA_LABEL}`,
+            `城镇化：${r.avg_urbanization_rate != null ? r.avg_urbanization_rate.toFixed(1) + "%" : NO_DATA_LABEL}`,
+          ].join(" · "),
         })),
       },
     ])}

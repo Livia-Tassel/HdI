@@ -437,6 +437,76 @@ _URBAN_INCOME_PER_CAPITA_2023: dict[str, float] = {
     "新疆维吾尔自治区": 37950,
 }
 
+# 65+ elderly population share (%, 2020 census) — NBS China Population Census 2020
+_ELDERLY_SHARE_2020: dict[str, float] = {
+    "北京市": 13.30,
+    "天津市": 14.75,
+    "河北省": 13.62,
+    "山西省": 13.50,
+    "内蒙古自治区": 13.23,
+    "辽宁省": 17.42,
+    "吉林省": 15.61,
+    "黑龙江省": 15.61,
+    "上海市": 16.28,
+    "江苏省": 16.20,
+    "浙江省": 13.30,
+    "安徽省": 16.79,
+    "福建省": 11.52,
+    "江西省": 13.18,
+    "山东省": 15.13,
+    "河南省": 14.41,
+    "湖北省": 15.45,
+    "湖南省": 15.06,
+    "广东省": 8.58,
+    "广西壮族自治区": 14.05,
+    "海南省": 10.98,
+    "重庆市": 17.08,
+    "四川省": 17.24,
+    "贵州省": 12.10,
+    "云南省": 11.54,
+    "西藏自治区": 7.43,
+    "陕西省": 13.31,
+    "甘肃省": 14.97,
+    "青海省": 9.39,
+    "宁夏回族自治区": 10.63,
+    "新疆维吾尔自治区": 8.33,
+}
+
+# Urbanization rate (%, 2022) — NBS China Statistical Yearbook 2023
+_URBANIZATION_RATE_2022: dict[str, float] = {
+    "北京市": 87.50,
+    "天津市": 85.11,
+    "河北省": 60.12,
+    "山西省": 64.92,
+    "内蒙古自治区": 69.64,
+    "辽宁省": 72.24,
+    "吉林省": 68.94,
+    "黑龙江省": 67.88,
+    "上海市": 89.30,
+    "江苏省": 74.42,
+    "浙江省": 73.40,
+    "安徽省": 60.22,
+    "福建省": 70.10,
+    "江西省": 60.68,
+    "山东省": 65.50,
+    "河南省": 58.11,
+    "湖北省": 64.06,
+    "湖南省": 59.97,
+    "广东省": 75.24,
+    "广西壮族自治区": 58.93,
+    "海南省": 62.24,
+    "重庆市": 70.32,
+    "四川省": 57.97,
+    "贵州省": 54.33,
+    "云南省": 51.69,
+    "西藏自治区": 38.70,
+    "陕西省": 64.87,
+    "甘肃省": 52.56,
+    "青海省": 59.46,
+    "宁夏回族自治区": 68.02,
+    "新疆维吾尔自治区": 56.41,
+}
+
 # English province names
 PROVINCE_EN: dict[str, str] = {
     "北京市": "Beijing",
@@ -552,7 +622,8 @@ def load_china_provincial_panel(data_dir: Path | None = None) -> pd.DataFrame:
         hospital_beds_per_1000, physicians_per_1000, nurses_per_1000 (2020),
         gdp_per_capita (元, 2023), urban_income_per_capita (元, 2023),
         rural_income_per_capita (元, 2023),
-        maternal_mortality (per 100,000, 2020), under5_mortality (‰, 2020)
+        maternal_mortality (per 100,000, 2020), under5_mortality (‰, 2020),
+        elderly_share (%, 2020 census), urbanization_rate (%, 2022)
     """
     if data_dir is None:
         data_dir = (
@@ -588,6 +659,8 @@ def load_china_provincial_panel(data_dir: Path | None = None) -> pd.DataFrame:
     panel["rural_income_per_capita"] = panel["province"].map(_RURAL_INCOME_PER_CAPITA_2023)
     panel["maternal_mortality"] = panel["province"].map(_MATERNAL_MORTALITY_2020)
     panel["under5_mortality"] = panel["province"].map(_UNDER5_MORTALITY_2020)
+    panel["elderly_share"] = panel["province"].map(_ELDERLY_SHARE_2020)
+    panel["urbanization_rate"] = panel["province"].map(_URBANIZATION_RATE_2022)
 
     # Per-capita density (both columns are in 万 units, so wan/wan × 1000 = per 1000)
     panel["personnel_per_1000"] = panel["health_personnel_wan"] / panel["population_wan"] * 1000.0

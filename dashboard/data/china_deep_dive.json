@@ -25,7 +25,9 @@
       "urban_income_per_capita": 84834,
       "rural_income_per_capita": 37860,
       "maternal_mortality": 3.6,
-      "under5_mortality": 3.2
+      "under5_mortality": 3.2,
+      "elderly_share": 16.28,
+      "urbanization_rate": 89.3
     },
     {
       "province": "云南省",
@@ -51,7 +53,9 @@
       "urban_income_per_capita": 38437,
       "rural_income_per_capita": 15905,
       "maternal_mortality": 30.4,
-      "under5_mortality": 12.4
+      "under5_mortality": 12.4,
+      "elderly_share": 11.54,
+      "urbanization_rate": 51.69
     },
     {
       "province": "内蒙古自治区",
@@ -77,7 +81,9 @@
       "urban_income_per_capita": 43635,
       "rural_income_per_capita": 20278,
       "maternal_mortality": 16.7,
-      "under5_mortality": 7.8
+      "under5_mortality": 7.8,
+      "elderly_share": 13.23,
+      "urbanization_rate": 69.64
     },
     {
       "province": "北京市",
@@ -103,7 +109,9 @@
       "urban_income_per_capita": 77588,
       "rural_income_per_capita": 34292,
       "maternal_mortality": 3.9,
-      "under5_mortality": 2.9
+      "under5_mortality": 2.9,
+      "elderly_share": 13.3,
+      "urbanization_rate": 87.5
     },
     {
       "province": "吉林省",
@@ -129,7 +137,9 @@
       "urban_income_per_capita": 38046,
       "rural_income_per_capita": 19015,
       "maternal_mortality": 12.1,
-      "under5_mortality": 6.3
+      "under5_mortality": 6.3,
+      "elderly_share": 15.61,
+      "urbanization_rate": 68.94
     },
     {
       "province": "四川省",
@@ -155,7 +165,9 @@
       "urban_income_per_capita": 42256,
       "rural_income_per_capita": 19978,
       "maternal_mortality": 20.4,
-      "under5_mortality": 7.0
+      "under5_mortality": 7.0,
+      "elderly_share": 17.24,
+      "urbanization_rate": 57.97
     },
     {
       "province": "天津市",
@@ -181,7 +193,9 @@
       "urban_income_per_capita": 52088,
       "rural_income_per_capita": 26034,
       "maternal_mortality": 3.2,
-      "under5_mortality": 3.5
+      "under5_mortality": 3.5,
+      "elderly_share": 14.75,
+      "urbanization_rate": 85.11
     },
     {
       "province": "宁夏回族自治区",
@@ -207,7 +221,9 @@
       "urban_income_per_capita": 39254,
       "rural_income_per_capita": 17334,
       "maternal_mortality": 16.8,
-      "under5_mortality": 9.0
+      "under5_mortality": 9.0,
+      "elderly_share": 10.63,
+      "urbanization_rate": 68.02
     },
     {
       "province": "安徽省",
@@ -233,7 +249,9 @@
       "urban_income_per_capita": 42628,
       "rural_income_per_capita": 21145,
       "maternal_mortality": 13.2,
-      "under5_mortality": 7.2
+      "under5_mortality": 7.2,
+      "elderly_share": 16.79,
+      "urbanization_rate": 60.22
     },
     {
       "province": "山东省",
@@ -259,7 +277,9 @@
       "urban_income_per_capita": 47285,
       "rural_income_per_capita": 24568,
       "maternal_mortality": 9.8,
-      "under5_mortality": 5.1
+      "under5_mortality": 5.1,
+      "elderly_share": 15.13,
+      "urbanization_rate": 65.5
     },
     {
       "province": "山西省",
@@ -285,7 +305,9 @@
       "urban_income_per_capita": 35697,
       "rural_income_per_capita": 16456,
       "maternal_mortality": 11.2,
-      "under5_mortality": 6.2
+      "under5_mortality": 6.2,
+      "elderly_share": 13.5,
+      "urbanization_rate": 64.92
     },
     {
       "province": "广东省",
@@ -311,7 +333,9 @@
       "urban_income_per_capita": 55316,
       "rural_income_per_capita": 24900,
       "maternal_mortality": 10.1,
-      "under5_mortality": 5.2
+      "under5_mortality": 5.2,
+      "elderly_share": 8.58,
+      "urbanization_rate": 75.24
     },
     {
       "province": "广西壮族自治区",
@@ -337,7 +361,9 @@
       "urban_income_per_capita": 37897,
       "rural_income_per_capita": 17956,
       "maternal_mortality": 22.5,
-      "under5_mortality": 7.6
+      "under5_mortality": 7.6,
+      "elderly_share": 14.05,
+      "urbanization_rate": 58.93
     },
     {
       "province": "新疆维吾尔自治区",
@@ -363,7 +389,9 @@
       "urban_income_per_capita": 37950,
       "rural_income_per_capita": 16975,
       "maternal_mortality": 24.0,
-      "under5_mortality": 12.7
+      "under5_mortality": 12.7,
+      "elderly_share": 8.33,
+      "urbanization_rate": 56.41
     },
     {
       "province": "江苏省",
@@ -389,7 +417,9 @@
       "urban_income_per_capita": 57589,
       "rural_income_per_capita": 29026,
       "maternal_mortality": 4.5,
-      "under5_mortality": 3.8
+      "under5_mortality": 3.8,
+      "elderly_share": 16.2,
+      "urbanization_rate": 74.42
     },
     {
       "province": "江西省",
@@ -415,7 +445,9 @@
       "urban_income_per_capita": 41249,
       "rural_income_per_capita": 20165,
       "maternal_mortality": 15.4,
-      "under5_mortality": 7.0
+      "under5_mortality": 7.0,
+      "elderly_share": 13.18,
+      "urbanization_rate": 60.68
     },
     {
       "province": "河北省",
@@ -441,7 +473,9 @@
       "urban_income_per_capita": 37831,
       "rural_income_per_capita": 20580,
       "maternal_mortality": 8.9,
-      "under5_mortality": 5.6
+      "under5_mortality": 5.6,
+      "elderly_share": 13.62,
+      "urbanization_rate": 60.12
     },
     {
       "province": "河南省",
@@ -467,7 +501,9 @@
       "urban_income_per_capita": 39230,
       "rural_income_per_capita": 18978,
       "maternal_mortality": 19.1,
-      "under5_mortality": 6.9
+      "under5_mortality": 6.9,
+      "elderly_share": 14.41,
+      "urbanization_rate": 58.11
     },
     {
       "province": "浙江省",
@@ -493,7 +529,9 @@
       "urban_income_per_capita": 65213,
       "rural_income_per_capita": 37565,
       "maternal_mortality": 3.6,
-      "under5_mortality": 4.1
+      "under5_mortality": 4.1,
+      "elderly_share": 13.3,
+      "urbanization_rate": 73.4
     },
     {
       "province": "海南省",
@@ -519,7 +557,9 @@
       "urban_income_per_capita": 39879,
       "rural_income_per_capita": 19600,
       "maternal_mortality": 12.8,
-      "under5_mortality": 7.2
+      "under5_mortality": 7.2,
+      "elderly_share": 10.98,
+      "urbanization_rate": 62.24
     },
     {
       "province": "湖北省",
@@ -545,7 +585,9 @@
       "urban_income_per_capita": 43697,
       "rural_income_per_capita": 21730,
       "maternal_mortality": 17.9,
-      "under5_mortality": 6.1
+      "under5_mortality": 6.1,
+      "elderly_share": 15.45,
+      "urbanization_rate": 64.06
     },
     {
       "province": "湖南省",
@@ -571,7 +613,9 @@
       "urban_income_per_capita": 42823,
       "rural_income_per_capita": 21048,
       "maternal_mortality": 14.8,
-      "under5_mortality": 6.6
+      "under5_mortality": 6.6,
+      "elderly_share": 15.06,
+      "urbanization_rate": 59.97
     },
     {
       "province": "甘肃省",
@@ -597,7 +641,9 @@
       "urban_income_per_capita": 36083,
       "rural_income_per_capita": 13068,
       "maternal_mortality": 20.2,
-      "under5_mortality": 11.5
+      "under5_mortality": 11.5,
+      "elderly_share": 14.97,
+      "urbanization_rate": 52.56
     },
     {
       "province": "福建省",
@@ -623,7 +669,9 @@
       "urban_income_per_capita": 52952,
       "rural_income_per_capita": 26009,
       "maternal_mortality": 8.3,
-      "under5_mortality": 4.7
+      "under5_mortality": 4.7,
+      "elderly_share": 11.52,
+      "urbanization_rate": 70.1
     },
     {
       "province": "西藏自治区",
@@ -649,7 +697,9 @@
       "urban_income_per_capita": 41124,
       "rural_income_per_capita": 20580,
       "maternal_mortality": 92.0,
-      "under5_mortality": 24.0
+      "under5_mortality": 24.0,
+      "elderly_share": 7.43,
+      "urbanization_rate": 38.7
     },
     {
       "province": "贵州省",
@@ -675,7 +725,9 @@
       "urban_income_per_capita": 37726,
       "rural_income_per_capita": 14011,
       "maternal_mortality": 31.1,
-      "under5_mortality": 11.8
+      "under5_mortality": 11.8,
+      "elderly_share": 12.1,
+      "urbanization_rate": 54.33
     },
     {
       "province": "辽宁省",
@@ -701,7 +753,9 @@
       "urban_income_per_capita": 42624,
       "rural_income_per_capita": 19613,
       "maternal_mortality": 5.8,
-      "under5_mortality": 4.8
+      "under5_mortality": 4.8,
+      "elderly_share": 17.42,
+      "urbanization_rate": 72.24
     },
     {
       "province": "重庆市",
@@ -727,7 +781,9 @@
       "urban_income_per_capita": 43555,
       "rural_income_per_capita": 21027,
       "maternal_mortality": 14.5,
-      "under5_mortality": 5.9
+      "under5_mortality": 5.9,
+      "elderly_share": 17.08,
+      "urbanization_rate": 70.32
     },
     {
       "province": "陕西省",
@@ -753,7 +809,9 @@
       "urban_income_per_capita": 41897,
       "rural_income_per_capita": 16630,
       "maternal_mortality": 12.7,
-      "under5_mortality": 5.3
+      "under5_mortality": 5.3,
+      "elderly_share": 13.31,
+      "urbanization_rate": 64.87
     },
     {
       "province": "青海省",
@@ -779,7 +837,9 @@
       "urban_income_per_capita": 37932,
       "rural_income_per_capita": 17165,
       "maternal_mortality": 30.0,
-      "under5_mortality": 14.2
+      "under5_mortality": 14.2,
+      "elderly_share": 9.39,
+      "urbanization_rate": 59.46
     },
     {
       "province": "黑龙江省",
@@ -805,7 +865,9 @@
       "urban_income_per_capita": 38099,
       "rural_income_per_capita": 18001,
       "maternal_mortality": 11.4,
-      "under5_mortality": 6.1
+      "under5_mortality": 6.1,
+      "elderly_share": 15.61,
+      "urbanization_rate": 67.88
     }
   ],
   "resource_gap": [
@@ -833,7 +895,9 @@
       "urban_income_per_capita": 84834,
       "rural_income_per_capita": 37860,
       "maternal_mortality": 3.6,
-      "under5_mortality": 3.2
+      "under5_mortality": 3.2,
+      "elderly_share": 16.28,
+      "urbanization_rate": 89.3
     },
     {
       "province": "云南省",
@@ -859,7 +923,9 @@
       "urban_income_per_capita": 38437,
       "rural_income_per_capita": 15905,
       "maternal_mortality": 30.4,
-      "under5_mortality": 12.4
+      "under5_mortality": 12.4,
+      "elderly_share": 11.54,
+      "urbanization_rate": 51.69
     },
     {
       "province": "内蒙古自治区",
@@ -885,7 +951,9 @@
       "urban_income_per_capita": 43635,
       "rural_income_per_capita": 20278,
       "maternal_mortality": 16.7,
-      "under5_mortality": 7.8
+      "under5_mortality": 7.8,
+      "elderly_share": 13.23,
+      "urbanization_rate": 69.64
     },
     {
       "province": "北京市",
@@ -911,7 +979,9 @@
       "urban_income_per_capita": 77588,
       "rural_income_per_capita": 34292,
       "maternal_mortality": 3.9,
-      "under5_mortality": 2.9
+      "under5_mortality": 2.9,
+      "elderly_share": 13.3,
+      "urbanization_rate": 87.5
     },
     {
       "province": "吉林省",
@@ -937,7 +1007,9 @@
       "urban_income_per_capita": 38046,
       "rural_income_per_capita": 19015,
       "maternal_mortality": 12.1,
-      "under5_mortality": 6.3
+      "under5_mortality": 6.3,
+      "elderly_share": 15.61,
+      "urbanization_rate": 68.94
     },
     {
       "province": "四川省",
@@ -963,7 +1035,9 @@
       "urban_income_per_capita": 42256,
       "rural_income_per_capita": 19978,
       "maternal_mortality": 20.4,
-      "under5_mortality": 7.0
+      "under5_mortality": 7.0,
+      "elderly_share": 17.24,
+      "urbanization_rate": 57.97
     },
     {
       "province": "天津市",
@@ -989,7 +1063,9 @@
       "urban_income_per_capita": 52088,
       "rural_income_per_capita": 26034,
       "maternal_mortality": 3.2,
-      "under5_mortality": 3.5
+      "under5_mortality": 3.5,
+      "elderly_share": 14.75,
+      "urbanization_rate": 85.11
     },
     {
       "province": "宁夏回族自治区",
@@ -1015,7 +1091,9 @@
       "urban_income_per_capita": 39254,
       "rural_income_per_capita": 17334,
       "maternal_mortality": 16.8,
-      "under5_mortality": 9.0
+      "under5_mortality": 9.0,
+      "elderly_share": 10.63,
+      "urbanization_rate": 68.02
     },
     {
       "province": "安徽省",
@@ -1041,7 +1119,9 @@
       "urban_income_per_capita": 42628,
       "rural_income_per_capita": 21145,
       "maternal_mortality": 13.2,
-      "under5_mortality": 7.2
+      "under5_mortality": 7.2,
+      "elderly_share": 16.79,
+      "urbanization_rate": 60.22
     },
     {
       "province": "山东省",
@@ -1067,7 +1147,9 @@
       "urban_income_per_capita": 47285,
       "rural_income_per_capita": 24568,
       "maternal_mortality": 9.8,
-      "under5_mortality": 5.1
+      "under5_mortality": 5.1,
+      "elderly_share": 15.13,
+      "urbanization_rate": 65.5
     },
     {
       "province": "山西省",
@@ -1093,7 +1175,9 @@
       "urban_income_per_capita": 35697,
       "rural_income_per_capita": 16456,
       "maternal_mortality": 11.2,
-      "under5_mortality": 6.2
+      "under5_mortality": 6.2,
+      "elderly_share": 13.5,
+      "urbanization_rate": 64.92
     },
     {
       "province": "广东省",
@@ -1119,7 +1203,9 @@
       "urban_income_per_capita": 55316,
       "rural_income_per_capita": 24900,
       "maternal_mortality": 10.1,
-      "under5_mortality": 5.2
+      "under5_mortality": 5.2,
+      "elderly_share": 8.58,
+      "urbanization_rate": 75.24
     },
     {
       "province": "广西壮族自治区",
@@ -1145,7 +1231,9 @@
       "urban_income_per_capita": 37897,
       "rural_income_per_capita": 17956,
       "maternal_mortality": 22.5,
-      "under5_mortality": 7.6
+      "under5_mortality": 7.6,
+      "elderly_share": 14.05,
+      "urbanization_rate": 58.93
     },
     {
       "province": "新疆维吾尔自治区",
@@ -1171,7 +1259,9 @@
       "urban_income_per_capita": 37950,
       "rural_income_per_capita": 16975,
       "maternal_mortality": 24.0,
-      "under5_mortality": 12.7
+      "under5_mortality": 12.7,
+      "elderly_share": 8.33,
+      "urbanization_rate": 56.41
     },
     {
       "province": "江苏省",
@@ -1197,7 +1287,9 @@
       "urban_income_per_capita": 57589,
       "rural_income_per_capita": 29026,
       "maternal_mortality": 4.5,
-      "under5_mortality": 3.8
+      "under5_mortality": 3.8,
+      "elderly_share": 16.2,
+      "urbanization_rate": 74.42
     },
     {
       "province": "江西省",
@@ -1223,7 +1315,9 @@
       "urban_income_per_capita": 41249,
       "rural_income_per_capita": 20165,
       "maternal_mortality": 15.4,
-      "under5_mortality": 7.0
+      "under5_mortality": 7.0,
+      "elderly_share": 13.18,
+      "urbanization_rate": 60.68
     },
     {
       "province": "河北省",
@@ -1249,7 +1343,9 @@
       "urban_income_per_capita": 37831,
       "rural_income_per_capita": 20580,
       "maternal_mortality": 8.9,
-      "under5_mortality": 5.6
+      "under5_mortality": 5.6,
+      "elderly_share": 13.62,
+      "urbanization_rate": 60.12
     },
     {
       "province": "河南省",
@@ -1275,7 +1371,9 @@
       "urban_income_per_capita": 39230,
       "rural_income_per_capita": 18978,
       "maternal_mortality": 19.1,
-      "under5_mortality": 6.9
+      "under5_mortality": 6.9,
+      "elderly_share": 14.41,
+      "urbanization_rate": 58.11
     },
     {
       "province": "浙江省",
@@ -1301,7 +1399,9 @@
       "urban_income_per_capita": 65213,
       "rural_income_per_capita": 37565,
       "maternal_mortality": 3.6,
-      "under5_mortality": 4.1
+      "under5_mortality": 4.1,
+      "elderly_share": 13.3,
+      "urbanization_rate": 73.4
     },
     {
       "province": "海南省",
@@ -1327,7 +1427,9 @@
       "urban_income_per_capita": 39879,
       "rural_income_per_capita": 19600,
       "maternal_mortality": 12.8,
-      "under5_mortality": 7.2
+      "under5_mortality": 7.2,
+      "elderly_share": 10.98,
+      "urbanization_rate": 62.24
     },
     {
       "province": "湖北省",
@@ -1353,7 +1455,9 @@
       "urban_income_per_capita": 43697,
       "rural_income_per_capita": 21730,
       "maternal_mortality": 17.9,
-      "under5_mortality": 6.1
+      "under5_mortality": 6.1,
+      "elderly_share": 15.45,
+      "urbanization_rate": 64.06
     },
     {
       "province": "湖南省",
@@ -1379,7 +1483,9 @@
       "urban_income_per_capita": 42823,
       "rural_income_per_capita": 21048,
       "maternal_mortality": 14.8,
-      "under5_mortality": 6.6
+      "under5_mortality": 6.6,
+      "elderly_share": 15.06,
+      "urbanization_rate": 59.97
     },
     {
       "province": "甘肃省",
@@ -1405,7 +1511,9 @@
       "urban_income_per_capita": 36083,
       "rural_income_per_capita": 13068,
       "maternal_mortality": 20.2,
-      "under5_mortality": 11.5
+      "under5_mortality": 11.5,
+      "elderly_share": 14.97,
+      "urbanization_rate": 52.56
     },
     {
       "province": "福建省",
@@ -1431,7 +1539,9 @@
       "urban_income_per_capita": 52952,
       "rural_income_per_capita": 26009,
       "maternal_mortality": 8.3,
-      "under5_mortality": 4.7
+      "under5_mortality": 4.7,
+      "elderly_share": 11.52,
+      "urbanization_rate": 70.1
     },
     {
       "province": "西藏自治区",
@@ -1457,7 +1567,9 @@
       "urban_income_per_capita": 41124,
       "rural_income_per_capita": 20580,
       "maternal_mortality": 92.0,
-      "under5_mortality": 24.0
+      "under5_mortality": 24.0,
+      "elderly_share": 7.43,
+      "urbanization_rate": 38.7
     },
     {
       "province": "贵州省",
@@ -1483,7 +1595,9 @@
       "urban_income_per_capita": 37726,
       "rural_income_per_capita": 14011,
       "maternal_mortality": 31.1,
-      "under5_mortality": 11.8
+      "under5_mortality": 11.8,
+      "elderly_share": 12.1,
+      "urbanization_rate": 54.33
     },
     {
       "province": "辽宁省",
@@ -1509,7 +1623,9 @@
       "urban_income_per_capita": 42624,
       "rural_income_per_capita": 19613,
       "maternal_mortality": 5.8,
-      "under5_mortality": 4.8
+      "under5_mortality": 4.8,
+      "elderly_share": 17.42,
+      "urbanization_rate": 72.24
     },
     {
       "province": "重庆市",
@@ -1535,7 +1651,9 @@
       "urban_income_per_capita": 43555,
       "rural_income_per_capita": 21027,
       "maternal_mortality": 14.5,
-      "under5_mortality": 5.9
+      "under5_mortality": 5.9,
+      "elderly_share": 17.08,
+      "urbanization_rate": 70.32
     },
     {
       "province": "陕西省",
@@ -1561,7 +1679,9 @@
       "urban_income_per_capita": 41897,
       "rural_income_per_capita": 16630,
       "maternal_mortality": 12.7,
-      "under5_mortality": 5.3
+      "under5_mortality": 5.3,
+      "elderly_share": 13.31,
+      "urbanization_rate": 64.87
     },
     {
       "province": "青海省",
@@ -1587,7 +1707,9 @@
       "urban_income_per_capita": 37932,
       "rural_income_per_capita": 17165,
       "maternal_mortality": 30.0,
-      "under5_mortality": 14.2
+      "under5_mortality": 14.2,
+      "elderly_share": 9.39,
+      "urbanization_rate": 59.46
     },
     {
       "province": "黑龙江省",
@@ -1613,7 +1735,9 @@
       "urban_income_per_capita": 38099,
       "rural_income_per_capita": 18001,
       "maternal_mortality": 11.4,
-      "under5_mortality": 6.1
+      "under5_mortality": 6.1,
+      "elderly_share": 15.61,
+      "urbanization_rate": 67.88
     }
   ],
   "quadrant_counts": {
@@ -1863,6 +1987,8 @@
       "avg_gdp_per_capita": 117774.63636363637,
       "avg_maternal_mortality": 6.7727272727272725,
       "avg_under5_mortality": 4.554545454545455,
+      "avg_elderly_share": 13.734545454545456,
+      "avg_urbanization_rate": 74.10636363636364,
       "region_en": "Eastern"
     },
     {
@@ -1879,6 +2005,8 @@
       "avg_gdp_per_capita": 62857.25,
       "avg_maternal_mortality": 14.3875,
       "avg_under5_mortality": 6.55,
+      "avg_elderly_share": 14.95125,
+      "avg_urbanization_rate": 63.0975,
       "region_en": "Central"
     },
     {
@@ -1895,6 +2023,8 @@
       "avg_gdp_per_capita": 65091.833333333336,
       "avg_maternal_mortality": 27.608333333333334,
       "avg_under5_mortality": 10.766666666666666,
+      "avg_elderly_share": 12.441666666666668,
+      "avg_urbanization_rate": 58.574999999999996,
       "region_en": "Western"
     }
   ],
