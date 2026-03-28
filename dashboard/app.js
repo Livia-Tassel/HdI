@@ -644,14 +644,22 @@ function bindEvents() {
   });
 
   document.getElementById("objective-select").addEventListener("change", (event) => {
-    state.objective = normalizeObjective(event.target.value);
-    syncScenarioSelection();
+    if (state.dimension === "dim4") {
+      state.chinaObjective = normalizeObjective(event.target.value);
+    } else {
+      state.objective = normalizeObjective(event.target.value);
+      syncScenarioSelection();
+    }
     renderAll();
   });
 
   document.getElementById("budget-select").addEventListener("change", (event) => {
-    state.budgetMultiplier = normalizeBudget(event.target.value);
-    syncScenarioSelection();
+    if (state.dimension === "dim4") {
+      state.chinaBudgetMultiplier = normalizeBudget(event.target.value);
+    } else {
+      state.budgetMultiplier = normalizeBudget(event.target.value);
+      syncScenarioSelection();
+    }
     renderAll();
   });
 
@@ -750,6 +758,7 @@ function handleCountryJump() {
     if (match) {
       state.province = match;
       renderPanels();
+      renderChinaMap();
     }
     return;
   }
@@ -807,8 +816,9 @@ function syncControls() {
 
   const objectiveField = document.getElementById("objective-field");
   const budgetField = document.getElementById("budget-field");
-  objectiveField.style.display = state.dimension === "dim3" ? "grid" : "none";
-  budgetField.style.display = state.dimension === "dim3" ? "grid" : "none";
+  const showOptControls = state.dimension === "dim3" || state.dimension === "dim4";
+  objectiveField.style.display = showOptControls ? "grid" : "none";
+  budgetField.style.display = showOptControls ? "grid" : "none";
 
   if (state.dimension === "dim3") {
     const objectiveSelect = document.getElementById("objective-select");
@@ -830,6 +840,24 @@ function syncControls() {
       )
       .join("");
     budgetSelect.value = normalizeBudget(state.budgetMultiplier).toFixed(1);
+  } else if (state.dimension === "dim4") {
+    const objectiveSelect = document.getElementById("objective-select");
+    const budgetSelect = document.getElementById("budget-select");
+    const chinaScenarios = store.chinaOptimizationScenarios ?? [];
+    const chinaObjectives = uniqueValues(chinaScenarios.map((s) => s.objective));
+    const chinaBudgets = uniqueValues(
+      chinaScenarios.map((s) => s.budget_multiplier.toFixed(1)),
+    ).map((v) => Number(v));
+
+    objectiveSelect.innerHTML = chinaObjectives
+      .map((o) => `<option value="${o}">${escapeHtml(objectiveLabel(o))}</option>`)
+      .join("");
+    objectiveSelect.value = state.chinaObjective;
+
+    budgetSelect.innerHTML = chinaBudgets
+      .map((b) => `<option value="${b.toFixed(1)}">${escapeHtml(budgetLabel(b))}</option>`)
+      .join("");
+    budgetSelect.value = normalizeBudget(state.chinaBudgetMultiplier).toFixed(1);
   }
 
   // Year slider: visible for dim1 (timeseries) and dim5 (bubble animation)
@@ -861,7 +889,8 @@ function syncControls() {
   document.getElementById("map-title").textContent = DIMENSIONS[state.dimension].mapTitle;
   document.getElementById("map-note").textContent = DIMENSIONS[state.dimension].note;
   document.getElementById("context-pill").textContent =
-    state.dimension === "dim3" ? "情景引擎" : "静态构建";
+    state.dimension === "dim3" ? "情景引擎" :
+    state.dimension === "dim4" ? "中国视角" : "静态构建";
 
   if ((state.dimension === "dim1" && store.availableYears.length) ||
       (state.dimension === "dim5" && store.bubbleYears.length)) {
@@ -882,6 +911,12 @@ function syncControls() {
           ? "综合WHO GHO、UNDP HDI、世界银行WDI等外部数据源。"
           : "基于竞赛分析产出构建的静态仪表盘。";
   document.getElementById("control-note").textContent = controlNote;
+
+  // Update search field label based on dimension
+  const searchLabel = document.querySelector(".search-field > span");
+  if (searchLabel) {
+    searchLabel.textContent = state.dimension === "dim4" ? "定位省份" : "定位国家";
+  }
 
   syncSearchField();
 }
@@ -904,7 +939,7 @@ function syncProvinceSearch() {
   searchInput.value = state.province ? provinceLabel(state.province) : "";
   searchInput.placeholder = "输入省份名称";
   datalist.innerHTML = provinces
-    .map((p) => `<option value="${escapeHtml(provinceLabel(p))}"></option>`)
+    .map((p) => `<option value="${escapeHtml(provinceLabel(p.province ?? p))}"></option>`)
     .join("");
 }
 
@@ -3172,8 +3207,14 @@ function resolveProvinceInput(input) {
   const query = safeLower(input);
   const provinces = store.chinaDeepDive?.provinces ?? [];
   return (
-    provinces.find((province) => safeLower(province) === query || safeLower(provinceLabel(province)) === query) ||
-    provinces.find((province) => safeLower(province).includes(query) || safeLower(provinceLabel(province)).includes(query)) ||
+    provinces.find((p) => {
+      const name = p.province ?? p;
+      return safeLower(name) === query || safeLower(provinceLabel(name)) === query;
+    })?.province ??
+    provinces.find((p) => {
+      const name = p.province ?? p;
+      return safeLower(name).includes(query) || safeLower(provinceLabel(name)).includes(query);
+    })?.province ??
     null
   );
 }
