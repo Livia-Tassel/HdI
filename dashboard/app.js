@@ -2902,8 +2902,13 @@ function renderDim4Context() {
     </div>
   ` : "";
 
+  const chinaGiniNote = (chinaScenario?.summary?.gini_before != null && chinaScenario?.summary?.gini_after != null && chinaScenario.summary.gini_before > 0)
+    ? `<p class="context-lede" style="font-size:0.8rem;opacity:0.8">基尼系数（产出指数）：优化前 ${chinaScenario.summary.gini_before.toFixed(4)} → 优化后 ${chinaScenario.summary.gini_after.toFixed(4)}（${chinaScenario.summary.gini_change > 0 ? "+" : ""}${chinaScenario.summary.gini_change.toFixed(4)}）</p>`
+    : "";
+
   document.getElementById("context-panel").innerHTML = `
     <p class="context-lede">中国省级卫生资源配置分析 · ${chinaScenario?.objective_label ?? "最优化模型"}</p>
+    ${chinaGiniNote}
     ${equityBlock}
     ${recBlock}
     ${renderContextColumns([
