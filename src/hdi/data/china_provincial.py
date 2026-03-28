@@ -157,6 +157,111 @@ _HEALTH_EXP_PER_CAPITA_2020: dict[str, float] = {
     "新疆维吾尔自治区": 5724,
 }
 
+# Hospital beds per 1000 population (张/千人, 2020) — NHC Health Statistical Yearbook 2021
+_HOSPITAL_BEDS_PER_1000_2020: dict[str, float] = {
+    "北京市": 5.93,
+    "天津市": 4.88,
+    "河北省": 5.48,
+    "山西省": 6.31,
+    "内蒙古自治区": 6.82,
+    "辽宁省": 5.56,
+    "吉林省": 5.73,
+    "黑龙江省": 5.18,
+    "上海市": 5.41,
+    "江苏省": 4.90,
+    "浙江省": 4.80,
+    "安徽省": 5.39,
+    "福建省": 4.45,
+    "江西省": 5.42,
+    "山东省": 5.80,
+    "河南省": 6.01,
+    "湖北省": 6.35,
+    "湖南省": 6.07,
+    "广东省": 4.40,
+    "广西壮族自治区": 5.86,
+    "海南省": 4.95,
+    "重庆市": 6.11,
+    "四川省": 6.78,
+    "贵州省": 6.31,
+    "云南省": 6.51,
+    "西藏自治区": 4.65,
+    "陕西省": 6.47,
+    "甘肃省": 5.95,
+    "青海省": 5.28,
+    "宁夏回族自治区": 5.60,
+    "新疆维吾尔自治区": 7.02,
+}
+
+# Licensed physicians per 1000 population (执业医师/千人, 2020) — NHC
+_PHYSICIANS_PER_1000_2020: dict[str, float] = {
+    "北京市": 5.79,
+    "天津市": 3.83,
+    "河北省": 2.85,
+    "山西省": 3.08,
+    "内蒙古自治区": 3.21,
+    "辽宁省": 3.48,
+    "吉林省": 3.40,
+    "黑龙江省": 3.17,
+    "上海市": 4.82,
+    "江苏省": 3.20,
+    "浙江省": 3.72,
+    "安徽省": 2.76,
+    "福建省": 2.83,
+    "江西省": 2.48,
+    "山东省": 3.20,
+    "河南省": 2.78,
+    "湖北省": 2.92,
+    "湖南省": 2.80,
+    "广东省": 2.80,
+    "广西壮族自治区": 2.72,
+    "海南省": 2.97,
+    "重庆市": 2.98,
+    "四川省": 2.89,
+    "贵州省": 2.40,
+    "云南省": 2.62,
+    "西藏自治区": 2.21,
+    "陕西省": 3.27,
+    "甘肃省": 2.90,
+    "青海省": 2.81,
+    "宁夏回族自治区": 2.90,
+    "新疆维吾尔自治区": 3.05,
+}
+
+# Registered nurses per 1000 population (注册护士/千人, 2020) — NHC
+_NURSES_PER_1000_2020: dict[str, float] = {
+    "北京市": 6.39,
+    "天津市": 4.61,
+    "河北省": 3.17,
+    "山西省": 3.58,
+    "内蒙古自治区": 4.04,
+    "辽宁省": 4.27,
+    "吉林省": 4.25,
+    "黑龙江省": 3.81,
+    "上海市": 5.43,
+    "江苏省": 3.88,
+    "浙江省": 4.68,
+    "安徽省": 3.42,
+    "福建省": 3.21,
+    "江西省": 3.57,
+    "山东省": 3.86,
+    "河南省": 3.49,
+    "湖北省": 4.14,
+    "湖南省": 3.86,
+    "广东省": 3.38,
+    "广西壮族自治区": 3.76,
+    "海南省": 3.43,
+    "重庆市": 3.97,
+    "四川省": 4.45,
+    "贵州省": 3.62,
+    "云南省": 3.65,
+    "西藏自治区": 2.96,
+    "陕西省": 4.08,
+    "甘肃省": 3.46,
+    "青海省": 3.36,
+    "宁夏回族自治区": 3.42,
+    "新疆维吾尔自治区": 3.93,
+}
+
 # English province names
 PROVINCE_EN: dict[str, str] = {
     "北京市": "Beijing",
@@ -296,6 +401,9 @@ def load_china_provincial_panel(data_dir: Path | None = None) -> pd.DataFrame:
     panel["life_expectancy"] = panel["province"].map(_LIFE_EXPECTANCY_2020)
     panel["infant_mortality"] = panel["province"].map(_INFANT_MORTALITY_2020)
     panel["health_exp_per_capita"] = panel["province"].map(_HEALTH_EXP_PER_CAPITA_2020)
+    panel["hospital_beds_per_1000"] = panel["province"].map(_HOSPITAL_BEDS_PER_1000_2020)
+    panel["physicians_per_1000"] = panel["province"].map(_PHYSICIANS_PER_1000_2020)
+    panel["nurses_per_1000"] = panel["province"].map(_NURSES_PER_1000_2020)
 
     # Per-capita density (both columns are in 万 units, so wan/wan × 1000 = per 1000)
     panel["personnel_per_1000"] = panel["health_personnel_wan"] / panel["population_wan"] * 1000.0

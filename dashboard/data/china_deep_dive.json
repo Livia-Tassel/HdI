@@ -17,7 +17,10 @@
       "personnel_per_1000": 12.625196514802438,
       "health_exp_per_capita": 13489,
       "life_expectancy": 84.11,
-      "infant_mortality": 2.7
+      "infant_mortality": 2.7,
+      "hospital_beds_per_1000": 5.41,
+      "physicians_per_1000": 4.82,
+      "nurses_per_1000": 5.43
     },
     {
       "province": "云南省",
@@ -35,7 +38,10 @@
       "personnel_per_1000": 11.428863633458189,
       "health_exp_per_capita": 4127,
       "life_expectancy": 75.26,
-      "infant_mortality": 9.2
+      "infant_mortality": 9.2,
+      "hospital_beds_per_1000": 6.51,
+      "physicians_per_1000": 2.62,
+      "nurses_per_1000": 3.65
     },
     {
       "province": "内蒙古自治区",
@@ -53,7 +59,10 @@
       "personnel_per_1000": 12.540957703374747,
       "health_exp_per_capita": 5609,
       "life_expectancy": 77.22,
-      "infant_mortality": 6.1
+      "infant_mortality": 6.1,
+      "hospital_beds_per_1000": 6.82,
+      "physicians_per_1000": 3.21,
+      "nurses_per_1000": 4.04
     },
     {
       "province": "北京市",
@@ -71,7 +80,10 @@
       "personnel_per_1000": 18.34367905869886,
       "health_exp_per_capita": 12247,
       "life_expectancy": 82.83,
-      "infant_mortality": 2.3
+      "infant_mortality": 2.3,
+      "hospital_beds_per_1000": 5.93,
+      "physicians_per_1000": 5.79,
+      "nurses_per_1000": 6.39
     },
     {
       "province": "吉林省",
@@ -89,7 +101,10 @@
       "personnel_per_1000": 12.640455272394957,
       "health_exp_per_capita": 5023,
       "life_expectancy": 78.23,
-      "infant_mortality": 5.3
+      "infant_mortality": 5.3,
+      "hospital_beds_per_1000": 5.73,
+      "physicians_per_1000": 3.4,
+      "nurses_per_1000": 4.25
     },
     {
       "province": "四川省",
@@ -107,7 +122,10 @@
       "personnel_per_1000": 11.260259958792851,
       "health_exp_per_capita": 4609,
       "life_expectancy": 77.79,
-      "infant_mortality": 5.6
+      "infant_mortality": 5.6,
+      "hospital_beds_per_1000": 6.78,
+      "physicians_per_1000": 2.89,
+      "nurses_per_1000": 4.45
     },
     {
       "province": "天津市",
@@ -125,7 +143,10 @@
       "personnel_per_1000": 12.37559498052791,
       "health_exp_per_capita": 9501,
       "life_expectancy": 82.22,
-      "infant_mortality": 2.8
+      "infant_mortality": 2.8,
+      "hospital_beds_per_1000": 4.88,
+      "physicians_per_1000": 3.83,
+      "nurses_per_1000": 4.61
     },
     {
       "province": "宁夏回族自治区",
@@ -143,7 +164,10 @@
       "personnel_per_1000": 11.176054089325135,
       "health_exp_per_capita": 5512,
       "life_expectancy": 75.71,
-      "infant_mortality": 7.1
+      "infant_mortality": 7.1,
+      "hospital_beds_per_1000": 5.6,
+      "physicians_per_1000": 2.9,
+      "nurses_per_1000": 3.42
     },
     {
       "province": "安徽省",
@@ -161,7 +185,10 @@
       "personnel_per_1000": 9.815295474804676,
       "health_exp_per_capita": 4527,
       "life_expectancy": 77.32,
-      "infant_mortality": 5.8
+      "infant_mortality": 5.8,
+      "hospital_beds_per_1000": 5.39,
+      "physicians_per_1000": 2.76,
+      "nurses_per_1000": 3.42
     },
     {
       "province": "山东省",
@@ -179,7 +206,10 @@
       "personnel_per_1000": 11.63822609637783,
       "health_exp_per_capita": 5401,
       "life_expectancy": 79.24,
-      "infant_mortality": 4.3
+      "infant_mortality": 4.3,
+      "hospital_beds_per_1000": 5.8,
+      "physicians_per_1000": 3.2,
+      "nurses_per_1000": 3.86
     },
     {
       "province": "山西省",
@@ -197,7 +227,10 @@
       "personnel_per_1000": 11.241715500105974,
       "health_exp_per_capita": 4801,
       "life_expectancy": 78.0,
-      "infant_mortality": 5.2
+      "infant_mortality": 5.2,
+      "hospital_beds_per_1000": 6.31,
+      "physicians_per_1000": 3.08,
+      "nurses_per_1000": 3.58
     },
     {
       "province": "广东省",
@@ -215,7 +248,10 @@
       "personnel_per_1000": 9.542704096815791,
       "health_exp_per_capita": 6817,
       "life_expectancy": 78.4,
-      "infant_mortality": 4.5
+      "infant_mortality": 4.5,
+      "hospital_beds_per_1000": 4.4,
+      "physicians_per_1000": 2.8,
+      "nurses_per_1000": 3.38
     },
     {
       "province": "广西壮族自治区",
@@ -233,7 +269,10 @@
       "personnel_per_1000": 11.161693944157618,
       "health_exp_per_capita": 4017,
       "life_expectancy": 77.89,
-      "infant_mortality": 6.0
+      "infant_mortality": 6.0,
+      "hospital_beds_per_1000": 5.86,
+      "physicians_per_1000": 2.72,
+      "nurses_per_1000": 3.76
     },
     {
       "province": "新疆维吾尔自治区",
@@ -251,7 +290,10 @@
       "personnel_per_1000": 12.180734402741727,
       "health_exp_per_capita": 5724,
       "life_expectancy": 74.36,
-      "infant_mortality": 9.6
+      "infant_mortality": 9.6,
+      "hospital_beds_per_1000": 7.02,
+      "physicians_per_1000": 3.05,
+      "nurses_per_1000": 3.93
     },
     {
       "province": "江苏省",
@@ -269,7 +311,10 @@
       "personnel_per_1000": 11.115306555906924,
       "health_exp_per_capita": 6514,
       "life_expectancy": 79.26,
-      "infant_mortality": 3.2
+      "infant_mortality": 3.2,
+      "hospital_beds_per_1000": 4.9,
+      "physicians_per_1000": 3.2,
+      "nurses_per_1000": 3.88
     },
     {
       "province": "江西省",
@@ -287,7 +332,10 @@
       "personnel_per_1000": 10.175329087894745,
       "health_exp_per_capita": 4218,
       "life_expectancy": 78.09,
-      "infant_mortality": 5.5
+      "infant_mortality": 5.5,
+      "hospital_beds_per_1000": 5.42,
+      "physicians_per_1000": 2.48,
+      "nurses_per_1000": 3.57
     },
     {
       "province": "河北省",
@@ -305,7 +353,10 @@
       "personnel_per_1000": 11.293362033609347,
       "health_exp_per_capita": 4423,
       "life_expectancy": 77.94,
-      "infant_mortality": 4.9
+      "infant_mortality": 4.9,
+      "hospital_beds_per_1000": 5.48,
+      "physicians_per_1000": 2.85,
+      "nurses_per_1000": 3.17
     },
     {
       "province": "河南省",
@@ -323,7 +374,10 @@
       "personnel_per_1000": 11.02495332887169,
       "health_exp_per_capita": 4312,
       "life_expectancy": 77.68,
-      "infant_mortality": 5.7
+      "infant_mortality": 5.7,
+      "hospital_beds_per_1000": 6.01,
+      "physicians_per_1000": 2.78,
+      "nurses_per_1000": 3.49
     },
     {
       "province": "浙江省",
@@ -341,7 +395,10 @@
       "personnel_per_1000": 12.611588474714873,
       "health_exp_per_capita": 7208,
       "life_expectancy": 79.6,
-      "infant_mortality": 3.5
+      "infant_mortality": 3.5,
+      "hospital_beds_per_1000": 4.8,
+      "physicians_per_1000": 3.72,
+      "nurses_per_1000": 4.68
     },
     {
       "province": "海南省",
@@ -359,7 +416,10 @@
       "personnel_per_1000": 10.871721620442012,
       "health_exp_per_capita": 4803,
       "life_expectancy": 78.06,
-      "infant_mortality": 5.8
+      "infant_mortality": 5.8,
+      "hospital_beds_per_1000": 4.95,
+      "physicians_per_1000": 2.97,
+      "nurses_per_1000": 3.43
     },
     {
       "province": "湖北省",
@@ -377,7 +437,10 @@
       "personnel_per_1000": 10.664454933630694,
       "health_exp_per_capita": 5098,
       "life_expectancy": 78.06,
-      "infant_mortality": 5.0
+      "infant_mortality": 5.0,
+      "hospital_beds_per_1000": 6.35,
+      "physicians_per_1000": 2.92,
+      "nurses_per_1000": 4.14
     },
     {
       "province": "湖南省",
@@ -395,7 +458,10 @@
       "personnel_per_1000": 10.309293866045401,
       "health_exp_per_capita": 4718,
       "life_expectancy": 78.2,
-      "infant_mortality": 5.4
+      "infant_mortality": 5.4,
+      "hospital_beds_per_1000": 6.07,
+      "physicians_per_1000": 2.8,
+      "nurses_per_1000": 3.86
     },
     {
       "province": "甘肃省",
@@ -413,7 +479,10 @@
       "personnel_per_1000": 11.718906128844017,
       "health_exp_per_capita": 4001,
       "life_expectancy": 74.7,
-      "infant_mortality": 8.5
+      "infant_mortality": 8.5,
+      "hospital_beds_per_1000": 5.95,
+      "physicians_per_1000": 2.9,
+      "nurses_per_1000": 3.46
     },
     {
       "province": "福建省",
@@ -431,7 +500,10 @@
       "personnel_per_1000": 9.87961030426022,
       "health_exp_per_capita": 5287,
       "life_expectancy": 78.98,
-      "infant_mortality": 4.0
+      "infant_mortality": 4.0,
+      "hospital_beds_per_1000": 4.45,
+      "physicians_per_1000": 2.83,
+      "nurses_per_1000": 3.21
     },
     {
       "province": "西藏自治区",
@@ -449,7 +521,10 @@
       "personnel_per_1000": 13.924675182281673,
       "health_exp_per_capita": 7512,
       "life_expectancy": 72.19,
-      "infant_mortality": 16.8
+      "infant_mortality": 16.8,
+      "hospital_beds_per_1000": 4.65,
+      "physicians_per_1000": 2.21,
+      "nurses_per_1000": 2.96
     },
     {
       "province": "贵州省",
@@ -467,7 +542,10 @@
       "personnel_per_1000": 11.521675427427448,
       "health_exp_per_capita": 4218,
       "life_expectancy": 75.7,
-      "infant_mortality": 8.8
+      "infant_mortality": 8.8,
+      "hospital_beds_per_1000": 6.31,
+      "physicians_per_1000": 2.4,
+      "nurses_per_1000": 3.62
     },
     {
       "province": "辽宁省",
@@ -485,7 +563,10 @@
       "personnel_per_1000": 10.992829538357508,
       "health_exp_per_capita": 5834,
       "life_expectancy": 78.78,
-      "infant_mortality": 4.1
+      "infant_mortality": 4.1,
+      "hospital_beds_per_1000": 5.56,
+      "physicians_per_1000": 3.48,
+      "nurses_per_1000": 4.27
     },
     {
       "province": "重庆市",
@@ -503,7 +584,10 @@
       "personnel_per_1000": 10.781738430533284,
       "health_exp_per_capita": 5215,
       "life_expectancy": 78.02,
-      "infant_mortality": 4.8
+      "infant_mortality": 4.8,
+      "hospital_beds_per_1000": 6.11,
+      "physicians_per_1000": 2.98,
+      "nurses_per_1000": 3.97
     },
     {
       "province": "陕西省",
@@ -521,7 +605,10 @@
       "personnel_per_1000": 12.132864479243088,
       "health_exp_per_capita": 4624,
       "life_expectancy": 78.08,
-      "infant_mortality": 4.4
+      "infant_mortality": 4.4,
+      "hospital_beds_per_1000": 6.47,
+      "physicians_per_1000": 3.27,
+      "nurses_per_1000": 4.08
     },
     {
       "province": "青海省",
@@ -539,7 +626,10 @@
       "personnel_per_1000": 12.913571910871033,
       "health_exp_per_capita": 6211,
       "life_expectancy": 74.52,
-      "infant_mortality": 10.2
+      "infant_mortality": 10.2,
+      "hospital_beds_per_1000": 5.28,
+      "physicians_per_1000": 2.81,
+      "nurses_per_1000": 3.36
     },
     {
       "province": "黑龙江省",
@@ -557,7 +647,10 @@
       "personnel_per_1000": 10.816326530612246,
       "health_exp_per_capita": 4912,
       "life_expectancy": 78.26,
-      "infant_mortality": 5.0
+      "infant_mortality": 5.0,
+      "hospital_beds_per_1000": 5.18,
+      "physicians_per_1000": 3.17,
+      "nurses_per_1000": 3.81
     }
   ],
   "resource_gap": [
@@ -577,7 +670,10 @@
       "personnel_per_1000": 12.625196514802438,
       "health_exp_per_capita": 13489,
       "life_expectancy": 84.11,
-      "infant_mortality": 2.7
+      "infant_mortality": 2.7,
+      "hospital_beds_per_1000": 5.41,
+      "physicians_per_1000": 4.82,
+      "nurses_per_1000": 5.43
     },
     {
       "province": "云南省",
@@ -595,7 +691,10 @@
       "personnel_per_1000": 11.428863633458189,
       "health_exp_per_capita": 4127,
       "life_expectancy": 75.26,
-      "infant_mortality": 9.2
+      "infant_mortality": 9.2,
+      "hospital_beds_per_1000": 6.51,
+      "physicians_per_1000": 2.62,
+      "nurses_per_1000": 3.65
     },
     {
       "province": "内蒙古自治区",
@@ -613,7 +712,10 @@
       "personnel_per_1000": 12.540957703374747,
       "health_exp_per_capita": 5609,
       "life_expectancy": 77.22,
-      "infant_mortality": 6.1
+      "infant_mortality": 6.1,
+      "hospital_beds_per_1000": 6.82,
+      "physicians_per_1000": 3.21,
+      "nurses_per_1000": 4.04
     },
     {
       "province": "北京市",
@@ -631,7 +733,10 @@
       "personnel_per_1000": 18.34367905869886,
       "health_exp_per_capita": 12247,
       "life_expectancy": 82.83,
-      "infant_mortality": 2.3
+      "infant_mortality": 2.3,
+      "hospital_beds_per_1000": 5.93,
+      "physicians_per_1000": 5.79,
+      "nurses_per_1000": 6.39
     },
     {
       "province": "吉林省",
@@ -649,7 +754,10 @@
       "personnel_per_1000": 12.640455272394957,
       "health_exp_per_capita": 5023,
       "life_expectancy": 78.23,
-      "infant_mortality": 5.3
+      "infant_mortality": 5.3,
+      "hospital_beds_per_1000": 5.73,
+      "physicians_per_1000": 3.4,
+      "nurses_per_1000": 4.25
     },
     {
       "province": "四川省",
@@ -667,7 +775,10 @@
       "personnel_per_1000": 11.260259958792851,
       "health_exp_per_capita": 4609,
       "life_expectancy": 77.79,
-      "infant_mortality": 5.6
+      "infant_mortality": 5.6,
+      "hospital_beds_per_1000": 6.78,
+      "physicians_per_1000": 2.89,
+      "nurses_per_1000": 4.45
     },
     {
       "province": "天津市",
@@ -685,7 +796,10 @@
       "personnel_per_1000": 12.37559498052791,
       "health_exp_per_capita": 9501,
       "life_expectancy": 82.22,
-      "infant_mortality": 2.8
+      "infant_mortality": 2.8,
+      "hospital_beds_per_1000": 4.88,
+      "physicians_per_1000": 3.83,
+      "nurses_per_1000": 4.61
     },
     {
       "province": "宁夏回族自治区",
@@ -703,7 +817,10 @@
       "personnel_per_1000": 11.176054089325135,
       "health_exp_per_capita": 5512,
       "life_expectancy": 75.71,
-      "infant_mortality": 7.1
+      "infant_mortality": 7.1,
+      "hospital_beds_per_1000": 5.6,
+      "physicians_per_1000": 2.9,
+      "nurses_per_1000": 3.42
     },
     {
       "province": "安徽省",
@@ -721,7 +838,10 @@
       "personnel_per_1000": 9.815295474804676,
       "health_exp_per_capita": 4527,
       "life_expectancy": 77.32,
-      "infant_mortality": 5.8
+      "infant_mortality": 5.8,
+      "hospital_beds_per_1000": 5.39,
+      "physicians_per_1000": 2.76,
+      "nurses_per_1000": 3.42
     },
     {
       "province": "山东省",
@@ -739,7 +859,10 @@
       "personnel_per_1000": 11.63822609637783,
       "health_exp_per_capita": 5401,
       "life_expectancy": 79.24,
-      "infant_mortality": 4.3
+      "infant_mortality": 4.3,
+      "hospital_beds_per_1000": 5.8,
+      "physicians_per_1000": 3.2,
+      "nurses_per_1000": 3.86
     },
     {
       "province": "山西省",
@@ -757,7 +880,10 @@
       "personnel_per_1000": 11.241715500105974,
       "health_exp_per_capita": 4801,
       "life_expectancy": 78.0,
-      "infant_mortality": 5.2
+      "infant_mortality": 5.2,
+      "hospital_beds_per_1000": 6.31,
+      "physicians_per_1000": 3.08,
+      "nurses_per_1000": 3.58
     },
     {
       "province": "广东省",
@@ -775,7 +901,10 @@
       "personnel_per_1000": 9.542704096815791,
       "health_exp_per_capita": 6817,
       "life_expectancy": 78.4,
-      "infant_mortality": 4.5
+      "infant_mortality": 4.5,
+      "hospital_beds_per_1000": 4.4,
+      "physicians_per_1000": 2.8,
+      "nurses_per_1000": 3.38
     },
     {
       "province": "广西壮族自治区",
@@ -793,7 +922,10 @@
       "personnel_per_1000": 11.161693944157618,
       "health_exp_per_capita": 4017,
       "life_expectancy": 77.89,
-      "infant_mortality": 6.0
+      "infant_mortality": 6.0,
+      "hospital_beds_per_1000": 5.86,
+      "physicians_per_1000": 2.72,
+      "nurses_per_1000": 3.76
     },
     {
       "province": "新疆维吾尔自治区",
@@ -811,7 +943,10 @@
       "personnel_per_1000": 12.180734402741727,
       "health_exp_per_capita": 5724,
       "life_expectancy": 74.36,
-      "infant_mortality": 9.6
+      "infant_mortality": 9.6,
+      "hospital_beds_per_1000": 7.02,
+      "physicians_per_1000": 3.05,
+      "nurses_per_1000": 3.93
     },
     {
       "province": "江苏省",
@@ -829,7 +964,10 @@
       "personnel_per_1000": 11.115306555906924,
       "health_exp_per_capita": 6514,
       "life_expectancy": 79.26,
-      "infant_mortality": 3.2
+      "infant_mortality": 3.2,
+      "hospital_beds_per_1000": 4.9,
+      "physicians_per_1000": 3.2,
+      "nurses_per_1000": 3.88
     },
     {
       "province": "江西省",
@@ -847,7 +985,10 @@
       "personnel_per_1000": 10.175329087894745,
       "health_exp_per_capita": 4218,
       "life_expectancy": 78.09,
-      "infant_mortality": 5.5
+      "infant_mortality": 5.5,
+      "hospital_beds_per_1000": 5.42,
+      "physicians_per_1000": 2.48,
+      "nurses_per_1000": 3.57
     },
     {
       "province": "河北省",
@@ -865,7 +1006,10 @@
       "personnel_per_1000": 11.293362033609347,
       "health_exp_per_capita": 4423,
       "life_expectancy": 77.94,
-      "infant_mortality": 4.9
+      "infant_mortality": 4.9,
+      "hospital_beds_per_1000": 5.48,
+      "physicians_per_1000": 2.85,
+      "nurses_per_1000": 3.17
     },
     {
       "province": "河南省",
@@ -883,7 +1027,10 @@
       "personnel_per_1000": 11.02495332887169,
       "health_exp_per_capita": 4312,
       "life_expectancy": 77.68,
-      "infant_mortality": 5.7
+      "infant_mortality": 5.7,
+      "hospital_beds_per_1000": 6.01,
+      "physicians_per_1000": 2.78,
+      "nurses_per_1000": 3.49
     },
     {
       "province": "浙江省",
@@ -901,7 +1048,10 @@
       "personnel_per_1000": 12.611588474714873,
       "health_exp_per_capita": 7208,
       "life_expectancy": 79.6,
-      "infant_mortality": 3.5
+      "infant_mortality": 3.5,
+      "hospital_beds_per_1000": 4.8,
+      "physicians_per_1000": 3.72,
+      "nurses_per_1000": 4.68
     },
     {
       "province": "海南省",
@@ -919,7 +1069,10 @@
       "personnel_per_1000": 10.871721620442012,
       "health_exp_per_capita": 4803,
       "life_expectancy": 78.06,
-      "infant_mortality": 5.8
+      "infant_mortality": 5.8,
+      "hospital_beds_per_1000": 4.95,
+      "physicians_per_1000": 2.97,
+      "nurses_per_1000": 3.43
     },
     {
       "province": "湖北省",
@@ -937,7 +1090,10 @@
       "personnel_per_1000": 10.664454933630694,
       "health_exp_per_capita": 5098,
       "life_expectancy": 78.06,
-      "infant_mortality": 5.0
+      "infant_mortality": 5.0,
+      "hospital_beds_per_1000": 6.35,
+      "physicians_per_1000": 2.92,
+      "nurses_per_1000": 4.14
     },
     {
       "province": "湖南省",
@@ -955,7 +1111,10 @@
       "personnel_per_1000": 10.309293866045401,
       "health_exp_per_capita": 4718,
       "life_expectancy": 78.2,
-      "infant_mortality": 5.4
+      "infant_mortality": 5.4,
+      "hospital_beds_per_1000": 6.07,
+      "physicians_per_1000": 2.8,
+      "nurses_per_1000": 3.86
     },
     {
       "province": "甘肃省",
@@ -973,7 +1132,10 @@
       "personnel_per_1000": 11.718906128844017,
       "health_exp_per_capita": 4001,
       "life_expectancy": 74.7,
-      "infant_mortality": 8.5
+      "infant_mortality": 8.5,
+      "hospital_beds_per_1000": 5.95,
+      "physicians_per_1000": 2.9,
+      "nurses_per_1000": 3.46
     },
     {
       "province": "福建省",
@@ -991,7 +1153,10 @@
       "personnel_per_1000": 9.87961030426022,
       "health_exp_per_capita": 5287,
       "life_expectancy": 78.98,
-      "infant_mortality": 4.0
+      "infant_mortality": 4.0,
+      "hospital_beds_per_1000": 4.45,
+      "physicians_per_1000": 2.83,
+      "nurses_per_1000": 3.21
     },
     {
       "province": "西藏自治区",
@@ -1009,7 +1174,10 @@
       "personnel_per_1000": 13.924675182281673,
       "health_exp_per_capita": 7512,
       "life_expectancy": 72.19,
-      "infant_mortality": 16.8
+      "infant_mortality": 16.8,
+      "hospital_beds_per_1000": 4.65,
+      "physicians_per_1000": 2.21,
+      "nurses_per_1000": 2.96
     },
     {
       "province": "贵州省",
@@ -1027,7 +1195,10 @@
       "personnel_per_1000": 11.521675427427448,
       "health_exp_per_capita": 4218,
       "life_expectancy": 75.7,
-      "infant_mortality": 8.8
+      "infant_mortality": 8.8,
+      "hospital_beds_per_1000": 6.31,
+      "physicians_per_1000": 2.4,
+      "nurses_per_1000": 3.62
     },
     {
       "province": "辽宁省",
@@ -1045,7 +1216,10 @@
       "personnel_per_1000": 10.992829538357508,
       "health_exp_per_capita": 5834,
       "life_expectancy": 78.78,
-      "infant_mortality": 4.1
+      "infant_mortality": 4.1,
+      "hospital_beds_per_1000": 5.56,
+      "physicians_per_1000": 3.48,
+      "nurses_per_1000": 4.27
     },
     {
       "province": "重庆市",
@@ -1063,7 +1237,10 @@
       "personnel_per_1000": 10.781738430533284,
       "health_exp_per_capita": 5215,
       "life_expectancy": 78.02,
-      "infant_mortality": 4.8
+      "infant_mortality": 4.8,
+      "hospital_beds_per_1000": 6.11,
+      "physicians_per_1000": 2.98,
+      "nurses_per_1000": 3.97
     },
     {
       "province": "陕西省",
@@ -1081,7 +1258,10 @@
       "personnel_per_1000": 12.132864479243088,
       "health_exp_per_capita": 4624,
       "life_expectancy": 78.08,
-      "infant_mortality": 4.4
+      "infant_mortality": 4.4,
+      "hospital_beds_per_1000": 6.47,
+      "physicians_per_1000": 3.27,
+      "nurses_per_1000": 4.08
     },
     {
       "province": "青海省",
@@ -1099,7 +1279,10 @@
       "personnel_per_1000": 12.913571910871033,
       "health_exp_per_capita": 6211,
       "life_expectancy": 74.52,
-      "infant_mortality": 10.2
+      "infant_mortality": 10.2,
+      "hospital_beds_per_1000": 5.28,
+      "physicians_per_1000": 2.81,
+      "nurses_per_1000": 3.36
     },
     {
       "province": "黑龙江省",
@@ -1117,7 +1300,10 @@
       "personnel_per_1000": 10.816326530612246,
       "health_exp_per_capita": 4912,
       "life_expectancy": 78.26,
-      "infant_mortality": 5.0
+      "infant_mortality": 5.0,
+      "hospital_beds_per_1000": 5.18,
+      "physicians_per_1000": 3.17,
+      "nurses_per_1000": 3.81
     }
   ],
   "quadrant_counts": {
@@ -1142,6 +1328,8 @@
       "avg_health_exp": 7411.272727272727,
       "avg_input_index": 0.13230825784842876,
       "avg_output_index": 0.784597142094754,
+      "avg_hospital_beds_per_1000": 5.141818181818182,
+      "avg_physicians_per_1000": 3.5900000000000003,
       "region_en": "Eastern"
     },
     {
@@ -1153,6 +1341,8 @@
       "avg_health_exp": 4701.125,
       "avg_input_index": -0.31275275814404035,
       "avg_output_index": 0.10774856619136419,
+      "avg_hospital_beds_per_1000": 5.8075,
+      "avg_physicians_per_1000": 2.92375,
       "region_en": "Central"
     },
     {
@@ -1164,6 +1354,8 @@
       "avg_health_exp": 5114.916666666667,
       "avg_input_index": 0.08721926906830035,
       "avg_output_index": -0.7910464243811063,
+      "avg_hospital_beds_per_1000": 6.113333333333333,
+      "avg_physicians_per_1000": 2.83,
       "region_en": "Western"
     }
   ],

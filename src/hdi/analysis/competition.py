@@ -459,24 +459,32 @@ def _build_china_optimization_scenarios(snap: pd.DataFrame, panel: pd.DataFrame)
         labels=["E_严重不足", "D_不足", "C_匹配", "B_较充足", "A_富余"],
         duplicates="drop",
     )
+    # Include extended health resource columns (present only if data available)
+    _extra_cols = [c for c in ["hospital_beds_per_1000", "physicians_per_1000", "nurses_per_1000"] if c in snap.columns]
     gap_records = snap[[
         "province", "province_en", "region", "region_en",
         "input_index", "theoretical_need", "gap", "gap_grade",
         "output_index", "efficiency", "quadrant", "quadrant_en",
         "personnel_per_1000", "health_exp_per_capita",
         "life_expectancy", "infant_mortality",
+        *_extra_cols,
     ]].to_dict(orient="records")
 
     # Equity metrics
-    by_region = snap.groupby("region").agg(
-        province_count=("province", "count"),
-        avg_life_expectancy=("life_expectancy", "mean"),
-        avg_infant_mortality=("infant_mortality", "mean"),
-        avg_personnel_per_1000=("personnel_per_1000", "mean"),
-        avg_health_exp=("health_exp_per_capita", "mean"),
-        avg_input_index=("input_index", "mean"),
-        avg_output_index=("output_index", "mean"),
-    ).reset_index().rename(columns={"region": "region_cn"})
+    _by_region_agg: dict = {
+        "province_count": ("province", "count"),
+        "avg_life_expectancy": ("life_expectancy", "mean"),
+        "avg_infant_mortality": ("infant_mortality", "mean"),
+        "avg_personnel_per_1000": ("personnel_per_1000", "mean"),
+        "avg_health_exp": ("health_exp_per_capita", "mean"),
+        "avg_input_index": ("input_index", "mean"),
+        "avg_output_index": ("output_index", "mean"),
+    }
+    if "hospital_beds_per_1000" in snap.columns:
+        _by_region_agg["avg_hospital_beds_per_1000"] = ("hospital_beds_per_1000", "mean")
+    if "physicians_per_1000" in snap.columns:
+        _by_region_agg["avg_physicians_per_1000"] = ("physicians_per_1000", "mean")
+    by_region = snap.groupby("region").agg(**_by_region_agg).reset_index().rename(columns={"region": "region_cn"})
     by_region["region_en"] = by_region["region_cn"].map(_PROVINCE_REGION_EN_MAP)
 
     gini_life_exp = _compute_gini(snap["life_expectancy"].to_numpy())
