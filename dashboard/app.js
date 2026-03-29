@@ -3313,11 +3313,28 @@ function renderDim3Context() {
     }),
   };
 
+  const isPersonnel = state.objective?.includes("personnel");
+  const methodBlock = `
+    <div class="context-method-block" style="font-size:0.8rem;opacity:0.85;line-height:1.6;padding:0.6rem 0.8rem;background:rgba(15,23,42,0.4);border-radius:8px;border-left:3px solid rgba(34,211,238,0.4);margin-bottom:0.75rem">
+      <strong style="display:block;margin-bottom:0.3rem;color:rgba(226,232,240,0.9)">数学规划模型说明</strong>
+      ${isPersonnel
+        ? `决策变量：各国医生密度 xᵢ（每千人）。约束：Σxᵢ = ${scenarioSummary.budget_multiplier ?? state.budgetMultiplier}×Σx₀ᵢ（总人力预算守恒）；xᵢ ≥ 0.01。`
+        : `决策变量：各国人均卫生支出 xᵢ（$USD）。约束：Σxᵢ = ${scenarioSummary.budget_multiplier ?? state.budgetMultiplier ?? "1.0"}×Σx₀ᵢ（总预算守恒）；xᵢ ≥ 0.`
+      }
+      ${state.objective === "maximin" || state.objective === "maximin_personnel"
+        ? "目标函数：max min₍ᵢ₎ ŷᵢ（罗尔斯正义准则——最大化最小产出，即最弱势优先）。"
+        : "目标函数：max Σ ŷᵢ（功利主义——最大化全系统总健康产出，边际效益递减约束）。"
+      }
+      产出函数：ŷᵢ = a·ln(xᵢ) + b（对数型，拟合自各国人均投入-产出散点）。
+    </div>
+  `;
+
   document.getElementById("context-panel").innerHTML = `
     <p class="context-lede">${escapeHtml(
       OBJECTIVE_META[state.objective]?.note ?? "当前情景设置已应用到最新资源面板。",
     )}</p>
     ${giniImprovNote}
+    ${methodBlock}
     ${summaryGrid}
     ${recBlock}
     ${renderContextColumns([
@@ -3418,9 +3435,26 @@ function renderDim4Context() {
     ? `<p class="context-lede" style="font-size:0.8rem;opacity:0.8">基尼系数（产出指数）：优化前 ${chinaScenario.summary.gini_before.toFixed(4)} → 优化后 ${chinaScenario.summary.gini_after.toFixed(4)}（${chinaScenario.summary.gini_change > 0 ? "+" : ""}${chinaScenario.summary.gini_change.toFixed(4)}）</p>`
     : "";
 
+  const isChinaPersonnel = chinaScenario?.objective?.includes("personnel");
+  const chinaMethodBlock = `
+    <div class="context-method-block" style="font-size:0.78rem;opacity:0.85;line-height:1.6;padding:0.5rem 0.75rem;background:rgba(15,23,42,0.4);border-radius:8px;border-left:3px solid rgba(251,191,36,0.5);margin-bottom:0.75rem">
+      <strong style="display:block;margin-bottom:0.25rem;color:rgba(226,232,240,0.9)">中国省级LP模型</strong>
+      ${isChinaPersonnel
+        ? "决策变量：各省卫生人员数量 xᵢ。约束：Σxᵢ = 预算系数 × Σx₀ᵢ；xᵢ ≥ 0。"
+        : "决策变量：各省人均卫生支出 xᵢ（元）。约束：Σxᵢ = 预算系数 × Σx₀ᵢ（省级总预算守恒）；xᵢ ≥ 0。"
+      }
+      ${chinaScenario?.objective === "maximin" || chinaScenario?.objective === "maximin_personnel"
+        ? "目标：max min₍ᵢ₎ ŷᵢ（优先提升最弱省份健康产出，缩小东西部差距）。"
+        : "目标：max Σ ŷᵢ（最大化全国总健康产出，向边际效率高的中西部省份倾斜）。"
+      }
+      产出函数：ŷᵢ = a·ln(xᵢ) + b（对数型增长，拟合自省级投入-产出数据）。
+    </div>
+  `;
+
   document.getElementById("context-panel").innerHTML = `
     <p class="context-lede">中国省级卫生资源配置分析 · ${chinaScenario?.objective_label ?? "最优化模型"}</p>
     ${chinaGiniNote}
+    ${chinaMethodBlock}
     ${equityBlock}
     ${recBlock}
     ${renderContextColumns([
