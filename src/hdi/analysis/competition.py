@@ -340,6 +340,26 @@ def _build_optimization_scenario(
     }
 
 
+def _load_wdi_population() -> pd.DataFrame:
+    """Load SP.POP.TOTL from the WDI CSV into a long iso3/year/population frame."""
+    from hdi.config import DS_SOCIOECONOMIC
+    wdi_path = DS_SOCIOECONOMIC / "WDI_CSV" / "WDICSV.csv"
+    if not wdi_path.exists():
+        return pd.DataFrame(columns=["iso3", "year", "population"])
+    wdi = pd.read_csv(wdi_path)
+    pop = wdi[wdi["Indicator Code"] == "SP.POP.TOTL"].copy()
+    if pop.empty:
+        return pd.DataFrame(columns=["iso3", "year", "population"])
+    year_cols = [c for c in pop.columns if c.isdigit() and 2000 <= int(c) <= 2023]
+    long = pop[["Country Code"] + year_cols].melt(
+        id_vars=["Country Code"], var_name="year", value_name="population"
+    )
+    long = long.rename(columns={"Country Code": "iso3"})
+    long["year"] = pd.to_numeric(long["year"], errors="coerce").astype("Int64")
+    long["population"] = pd.to_numeric(long["population"], errors="coerce")
+    return long.dropna(subset=["population"]).copy()
+
+
 def _compute_gini(values: np.ndarray) -> float:
     """Compute Gini coefficient for a 1-D array of non-negative values."""
     v = np.sort(values[np.isfinite(values) & (values >= 0)])
@@ -1086,8 +1106,22 @@ def build_dimension3_outputs(master: pd.DataFrame, resource_panel: pd.DataFrame,
     latest["gap_grade"] = pd.qcut(latest["gap"], q=5, labels=["E_严重不足", "D_不足", "C_匹配", "B_较充足", "A_富余"])
     latest["gap_grade_en"] = latest["gap_grade"].astype(str).map(_GAP_GRADE_EN).fillna(latest["gap_grade"].astype(str))
 
+    # Merge population data for population-weighted analyses
+    try:
+        pop_df = _load_wdi_population()
+        if not pop_df.empty:
+            pop_latest = pop_df[pop_df["year"] == latest_year][["iso3", "population"]]
+            if pop_latest.empty:
+                pop_latest = pop_df.sort_values("year", ascending=False).groupby("iso3").first().reset_index()[["iso3", "population"]]
+            latest = latest.merge(pop_latest, on="iso3", how="left")
+            logger.info("Merged population data: %d/%d countries have population", latest["population"].notna().sum(), len(latest))
+    except Exception:
+        logger.warning("Could not load population data; skipping population-weighted metrics")
+        latest["population"] = np.nan
+
     resource_gap = latest[
         ["iso3", "country_name", "who_region", "wb_income", "year", "actual_resource", "theoretical_need", "gap", "gap_grade", "gap_grade_en"]
+        + (["population"] if "population" in latest.columns else [])
     ].rename(columns={"actual_resource": "actual_resource_index", "theoretical_need": "theoretical_need_index"})
     export_dim3_resource_gap(resource_gap)
     _save_table(resource_gap.sort_values("gap").head(15), "tab_dim3_most_under_resourced")
@@ -1383,10 +1417,38 @@ def build_dimension3_outputs(master: pd.DataFrame, resource_panel: pd.DataFrame,
         gini_global_life_exp = _compute_gini(latest["life_expectancy"].dropna().to_numpy())
         gini_global_health_exp = _compute_gini(exp_vals)
         ci_exp_vs_le = _compute_concentration_index(le_vals, exp_vals)
+        # Population-weighted Gini (if population data available)
+        _pop_wt_gini_le = None
+        if "population" in latest.columns:
+            _pw_df = latest[["life_expectancy", "population"]].dropna()
+            if not _pw_df.empty:
+                # Expand rows weighted by population (approximate with 1M chunks)
+                _pw_le = np.repeat(_pw_df["life_expectancy"].to_numpy(),
+                                   np.round(_pw_df["population"].to_numpy() / 1e6).astype(int).clip(min=1))
+                _pop_wt_gini_le = float(_compute_gini(_pw_le)) if len(_pw_le) > 1 else None
+        # Within-quadrant equity breakdown
+        _by_quadrant = []
+        for _q, _qdf in latest.dropna(subset=["quadrant"]).groupby("quadrant"):
+            _le_arr = _qdf["life_expectancy"].dropna().to_numpy()
+            _exp_arr = _qdf["health_exp_per_capita"].dropna().to_numpy()
+            _income_dist = _qdf["wb_income"].value_counts().to_dict()
+            _by_quadrant.append({
+                "quadrant": str(_q),
+                "country_count": int(len(_qdf)),
+                "avg_life_expectancy": float(np.nanmean(_le_arr)) if len(_le_arr) else None,
+                "stdev_life_expectancy": float(np.nanstd(_le_arr)) if len(_le_arr) > 1 else None,
+                "gini_life_expectancy": float(_compute_gini(_le_arr)) if len(_le_arr) > 1 else None,
+                "avg_health_exp": float(np.nanmean(_exp_arr)) if len(_exp_arr) else None,
+                "gini_health_exp": float(_compute_gini(_exp_arr)) if len(_exp_arr) > 1 else None,
+                "income_distribution": {k: int(v) for k, v in _income_dist.items()},
+            })
+
         equity_summary = {
             "gini_life_expectancy": gini_global_life_exp,
             "gini_health_expenditure": gini_global_health_exp,
+            "population_weighted_gini_life_expectancy": _pop_wt_gini_le,
             "concentration_index_exp_vs_life_expectancy": ci_exp_vs_le,
+            "by_quadrant": _by_quadrant,
             "by_income_group": latest.groupby("wb_income").agg(
                 country_count=("iso3", "count"),
                 avg_life_expectancy=("life_expectancy", "mean"),

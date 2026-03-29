@@ -2602,40 +2602,75 @@ function renderOptimizationLorenz() {
 
 function renderEquityChart() {
   const equity = store.globalStory?.health_equity ?? [];
-  if (!equity.length) {
+  const byQuadrant = store.globalStory?.equity_snapshot?.by_quadrant ?? [];
+  const QQ_LABELS = {
+    "Q1_high_input_high_output": "Q1高投入\n高产出",
+    "Q2_low_input_high_output": "Q2低投入\n高产出",
+    "Q3_high_input_low_output": "Q3高投入\n低产出",
+    "Q4_low_input_low_output": "Q4低投入\n低产出",
+  };
+  const qRows = byQuadrant.filter((q) => QQ_LABELS[q.quadrant]);
+
+  if (!equity.length && !qRows.length) {
     emptyPlot("companion-chart", "暂无健康公平数据。");
     return;
   }
 
+  const QUAD_COLORS = {
+    "Q1_high_input_high_output": THEME.teal,
+    "Q2_low_input_high_output": THEME.cyan,
+    "Q3_high_input_low_output": THEME.amber,
+    "Q4_low_input_low_output": THEME.rose,
+  };
+
+  const traces = [];
+  if (equity.length) {
+    traces.push({
+      x: equity.map((r) => r.year),
+      y: equity.map((r) => r.gini),
+      name: "全球基尼（预期寿命）",
+      mode: "lines+markers",
+      line: { color: THEME.cyan, width: 3, shape: "spline" },
+      marker: { size: 5, color: THEME.cyan },
+    });
+    traces.push({
+      x: equity.map((r) => r.year),
+      y: equity.map((r) => r.sigma),
+      name: "离散度收敛（σ）",
+      mode: "lines+markers",
+      yaxis: "y2",
+      line: { color: THEME.amber, width: 2.5, shape: "spline", dash: "dot" },
+      marker: { size: 5, color: THEME.amber },
+    });
+  }
+  if (qRows.length && equity.length) {
+    // Overlay horizontal lines for each quadrant's Gini (within-quadrant)
+    const lastYear = equity[equity.length - 1]?.year;
+    qRows.forEach((q) => {
+      if (q.gini_life_expectancy == null) return;
+      traces.push({
+        x: [equity[0]?.year, lastYear],
+        y: [q.gini_life_expectancy, q.gini_life_expectancy],
+        name: `${QQ_LABELS[q.quadrant]?.replace("\n", " ")} 内基尼`,
+        mode: "lines",
+        line: { color: QUAD_COLORS[q.quadrant] ?? THEME.muted, width: 1.5, dash: "dash" },
+        hovertemplate: `<b>${QQ_LABELS[q.quadrant]?.replace("\n", " ")}</b><br>内部基尼：${q.gini_life_expectancy.toFixed(4)}<br>国家数：${q.country_count}<extra></extra>`,
+      });
+    });
+  }
+
   Plotly.react(
     "companion-chart",
-    [
-      {
-        x: equity.map((r) => r.year),
-        y: equity.map((r) => r.gini),
-        name: "基尼系数（预期寿命）",
-        mode: "lines+markers",
-        line: { color: THEME.cyan, width: 3, shape: "spline" },
-        marker: { size: 5, color: THEME.cyan },
-      },
-      {
-        x: equity.map((r) => r.year),
-        y: equity.map((r) => r.sigma),
-        name: "离散度收敛",
-        mode: "lines+markers",
-        yaxis: "y2",
-        line: { color: THEME.amber, width: 2.5, shape: "spline" },
-        marker: { size: 5, color: THEME.amber },
-      },
-    ],
+    traces,
     baseLayout({
-      yaxis: { title: "基尼系数" },
+      yaxis: { title: "基尼系数（预期寿命）" },
       yaxis2: {
         overlaying: "y",
         side: "right",
-        title: "对数预期寿命标准差",
+        title: "对数σ收敛",
         gridcolor: "rgba(0,0,0,0)",
       },
+      legend: { orientation: "h", y: -0.25, x: 0, font: { size: 9 } },
     }),
     { responsive: true, displayModeBar: false, scrollZoom: false },
   );
@@ -3180,6 +3215,7 @@ function renderDim3Context() {
         : NO_DATA_LABEL)}
       ${renderLabStat("首要受益国", topRecipient ? (countryLabel(topRecipient) || topRecipient.iso3) : NO_DATA_LABEL)}
       ${renderLabStat("全球基尼（预期寿命）", globalEquity.gini_life_expectancy != null ? globalEquity.gini_life_expectancy.toFixed(4) : NO_DATA_LABEL)}
+      ${renderLabStat("人口加权基尼（预期寿命）", globalEquity.population_weighted_gini_le != null ? globalEquity.population_weighted_gini_le.toFixed(4) : NO_DATA_LABEL)}
       ${renderLabStat("全球基尼（卫生支出）", globalEquity.gini_health_expenditure != null ? globalEquity.gini_health_expenditure.toFixed(4) : NO_DATA_LABEL)}
       ${renderLabStat("集中指数（支出→寿命）", globalEquity.concentration_index != null ? globalEquity.concentration_index.toFixed(4) : NO_DATA_LABEL)}
       ${renderLabStat("基尼变化（优化后）", scenarioSummary.gini_change != null ? (scenarioSummary.gini_change > 0 ? "+" : "") + scenarioSummary.gini_change.toFixed(4) : NO_DATA_LABEL)}
@@ -3255,13 +3291,19 @@ function renderDim3Context() {
     "Q3_high_input_low_output": "Q3 高投入低产出",
     "Q4_low_input_low_output": "Q4 低投入低产出",
   };
+  // Prefer pre-computed by_quadrant (includes Gini) over live-computed stats
+  const byQuadrantArr = globalEquity.by_quadrant ?? [];
+  const byQuadrantMap = Object.fromEntries(byQuadrantArr.map((q) => [q.quadrant, q]));
   const quadrantStatsColumn = {
-    title: "全球四象限概况",
+    title: "四象限健康公平分析",
     items: Object.entries(QUADRANT_CN_LABELS).map(([q, label]) => {
+      const pre = byQuadrantMap[q];
       const s = qStats[q] ?? { n: 0, leN: 0, leSum: 0, expN: 0, expSum: 0 };
-      const avgLe = s.leN > 0 ? (s.leSum / s.leN).toFixed(1) + "岁" : NO_DATA_LABEL;
-      const avgExp = s.expN > 0 ? "$" + Math.round(s.expSum / s.expN) : NO_DATA_LABEL;
-      return { name: `${label}（${s.n}国）`, value: `寿命${avgLe}·支出${avgExp}` };
+      const n = pre?.country_count ?? s.n;
+      const avgLe = pre?.avg_life_expectancy != null ? pre.avg_life_expectancy.toFixed(1) + "岁"
+        : s.leN > 0 ? (s.leSum / s.leN).toFixed(1) + "岁" : NO_DATA_LABEL;
+      const giniLe = pre?.gini_life_expectancy != null ? `基尼${pre.gini_life_expectancy.toFixed(3)}` : "";
+      return { name: `${label}（${n}国）`, value: `寿命${avgLe}${giniLe ? "·" + giniLe : ""}` };
     }),
   };
 

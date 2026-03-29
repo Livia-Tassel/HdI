@@ -299,15 +299,25 @@ _PROVINCE_EN = {
 
 def _build_overview_timeseries(master: pd.DataFrame) -> dict[str, Any]:
     """Build per-year dim1 metrics for all countries (2000-2023)."""
+    ts = master.copy()
+    # Compute cause-specific shares for each year
+    for _cause in ["cardiovascular_deaths", "respiratory_chronic_deaths",
+                   "diabetes_kidney_deaths", "cancer_deaths", "maternal_neonatal_deaths"]:
+        _share_col = _cause.replace("_deaths", "_share")
+        if _cause in ts.columns and "total_deaths" in ts.columns:
+            ts[_share_col] = ts[_cause] / ts["total_deaths"].replace(0, float("nan"))
+
     base_cols = ["iso3", "country_name", "who_region", "wb_income", "year",
                  "life_expectancy", "ncd_share", "communicable_share", "health_exp_pct_gdp"]
     extra_cols = [c for c in [
-        "infant_mortality", "under5_mortality", "physicians_per_1000",
+        "infant_mortality", "under5_mortality", "physicians_per_1000", "nurses_per_1000",
         "health_exp_per_capita", "gdp_per_capita", "urban_population_pct",
         "measles_immunization_pct", "fertility_rate",
-    ] if c in master.columns]
+        "cardiovascular_share", "cancer_share", "diabetes_kidney_share",
+        "respiratory_chronic_share", "maternal_neonatal_share",
+    ] if c in ts.columns]
     cols = base_cols + extra_cols
-    subset = master[cols].dropna(subset=["life_expectancy"]).copy()
+    subset = ts[cols].dropna(subset=["life_expectancy"]).copy()
     years = sorted(subset["year"].unique().tolist())
     by_year: dict[str, list[dict[str, Any]]] = {}
     for year in years:
@@ -417,9 +427,11 @@ def _load_global_equity_snapshot() -> dict[str, Any]:
         "equity_snapshot": {
             "gini_life_expectancy": data.get("gini_life_expectancy"),
             "gini_health_expenditure": data.get("gini_health_expenditure"),
+            "population_weighted_gini_le": data.get("population_weighted_gini_life_expectancy"),
             "concentration_index": data.get("concentration_index_exp_vs_life_expectancy"),
             "by_income_group": data.get("by_income_group", []),
             "by_who_region": data.get("by_who_region", []),
+            "by_quadrant": data.get("by_quadrant", []),
         }
     }
 
@@ -614,7 +626,7 @@ def build_dashboard_assets() -> dict[str, Any]:
     summary = _read_json(REPORTS / "analysis_summary.json") or {}
     resource_gap = _frame_from_records(
         _payload_data(API_OUTPUT / "dim3" / "resource_gap.json"),
-        ["iso3", "actual_resource_index", "theoretical_need_index", "gap", "gap_grade", "gap_grade_en", "country_name", "who_region"],
+        ["iso3", "actual_resource_index", "theoretical_need_index", "gap", "gap_grade", "gap_grade_en", "country_name", "who_region", "population"],
     )
     efficiency = _frame_from_records(
         _payload_data(API_OUTPUT / "dim3" / "efficiency.json"),
@@ -664,11 +676,10 @@ def build_dashboard_assets() -> dict[str, Any]:
             axis=1,
         )
         resource_gap["gap_grade_en"] = resource_gap["gap_grade"]
-        world_latest = world_latest.merge(
-            resource_gap[["iso3", "actual_resource_index", "theoretical_need_index", "gap", "gap_grade", "gap_grade_en"]],
-            on="iso3",
-            how="left",
-        )
+        _rg_cols = ["iso3", "actual_resource_index", "theoretical_need_index", "gap", "gap_grade", "gap_grade_en"]
+        if "population" in resource_gap.columns:
+            _rg_cols.append("population")
+        world_latest = world_latest.merge(resource_gap[_rg_cols], on="iso3", how="left")
     if not efficiency.empty:
         world_latest = world_latest.merge(
             efficiency[["iso3", "efficiency", "quadrant", "input_index", "output_index"]],
@@ -759,6 +770,7 @@ def build_dashboard_assets() -> dict[str, Any]:
                     *[c for c in [
                         "cardiovascular_share", "respiratory_chronic_share",
                         "diabetes_kidney_share", "cancer_share", "maternal_neonatal_share",
+                        "population",
                     ] if c in world_latest.columns],
                 ]
             ].sort_values("country_name")

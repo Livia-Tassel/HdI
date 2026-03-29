@@ -44065,6 +44065,7 @@
   "equity_snapshot": {
     "gini_life_expectancy": 0.060042548860659926,
     "gini_health_expenditure": 0.6918970670645813,
+    "population_weighted_gini_le": 0.05508982558462095,
     "concentration_index": 0.050050904867354654,
     "by_income_group": [
       {
@@ -44148,6 +44149,78 @@
         "avg_health_exp": 1185.0063206906898,
         "avg_input_index": 0.03473973991580534,
         "avg_output_index": 0.17992788228190487
+      }
+    ],
+    "by_quadrant": [
+      {
+        "quadrant": "Q1_high_input_high_output",
+        "country_count": 76,
+        "avg_life_expectancy": 78.28067290344386,
+        "stdev_life_expectancy": 3.7203064011590774,
+        "gini_life_expectancy": 0.027249467071815827,
+        "avg_health_exp": 2952.1891084798667,
+        "gini_health_exp": 0.47031983025171437,
+        "income_distribution": {
+          "HIC": 55,
+          "UMC": 20,
+          "LMC": 1
+        }
+      },
+      {
+        "quadrant": "Q2_low_input_high_output",
+        "country_count": 19,
+        "avg_life_expectancy": 75.70484210526315,
+        "stdev_life_expectancy": 2.531917107297777,
+        "gini_life_expectancy": 0.01800570578666643,
+        "avg_health_exp": 502.0345137752632,
+        "gini_health_exp": 0.35294750187822604,
+        "income_distribution": {
+          "UMC": 10,
+          "LMC": 5,
+          "HIC": 4
+        }
+      },
+      {
+        "quadrant": "Q3_high_input_low_output",
+        "country_count": 21,
+        "avg_life_expectancy": 67.520185365855,
+        "stdev_life_expectancy": 5.000115652323488,
+        "gini_life_expectancy": 0.03955020713588248,
+        "avg_health_exp": 575.5549079909999,
+        "gini_health_exp": 0.5104078535203694,
+        "income_distribution": {
+          "UMC": 8,
+          "LMC": 7,
+          "LIC": 3,
+          "HIC": 3
+        }
+      },
+      {
+        "quadrant": "Q4_low_input_low_output",
+        "country_count": 77,
+        "avg_life_expectancy": 65.36557142857143,
+        "stdev_life_expectancy": 5.490135731363485,
+        "gini_life_expectancy": 0.04799957501496788,
+        "avg_health_exp": 147.10882997116886,
+        "gini_health_exp": 0.500090994590347,
+        "income_distribution": {
+          "LMC": 37,
+          "LIC": 22,
+          "UMC": 15,
+          "HIC": 1
+        }
+      },
+      {
+        "quadrant": "unclassified",
+        "country_count": 10,
+        "avg_life_expectancy": 78.29619999999998,
+        "stdev_life_expectancy": 3.5351408294964233,
+        "gini_life_expectancy": 0.022530377295756424,
+        "avg_health_exp": null,
+        "gini_health_exp": null,
+        "income_distribution": {
+          "HIC": 7
+        }
       }
     ]
   },
