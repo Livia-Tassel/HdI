@@ -94,14 +94,14 @@ const METRIC_META = {
   },
   change_pct: {
     label: "资源调整方案",
-    colorscale: [[0, "#fb7185"], [0.25, "#4a1525"], [0.5, "#111827"], [0.75, "#164e63"], [1, "#22d3ee"]],
+    colorscale: [[0, "#fb7185"], [0.25, "#9f1239"], [0.5, "#475569"], [0.75, "#0e7490"], [1, "#22d3ee"]],
     formatter: (value) => formatSignedPercent(value),
     accessor: (row) => row.change_pct,
     diverging: true,
   },
   gap: {
     label: "资源缺口",
-    colorscale: [[0, "#fb7185"], [0.25, "#4a1525"], [0.5, "#111827"], [0.75, "#0c3a32"], [1, "#2dd4bf"]],
+    colorscale: [[0, "#fb7185"], [0.25, "#9f1239"], [0.5, "#475569"], [0.75, "#0f766e"], [1, "#2dd4bf"]],
     formatter: (value) => formatSigned(value),
     accessor: (row) => row.gap,
     diverging: true,
@@ -138,7 +138,7 @@ const METRIC_META = {
   },
   efficiency: {
     label: "资源使用效率",
-    colorscale: [[0, "#fb7185"], [0.25, "#4a1525"], [0.5, "#111827"], [0.75, "#0c3a32"], [1, "#2dd4bf"]],
+    colorscale: [[0, "#fb7185"], [0.25, "#9f1239"], [0.5, "#475569"], [0.75, "#0f766e"], [1, "#2dd4bf"]],
     formatter: (value) => formatSigned(value),
     accessor: (row) => row.efficiency,
     diverging: true,
@@ -170,14 +170,14 @@ const METRIC_META = {
   },
   prov_gap: {
     label: "省级资源缺口",
-    colorscale: [[0, "#fb7185"], [0.25, "#4a1525"], [0.5, "#111827"], [0.75, "#0c3a32"], [1, "#2dd4bf"]],
+    colorscale: [[0, "#fb7185"], [0.25, "#9f1239"], [0.5, "#475569"], [0.75, "#0f766e"], [1, "#2dd4bf"]],
     formatter: (value) => formatSigned(value),
     accessor: (row) => row.gap,
     diverging: true,
   },
   prov_efficiency: {
     label: "省级资源效率",
-    colorscale: [[0, "#fb7185"], [0.25, "#4a1525"], [0.5, "#111827"], [0.75, "#0c3a32"], [1, "#2dd4bf"]],
+    colorscale: [[0, "#fb7185"], [0.25, "#9f1239"], [0.5, "#475569"], [0.75, "#0f766e"], [1, "#2dd4bf"]],
     formatter: (value) => formatSigned(value),
     accessor: (row) => row.efficiency,
     diverging: true,
@@ -250,7 +250,7 @@ const METRIC_META = {
   },
   prov_optimization_change: {
     label: "最优化调整方案（%）",
-    colorscale: [[0, "#fb7185"], [0.25, "#4a1525"], [0.5, "#111827"], [0.75, "#164e63"], [1, "#22d3ee"]],
+    colorscale: [[0, "#fb7185"], [0.25, "#9f1239"], [0.5, "#475569"], [0.75, "#0e7490"], [1, "#22d3ee"]],
     formatter: (value) => formatSignedPercent(value),
     accessor: (row) => row.prov_change_pct,
     diverging: true,
@@ -1061,10 +1061,16 @@ function resolveCountryInput(input) {
 }
 
 function renderAll() {
+  syncLayoutMode();
   syncControls();
   renderSummaryStrip();
   renderMap();
   renderPanels();
+}
+
+function syncLayoutMode() {
+  const grid = document.querySelector(".dashboard-grid");
+  grid?.classList.toggle("dim4-layout", state.dimension === "dim4");
 }
 
 function syncControls() {
@@ -1471,91 +1477,90 @@ function renderChinaMap() {
     }
   }
 
-  const locations = [];
-  const z = [];
-  const hovertext = [];
-  const customdata = [];
+  const allVals = geojson.features
+    .map((feature) => provinceValues[feature.properties?.name])
+    .filter((value) => value != null && Number.isFinite(value));
+  const isDivergent = metric.diverging || isOptMetric;
+  const bounds = metric.fixedRange
+    ? { zmin: metric.fixedRange[0], zmax: metric.fixedRange[1], zmid: isDivergent ? 0 : null }
+    : getScaleBounds(allVals, isDivergent);
+  const zmin = bounds.zmin;
+  const zmax = bounds.zmax;
+  // Use plain polygon fills on Cartesian axes. Plotly's geo-based traces render this
+  // province GeoJSON as bbox-backed compound paths, which is why dim4 was painting a
+  // large rectangle instead of individual provinces.
+  const traces = [];
 
-  const noDataLocations = [];
-  const noDataHovertext = [];
+  if (allVals.length) {
+    traces.push({
+      type: "scatter",
+      x: [104, 105],
+      y: [36, 36],
+      mode: "markers",
+      hoverinfo: "skip",
+      showlegend: false,
+      marker: {
+        size: 0.1,
+        opacity: 0,
+        color: [zmin, zmax],
+        cmin: zmin,
+        cmax: zmax,
+        cmid: isDivergent ? 0 : undefined,
+        colorscale: metric.colorscale,
+        showscale: true,
+        colorbar: {
+          title: metric.label,
+          thickness: 12,
+          len: 0.72,
+          x: 0.02,
+          xanchor: "left",
+          tickfont: { family: "SFMono-Regular, ui-monospace, monospace", size: 11, color: THEME.muted },
+          titlefont: { family: "system-ui, sans-serif", size: 12, color: THEME.muted },
+          outlinewidth: 0,
+          ...(metric.colorbarExtra ?? {}),
+        },
+      },
+    });
+  }
 
   for (const feature of geojson.features) {
     const name = feature.properties?.name;
-    if (!name || name === "") continue;
+    if (!name) continue;
+
+    const { lon, lat } = chinaGeometryToLonLat(feature.geometry);
+    if (!lon.length || !lat.length) continue;
+
     const val = provinceValues[name];
-    if (val == null) {
-      noDataLocations.push(name);
-      noDataHovertext.push(`<b>${name}</b><br>暂无数据`);
-      continue;
-    }
+    const hasData = val != null && Number.isFinite(val);
     const provData = store.chinaProvinceIndex.get(name) ?? {};
-    locations.push(name);
-    z.push(val);
-    customdata.push(name);
-    hovertext.push(
-      `<b>${name}</b><br>` +
-      `地区：${provData.region ?? ""}（${provData.region_en ?? ""}）<br>` +
-      `${metric.label}：${metric.formatter(val)}<br>` +
-      `类型：${provData.quadrant ?? "—"}<br>` +
-      `预期寿命：${provData.life_expectancy != null ? provData.life_expectancy.toFixed(1) + " 岁" : "暂无"}`
-    );
-  }
+    const isSelected = name === state.province;
 
-  const allVals = z.filter((v) => v != null && isFinite(v));
-  const isDivergent = metric.diverging || isOptMetric;
-  const absMax = isDivergent ? Math.max(Math.abs(Math.min(...allVals)), Math.abs(Math.max(...allVals))) : null;
-  const zmin = isDivergent ? -absMax : Math.min(...allVals);
-  const zmax = isDivergent ? absMax : Math.max(...allVals);
-
-  const traces = [
-    {
-      type: "choropleth",
-      geojson: geojson,
-      locations: locations,
-      z: z,
-      featureidkey: "properties.name",
-      text: hovertext,
-      hovertemplate: "%{text}<extra></extra>",
-      customdata: customdata,
-      colorscale: metric.colorscale,
-      zmin: zmin,
-      zmax: zmax,
-      zmid: isDivergent ? 0 : undefined,
-      marker: {
-        line: {
-          color: locations.map((n) => n === state.province ? "rgba(251,191,36,0.95)" : "rgba(148,163,184,0.25)"),
-          width: locations.map((n) => n === state.province ? 2.5 : 0.5),
-        },
-      },
-      colorbar: {
-        title: metric.label,
-        thickness: 12,
-        len: 0.72,
-        x: 0.02,
-        xanchor: "left",
-        tickfont: { family: "SFMono-Regular, ui-monospace, monospace", size: 11, color: THEME.muted },
-        titlefont: { family: "system-ui, sans-serif", size: 12, color: THEME.muted },
-        outlinewidth: 0,
-      },
-    },
-  ];
-
-  // Add no-data territories (e.g. Taiwan) as a gray overlay so they are visible on the map
-  if (noDataLocations.length > 0) {
     traces.push({
-      type: "choropleth",
-      geojson: geojson,
-      locations: noDataLocations,
-      z: noDataLocations.map(() => 0),
-      featureidkey: "properties.name",
-      text: noDataHovertext,
-      hovertemplate: "%{text}<extra></extra>",
-      colorscale: [[0, "rgba(100,116,139,0.45)"], [1, "rgba(100,116,139,0.45)"]],
-      zmin: 0,
-      zmax: 1,
-      showscale: false,
-      marker: {
-        line: { color: "rgba(148,163,184,0.4)", width: 0.8 },
+      type: "scatter",
+      name,
+      x: lon,
+      y: lat,
+      mode: "lines",
+      fill: "toself",
+      fillcolor: hasData
+        ? colorFromScale(val, metric.colorscale, zmin, zmax)
+        : "rgba(100,116,139,0.34)",
+      hoveron: "fills",
+      hovertemplate: hasData
+        ? `<b>${name}</b><br>` +
+          `地区：${provData.region ?? ""}（${provData.region_en ?? ""}）<br>` +
+          `${metric.label}：${metric.formatter(val)}<br>` +
+          `类型：${provData.quadrant ?? "—"}<br>` +
+          `预期寿命：${provData.life_expectancy != null ? provData.life_expectancy.toFixed(1) + " 岁" : "暂无"}<extra></extra>`
+        : `<b>${name}</b><br>暂无数据<extra></extra>`,
+      showlegend: false,
+      line: {
+        color: isSelected
+          ? "rgba(251,191,36,0.95)"
+          : hasData
+            ? "rgba(148,163,184,0.38)"
+            : "rgba(148,163,184,0.5)",
+        width: isSelected ? 2.5 : 0.85,
       },
     });
   }
@@ -1567,25 +1572,27 @@ function renderChinaMap() {
       paper_bgcolor: "rgba(0,0,0,0)",
       plot_bgcolor: "rgba(0,0,0,0)",
       margin: { l: 0, r: 0, t: 4, b: 0 },
-      geo: {
-        scope: "asia",
-        fitbounds: "geojson",
-        resolution: 50,
-        showframe: false,
-        showcoastlines: true,
-        coastlinecolor: "rgba(148,163,184,0.2)",
-        showland: true,
-        landcolor: "rgba(15,23,42,0.85)",
-        showocean: true,
-        oceancolor: "rgba(15,23,42,0.5)",
-        showcountries: true,
-        countrycolor: "rgba(148,163,184,0.15)",
-        bgcolor: "rgba(0,0,0,0)",
-        showlakes: false,
-        projection: { type: "mercator" },
-        center: { lon: 104, lat: 35 },
-        lonaxis: { range: [72, 140] },
-        lataxis: { range: [15, 55] },
+      xaxis: {
+        visible: false,
+        showgrid: false,
+        zeroline: false,
+        fixedrange: true,
+        range: [72, 136],
+      },
+      yaxis: {
+        visible: false,
+        showgrid: false,
+        zeroline: false,
+        fixedrange: true,
+        range: [15, 55],
+        scaleanchor: "x",
+        scaleratio: 1.2,
+      },
+      font: { family: "system-ui, sans-serif", color: THEME.ink },
+      hoverlabel: {
+        bgcolor: THEME.hover,
+        bordercolor: "rgba(34,211,238,0.22)",
+        font: { family: "system-ui, sans-serif", color: THEME.inkBright, size: 13 },
       },
     },
     { responsive: true, displayModeBar: false, scrollZoom: false },
@@ -1595,7 +1602,7 @@ function renderChinaMap() {
   if (!mapNode.dataset.dim4Bound) {
     mapNode.on("plotly_click", (event) => {
       if (state.dimension !== "dim4") return;
-      const province = event?.points?.[0]?.customdata;
+      const province = event?.points?.[0]?.data?.name;
       if (province) {
         state.province = province;
         renderPanels();
@@ -4360,6 +4367,86 @@ function getScaleBounds(values, diverging = false) {
 
   const bound = Math.max(...numeric.map((value) => Math.abs(value)));
   return { zmin: -bound, zmax: bound, zmid: 0 };
+}
+
+function clampNumber(value, min, max) {
+  return Math.min(Math.max(value, min), max);
+}
+
+function hexToRgb(hex) {
+  const value = String(hex ?? "").trim().replace("#", "");
+  if (value.length !== 6) {
+    return null;
+  }
+  return {
+    r: Number.parseInt(value.slice(0, 2), 16),
+    g: Number.parseInt(value.slice(2, 4), 16),
+    b: Number.parseInt(value.slice(4, 6), 16),
+  };
+}
+
+function mixColor(left, right, ratio) {
+  const start = hexToRgb(left);
+  const end = hexToRgb(right);
+  if (!start || !end) {
+    return right || left || THEME.dim;
+  }
+  const t = clampNumber(ratio, 0, 1);
+  const r = Math.round(start.r + (end.r - start.r) * t);
+  const g = Math.round(start.g + (end.g - start.g) * t);
+  const b = Math.round(start.b + (end.b - start.b) * t);
+  return `rgb(${r}, ${g}, ${b})`;
+}
+
+function colorFromScale(value, colorscale, zmin, zmax) {
+  if (!Number.isFinite(value) || !Array.isArray(colorscale) || !colorscale.length) {
+    return THEME.dim;
+  }
+
+  if (!Number.isFinite(zmin) || !Number.isFinite(zmax) || zmin === zmax) {
+    return colorscale[Math.floor(colorscale.length / 2)]?.[1] ?? THEME.dim;
+  }
+
+  const normalized = clampNumber((value - zmin) / (zmax - zmin), 0, 1);
+  for (let i = 1; i < colorscale.length; i += 1) {
+    const [stopLeft, colorLeft] = colorscale[i - 1];
+    const [stopRight, colorRight] = colorscale[i];
+    if (normalized <= stopRight) {
+      const ratio = stopRight === stopLeft ? 1 : (normalized - stopLeft) / (stopRight - stopLeft);
+      return mixColor(colorLeft, colorRight, ratio);
+    }
+  }
+  return colorscale[colorscale.length - 1]?.[1] ?? THEME.dim;
+}
+
+function chinaGeometryToLonLat(geometry) {
+  const polygons =
+    geometry?.type === "Polygon"
+      ? [geometry.coordinates]
+      : geometry?.type === "MultiPolygon"
+        ? geometry.coordinates
+        : [];
+
+  const lon = [];
+  const lat = [];
+
+  for (const polygon of polygons) {
+    const ring = polygon?.[0];
+    if (!ring?.length) continue;
+    for (const point of ring) {
+      lon.push(point[0]);
+      lat.push(point[1]);
+    }
+    lon.push(null);
+    lat.push(null);
+  }
+
+  if (lon.length) {
+    lon.pop();
+    lat.pop();
+  }
+
+  return { lon, lat };
 }
 
 function getRiskName(riskCode) {

@@ -590,6 +590,15 @@ body {
   padding: 20px;
 }
 
+.dashboard-grid.dim4-layout .map-card {
+  min-height: 0;
+  align-self: start;
+}
+
+.dashboard-grid.dim4-layout .plot-map {
+  min-height: clamp(500px, 58vh, 720px);
+}
+
 .insight-card {
   grid-area: insight;
   padding: 20px;

@@ -3761,7 +3761,7 @@
             "gap": 0.6159009407909662,
             "efficiency": -1.0055192084424127,
             "output_index": -0.28009526564845627,
-            "life_expectancy": NaN,
+            "life_expectancy": null,
             "projected_output_current": 0.727504138854064,
             "projected_output_optimal": 0.7862466330158204,
             "projected_output_delta": 0.058742494161756476
@@ -4027,7 +4027,7 @@
             "gap": 1.7659614501588612,
             "efficiency": 0.4687994831638984,
             "output_index": 1.1751684425420708,
-            "life_expectancy": NaN,
+            "life_expectancy": null,
             "projected_output_current": 1.0112779529169211,
             "projected_output_optimal": 0.7862466330158204,
             "projected_output_delta": -0.2250313199011007
@@ -4046,7 +4046,7 @@
             "gap": 1.7204974664720956,
             "efficiency": 0.533286216823663,
             "output_index": 1.21146511533495,
-            "life_expectancy": NaN,
+            "life_expectancy": null,
             "projected_output_current": 1.0384399016035957,
             "projected_output_optimal": 0.7862466330158204,
             "projected_output_delta": -0.25219326858777524
@@ -4312,7 +4312,7 @@
             "gap": 2.0700823595542324,
             "efficiency": 0.2878582354705388,
             "output_index": 1.2384826044716604,
-            "life_expectancy": NaN,
+            "life_expectancy": null,
             "projected_output_current": 1.353558004339353,
             "projected_output_optimal": 1.0327911986188743,
             "projected_output_delta": -0.32076680572047866
@@ -7500,7 +7500,7 @@
             "gap": 0.6159009407909662,
             "efficiency": -1.0055192084424127,
             "output_index": -0.28009526564845627,
-            "life_expectancy": NaN,
+            "life_expectancy": null,
             "projected_output_current": 0.727504138854064,
             "projected_output_optimal": 0.9146914842366485,
             "projected_output_delta": 0.18718734538258452
@@ -7766,7 +7766,7 @@
             "gap": 1.7659614501588612,
             "efficiency": 0.4687994831638984,
             "output_index": 1.1751684425420708,
-            "life_expectancy": NaN,
+            "life_expectancy": null,
             "projected_output_current": 1.0112779529169211,
             "projected_output_optimal": 0.9146914842366485,
             "projected_output_delta": -0.09658646868027265
@@ -7785,7 +7785,7 @@
             "gap": 1.7204974664720956,
             "efficiency": 0.533286216823663,
             "output_index": 1.21146511533495,
-            "life_expectancy": NaN,
+            "life_expectancy": null,
             "projected_output_current": 1.0384399016035957,
             "projected_output_optimal": 0.9146914842366485,
             "projected_output_delta": -0.1237484173669472
@@ -8108,7 +8108,7 @@
             "gap": 2.0700823595542324,
             "efficiency": 0.2878582354705388,
             "output_index": 1.2384826044716604,
-            "life_expectancy": NaN,
+            "life_expectancy": null,
             "projected_output_current": 1.353558004339353,
             "projected_output_optimal": 1.0327911986188743,
             "projected_output_delta": -0.32076680572047866
@@ -11239,7 +11239,7 @@
             "gap": 0.6159009407909662,
             "efficiency": -1.0055192084424127,
             "output_index": -0.28009526564845627,
-            "life_expectancy": NaN,
+            "life_expectancy": null,
             "projected_output_current": 0.727504138854064,
             "projected_output_optimal": 1.014827902654981,
             "projected_output_delta": 0.28732376380091695
@@ -11505,7 +11505,7 @@
             "gap": 1.7659614501588612,
             "efficiency": 0.4687994831638984,
             "output_index": 1.1751684425420708,
-            "life_expectancy": NaN,
+            "life_expectancy": null,
             "projected_output_current": 1.0112779529169211,
             "projected_output_optimal": 1.014827902654981,
             "projected_output_delta": 0.0035499497380597766
@@ -11524,7 +11524,7 @@
             "gap": 1.7204974664720956,
             "efficiency": 0.533286216823663,
             "output_index": 1.21146511533495,
-            "life_expectancy": NaN,
+            "life_expectancy": null,
             "projected_output_current": 1.0384399016035957,
             "projected_output_optimal": 1.014827902654981,
             "projected_output_delta": -0.023611998948614765
@@ -11866,7 +11866,7 @@
             "gap": 2.0700823595542324,
             "efficiency": 0.2878582354705388,
             "output_index": 1.2384826044716604,
-            "life_expectancy": NaN,
+            "life_expectancy": null,
             "projected_output_current": 1.353558004339353,
             "projected_output_optimal": 1.0327911986188743,
             "projected_output_delta": -0.32076680572047866
@@ -12337,7 +12337,7 @@
             "gap": 2.0700823595542324,
             "efficiency": 0.2878582354705388,
             "output_index": 1.2384826044716604,
-            "life_expectancy": NaN,
+            "life_expectancy": null,
             "projected_output_current": 1.353558004339353,
             "projected_output_optimal": 1.304754188654203,
             "projected_output_delta": -0.04880381568515002
@@ -12698,7 +12698,7 @@
             "gap": 1.7204974664720956,
             "efficiency": 0.533286216823663,
             "output_index": 1.21146511533495,
-            "life_expectancy": NaN,
+            "life_expectancy": null,
             "projected_output_current": 1.0384399016035957,
             "projected_output_optimal": 0.9895999111223568,
             "projected_output_delta": -0.04883999048123888
@@ -12717,7 +12717,7 @@
             "gap": 1.7659614501588612,
             "efficiency": 0.4687994831638984,
             "output_index": 1.1751684425420708,
-            "life_expectancy": NaN,
+            "life_expectancy": null,
             "projected_output_current": 1.0112779529169211,
             "projected_output_optimal": 0.9624335345206765,
             "projected_output_delta": -0.04884441839624465
@@ -12983,7 +12983,7 @@
             "gap": 0.6159009407909662,
             "efficiency": -1.0055192084424127,
             "output_index": -0.28009526564845627,
-            "life_expectancy": NaN,
+            "life_expectancy": null,
             "projected_output_current": 0.727504138854064,
             "projected_output_optimal": 0.6785939794481854,
             "projected_output_delta": -0.048910159405878506
@@ -16038,7 +16038,7 @@
             "gap": 2.0700823595542324,
             "efficiency": 0.2878582354705388,
             "output_index": 1.2384826044716604,
-            "life_expectancy": NaN,
+            "life_expectancy": null,
             "projected_output_current": 1.353558004339353,
             "projected_output_optimal": 1.3535389318109172,
             "projected_output_delta": -1.907252843569296e-05
@@ -16399,7 +16399,7 @@
             "gap": 1.7204974664720956,
             "efficiency": 0.533286216823663,
             "output_index": 1.21146511533495,
-            "life_expectancy": NaN,
+            "life_expectancy": null,
             "projected_output_current": 1.0384399016035957,
             "projected_output_optimal": 1.0384022234041193,
             "projected_output_delta": -3.7678199476420815e-05
@@ -16418,7 +16418,7 @@
             "gap": 1.7659614501588612,
             "efficiency": 0.4687994831638984,
             "output_index": 1.1751684425420708,
-            "life_expectancy": NaN,
+            "life_expectancy": null,
             "projected_output_current": 1.0112779529169211,
             "projected_output_optimal": 1.0112379973701215,
             "projected_output_delta": -3.995554679958602e-05
@@ -16684,7 +16684,7 @@
             "gap": 0.6159009407909662,
             "efficiency": -1.0055192084424127,
             "output_index": -0.28009526564845627,
-            "life_expectancy": NaN,
+            "life_expectancy": null,
             "projected_output_current": 0.727504138854064,
             "projected_output_optimal": 0.7274303729020617,
             "projected_output_delta": -7.376595200225822e-05
@@ -19739,7 +19739,7 @@
             "gap": 2.0700823595542324,
             "efficiency": 0.2878582354705388,
             "output_index": 1.2384826044716604,
-            "life_expectancy": NaN,
+            "life_expectancy": null,
             "projected_output_current": 1.353558004339353,
             "projected_output_optimal": 1.3976546828168037,
             "projected_output_delta": 0.0440966784774508
@@ -20100,7 +20100,7 @@
             "gap": 1.7204974664720956,
             "efficiency": 0.533286216823663,
             "output_index": 1.21146511533495,
-            "life_expectancy": NaN,
+            "life_expectancy": null,
             "projected_output_current": 1.0384399016035957,
             "projected_output_optimal": 1.0825188265447268,
             "projected_output_delta": 0.04407892494113108
@@ -20119,7 +20119,7 @@
             "gap": 1.7659614501588612,
             "efficiency": 0.4687994831638984,
             "output_index": 1.1751684425420708,
-            "life_expectancy": NaN,
+            "life_expectancy": null,
             "projected_output_current": 1.0112779529169211,
             "projected_output_optimal": 1.0553547048148681,
             "projected_output_delta": 0.04407675189794702
@@ -20385,7 +20385,7 @@
             "gap": 0.6159009407909662,
             "efficiency": -1.0055192084424127,
             "output_index": -0.28009526564845627,
-            "life_expectancy": NaN,
+            "life_expectancy": null,
             "projected_output_current": 0.727504138854064,
             "projected_output_optimal": 0.7715486289451925,
             "projected_output_delta": 0.04404449009112854
@@ -25017,7 +25017,7 @@
             "gap": 0.6159009407909662,
             "efficiency": -1.0055192084424127,
             "output_index": -0.28009526564845627,
-            "life_expectancy": NaN,
+            "life_expectancy": null,
             "projected_output_current": 0.14798676810584288,
             "projected_output_optimal": 0.45111927499888616,
             "projected_output_delta": 0.3031325068930433
@@ -28471,7 +28471,7 @@
             "gap": 0.6159009407909662,
             "efficiency": -1.0055192084424127,
             "output_index": -0.28009526564845627,
-            "life_expectancy": NaN,
+            "life_expectancy": null,
             "projected_output_current": 0.14798676810584288,
             "projected_output_optimal": 0.5932084579592007,
             "projected_output_delta": 0.44522168985335786
@@ -31925,7 +31925,7 @@
             "gap": 0.6159009407909662,
             "efficiency": -1.0055192084424127,
             "output_index": -0.28009526564845627,
-            "life_expectancy": NaN,
+            "life_expectancy": null,
             "projected_output_current": 0.14798676810584288,
             "projected_output_optimal": 0.718577624558405,
             "projected_output_delta": 0.5705908564525621
@@ -35474,7 +35474,7 @@
             "gap": 0.6159009407909662,
             "efficiency": -1.0055192084424127,
             "output_index": -0.28009526564845627,
-            "life_expectancy": NaN,
+            "life_expectancy": null,
             "projected_output_current": 0.14798676810584288,
             "projected_output_optimal": 0.06387182766851307,
             "projected_output_delta": -0.08411494043732981
@@ -38909,7 +38909,7 @@
             "gap": 0.6159009407909662,
             "efficiency": -1.0055192084424127,
             "output_index": -0.28009526564845627,
-            "life_expectancy": NaN,
+            "life_expectancy": null,
             "projected_output_current": 0.14798676810584288,
             "projected_output_optimal": 0.1475584002679604,
             "projected_output_delta": -0.0004283678378824707
@@ -42306,7 +42306,7 @@
             "gap": 0.6159009407909662,
             "efficiency": -1.0055192084424127,
             "output_index": -0.28009526564845627,
-            "life_expectancy": NaN,
+            "life_expectancy": null,
             "projected_output_current": 0.14798676810584288,
             "projected_output_optimal": 0.2260029761749882,
             "projected_output_delta": 0.07801620806914533
