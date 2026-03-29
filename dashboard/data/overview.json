@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-03-29T08:12:31.469076+00:00",
+  "generated_at": "2026-03-29T08:40:50.280687+00:00",
   "latest_year": 2023,
   "summary": {
     "dimension1": {
@@ -139,7 +139,8 @@
       "diabetes_kidney_share": 0.03538195378714142,
       "cancer_share": 0.05701086092853834,
       "maternal_neonatal_share": 0.12515798295822583,
-      "population": 41454761.0
+      "population": 41454761.0,
+      "uhc_index": 42.0
     },
     {
       "iso3": "ALB",
@@ -188,7 +189,8 @@
       "diabetes_kidney_share": 0.03027374801538036,
       "cancer_share": 0.20840500472800763,
       "maternal_neonatal_share": 0.003346707471501042,
-      "population": 2414095.0
+      "population": 2414095.0,
+      "uhc_index": 71.0
     },
     {
       "iso3": "DZA",
@@ -237,7 +239,8 @@
       "diabetes_kidney_share": 0.08577794657602339,
       "cancer_share": 0.1064052259327768,
       "maternal_neonatal_share": 0.03417148823750537,
-      "population": 46164219.0
+      "population": 46164219.0,
+      "uhc_index": 70.0
     },
     {
       "iso3": "ASM",
@@ -286,7 +289,8 @@
       "diabetes_kidney_share": 0.18793593284456644,
       "cancer_share": 0.1755105442998734,
       "maternal_neonatal_share": 0.009993951977994851,
-      "population": 47521.0
+      "population": 47521.0,
+      "uhc_index": null
     },
     {
       "iso3": "AND",
@@ -335,7 +339,8 @@
       "diabetes_kidney_share": 0.04207699048814559,
       "cancer_share": 0.3398776822882084,
       "maternal_neonatal_share": 0.0008866279391707531,
-      "population": 80856.0
+      "population": 80856.0,
+      "uhc_index": 75.0
     },
     {
       "iso3": "AGO",
@@ -384,7 +389,8 @@
       "diabetes_kidney_share": 0.03594270685407974,
       "cancer_share": 0.07868081637151575,
       "maternal_neonatal_share": 0.09601877627311435,
-      "population": 36749906.0
+      "population": 36749906.0,
+      "uhc_index": 44.0
     },
     {
       "iso3": "ATG",
@@ -433,7 +439,8 @@
       "diabetes_kidney_share": 0.17369726655067969,
       "cancer_share": 0.21209928924337085,
       "maternal_neonatal_share": 0.008094138869804354,
-      "population": 93316.0
+      "population": 93316.0,
+      "uhc_index": 81.0
     },
     {
       "iso3": "ARG",
@@ -482,7 +489,8 @@
       "diabetes_kidney_share": 0.0783700518932251,
       "cancer_share": 0.22411227961986518,
       "maternal_neonatal_share": 0.00671499791804397,
-      "population": 45538401.0
+      "population": 45538401.0,
+      "uhc_index": 80.0
     },
     {
       "iso3": "ARM",
@@ -531,7 +539,8 @@
       "diabetes_kidney_share": 0.026333629352969318,
       "cancer_share": 0.18710404301854852,
       "maternal_neonatal_share": 0.0056847454314817416,
-      "population": 2964300.0
+      "population": 2964300.0,
+      "uhc_index": 69.0
     },
     {
       "iso3": "AUS",
@@ -580,7 +589,8 @@
       "diabetes_kidney_share": 0.059851293299609205,
       "cancer_share": 0.3159246752067118,
       "maternal_neonatal_share": 0.002613225630105269,
-      "population": 26659922.0
+      "population": 26659922.0,
+      "uhc_index": 89.0
     },
     {
       "iso3": "AUT",
@@ -629,7 +639,8 @@
       "diabetes_kidney_share": 0.07197730855379562,
       "cancer_share": 0.27587188702864057,
       "maternal_neonatal_share": 0.0012161446835368607,
-      "population": 9131761.0
+      "population": 9131761.0,
+      "uhc_index": 84.0
     },
     {
       "iso3": "AZE",
@@ -678,7 +689,8 @@
       "diabetes_kidney_share": 0.04205524379831623,
       "cancer_share": 0.15610445266290573,
       "maternal_neonatal_share": 0.027389230577570558,
-      "population": 10153958.0
+      "population": 10153958.0,
+      "uhc_index": 67.0
     },
     {
       "iso3": "BHS",
@@ -727,7 +739,8 @@
       "diabetes_kidney_share": 0.11743328627120188,
       "cancer_share": 0.22455303329486173,
       "maternal_neonatal_share": 0.008430859021636455,
-      "population": 399440.0
+      "population": 399440.0,
+      "uhc_index": 80.0
     },
     {
       "iso3": "BHR",
@@ -776,7 +789,8 @@
       "diabetes_kidney_share": 0.20129736041125035,
       "cancer_share": 0.1945651453057488,
       "maternal_neonatal_share": 0.008566370115878472,
-      "population": 1577059.0
+      "population": 1577059.0,
+      "uhc_index": 78.0
     },
     {
       "iso3": "BGD",
@@ -825,7 +839,8 @@
       "diabetes_kidney_share": 0.047422470965709194,
       "cancer_share": 0.14417754779080008,
       "maternal_neonatal_share": 0.050069012566641875,
-      "population": 171466990.0
+      "population": 171466990.0,
+      "uhc_index": 54.0
     },
     {
       "iso3": "BRB",
@@ -874,7 +889,8 @@
       "diabetes_kidney_share": 0.15189953187957808,
       "cancer_share": 0.2592330252929129,
       "maternal_neonatal_share": 0.004495928957059876,
-      "population": 282336.0
+      "population": 282336.0,
+      "uhc_index": 82.0
     },
     {
       "iso3": "BLR",
@@ -923,7 +939,8 @@
       "diabetes_kidney_share": 0.00899316310816437,
       "cancer_share": 0.17230628410569726,
       "maternal_neonatal_share": 0.0008101991793553838,
-      "population": 9178298.0
+      "population": 9178298.0,
+      "uhc_index": 80.0
     },
     {
       "iso3": "BEL",
@@ -972,7 +989,8 @@
       "diabetes_kidney_share": 0.04186209820728666,
       "cancer_share": 0.29190776144712677,
       "maternal_neonatal_share": 0.0010227441622578338,
-      "population": 11779946.0
+      "population": 11779946.0,
+      "uhc_index": 86.0
     },
     {
       "iso3": "BLZ",
@@ -1021,7 +1039,8 @@
       "diabetes_kidney_share": 0.17081291201986074,
       "cancer_share": 0.15194471876018042,
       "maternal_neonatal_share": 0.022621958719125337,
-      "population": 411106.0
+      "population": 411106.0,
+      "uhc_index": 70.0
     },
     {
       "iso3": "BEN",
@@ -1070,7 +1089,8 @@
       "diabetes_kidney_share": 0.038024264765620694,
       "cancer_share": 0.05361065668193671,
       "maternal_neonatal_share": 0.11625461117338894,
-      "population": 14111034.0
+      "population": 14111034.0,
+      "uhc_index": 38.0
     },
     {
       "iso3": "BMU",
@@ -1119,7 +1139,8 @@
       "diabetes_kidney_share": 0.08693008979877019,
       "cancer_share": 0.3165129194201629,
       "maternal_neonatal_share": 0.0020330549066805764,
-      "population": 64698.0
+      "population": 64698.0,
+      "uhc_index": null
     },
     {
       "iso3": "BTN",
@@ -1168,7 +1189,8 @@
       "diabetes_kidney_share": 0.07961648652860769,
       "cancer_share": 0.11540951255375366,
       "maternal_neonatal_share": 0.029785782742346584,
-      "population": 786385.0
+      "population": 786385.0,
+      "uhc_index": 69.0
     },
     {
       "iso3": "BOL",
@@ -1217,7 +1239,8 @@
       "diabetes_kidney_share": 0.11036311060796067,
       "cancer_share": 0.2021892930741949,
       "maternal_neonatal_share": 0.0319576341326763,
-      "population": 12244159.0
+      "population": 12244159.0,
+      "uhc_index": 67.0
     },
     {
       "iso3": "BIH",
@@ -1266,7 +1289,8 @@
       "diabetes_kidney_share": 0.07260705929504158,
       "cancer_share": 0.24193940610412867,
       "maternal_neonatal_share": 0.0021738437436084855,
-      "population": 3185073.0
+      "population": 3185073.0,
+      "uhc_index": 64.0
     },
     {
       "iso3": "BWA",
@@ -1315,7 +1339,8 @@
       "diabetes_kidney_share": 0.07062940178751957,
       "cancer_share": 0.09041227130650784,
       "maternal_neonatal_share": 0.019800177884117,
-      "population": 2480244.0
+      "population": 2480244.0,
+      "uhc_index": 60.0
     },
     {
       "iso3": "BRA",
@@ -1364,7 +1389,8 @@
       "diabetes_kidney_share": 0.07835209066056753,
       "cancer_share": 0.1968790339075019,
       "maternal_neonatal_share": 0.014735315318321224,
-      "population": 211140729.0
+      "population": 211140729.0,
+      "uhc_index": 84.0
     },
     {
       "iso3": "BRN",
@@ -1413,7 +1439,8 @@
       "diabetes_kidney_share": 0.14449822070024626,
       "cancer_share": 0.26949832212540337,
       "maternal_neonatal_share": 0.010542093003380321,
-      "population": 458949.0
+      "population": 458949.0,
+      "uhc_index": 84.0
     },
     {
       "iso3": "BGR",
@@ -1462,7 +1489,8 @@
       "diabetes_kidney_share": 0.03926423114604465,
       "cancer_share": 0.17726859798332606,
       "maternal_neonatal_share": 0.001047698655610356,
-      "population": 6446596.0
+      "population": 6446596.0,
+      "uhc_index": 73.0
     },
     {
       "iso3": "BFA",
@@ -1511,7 +1539,8 @@
       "diabetes_kidney_share": 0.04327159752276498,
       "cancer_share": 0.06163665033588112,
       "maternal_neonatal_share": 0.09893732852820349,
-      "population": 23025776.0
+      "population": 23025776.0,
+      "uhc_index": 47.0
     },
     {
       "iso3": "BDI",
@@ -1560,7 +1589,8 @@
       "diabetes_kidney_share": 0.033317985200257534,
       "cancer_share": 0.0729180373748808,
       "maternal_neonatal_share": 0.1213234203292238,
-      "population": 13689450.0
+      "population": 13689450.0,
+      "uhc_index": 48.0
     },
     {
       "iso3": "CPV",
@@ -1609,7 +1639,8 @@
       "diabetes_kidney_share": 0.06958814483814012,
       "cancer_share": 0.19664201671669565,
       "maternal_neonatal_share": 0.028452824327102038,
-      "population": 522331.0
+      "population": 522331.0,
+      "uhc_index": 71.0
     },
     {
       "iso3": "KHM",
@@ -1658,7 +1689,8 @@
       "diabetes_kidney_share": 0.056167080627476454,
       "cancer_share": 0.1094178099641928,
       "maternal_neonatal_share": 0.024734871410285776,
-      "population": 17423880.0
+      "population": 17423880.0,
+      "uhc_index": 62.0
     },
     {
       "iso3": "CMR",
@@ -1707,7 +1739,8 @@
       "diabetes_kidney_share": 0.04958936546058194,
       "cancer_share": 0.07031664211461341,
       "maternal_neonatal_share": 0.10726846753913183,
-      "population": 28372687.0
+      "population": 28372687.0,
+      "uhc_index": 48.0
     },
     {
       "iso3": "CAN",
@@ -1756,7 +1789,8 @@
       "diabetes_kidney_share": 0.052044377044481956,
       "cancer_share": 0.31020781201366604,
       "maternal_neonatal_share": 0.0028111872800256395,
-      "population": 40083484.0
+      "population": 40083484.0,
+      "uhc_index": 92.0
     },
     {
       "iso3": "CAF",
@@ -1805,7 +1839,8 @@
       "diabetes_kidney_share": 0.02098170944187313,
       "cancer_share": 0.04134849102144249,
       "maternal_neonatal_share": 0.13249247636139252,
-      "population": 5152421.0
+      "population": 5152421.0,
+      "uhc_index": 39.0
     },
     {
       "iso3": "TCD",
@@ -1854,7 +1889,8 @@
       "diabetes_kidney_share": 0.02221253318009181,
       "cancer_share": 0.04070804679654955,
       "maternal_neonatal_share": 0.1479685542828582,
-      "population": 19319064.0
+      "population": 19319064.0,
+      "uhc_index": 26.0
     },
     {
       "iso3": "CHL",
@@ -1903,7 +1939,8 @@
       "diabetes_kidney_share": 0.07208653721937537,
       "cancer_share": 0.26745176341124993,
       "maternal_neonatal_share": 0.004747718329172269,
-      "population": 19658835.0
+      "population": 19658835.0,
+      "uhc_index": 84.0
     },
     {
       "iso3": "CHN",
@@ -1952,7 +1989,8 @@
       "diabetes_kidney_share": 0.031158966266536515,
       "cancer_share": 0.2407055879862134,
       "maternal_neonatal_share": 0.0010600421690263521,
-      "population": 1410710000.0
+      "population": 1410710000.0,
+      "uhc_index": 85.0
     },
     {
       "iso3": "COL",
@@ -2001,7 +2039,8 @@
       "diabetes_kidney_share": 0.06212711584339002,
       "cancer_share": 0.1964400377047522,
       "maternal_neonatal_share": 0.013970713200144248,
-      "population": 52321152.0
+      "population": 52321152.0,
+      "uhc_index": 82.0
     },
     {
       "iso3": "COM",
@@ -2050,7 +2089,8 @@
       "diabetes_kidney_share": 0.07589562025422618,
       "cancer_share": 0.08163034415159647,
       "maternal_neonatal_share": 0.09634775888327549,
-      "population": 850387.0
+      "population": 850387.0,
+      "uhc_index": 52.0
     },
     {
       "iso3": "COD",
@@ -2099,7 +2139,8 @@
       "diabetes_kidney_share": 0.03576305895225661,
       "cancer_share": 0.08964696464868253,
       "maternal_neonatal_share": 0.08740195985080983,
-      "population": 105789731.0
+      "population": 105789731.0,
+      "uhc_index": 41.0
     },
     {
       "iso3": "COG",
@@ -2148,7 +2189,8 @@
       "diabetes_kidney_share": 0.043516581088397795,
       "cancer_share": 0.09061655586400076,
       "maternal_neonatal_share": 0.06932032115776013,
-      "population": 6182885.0
+      "population": 6182885.0,
+      "uhc_index": 45.0
     },
     {
       "iso3": "CRI",
@@ -2197,7 +2239,8 @@
       "diabetes_kidney_share": 0.12054206904358501,
       "cancer_share": 0.24262019279558097,
       "maternal_neonatal_share": 0.0063105621921443695,
-      "population": 5105525.0
+      "population": 5105525.0,
+      "uhc_index": 84.0
     },
     {
       "iso3": "HRV",
@@ -2246,7 +2289,8 @@
       "diabetes_kidney_share": 0.09946606386294075,
       "cancer_share": 0.2546175419461464,
       "maternal_neonatal_share": 0.001062478356505185,
-      "population": 3859686.0
+      "population": 3859686.0,
+      "uhc_index": 76.0
     },
     {
       "iso3": "CUB",
@@ -2295,7 +2339,8 @@
       "diabetes_kidney_share": 0.052865328149138205,
       "cancer_share": 0.24430980726157503,
       "maternal_neonatal_share": 0.0027076927809658916,
-      "population": 11019931.0
+      "population": 11019931.0,
+      "uhc_index": 86.0
     },
     {
       "iso3": "CYP",
@@ -2344,7 +2389,8 @@
       "diabetes_kidney_share": 0.09804265777850095,
       "cancer_share": 0.26467312932961434,
       "maternal_neonatal_share": 0.0023873017725937217,
-      "population": 1344976.0
+      "population": 1344976.0,
+      "uhc_index": 76.0
     },
     {
       "iso3": "CZE",
@@ -2393,7 +2439,8 @@
       "diabetes_kidney_share": 0.05881032446126245,
       "cancer_share": 0.25993354214519476,
       "maternal_neonatal_share": 0.0008287383562728109,
-      "population": 10864042.0
+      "population": 10864042.0,
+      "uhc_index": 83.0
     },
     {
       "iso3": "CIV",
@@ -2442,7 +2489,8 @@
       "diabetes_kidney_share": 0.03675882046096967,
       "cancer_share": 0.07265974597265998,
       "maternal_neonatal_share": 0.12366413905233307,
-      "population": 31165654.0
+      "population": 31165654.0,
+      "uhc_index": 46.0
     },
     {
       "iso3": "DNK",
@@ -2491,7 +2539,8 @@
       "diabetes_kidney_share": 0.05854451140438541,
       "cancer_share": 0.34446102163859726,
       "maternal_neonatal_share": 0.001620837394394292,
-      "population": 5946952.0
+      "population": 5946952.0,
+      "uhc_index": 85.0
     },
     {
       "iso3": "DJI",
@@ -2540,7 +2589,8 @@
       "diabetes_kidney_share": 0.05677787595362057,
       "cancer_share": 0.12073166391365221,
       "maternal_neonatal_share": 0.09003436341903508,
-      "population": 1152944.0
+      "population": 1152944.0,
+      "uhc_index": 47.0
     },
     {
       "iso3": "DMA",
@@ -2589,7 +2639,8 @@
       "diabetes_kidney_share": 0.15362032839109868,
       "cancer_share": 0.2406798990062318,
       "maternal_neonatal_share": 0.00520498107036569,
-      "population": 66510.0
+      "population": 66510.0,
+      "uhc_index": 75.0
     },
     {
       "iso3": "DOM",
@@ -2638,7 +2689,8 @@
       "diabetes_kidney_share": 0.12001338078359317,
       "cancer_share": 0.16560436046630947,
       "maternal_neonatal_share": 0.03787483348878565,
-      "population": 11331265.0
+      "population": 11331265.0,
+      "uhc_index": 73.0
     },
     {
       "iso3": "ECU",
@@ -2687,7 +2739,8 @@
       "diabetes_kidney_share": 0.10296301184291859,
       "cancer_share": 0.16791029494758059,
       "maternal_neonatal_share": 0.036079903173034285,
-      "population": 17980083.0
+      "population": 17980083.0,
+      "uhc_index": 78.0
     },
     {
       "iso3": "EGY",
@@ -2736,7 +2789,8 @@
       "diabetes_kidney_share": 0.10887381435521236,
       "cancer_share": 0.11512027672211184,
       "maternal_neonatal_share": 0.0180411185809501,
-      "population": 114535772.0
+      "population": 114535772.0,
+      "uhc_index": 71.0
     },
     {
       "iso3": "SLV",
@@ -2785,7 +2839,8 @@
       "diabetes_kidney_share": 0.16572304611240105,
       "cancer_share": 0.16548894232552522,
       "maternal_neonatal_share": 0.011302913220733565,
-      "population": 6309624.0
+      "population": 6309624.0,
+      "uhc_index": 79.0
     },
     {
       "iso3": "GNQ",
@@ -2834,7 +2889,8 @@
       "diabetes_kidney_share": 0.04043448202472239,
       "cancer_share": 0.10092531094187367,
       "maternal_neonatal_share": 0.05733137790625458,
-      "population": 1847549.0
+      "population": 1847549.0,
+      "uhc_index": 49.0
     },
     {
       "iso3": "ERI",
@@ -2883,7 +2939,8 @@
       "diabetes_kidney_share": 0.04748885553440429,
       "cancer_share": 0.10088833851465467,
       "maternal_neonatal_share": 0.08365832584112019,
-      "population": 3470390.0
+      "population": 3470390.0,
+      "uhc_index": 40.0
     },
     {
       "iso3": "EST",
@@ -2932,7 +2989,8 @@
       "diabetes_kidney_share": 0.0701136298066982,
       "cancer_share": 0.23004377399914125,
       "maternal_neonatal_share": 0.0005838040986448254,
-      "population": 1370286.0
+      "population": 1370286.0,
+      "uhc_index": 79.0
     },
     {
       "iso3": "SWZ",
@@ -2981,7 +3039,8 @@
       "diabetes_kidney_share": 0.05337431264813634,
       "cancer_share": 0.08148176924005794,
       "maternal_neonatal_share": 0.05115213781208372,
-      "population": 1230506.0
+      "population": 1230506.0,
+      "uhc_index": 72.0
     },
     {
       "iso3": "ETH",
@@ -3030,7 +3089,8 @@
       "diabetes_kidney_share": 0.050284648741115746,
       "cancer_share": 0.13295964068441118,
       "maternal_neonatal_share": 0.13060716756184138,
-      "population": 128691692.0
+      "population": 128691692.0,
+      "uhc_index": 33.0
     },
     {
       "iso3": "FJI",
@@ -3079,7 +3139,8 @@
       "diabetes_kidney_share": 0.25911612325376454,
       "cancer_share": 0.11809117058506162,
       "maternal_neonatal_share": 0.016435968080841662,
-      "population": 924145.0
+      "population": 924145.0,
+      "uhc_index": 69.0
     },
     {
       "iso3": "FIN",
@@ -3128,7 +3189,8 @@
       "diabetes_kidney_share": 0.026793140397515097,
       "cancer_share": 0.2670513534089191,
       "maternal_neonatal_share": 0.0005679825904614592,
-      "population": 5583911.0
+      "population": 5583911.0,
+      "uhc_index": 86.0
     },
     {
       "iso3": "FRA",
@@ -3177,7 +3239,8 @@
       "diabetes_kidney_share": 0.04635699698282332,
       "cancer_share": 0.3351214922434303,
       "maternal_neonatal_share": 0.0020180149602040125,
-      "population": 68372286.0
+      "population": 68372286.0,
+      "uhc_index": 82.0
     },
     {
       "iso3": "GAB",
@@ -3226,7 +3289,8 @@
       "diabetes_kidney_share": 0.07377423451243523,
       "cancer_share": 0.1289352124135657,
       "maternal_neonatal_share": 0.05893350136204138,
-      "population": 2484789.0
+      "population": 2484789.0,
+      "uhc_index": 48.0
     },
     {
       "iso3": "GMB",
@@ -3275,7 +3339,8 @@
       "diabetes_kidney_share": 0.04133075970287793,
       "cancer_share": 0.04948646525544643,
       "maternal_neonatal_share": 0.13484878873304032,
-      "population": 2697845.0
+      "population": 2697845.0,
+      "uhc_index": 53.0
     },
     {
       "iso3": "GEO",
@@ -3324,7 +3389,8 @@
       "diabetes_kidney_share": 0.044658769781267635,
       "cancer_share": 0.18917505915305602,
       "maternal_neonatal_share": 0.004585434277627351,
-      "population": 3715483.0
+      "population": 3715483.0,
+      "uhc_index": 71.0
     },
     {
       "iso3": "DEU",
@@ -3373,7 +3439,8 @@
       "diabetes_kidney_share": 0.06353080422494854,
       "cancer_share": 0.27455796535142074,
       "maternal_neonatal_share": 0.0011840542420071163,
-      "population": 83287273.0
+      "population": 83287273.0,
+      "uhc_index": 87.0
     },
     {
       "iso3": "GHA",
@@ -3422,7 +3489,8 @@
       "diabetes_kidney_share": 0.06694211634334737,
       "cancer_share": 0.07537687856717092,
       "maternal_neonatal_share": 0.07357324870988352,
-      "population": 33787914.0
+      "population": 33787914.0,
+      "uhc_index": 56.0
     },
     {
       "iso3": "GRC",
@@ -3471,7 +3539,8 @@
       "diabetes_kidney_share": 0.06984973303725205,
       "cancer_share": 0.26670307689782,
       "maternal_neonatal_share": 0.0009817155982915695,
-      "population": 10407351.0
+      "population": 10407351.0,
+      "uhc_index": 77.0
     },
     {
       "iso3": "GRL",
@@ -3520,7 +3589,8 @@
       "diabetes_kidney_share": 0.031630271104477845,
       "cancer_share": 0.32385598767037505,
       "maternal_neonatal_share": 0.008319546079511722,
-      "population": 56865.0
+      "population": 56865.0,
+      "uhc_index": null
     },
     {
       "iso3": "GRD",
@@ -3569,7 +3639,8 @@
       "diabetes_kidney_share": 0.1767394868833267,
       "cancer_share": 0.19778247140289806,
       "maternal_neonatal_share": 0.015000726319783287,
-      "population": 117081.0
+      "population": 117081.0,
+      "uhc_index": 78.0
     },
     {
       "iso3": "GUM",
@@ -3618,7 +3689,8 @@
       "diabetes_kidney_share": 0.07695595947502772,
       "cancer_share": 0.1670497279508144,
       "maternal_neonatal_share": 0.016035612601816886,
-      "population": 166506.0
+      "population": 166506.0,
+      "uhc_index": null
     },
     {
       "iso3": "GTM",
@@ -3667,7 +3739,8 @@
       "diabetes_kidney_share": 0.15681419290318338,
       "cancer_share": 0.12705528768589833,
       "maternal_neonatal_share": 0.04086189095457395,
-      "population": 18124838.0
+      "population": 18124838.0,
+      "uhc_index": 58.0
     },
     {
       "iso3": "GIN",
@@ -3716,7 +3789,8 @@
       "diabetes_kidney_share": 0.03500999386212343,
       "cancer_share": 0.06211478731297158,
       "maternal_neonatal_share": 0.11119401952988116,
-      "population": 14405468.0
+      "population": 14405468.0,
+      "uhc_index": 43.0
     },
     {
       "iso3": "GNB",
@@ -3765,7 +3839,8 @@
       "diabetes_kidney_share": 0.03800045400902389,
       "cancer_share": 0.05886307806677161,
       "maternal_neonatal_share": 0.1393355115445022,
-      "population": 2153339.0
+      "population": 2153339.0,
+      "uhc_index": 43.0
     },
     {
       "iso3": "GUY",
@@ -3814,7 +3889,8 @@
       "diabetes_kidney_share": 0.15693871411871332,
       "cancer_share": 0.13324149571474528,
       "maternal_neonatal_share": 0.033958300987545445,
-      "population": 826353.0
+      "population": 826353.0,
+      "uhc_index": 73.0
     },
     {
       "iso3": "HTI",
@@ -3863,7 +3939,8 @@
       "diabetes_kidney_share": 0.056303343254877174,
       "cancer_share": 0.09109919199217145,
       "maternal_neonatal_share": 0.06315677820709793,
-      "population": 11637398.0
+      "population": 11637398.0,
+      "uhc_index": 44.0
     },
     {
       "iso3": "HND",
@@ -3912,7 +3989,8 @@
       "diabetes_kidney_share": 0.06541727327577536,
       "cancer_share": 0.11522240711536176,
       "maternal_neonatal_share": 0.016485166032172753,
-      "population": 10644851.0
+      "population": 10644851.0,
+      "uhc_index": 64.0
     },
     {
       "iso3": "HUN",
@@ -3961,7 +4039,8 @@
       "diabetes_kidney_share": 0.04685578615200441,
       "cancer_share": 0.24888788808972362,
       "maternal_neonatal_share": 0.0010708361526228479,
-      "population": 9592186.0
+      "population": 9592186.0,
+      "uhc_index": 80.0
     },
     {
       "iso3": "ISL",
@@ -4010,7 +4089,8 @@
       "diabetes_kidney_share": 0.030238985431548744,
       "cancer_share": 0.31544748285662527,
       "maternal_neonatal_share": 0.002320863647875424,
-      "population": 385663.0
+      "population": 385663.0,
+      "uhc_index": 90.0
     },
     {
       "iso3": "IND",
@@ -4059,7 +4139,8 @@
       "diabetes_kidney_share": 0.07270732091973811,
       "cancer_share": 0.10723828038003154,
       "maternal_neonatal_share": 0.032767598934562644,
-      "population": 1438069596.0
+      "population": 1438069596.0,
+      "uhc_index": 69.0
     },
     {
       "iso3": "IDN",
@@ -4108,7 +4189,8 @@
       "diabetes_kidney_share": 0.07908761582701229,
       "cancer_share": 0.1322318716149625,
       "maternal_neonatal_share": 0.02320104768139808,
-      "population": 281190067.0
+      "population": 281190067.0,
+      "uhc_index": 67.0
     },
     {
       "iso3": "IRN",
@@ -4157,7 +4239,8 @@
       "diabetes_kidney_share": 0.07546958615025674,
       "cancer_share": 0.1902889840297841,
       "maternal_neonatal_share": 0.01236559846496429,
-      "population": 90608707.0
+      "population": 90608707.0,
+      "uhc_index": 81.0
     },
     {
       "iso3": "IRQ",
@@ -4206,7 +4289,8 @@
       "diabetes_kidney_share": 0.09125878268813035,
       "cancer_share": 0.16492399121698065,
       "maternal_neonatal_share": 0.04153804551719379,
-      "population": 45074049.0
+      "population": 45074049.0,
+      "uhc_index": 64.0
     },
     {
       "iso3": "IRL",
@@ -4255,7 +4339,8 @@
       "diabetes_kidney_share": 0.03731534630278056,
       "cancer_share": 0.32736318530612213,
       "maternal_neonatal_share": 0.0018278258776793074,
-      "population": 5311538.0
+      "population": 5311538.0,
+      "uhc_index": 82.0
     },
     {
       "iso3": "ISR",
@@ -4304,7 +4389,8 @@
       "diabetes_kidney_share": 0.11182217480238685,
       "cancer_share": 0.29343653275015186,
       "maternal_neonatal_share": 0.003240745368697165,
-      "population": 9849000.0
+      "population": 9849000.0,
+      "uhc_index": 85.0
     },
     {
       "iso3": "ITA",
@@ -4353,7 +4439,8 @@
       "diabetes_kidney_share": 0.055599296355644215,
       "cancer_share": 0.28276914248584245,
       "maternal_neonatal_share": 0.0007136121374128797,
-      "population": 58984216.0
+      "population": 58984216.0,
+      "uhc_index": 82.0
     },
     {
       "iso3": "JAM",
@@ -4402,7 +4489,8 @@
       "diabetes_kidney_share": 0.160047650114202,
       "cancer_share": 0.2264945092525759,
       "maternal_neonatal_share": 0.01987365227325555,
-      "population": 2839786.0
+      "population": 2839786.0,
+      "uhc_index": 74.0
     },
     {
       "iso3": "JPN",
@@ -4451,7 +4539,8 @@
       "diabetes_kidney_share": 0.04378792404874604,
       "cancer_share": 0.3244112588333217,
       "maternal_neonatal_share": 0.0002510961396532391,
-      "population": 124516650.0
+      "population": 124516650.0,
+      "uhc_index": 86.0
     },
     {
       "iso3": "JOR",
@@ -4500,7 +4589,8 @@
       "diabetes_kidney_share": 0.12720508395781843,
       "cancer_share": 0.1976173021839032,
       "maternal_neonatal_share": 0.022460493678705697,
-      "population": 11439213.0
+      "population": 11439213.0,
+      "uhc_index": 74.0
     },
     {
       "iso3": "KAZ",
@@ -4549,7 +4639,8 @@
       "diabetes_kidney_share": 0.03564479792447792,
       "cancer_share": 0.13274201296907429,
       "maternal_neonatal_share": 0.013644240201548984,
-      "population": 20330104.0
+      "population": 20330104.0,
+      "uhc_index": 83.0
     },
     {
       "iso3": "KEN",
@@ -4598,7 +4689,8 @@
       "diabetes_kidney_share": 0.08597131611796612,
       "cancer_share": 0.1225450733813856,
       "maternal_neonatal_share": 0.0657362226719553,
-      "population": 55339003.0
+      "population": 55339003.0,
+      "uhc_index": 57.0
     },
     {
       "iso3": "KIR",
@@ -4647,7 +4739,8 @@
       "diabetes_kidney_share": 0.10666202958803735,
       "cancer_share": 0.0953603344768846,
       "maternal_neonatal_share": 0.07644483307319716,
-      "population": 132530.0
+      "population": 132530.0,
+      "uhc_index": 51.0
     },
     {
       "iso3": "KOR",
@@ -4696,7 +4789,8 @@
       "diabetes_kidney_share": 0.05800159422487311,
       "cancer_share": 0.3203067001543349,
       "maternal_neonatal_share": 0.000810157570892771,
-      "population": 51712619.0
+      "population": 51712619.0,
+      "uhc_index": 88.0
     },
     {
       "iso3": "PRK",
@@ -4745,7 +4839,8 @@
       "diabetes_kidney_share": 0.040845395120231276,
       "cancer_share": 0.18126737556493092,
       "maternal_neonatal_share": 0.006439303922239076,
-      "population": 26418204.0
+      "population": 26418204.0,
+      "uhc_index": 77.0
     },
     {
       "iso3": "KWT",
@@ -4794,7 +4889,8 @@
       "diabetes_kidney_share": 0.11138516155950741,
       "cancer_share": 0.1695461420946078,
       "maternal_neonatal_share": 0.013799651288218407,
-      "population": 4853420.0
+      "population": 4853420.0,
+      "uhc_index": 84.0
     },
     {
       "iso3": "KGZ",
@@ -4843,7 +4939,8 @@
       "diabetes_kidney_share": 0.026875504736432174,
       "cancer_share": 0.12822759910909212,
       "maternal_neonatal_share": 0.04816402751064163,
-      "population": 7099750.0
+      "population": 7099750.0,
+      "uhc_index": 74.0
     },
     {
       "iso3": "LAO",
@@ -4892,7 +4989,8 @@
       "diabetes_kidney_share": 0.06032278583467681,
       "cancer_share": 0.10341705252525782,
       "maternal_neonatal_share": 0.0593948504060655,
-      "population": 7664993.0
+      "population": 7664993.0,
+      "uhc_index": 64.0
     },
     {
       "iso3": "LVA",
@@ -4941,7 +5039,8 @@
       "diabetes_kidney_share": 0.04090767447600354,
       "cancer_share": 0.20675243793160275,
       "maternal_neonatal_share": 0.0007070144360292188,
-      "population": 1883710.0
+      "population": 1883710.0,
+      "uhc_index": 77.0
     },
     {
       "iso3": "LBN",
@@ -4990,7 +5089,8 @@
       "diabetes_kidney_share": 0.07960634731860775,
       "cancer_share": 0.23561407486122082,
       "maternal_neonatal_share": 0.027963891477405453,
-      "population": 5773493.0
+      "population": 5773493.0,
+      "uhc_index": 67.0
     },
     {
       "iso3": "LSO",
@@ -5039,7 +5139,8 @@
       "diabetes_kidney_share": 0.05053596043495564,
       "cancer_share": 0.07036726882728224,
       "maternal_neonatal_share": 0.058506939392530384,
-      "population": 2311472.0
+      "population": 2311472.0,
+      "uhc_index": 55.0
     },
     {
       "iso3": "LBR",
@@ -5088,7 +5189,8 @@
       "diabetes_kidney_share": 0.047878087148196656,
       "cancer_share": 0.07745471248969296,
       "maternal_neonatal_share": 0.14180710217715708,
-      "population": 5493031.0
+      "population": 5493031.0,
+      "uhc_index": 49.0
     },
     {
       "iso3": "LBY",
@@ -5137,7 +5239,8 @@
       "diabetes_kidney_share": 0.06306842183272811,
       "cancer_share": 0.12060724617612321,
       "maternal_neonatal_share": 0.011368541537154069,
-      "population": 7305659.0
+      "population": 7305659.0,
+      "uhc_index": 71.0
     },
     {
       "iso3": "LTU",
@@ -5186,7 +5289,8 @@
       "diabetes_kidney_share": 0.026667373191827062,
       "cancer_share": 0.21172926188740215,
       "maternal_neonatal_share": 0.0005431929845682177,
-      "population": 2871585.0
+      "population": 2871585.0,
+      "uhc_index": 78.0
     },
     {
       "iso3": "LUX",
@@ -5235,7 +5339,8 @@
       "diabetes_kidney_share": 0.05448135923764593,
       "cancer_share": 0.3011139170374054,
       "maternal_neonatal_share": 0.0021655830699121447,
-      "population": 666430.0
+      "population": 666430.0,
+      "uhc_index": 83.0
     },
     {
       "iso3": "MDG",
@@ -5284,7 +5389,8 @@
       "diabetes_kidney_share": 0.04265568060769098,
       "cancer_share": 0.10439513957926702,
       "maternal_neonatal_share": 0.08022324839885553,
-      "population": 31195932.0
+      "population": 31195932.0,
+      "uhc_index": 33.0
     },
     {
       "iso3": "MWI",
@@ -5333,7 +5439,8 @@
       "diabetes_kidney_share": 0.04392039043795669,
       "cancer_share": 0.10699070491094782,
       "maternal_neonatal_share": 0.08672726824878922,
-      "population": 21104482.0
+      "population": 21104482.0,
+      "uhc_index": 52.0
     },
     {
       "iso3": "MYS",
@@ -5382,7 +5489,8 @@
       "diabetes_kidney_share": 0.07029763336300217,
       "cancer_share": 0.17812791751666662,
       "maternal_neonatal_share": 0.006359917115893848,
-      "population": 35126298.0
+      "population": 35126298.0,
+      "uhc_index": 80.0
     },
     {
       "iso3": "MDV",
@@ -5431,7 +5539,8 @@
       "diabetes_kidney_share": 0.10901373768557157,
       "cancer_share": 0.13503931454519993,
       "maternal_neonatal_share": 0.026489274128433694,
-      "population": 525994.0
+      "population": 525994.0,
+      "uhc_index": 71.0
     },
     {
       "iso3": "MLI",
@@ -5480,7 +5589,8 @@
       "diabetes_kidney_share": 0.02741970129152094,
       "cancer_share": 0.07093897587959674,
       "maternal_neonatal_share": 0.1627239603429931,
-      "population": 23769127.0
+      "population": 23769127.0,
+      "uhc_index": 41.0
     },
     {
       "iso3": "MLT",
@@ -5529,7 +5639,8 @@
       "diabetes_kidney_share": 0.08047308350661944,
       "cancer_share": 0.263702563633925,
       "maternal_neonatal_share": 0.002130288526355449,
-      "population": 552747.0
+      "population": 552747.0,
+      "uhc_index": 82.0
     },
     {
       "iso3": "MHL",
@@ -5578,7 +5689,8 @@
       "diabetes_kidney_share": 0.14068754049482377,
       "cancer_share": 0.13857217403520328,
       "maternal_neonatal_share": 0.020394600392194293,
-      "population": 38827.0
+      "population": 38827.0,
+      "uhc_index": 66.0
     },
     {
       "iso3": "MRT",
@@ -5627,7 +5739,8 @@
       "diabetes_kidney_share": 0.07189009066646446,
       "cancer_share": 0.11393083918220911,
       "maternal_neonatal_share": 0.10852741394108248,
-      "population": 5022441.0
+      "population": 5022441.0,
+      "uhc_index": 40.0
     },
     {
       "iso3": "MUS",
@@ -5676,7 +5789,8 @@
       "diabetes_kidney_share": 0.26860494153905523,
       "cancer_share": 0.1347815107932185,
       "maternal_neonatal_share": 0.007934548276828468,
-      "population": 1248647.0
+      "population": 1248647.0,
+      "uhc_index": 75.0
     },
     {
       "iso3": "MEX",
@@ -5725,7 +5839,8 @@
       "diabetes_kidney_share": 0.19764934326167025,
       "cancer_share": 0.13729093106699689,
       "maternal_neonatal_share": 0.015516789282579201,
-      "population": 129739759.0
+      "population": 129739759.0,
+      "uhc_index": 79.0
     },
     {
       "iso3": "FSM",
@@ -5774,7 +5889,8 @@
       "diabetes_kidney_share": 0.21048204745049523,
       "cancer_share": 0.1152587797778342,
       "maternal_neonatal_share": 0.012893357984750574,
-      "population": 112630.0
+      "population": 112630.0,
+      "uhc_index": 65.0
     },
     {
       "iso3": "MDA",
@@ -5823,7 +5939,8 @@
       "diabetes_kidney_share": 0.02013923393037945,
       "cancer_share": 0.16787149012437566,
       "maternal_neonatal_share": 0.002415323076644171,
-      "population": 2457783.0
+      "population": 2457783.0,
+      "uhc_index": 71.0
     },
     {
       "iso3": "MCO",
@@ -5872,7 +5989,8 @@
       "diabetes_kidney_share": 0.041258079175385924,
       "cancer_share": 0.48192927016035697,
       "maternal_neonatal_share": 0.001070713552851625,
-      "population": 38956.0
+      "population": 38956.0,
+      "uhc_index": 85.0
     },
     {
       "iso3": "MNG",
@@ -5921,7 +6039,8 @@
       "diabetes_kidney_share": 0.028726518476226245,
       "cancer_share": 0.2669078406249291,
       "maternal_neonatal_share": 0.023963240370385348,
-      "population": 3481145.0
+      "population": 3481145.0,
+      "uhc_index": 70.0
     },
     {
       "iso3": "MNE",
@@ -5970,7 +6089,8 @@
       "diabetes_kidney_share": 0.0681261653129976,
       "cancer_share": 0.24404455659403568,
       "maternal_neonatal_share": 0.002170193349989555,
-      "population": 623529.0
+      "population": 623529.0,
+      "uhc_index": 70.0
     },
     {
       "iso3": "MAR",
@@ -6019,7 +6139,8 @@
       "diabetes_kidney_share": 0.08239552304047398,
       "cancer_share": 0.10621302829060927,
       "maternal_neonatal_share": 0.010412039435271685,
-      "population": 37712505.0
+      "population": 37712505.0,
+      "uhc_index": 65.0
     },
     {
       "iso3": "MOZ",
@@ -6068,7 +6189,8 @@
       "diabetes_kidney_share": 0.028923678759608117,
       "cancer_share": 0.04755206689876266,
       "maternal_neonatal_share": 0.10508107798394298,
-      "population": 33635160.0
+      "population": 33635160.0,
+      "uhc_index": 50.0
     },
     {
       "iso3": "MMR",
@@ -6117,7 +6239,8 @@
       "diabetes_kidney_share": 0.07036408121417488,
       "cancer_share": 0.09825301994148704,
       "maternal_neonatal_share": 0.036165832960966,
-      "population": 54133798.0
+      "population": 54133798.0,
+      "uhc_index": 52.0
     },
     {
       "iso3": "NAM",
@@ -6166,7 +6289,8 @@
       "diabetes_kidney_share": 0.058584997139939456,
       "cancer_share": 0.08457935946179292,
       "maternal_neonatal_share": 0.048555851602735005,
-      "population": 2963095.0
+      "population": 2963095.0,
+      "uhc_index": 66.0
     },
     {
       "iso3": "NRU",
@@ -6215,7 +6339,8 @@
       "diabetes_kidney_share": 0.13685445582237055,
       "cancer_share": 0.1305546780327792,
       "maternal_neonatal_share": 0.039183016771481935,
-      "population": 11875.0
+      "population": 11875.0,
+      "uhc_index": 62.0
     },
     {
       "iso3": "NPL",
@@ -6264,7 +6389,8 @@
       "diabetes_kidney_share": 0.0624655872455559,
       "cancer_share": 0.09465054065447076,
       "maternal_neonatal_share": 0.05066032273481014,
-      "population": 29694614.0
+      "population": 29694614.0,
+      "uhc_index": 58.0
     },
     {
       "iso3": "NLD",
@@ -6313,7 +6439,8 @@
       "diabetes_kidney_share": 0.04599399810580888,
       "cancer_share": 0.33724882205504286,
       "maternal_neonatal_share": 0.00177775582405118,
-      "population": 17877117.0
+      "population": 17877117.0,
+      "uhc_index": 85.0
     },
     {
       "iso3": "NZL",
@@ -6362,7 +6489,8 @@
       "diabetes_kidney_share": 0.04820013843261114,
       "cancer_share": 0.3110174563976825,
       "maternal_neonatal_share": 0.002346481071479987,
-      "population": 5200000.0
+      "population": 5200000.0,
+      "uhc_index": 89.0
     },
     {
       "iso3": "NIC",
@@ -6411,7 +6539,8 @@
       "diabetes_kidney_share": 0.17838668185693915,
       "cancer_share": 0.14870144141082978,
       "maternal_neonatal_share": 0.02296485178807752,
-      "population": 6823613.0
+      "population": 6823613.0,
+      "uhc_index": 70.0
     },
     {
       "iso3": "NER",
@@ -6460,7 +6589,8 @@
       "diabetes_kidney_share": 0.0222104064331702,
       "cancer_share": 0.03140879049139002,
       "maternal_neonatal_share": 0.13806532836149016,
-      "population": 26159867.0
+      "population": 26159867.0,
+      "uhc_index": 39.0
     },
     {
       "iso3": "NGA",
@@ -6509,7 +6639,8 @@
       "diabetes_kidney_share": 0.0352137883553545,
       "cancer_share": 0.06491514009422533,
       "maternal_neonatal_share": 0.13129684103645564,
-      "population": 227882945.0
+      "population": 227882945.0,
+      "uhc_index": 47.0
     },
     {
       "iso3": "MKD",
@@ -6558,7 +6689,8 @@
       "diabetes_kidney_share": 0.07018006448933387,
       "cancer_share": 0.22462676226820122,
       "maternal_neonatal_share": 0.0023324192349217132,
-      "population": 1827816.0
+      "population": 1827816.0,
+      "uhc_index": 69.0
     },
     {
       "iso3": "MNP",
@@ -6607,7 +6739,8 @@
       "diabetes_kidney_share": 0.14131127728354093,
       "cancer_share": 0.20439434122267464,
       "maternal_neonatal_share": 0.012487368991468026,
-      "population": 45143.0
+      "population": 45143.0,
+      "uhc_index": null
     },
     {
       "iso3": "NOR",
@@ -6656,7 +6789,8 @@
       "diabetes_kidney_share": 0.0379002436544651,
       "cancer_share": 0.2979334285237279,
       "maternal_neonatal_share": 0.0008794838664509348,
-      "population": 5519601.0
+      "population": 5519601.0,
+      "uhc_index": 89.0
     },
     {
       "iso3": "OMN",
@@ -6705,7 +6839,8 @@
       "diabetes_kidney_share": 0.12542548600169165,
       "cancer_share": 0.1300647675393035,
       "maternal_neonatal_share": 0.019374465902766785,
-      "population": 5049269.0
+      "population": 5049269.0,
+      "uhc_index": 73.0
     },
     {
       "iso3": "PAK",
@@ -6754,7 +6889,8 @@
       "diabetes_kidney_share": 0.049730038501673055,
       "cancer_share": 0.12262493975312588,
       "maternal_neonatal_share": 0.141568508920219,
-      "population": 247504495.0
+      "population": 247504495.0,
+      "uhc_index": 56.0
     },
     {
       "iso3": "PLW",
@@ -6803,7 +6939,8 @@
       "diabetes_kidney_share": 0.13472695183773287,
       "cancer_share": 0.20842440774114535,
       "maternal_neonatal_share": 0.013620202299293989,
-      "population": 17727.0
+      "population": 17727.0,
+      "uhc_index": 75.0
     },
     {
       "iso3": "PAN",
@@ -6852,7 +6989,8 @@
       "diabetes_kidney_share": 0.1298183690077025,
       "cancer_share": 0.18146409432410876,
       "maternal_neonatal_share": 0.016436571356530302,
-      "population": 4458759.0
+      "population": 4458759.0,
+      "uhc_index": 82.0
     },
     {
       "iso3": "PNG",
@@ -6901,7 +7039,8 @@
       "diabetes_kidney_share": 0.07278841934666327,
       "cancer_share": 0.0954803823552165,
       "maternal_neonatal_share": 0.06112510057086243,
-      "population": 10389635.0
+      "population": 10389635.0,
+      "uhc_index": 32.0
     },
     {
       "iso3": "PRY",
@@ -6950,7 +7089,8 @@
       "diabetes_kidney_share": 0.11207639970454876,
       "cancer_share": 0.16747361239654185,
       "maternal_neonatal_share": 0.02106098520180242,
-      "population": 6844146.0
+      "population": 6844146.0,
+      "uhc_index": 79.0
     },
     {
       "iso3": "PER",
@@ -6999,7 +7139,8 @@
       "diabetes_kidney_share": 0.0865858850756919,
       "cancer_share": 0.21431958433682172,
       "maternal_neonatal_share": 0.016492131892722875,
-      "population": 33845617.0
+      "population": 33845617.0,
+      "uhc_index": 68.0
     },
     {
       "iso3": "PHL",
@@ -7048,7 +7189,8 @@
       "diabetes_kidney_share": 0.10079512492336183,
       "cancer_share": 0.11929503548382443,
       "maternal_neonatal_share": 0.03221799270177118,
-      "population": 114891199.0
+      "population": 114891199.0,
+      "uhc_index": 69.0
     },
     {
       "iso3": "POL",
@@ -7097,7 +7239,8 @@
       "diabetes_kidney_share": 0.04208148877967176,
       "cancer_share": 0.2871880806077289,
       "maternal_neonatal_share": 0.0010685695071001842,
-      "population": 36687353.0
+      "population": 36687353.0,
+      "uhc_index": 82.0
     },
     {
       "iso3": "PRT",
@@ -7146,7 +7289,8 @@
       "diabetes_kidney_share": 0.07518962764625532,
       "cancer_share": 0.2760261241588497,
       "maternal_neonatal_share": 0.0009398652663778072,
-      "population": 10578174.0
+      "population": 10578174.0,
+      "uhc_index": 83.0
     },
     {
       "iso3": "PRI",
@@ -7195,7 +7339,8 @@
       "diabetes_kidney_share": 0.17606511789658302,
       "cancer_share": 0.19644475195399752,
       "maternal_neonatal_share": 0.0023710904130023543,
-      "population": 3203792.0
+      "population": 3203792.0,
+      "uhc_index": null
     },
     {
       "iso3": "QAT",
@@ -7244,7 +7389,8 @@
       "diabetes_kidney_share": 0.13395100698719864,
       "cancer_share": 0.16427221620136892,
       "maternal_neonatal_share": 0.017400451211689174,
-      "population": 2656032.0
+      "population": 2656032.0,
+      "uhc_index": 84.0
     },
     {
       "iso3": "ROU",
@@ -7293,7 +7439,8 @@
       "diabetes_kidney_share": 0.025231896693340056,
       "cancer_share": 0.20901844064016717,
       "maternal_neonatal_share": 0.0012410665495476963,
-      "population": 19061062.0
+      "population": 19061062.0,
+      "uhc_index": 77.0
     },
     {
       "iso3": "RUS",
@@ -7342,7 +7489,8 @@
       "diabetes_kidney_share": 0.031261092527580275,
       "cancer_share": 0.17022542281604075,
       "maternal_neonatal_share": 0.0012118466067605387,
-      "population": 143826130.0
+      "population": 143826130.0,
+      "uhc_index": 81.0
     },
     {
       "iso3": "RWA",
@@ -7391,7 +7539,8 @@
       "diabetes_kidney_share": 0.05699499074971063,
       "cancer_share": 0.12926517504529839,
       "maternal_neonatal_share": 0.07790548517216955,
-      "population": 13954471.0
+      "population": 13954471.0,
+      "uhc_index": 59.0
     },
     {
       "iso3": "WSM",
@@ -7440,7 +7589,8 @@
       "diabetes_kidney_share": 0.14999631562968757,
       "cancer_share": 0.0862787775539516,
       "maternal_neonatal_share": 0.02727956425848851,
-      "population": 216663.0
+      "population": 216663.0,
+      "uhc_index": 62.0
     },
     {
       "iso3": "SMR",
@@ -7489,7 +7639,8 @@
       "diabetes_kidney_share": 0.04859449726837011,
       "cancer_share": 0.30909579482776217,
       "maternal_neonatal_share": 0.0013907784333137883,
-      "population": 33860.0
+      "population": 33860.0,
+      "uhc_index": 74.0
     },
     {
       "iso3": "SAU",
@@ -7538,7 +7689,8 @@
       "diabetes_kidney_share": 0.13602836383211173,
       "cancer_share": 0.13129954707704997,
       "maternal_neonatal_share": 0.015456673406963944,
-      "population": 33702731.0
+      "population": 33702731.0,
+      "uhc_index": 83.0
     },
     {
       "iso3": "SEN",
@@ -7587,7 +7739,8 @@
       "diabetes_kidney_share": 0.047975916764790925,
       "cancer_share": 0.0818328512966707,
       "maternal_neonatal_share": 0.12899683109640986,
-      "population": 18077573.0
+      "population": 18077573.0,
+      "uhc_index": 48.0
     },
     {
       "iso3": "SRB",
@@ -7636,7 +7789,8 @@
       "diabetes_kidney_share": 0.05410271255404129,
       "cancer_share": 0.23087362088594723,
       "maternal_neonatal_share": 0.001597420713677396,
-      "population": 6623183.0
+      "population": 6623183.0,
+      "uhc_index": 73.0
     },
     {
       "iso3": "SYC",
@@ -7685,7 +7839,8 @@
       "diabetes_kidney_share": 0.0926768358341158,
       "cancer_share": 0.22482072581017618,
       "maternal_neonatal_share": 0.00822367617200941,
-      "population": 119773.0
+      "population": 119773.0,
+      "uhc_index": 80.0
     },
     {
       "iso3": "SLE",
@@ -7734,7 +7889,8 @@
       "diabetes_kidney_share": 0.037237617441058024,
       "cancer_share": 0.057344303404860374,
       "maternal_neonatal_share": 0.10815635115456629,
-      "population": 8460512.0
+      "population": 8460512.0,
+      "uhc_index": 48.0
     },
     {
       "iso3": "SGP",
@@ -7783,7 +7939,8 @@
       "diabetes_kidney_share": 0.04700509861067989,
       "cancer_share": 0.28481348356865255,
       "maternal_neonatal_share": 0.0009724691131659025,
-      "population": 5917648.0
+      "population": 5917648.0,
+      "uhc_index": 88.0
     },
     {
       "iso3": "SVK",
@@ -7832,7 +7989,8 @@
       "diabetes_kidney_share": 0.030199035956938684,
       "cancer_share": 0.27351699212285274,
       "maternal_neonatal_share": 0.0017570574827430346,
-      "population": 5426740.0
+      "population": 5426740.0,
+      "uhc_index": 78.0
     },
     {
       "iso3": "SVN",
@@ -7881,7 +8039,8 @@
       "diabetes_kidney_share": 0.042138629512717206,
       "cancer_share": 0.29894170567167105,
       "maternal_neonatal_share": 0.000596830034803882,
-      "population": 2120461.0
+      "population": 2120461.0,
+      "uhc_index": 84.0
     },
     {
       "iso3": "SLB",
@@ -7930,7 +8089,8 @@
       "diabetes_kidney_share": 0.11324923898393882,
       "cancer_share": 0.11744340460741531,
       "maternal_neonatal_share": 0.018550677708086785,
-      "population": 800005.0
+      "population": 800005.0,
+      "uhc_index": 47.0
     },
     {
       "iso3": "SOM",
@@ -7979,7 +8139,8 @@
       "diabetes_kidney_share": 0.03069433651788135,
       "cancer_share": 0.0442638498132408,
       "maternal_neonatal_share": 0.11832259607576817,
-      "population": 18358615.0
+      "population": 18358615.0,
+      "uhc_index": 30.0
     },
     {
       "iso3": "ZAF",
@@ -8028,7 +8189,8 @@
       "diabetes_kidney_share": 0.08727076410369641,
       "cancer_share": 0.12315991247810902,
       "maternal_neonatal_share": 0.023252377276006365,
-      "population": 63212384.0
+      "population": 63212384.0,
+      "uhc_index": 74.0
     },
     {
       "iso3": "SSD",
@@ -8077,7 +8239,8 @@
       "diabetes_kidney_share": 0.038268415728741,
       "cancer_share": 0.08442355561750262,
       "maternal_neonatal_share": 0.08118871921620113,
-      "population": 11483374.0
+      "population": 11483374.0,
+      "uhc_index": 41.0
     },
     {
       "iso3": "ESP",
@@ -8126,7 +8289,8 @@
       "diabetes_kidney_share": 0.06186807245363878,
       "cancer_share": 0.28992396792229075,
       "maternal_neonatal_share": 0.0010219438538371878,
-      "population": 48352528.0
+      "population": 48352528.0,
+      "uhc_index": 84.0
     },
     {
       "iso3": "LKA",
@@ -8175,7 +8339,8 @@
       "diabetes_kidney_share": 0.11776145811378802,
       "cancer_share": 0.1446544005503108,
       "maternal_neonatal_share": 0.0055106332549828664,
-      "population": 22037000.0
+      "population": 22037000.0,
+      "uhc_index": 72.0
     },
     {
       "iso3": "KNA",
@@ -8224,7 +8389,8 @@
       "diabetes_kidney_share": 0.1494539817297996,
       "cancer_share": 0.19792358402346505,
       "maternal_neonatal_share": 0.014005697747569512,
-      "population": 46758.0
+      "population": 46758.0,
+      "uhc_index": 80.0
     },
     {
       "iso3": "LCA",
@@ -8273,7 +8439,8 @@
       "diabetes_kidney_share": 0.15162032457435268,
       "cancer_share": 0.21941608868424806,
       "maternal_neonatal_share": 0.00889292714530763,
-      "population": 179285.0
+      "population": 179285.0,
+      "uhc_index": 75.0
     },
     {
       "iso3": "VCT",
@@ -8322,7 +8489,8 @@
       "diabetes_kidney_share": 0.1448280162864101,
       "cancer_share": 0.19371528645616734,
       "maternal_neonatal_share": 0.008459708729539873,
-      "population": 101323.0
+      "population": 101323.0,
+      "uhc_index": 80.0
     },
     {
       "iso3": "SDN",
@@ -8371,7 +8539,8 @@
       "diabetes_kidney_share": 0.05601446634741246,
       "cancer_share": 0.09537697458284489,
       "maternal_neonatal_share": 0.0507564314473061,
-      "population": 50042791.0
+      "population": 50042791.0,
+      "uhc_index": 48.0
     },
     {
       "iso3": "SUR",
@@ -8420,7 +8589,8 @@
       "diabetes_kidney_share": 0.11607183482007982,
       "cancer_share": 0.1587113310236661,
       "maternal_neonatal_share": 0.031231843614521335,
-      "population": 628886.0
+      "population": 628886.0,
+      "uhc_index": 74.0
     },
     {
       "iso3": "SWE",
@@ -8469,7 +8639,8 @@
       "diabetes_kidney_share": 0.053930678779588744,
       "cancer_share": 0.2914248855468036,
       "maternal_neonatal_share": 0.0010461443057970085,
-      "population": 10536632.0
+      "population": 10536632.0,
+      "uhc_index": 85.0
     },
     {
       "iso3": "CHE",
@@ -8518,7 +8689,8 @@
       "diabetes_kidney_share": 0.05966590464855468,
       "cancer_share": 0.28500494678954386,
       "maternal_neonatal_share": 0.0016825362606187522,
-      "population": 8888822.0
+      "population": 8888822.0,
+      "uhc_index": 87.0
     },
     {
       "iso3": "SYR",
@@ -8567,7 +8739,8 @@
       "diabetes_kidney_share": 0.0902315764088392,
       "cancer_share": 0.10027356701991244,
       "maternal_neonatal_share": 0.006350461603799824,
-      "population": 23594623.0
+      "population": 23594623.0,
+      "uhc_index": 70.0
     },
     {
       "iso3": "STP",
@@ -8616,7 +8789,8 @@
       "diabetes_kidney_share": 0.05107120490609128,
       "cancer_share": 0.12470774580908583,
       "maternal_neonatal_share": 0.03530435196137068,
-      "population": 230871.0
+      "population": 230871.0,
+      "uhc_index": 60.0
     },
     {
       "iso3": "TJK",
@@ -8665,7 +8839,8 @@
       "diabetes_kidney_share": 0.052054777761445056,
       "cancer_share": 0.11137470818448063,
       "maternal_neonatal_share": 0.061432435785166085,
-      "population": 10389799.0
+      "population": 10389799.0,
+      "uhc_index": 72.0
     },
     {
       "iso3": "TZA",
@@ -8714,7 +8889,8 @@
       "diabetes_kidney_share": 0.04497180606542008,
       "cancer_share": 0.09381626266553339,
       "maternal_neonatal_share": 0.10313307029484493,
-      "population": 66617606.0
+      "population": 66617606.0,
+      "uhc_index": 49.0
     },
     {
       "iso3": "THA",
@@ -8763,7 +8939,8 @@
       "diabetes_kidney_share": 0.0964321999723368,
       "cancer_share": 0.23592628873554447,
       "maternal_neonatal_share": 0.0025840955950775357,
-      "population": 71702435.0
+      "population": 71702435.0,
+      "uhc_index": 82.0
     },
     {
       "iso3": "TLS",
@@ -8812,7 +8989,8 @@
       "diabetes_kidney_share": 0.05871752027690792,
       "cancer_share": 0.0941529219293702,
       "maternal_neonatal_share": 0.07995692600236633,
-      "population": 1384286.0
+      "population": 1384286.0,
+      "uhc_index": 48.0
     },
     {
       "iso3": "TGO",
@@ -8861,7 +9039,8 @@
       "diabetes_kidney_share": 0.040491060897126875,
       "cancer_share": 0.07274231988922951,
       "maternal_neonatal_share": 0.08906652347395783,
-      "population": 9304337.0
+      "population": 9304337.0,
+      "uhc_index": 42.0
     },
     {
       "iso3": "TON",
@@ -8910,7 +9089,8 @@
       "diabetes_kidney_share": 0.15498806413517827,
       "cancer_share": 0.18241465746064542,
       "maternal_neonatal_share": 0.014260259905709033,
-      "population": 104597.0
+      "population": 104597.0,
+      "uhc_index": 71.0
     },
     {
       "iso3": "TTO",
@@ -8959,7 +9139,8 @@
       "diabetes_kidney_share": 0.22230778910641086,
       "cancer_share": 0.18801923956081515,
       "maternal_neonatal_share": 0.006082965874494473,
-      "population": 1367510.0
+      "population": 1367510.0,
+      "uhc_index": 75.0
     },
     {
       "iso3": "TUN",
@@ -9008,7 +9189,8 @@
       "diabetes_kidney_share": 0.12157383311883718,
       "cancer_share": 0.22846001700770865,
       "maternal_neonatal_share": 0.02934922104196196,
-      "population": 12200431.0
+      "population": 12200431.0,
+      "uhc_index": 76.0
     },
     {
       "iso3": "TKM",
@@ -9057,7 +9239,8 @@
       "diabetes_kidney_share": 0.04371793947630546,
       "cancer_share": 0.10830862681155691,
       "maternal_neonatal_share": 0.03555980665524463,
-      "population": 7364438.0
+      "population": 7364438.0,
+      "uhc_index": 81.0
     },
     {
       "iso3": "TUV",
@@ -9106,7 +9289,8 @@
       "diabetes_kidney_share": 0.13389186794345706,
       "cancer_share": 0.12343363809481568,
       "maternal_neonatal_share": 0.02060163154232215,
-      "population": 9816.0
+      "population": 9816.0,
+      "uhc_index": 65.0
     },
     {
       "iso3": "TUR",
@@ -9155,7 +9339,8 @@
       "diabetes_kidney_share": 0.08908161881930415,
       "cancer_share": 0.209417027480112,
       "maternal_neonatal_share": 0.008543630929080205,
-      "population": 85325965.0
+      "population": 85325965.0,
+      "uhc_index": 77.0
     },
     {
       "iso3": "UGA",
@@ -9204,7 +9389,8 @@
       "diabetes_kidney_share": 0.04662094794789928,
       "cancer_share": 0.1198385859839397,
       "maternal_neonatal_share": 0.11650895878848748,
-      "population": 48656601.0
+      "population": 48656601.0,
+      "uhc_index": 54.0
     },
     {
       "iso3": "UKR",
@@ -9253,7 +9439,8 @@
       "diabetes_kidney_share": 0.007273437646351202,
       "cancer_share": 0.14512485083456025,
       "maternal_neonatal_share": 0.001203003538443577,
-      "population": 37732836.0
+      "population": 37732836.0,
+      "uhc_index": 80.0
     },
     {
       "iso3": "ARE",
@@ -9302,7 +9489,8 @@
       "diabetes_kidney_share": 0.1108062342864661,
       "cancer_share": 0.2069064135455323,
       "maternal_neonatal_share": 0.009422650884765552,
-      "population": 10483751.0
+      "population": 10483751.0,
+      "uhc_index": 84.0
     },
     {
       "iso3": "GBR",
@@ -9351,7 +9539,8 @@
       "diabetes_kidney_share": 0.03087778953453885,
       "cancer_share": 0.3155503072278863,
       "maternal_neonatal_share": 0.002314417085577891,
-      "population": 68492000.0
+      "population": 68492000.0,
+      "uhc_index": 88.0
     },
     {
       "iso3": "USA",
@@ -9400,7 +9589,8 @@
       "diabetes_kidney_share": 0.07296402146519794,
       "cancer_share": 0.2287717415607609,
       "maternal_neonatal_share": 0.0036826657684339106,
-      "population": 336806231.0
+      "population": 336806231.0,
+      "uhc_index": 88.0
     },
     {
       "iso3": "URY",
@@ -9449,7 +9639,8 @@
       "diabetes_kidney_share": 0.06121689627413078,
       "cancer_share": 0.3033914334992504,
       "maternal_neonatal_share": 0.0025927939576496,
-      "population": 3388081.0
+      "population": 3388081.0,
+      "uhc_index": 85.0
     },
     {
       "iso3": "UZB",
@@ -9498,7 +9689,8 @@
       "diabetes_kidney_share": 0.05667117462181944,
       "cancer_share": 0.09654609051229215,
       "maternal_neonatal_share": 0.05001069675378801,
-      "population": 35652307.0
+      "population": 35652307.0,
+      "uhc_index": 79.0
     },
     {
       "iso3": "VUT",
@@ -9547,7 +9739,8 @@
       "diabetes_kidney_share": 0.09559392586035806,
       "cancer_share": 0.08395298576905716,
       "maternal_neonatal_share": 0.03228020156031584,
-      "population": 320409.0
+      "population": 320409.0,
+      "uhc_index": 52.0
     },
     {
       "iso3": "VEN",
@@ -9596,7 +9789,8 @@
       "diabetes_kidney_share": 0.11408905014610243,
       "cancer_share": 0.1794326395322979,
       "maternal_neonatal_share": 0.027165107360242614,
-      "population": 28300854.0
+      "population": 28300854.0,
+      "uhc_index": 75.0
     },
     {
       "iso3": "VNM",
@@ -9645,7 +9839,8 @@
       "diabetes_kidney_share": 0.07168299339406986,
       "cancer_share": 0.18007499948634417,
       "maternal_neonatal_share": 0.009642368838830243,
-      "population": 100352192.0
+      "population": 100352192.0,
+      "uhc_index": 71.0
     },
     {
       "iso3": "VIR",
@@ -9694,7 +9889,8 @@
       "diabetes_kidney_share": 0.11475454400464068,
       "cancer_share": 0.21018616645478372,
       "maternal_neonatal_share": 0.004395166508609984,
-      "population": 104917.0
+      "population": 104917.0,
+      "uhc_index": null
     },
     {
       "iso3": "PSE",
@@ -9743,7 +9939,8 @@
       "diabetes_kidney_share": 0.056433996142020916,
       "cancer_share": 0.07366461276635956,
       "maternal_neonatal_share": 0.019572074754615573,
-      "population": 5165775.0
+      "population": 5165775.0,
+      "uhc_index": 65.0
     },
     {
       "iso3": "YEM",
@@ -9792,7 +9989,8 @@
       "diabetes_kidney_share": 0.03991161973424416,
       "cancer_share": 0.08652658169538759,
       "maternal_neonatal_share": 0.12020829297130292,
-      "population": 39390799.0
+      "population": 39390799.0,
+      "uhc_index": 43.0
     },
     {
       "iso3": "ZMB",
@@ -9841,7 +10039,8 @@
       "diabetes_kidney_share": 0.04364822271726833,
       "cancer_share": 0.0860189211376501,
       "maternal_neonatal_share": 0.07383897029105563,
-      "population": 20723965.0
+      "population": 20723965.0,
+      "uhc_index": 62.0
     },
     {
       "iso3": "ZWE",
@@ -9890,7 +10089,8 @@
       "diabetes_kidney_share": 0.03181439984351342,
       "cancer_share": 0.07559407920699578,
       "maternal_neonatal_share": 0.09658404434250586,
-      "population": 16340822.0
+      "population": 16340822.0,
+      "uhc_index": 59.0
     },
     {
       "iso3": "COK",
@@ -9939,7 +10139,8 @@
       "diabetes_kidney_share": 0.1624227270270237,
       "cancer_share": 0.22620696785770128,
       "maternal_neonatal_share": 0.003878120766467576,
-      "population": null
+      "population": null,
+      "uhc_index": 75.0
     },
     {
       "iso3": "NIU",
@@ -9988,7 +10189,8 @@
       "diabetes_kidney_share": 0.16709291948640967,
       "cancer_share": 0.13220783963446323,
       "maternal_neonatal_share": 0.00644433414724923,
-      "population": null
+      "population": null,
+      "uhc_index": 67.0
     },
     {
       "iso3": "TKL",
@@ -10037,7 +10239,8 @@
       "diabetes_kidney_share": 0.15737732348908726,
       "cancer_share": 0.1231194161465005,
       "maternal_neonatal_share": 0.007367553147437628,
-      "population": null
+      "population": null,
+      "uhc_index": null
     }
   ]
 }

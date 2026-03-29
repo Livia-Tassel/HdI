@@ -21,7 +21,7 @@ const DIMENSIONS = {
               "infant_mortality", "under5_mortality", "adult_mortality_male", "adult_mortality_female",
               "physicians_per_1000", "nurses_per_1000", "beds_per_1000", "health_exp_per_capita", "gdp_per_capita",
               "basic_water_pct", "basic_sanitation_pct", "measles_immunization_pct",
-              "urban_population_pct", "fertility_rate", "population",
+              "urban_population_pct", "fertility_rate", "population", "uhc_index",
               "cardiovascular_share", "cancer_share", "diabetes_kidney_share",
               "respiratory_chronic_share", "maternal_neonatal_share"],
   },
@@ -37,7 +37,7 @@ const DIMENSIONS = {
     defaultMetric: "change_pct",
     mapTitle: "全球卫生资源配置分析",
     note: "调整优化目标与预算，对比不同资源配置方案。",
-    metrics: ["change_pct", "gap", "gap_grade_num", "efficiency", "physicians_per_1000", "nurses_per_1000", "beds_per_1000", "health_exp_per_capita", "gdp_per_capita"],
+    metrics: ["change_pct", "gap", "gap_grade_num", "efficiency", "uhc_index", "physicians_per_1000", "nurses_per_1000", "beds_per_1000", "health_exp_per_capita", "gdp_per_capita"],
   },
   dim4: {
     label: "中国大陆聚焦",
@@ -142,6 +142,12 @@ const METRIC_META = {
     formatter: (value) => formatSigned(value),
     accessor: (row) => row.efficiency,
     diverging: true,
+  },
+  uhc_index: {
+    label: "UHC服务覆盖指数",
+    colorscale: [[0, "#1e0a3c"], [0.25, "#4a1a8c"], [0.5, "#7c3aed"], [0.75, "#a78bfa"], [1, "#e9d5ff"]],
+    formatter: (value) => value == null ? NO_DATA_LABEL : `${Number(value).toFixed(0)} 分`,
+    accessor: (row) => row.uhc_index,
   },
   health_personnel: {
     label: "卫生人员",
@@ -3329,6 +3335,37 @@ function renderDim3Context() {
     </div>
   `;
 
+  // Q2 efficiency leaders case study (sub-question 4: 可推广经验)
+  const allCountries = store.overview?.countries ?? [];
+  const q2Leaders = allCountries
+    .filter((c) => c.quadrant === "Q2_low_input_high_output" && c.life_expectancy != null && c.health_exp_per_capita != null)
+    .sort((a, b) => (b.life_expectancy ?? 0) - (a.life_expectancy ?? 0))
+    .slice(0, 6);
+  const globalMedianLE = (() => {
+    const les = allCountries.map((c) => c.life_expectancy).filter((v) => v != null).sort((a, b) => a - b);
+    return les.length > 0 ? les[Math.floor(les.length / 2)] : null;
+  })();
+  const globalMedianExp = (() => {
+    const exps = allCountries.map((c) => c.health_exp_per_capita).filter((v) => v != null).sort((a, b) => a - b);
+    return exps.length > 0 ? exps[Math.floor(exps.length / 2)] : null;
+  })();
+  const q2LeaderBlock = q2Leaders.length >= 3 ? `
+    <div class="context-method-block" style="font-size:0.79rem;line-height:1.6;padding:0.65rem 0.85rem;background:rgba(5,46,22,0.35);border-radius:8px;border-left:3px solid rgba(34,197,94,0.5);margin-bottom:0.75rem">
+      <strong style="display:block;margin-bottom:0.4rem;color:rgba(134,239,172,0.95)">Q2 效率标杆：低投入高产出典型案例</strong>
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:0.35rem 0.6rem;margin-bottom:0.5rem">
+        ${q2Leaders.map((c) => `
+          <div style="background:rgba(0,0,0,0.2);border-radius:5px;padding:0.3rem 0.5rem">
+            <div style="font-weight:600;color:rgba(226,232,240,0.92)">${escapeHtml(translateCountryIso3(c.iso3))}</div>
+            <div style="color:rgba(148,163,184,0.85)">支出：$${Math.round(c.health_exp_per_capita)}/人</div>
+            <div style="color:rgba(134,239,172,0.8)">寿命：${c.life_expectancy.toFixed(1)}岁</div>
+            ${c.physicians_per_1000 != null ? `<div style="color:rgba(148,163,184,0.75)">医生：${c.physicians_per_1000.toFixed(2)}/千人</div>` : ""}
+          </div>
+        `).join("")}
+      </div>
+      <p style="margin:0;color:rgba(203,213,225,0.82)">以上国家人均卫生支出均低于全球中位数${globalMedianExp != null ? "（$" + Math.round(globalMedianExp) + "）" : ""}，却实现了高于全球中位预期寿命${globalMedianLE != null ? "（" + globalMedianLE.toFixed(1) + "岁）" : ""}的健康产出。共同经验：<b>强基层卫生网络</b>（社区卫生工作者、全科医生制度）、<b>高免疫覆盖率</b>、<b>重预防轻住院</b>的支出结构及良好的健康行为干预机制。这些可复制经验尤其适合向Q4低投入低产出国家推广。</p>
+    </div>
+  ` : "";
+
   document.getElementById("context-panel").innerHTML = `
     <p class="context-lede">${escapeHtml(
       OBJECTIVE_META[state.objective]?.note ?? "当前情景设置已应用到最新资源面板。",
@@ -3337,6 +3374,7 @@ function renderDim3Context() {
     ${methodBlock}
     ${summaryGrid}
     ${recBlock}
+    ${q2LeaderBlock}
     ${renderContextColumns([
       {
         title: "受益最多国家",

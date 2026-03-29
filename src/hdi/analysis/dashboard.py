@@ -693,6 +693,18 @@ def build_dashboard_assets() -> dict[str, Any]:
             how="left",
         )
 
+    # Merge UHC index from panorama data
+    panorama_path = DASHBOARD_DATA / "panorama.json"
+    if panorama_path.exists():
+        try:
+            pano_raw = json.loads(panorama_path.read_text(encoding="utf-8"))
+            pano_countries = pano_raw.get("countries", [])
+            if pano_countries:
+                pano_df = pd.DataFrame(pano_countries)[["iso3", "uhc_index"]].dropna(subset=["uhc_index"])
+                world_latest = world_latest.merge(pano_df, on="iso3", how="left")
+        except Exception:
+            logger.warning("Could not merge UHC index from panorama.json")
+
     global_trends = (
         master.groupby("year", as_index=False)[["communicable_deaths", "ncd_deaths", "injury_deaths", "total_deaths"]]
         .sum()
@@ -770,7 +782,7 @@ def build_dashboard_assets() -> dict[str, Any]:
                     *[c for c in [
                         "cardiovascular_share", "respiratory_chronic_share",
                         "diabetes_kidney_share", "cancer_share", "maternal_neonatal_share",
-                        "population",
+                        "population", "uhc_index",
                     ] if c in world_latest.columns],
                 ]
             ].sort_values("country_name")
