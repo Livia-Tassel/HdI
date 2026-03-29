@@ -3377,6 +3377,28 @@ function renderDim3Context() {
     </div>
   ` : "";
 
+  // Q3 inefficiency warning block: show high-spending, low-output countries
+  const q3Cases = allCountries
+    .filter((c) => c.quadrant === "Q3_high_input_low_output" && c.life_expectancy != null && c.health_exp_per_capita != null)
+    .sort((a, b) => (b.health_exp_per_capita ?? 0) - (a.health_exp_per_capita ?? 0))
+    .slice(0, 5);
+  const q3CaseBlock = q3Cases.length >= 3 ? `
+    <div class="context-method-block" style="font-size:0.79rem;line-height:1.6;padding:0.65rem 0.85rem;background:rgba(69,10,10,0.3);border-radius:8px;border-left:3px solid rgba(239,68,68,0.5);margin-bottom:0.75rem">
+      <strong style="display:block;margin-bottom:0.4rem;color:rgba(252,165,165,0.95)">Q3 效率警示：高投入低产出典型案例</strong>
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:0.35rem 0.6rem;margin-bottom:0.5rem">
+        ${q3Cases.map((c) => `
+          <div style="background:rgba(0,0,0,0.2);border-radius:5px;padding:0.3rem 0.5rem">
+            <div style="font-weight:600;color:rgba(226,232,240,0.92)">${escapeHtml(translateCountryIso3(c.iso3))}</div>
+            <div style="color:rgba(252,165,165,0.85)">支出：$${Math.round(c.health_exp_per_capita)}/人</div>
+            <div style="color:rgba(148,163,184,0.8)">寿命：${c.life_expectancy.toFixed(1)}岁</div>
+            ${c.efficiency != null ? `<div style="color:rgba(248,113,133,0.75)">效率：${c.efficiency.toFixed(2)}</div>` : ""}
+          </div>
+        `).join("")}
+      </div>
+      <p style="margin:0;color:rgba(203,213,225,0.82)">这些国家卫生投入高于全球中位数，却未能转化为相应的健康产出，是典型的<b>效率损失</b>情形。常见根因：资源过度集中于三级医疗、慢病管理薄弱（高BMI/高血压/糖尿病未控制）、预防投入不足、以及社会决定因素（不平等、贫困）阻碍投入转化。建议优先开展卫生系统效率审计，推进<b>价值导向支出改革</b>（Value-Based Healthcare）。</p>
+    </div>
+  ` : "";
+
   document.getElementById("context-panel").innerHTML = `
     <p class="context-lede">${escapeHtml(
       OBJECTIVE_META[state.objective]?.note ?? "当前情景设置已应用到最新资源面板。",
@@ -3386,6 +3408,7 @@ function renderDim3Context() {
     ${summaryGrid}
     ${recBlock}
     ${q2LeaderBlock}
+    ${q3CaseBlock}
     ${renderContextColumns([
       {
         title: "受益最多国家",
