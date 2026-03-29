@@ -1084,23 +1084,28 @@ def build_dimension3_outputs(master: pd.DataFrame, resource_panel: pd.DataFrame,
     if "nurses_per_1000" in latest.columns and latest["nurses_per_1000"].notna().sum() > 10:
         _input_components.append(_standardize(latest["nurses_per_1000"]))
     latest["input_index"] = pd.concat(_input_components, axis=1).mean(axis=1)
-    latest["output_index"] = pd.concat(
-        [
-            _standardize(latest["life_expectancy"]),
-            _standardize(latest["infant_mortality"], invert=True),
-            _standardize(latest["under5_mortality"], invert=True),
-        ],
-        axis=1,
-    ).mean(axis=1)
-    latest["theoretical_need"] = pd.concat(
-        [
-            _standardize(master.loc[master["year"] == latest_year, "communicable_share"]),
-            _standardize(latest["infant_mortality"]),
-            _standardize(latest["under5_mortality"]),
-            _standardize(latest["life_expectancy"], invert=True),
-        ],
-        axis=1,
-    ).mean(axis=1)
+    _output_components = [
+        _standardize(latest["life_expectancy"]),
+        _standardize(latest["infant_mortality"], invert=True),
+        _standardize(latest["under5_mortality"], invert=True),
+    ]
+    if "adult_mortality_male" in latest.columns and latest["adult_mortality_male"].notna().sum() > 10:
+        _output_components.append(_standardize(latest["adult_mortality_male"], invert=True))
+    if "adult_mortality_female" in latest.columns and latest["adult_mortality_female"].notna().sum() > 10:
+        _output_components.append(_standardize(latest["adult_mortality_female"], invert=True))
+    latest["output_index"] = pd.concat(_output_components, axis=1).mean(axis=1)
+    _need_components = [
+        _standardize(master.loc[master["year"] == latest_year, "communicable_share"]),
+        _standardize(latest["infant_mortality"]),
+        _standardize(latest["under5_mortality"]),
+        _standardize(latest["life_expectancy"], invert=True),
+    ]
+    # Adult mortality adds disease burden signal for working-age population
+    if "adult_mortality_male" in latest.columns and latest["adult_mortality_male"].notna().sum() > 10:
+        _need_components.append(_standardize(latest["adult_mortality_male"]))
+    if "adult_mortality_female" in latest.columns and latest["adult_mortality_female"].notna().sum() > 10:
+        _need_components.append(_standardize(latest["adult_mortality_female"]))
+    latest["theoretical_need"] = pd.concat(_need_components, axis=1).mean(axis=1)
     latest["actual_resource"] = latest["input_index"]
     latest["gap"] = latest["actual_resource"] - latest["theoretical_need"]
     latest["gap_grade"] = pd.qcut(latest["gap"], q=5, labels=["E_严重不足", "D_不足", "C_匹配", "B_较充足", "A_富余"])
