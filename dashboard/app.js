@@ -2111,58 +2111,58 @@ function renderDimension3Detail(profile) {
   }
 
   const traces = [];
-  if (trend.length) {
+  const expTrend = trend.filter((row) => row.health_exp_per_capita != null);
+  const leTrend = trend.filter((row) => row.life_expectancy != null);
+
+  if (expTrend.length) {
     traces.push({
-      x: trend.map((row) => row.year),
-      y: trend.map((row) => row.health_exp_per_capita),
-      name: "历史人均支出",
+      x: expTrend.map((row) => row.year),
+      y: expTrend.map((row) => row.health_exp_per_capita),
+      name: "人均卫生支出",
       mode: "lines+markers",
-      line: { color: THEME.teal, width: 3, shape: "spline" },
-      marker: { size: 5, color: THEME.teal },
+      line: { color: THEME.teal, width: 2.5, shape: "spline" },
+      marker: { size: 4, color: THEME.teal },
+      fill: "tozeroy",
+      fillcolor: "rgba(45,212,191,0.06)",
+      hovertemplate: "<b>人均卫生支出</b><br>%{x}: $%{y:,.0f}<extra></extra>",
     });
   }
 
-  if (optimalValue != null && trend.length) {
+  if (optimalValue != null && expTrend.length) {
     traces.push({
-      x: trend.map((row) => row.year),
-      y: trend.map(() => optimalValue),
-      name: "优化目标",
+      x: expTrend.map((row) => row.year),
+      y: expTrend.map(() => optimalValue),
+      name: `优化目标 ($${Math.round(optimalValue).toLocaleString()})`,
       mode: "lines",
-      line: { color: THEME.blue, width: 2, dash: "dash" },
+      line: { color: THEME.blue, width: 1.5, dash: "dash" },
+      hovertemplate: `优化目标: $${Math.round(optimalValue).toLocaleString()}<extra></extra>`,
     });
   }
 
-  if (currentValue != null && optimalValue != null) {
+  if (leTrend.length) {
     traces.push({
-      type: "bar",
-      x: ["当前", "优化目标"],
-      y: [currentValue, optimalValue],
-      name: "当前与目标",
-      marker: {
-        color: [THEME.violet, THEME.cyan],
-        line: { width: 0 },
-      },
-      opacity: 0.34,
-      yaxis: trend.length ? "y3" : "y",
-      hovertemplate: "<b>%{x}</b><br>%{y:,.0f} 美元<extra></extra>",
+      x: leTrend.map((row) => row.year),
+      y: leTrend.map((row) => row.life_expectancy),
+      name: "预期寿命（右轴）",
+      mode: "lines",
+      yaxis: "y2",
+      line: { color: THEME.violet, width: 2, shape: "spline", dash: "dot" },
+      opacity: 0.85,
+      hovertemplate: "<b>预期寿命</b><br>%{x}: %{y:.1f} 岁<extra></extra>",
     });
   }
 
-  const layout = trend.length
-    ? baseLayout({
-        yaxis: { title: "人均美元" },
-        yaxis3: {
-          overlaying: "y",
-          side: "right",
-          title: "当前与目标",
-          showgrid: false,
-        },
-      })
-    : baseLayout({
-        yaxis: { title: "人均美元" },
-      });
-
-  Plotly.react("detail-chart", traces, layout, {
+  Plotly.react("detail-chart", traces, baseLayout({
+    yaxis: { title: "人均支出（美元）" },
+    yaxis2: {
+      title: "预期寿命（岁）",
+      overlaying: "y",
+      side: "right",
+      showgrid: false,
+      tickfont: { color: "rgba(167,139,250,0.8)" },
+    },
+    legend: { orientation: "h", y: -0.18, x: 0, font: { size: 10 } },
+  }), {
     responsive: true,
     displayModeBar: false,
     scrollZoom: false,
@@ -2789,7 +2789,11 @@ function renderGlobalQuadrantScatter() {
     },
     name: QUADRANT_LABELS[q] ?? q,
     hovertemplate: cs.map((c) =>
-      `<b>${c.country_name ?? c.iso3}</b><br>投入指数：${c.input_index.toFixed(2)}<br>产出指数：${c.output_index.toFixed(2)}<br>象限：${QUADRANT_LABELS[q] ?? q}<extra></extra>`
+      `<b>${c.country_name ?? c.iso3}</b><br>投入指数：${c.input_index.toFixed(2)}<br>产出指数：${c.output_index.toFixed(2)}<br>象限：${QUADRANT_LABELS[q] ?? q}` +
+      (c.health_exp_per_capita != null ? `<br>人均支出：$${Math.round(c.health_exp_per_capita).toLocaleString()}` : "") +
+      (c.life_expectancy != null ? `<br>预期寿命：${c.life_expectancy.toFixed(1)}岁` : "") +
+      (c.uhc_index != null ? `<br>UHC指数：${c.uhc_index.toFixed(0)}` : "") +
+      `<extra></extra>`
     ),
     customdata: cs.map((c) => c.iso3),
   }));
