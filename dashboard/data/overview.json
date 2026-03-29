@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-03-29T08:48:40.290598+00:00",
+  "generated_at": "2026-03-29T12:14:46.533100+00:00",
   "latest_year": 2023,
   "summary": {
     "dimension1": {
@@ -140,7 +140,8 @@
       "cancer_share": 0.05701086092853834,
       "maternal_neonatal_share": 0.12515798295822583,
       "population": 41454761.0,
-      "uhc_index": 42.0
+      "uhc_index": 42.0,
+      "gap_abs_millions": -30.4305022826
     },
     {
       "iso3": "ALB",
@@ -190,7 +191,8 @@
       "cancer_share": 0.20840500472800763,
       "maternal_neonatal_share": 0.003346707471501042,
       "population": 2414095.0,
-      "uhc_index": 71.0
+      "uhc_index": 71.0,
+      "gap_abs_millions": 1.6330831654
     },
     {
       "iso3": "DZA",
@@ -240,7 +242,8 @@
       "cancer_share": 0.1064052259327768,
       "maternal_neonatal_share": 0.03417148823750537,
       "population": 46164219.0,
-      "uhc_index": 70.0
+      "uhc_index": 70.0,
+      "gap_abs_millions": -1.4870848172
     },
     {
       "iso3": "ASM",
@@ -290,7 +293,8 @@
       "cancer_share": 0.1755105442998734,
       "maternal_neonatal_share": 0.009993951977994851,
       "population": 47521.0,
-      "uhc_index": null
+      "uhc_index": null,
+      "gap_abs_millions": null
     },
     {
       "iso3": "AND",
@@ -340,7 +344,8 @@
       "cancer_share": 0.3398776822882084,
       "maternal_neonatal_share": 0.0008866279391707531,
       "population": 80856.0,
-      "uhc_index": 75.0
+      "uhc_index": 75.0,
+      "gap_abs_millions": 0.142788579
     },
     {
       "iso3": "AGO",
@@ -390,7 +395,8 @@
       "cancer_share": 0.07868081637151575,
       "maternal_neonatal_share": 0.09601877627311435,
       "population": 36749906.0,
-      "uhc_index": 44.0
+      "uhc_index": 44.0,
+      "gap_abs_millions": -83.1836727756
     },
     {
       "iso3": "ATG",
@@ -440,7 +446,8 @@
       "cancer_share": 0.21209928924337085,
       "maternal_neonatal_share": 0.008094138869804354,
       "population": 93316.0,
-      "uhc_index": 81.0
+      "uhc_index": 81.0,
+      "gap_abs_millions": 0.0800955591
     },
     {
       "iso3": "ARG",
@@ -490,7 +497,8 @@
       "cancer_share": 0.22411227961986518,
       "maternal_neonatal_share": 0.00671499791804397,
       "population": 45538401.0,
-      "uhc_index": 80.0
+      "uhc_index": 80.0,
+      "gap_abs_millions": 50.9700353224
     },
     {
       "iso3": "ARM",
@@ -540,7 +548,8 @@
       "cancer_share": 0.18710404301854852,
       "maternal_neonatal_share": 0.0056847454314817416,
       "population": 2964300.0,
-      "uhc_index": 69.0
+      "uhc_index": 69.0,
+      "gap_abs_millions": 3.4212908739
     },
     {
       "iso3": "AUS",
@@ -590,7 +599,8 @@
       "cancer_share": 0.3159246752067118,
       "maternal_neonatal_share": 0.002613225630105269,
       "population": 26659922.0,
-      "uhc_index": 89.0
+      "uhc_index": 89.0,
+      "gap_abs_millions": 67.9404074466
     },
     {
       "iso3": "AUT",
@@ -640,7 +650,8 @@
       "cancer_share": 0.27587188702864057,
       "maternal_neonatal_share": 0.0012161446835368607,
       "population": 9131761.0,
-      "uhc_index": 84.0
+      "uhc_index": 84.0,
+      "gap_abs_millions": 25.3880721129
     },
     {
       "iso3": "AZE",
@@ -690,7 +701,8 @@
       "cancer_share": 0.15610445266290573,
       "maternal_neonatal_share": 0.027389230577570558,
       "population": 10153958.0,
-      "uhc_index": 67.0
+      "uhc_index": 67.0,
+      "gap_abs_millions": 1.4267120003
     },
     {
       "iso3": "BHS",
@@ -740,7 +752,8 @@
       "cancer_share": 0.22455303329486173,
       "maternal_neonatal_share": 0.008430859021636455,
       "population": 399440.0,
-      "uhc_index": 80.0
+      "uhc_index": 80.0,
+      "gap_abs_millions": 0.1354802821
     },
     {
       "iso3": "BHR",
@@ -790,7 +803,8 @@
       "cancer_share": 0.1945651453057488,
       "maternal_neonatal_share": 0.008566370115878472,
       "population": 1577059.0,
-      "uhc_index": 78.0
+      "uhc_index": 78.0,
+      "gap_abs_millions": 0.6324627512
     },
     {
       "iso3": "BGD",
@@ -840,7 +854,8 @@
       "cancer_share": 0.14417754779080008,
       "maternal_neonatal_share": 0.050069012566641875,
       "population": 171466990.0,
-      "uhc_index": 54.0
+      "uhc_index": 54.0,
+      "gap_abs_millions": -137.7421055936
     },
     {
       "iso3": "BRB",
@@ -890,7 +905,8 @@
       "cancer_share": 0.2592330252929129,
       "maternal_neonatal_share": 0.004495928957059876,
       "population": 282336.0,
-      "uhc_index": 82.0
+      "uhc_index": 82.0,
+      "gap_abs_millions": 0.2247129564
     },
     {
       "iso3": "BLR",
@@ -940,7 +956,8 @@
       "cancer_share": 0.17230628410569726,
       "maternal_neonatal_share": 0.0008101991793553838,
       "population": 9178298.0,
-      "uhc_index": 80.0
+      "uhc_index": 80.0,
+      "gap_abs_millions": 9.5902364592
     },
     {
       "iso3": "BEL",
@@ -990,7 +1007,8 @@
       "cancer_share": 0.29190776144712677,
       "maternal_neonatal_share": 0.0010227441622578338,
       "population": 11779946.0,
-      "uhc_index": 86.0
+      "uhc_index": 86.0,
+      "gap_abs_millions": 35.5476800966
     },
     {
       "iso3": "BLZ",
@@ -1040,7 +1058,8 @@
       "cancer_share": 0.15194471876018042,
       "maternal_neonatal_share": 0.022621958719125337,
       "population": 411106.0,
-      "uhc_index": 70.0
+      "uhc_index": 70.0,
+      "gap_abs_millions": -0.1610073704
     },
     {
       "iso3": "BEN",
@@ -1090,7 +1109,8 @@
       "cancer_share": 0.05361065668193671,
       "maternal_neonatal_share": 0.11625461117338894,
       "population": 14111034.0,
-      "uhc_index": 38.0
+      "uhc_index": 38.0,
+      "gap_abs_millions": -38.659487594
     },
     {
       "iso3": "BMU",
@@ -1140,7 +1160,8 @@
       "cancer_share": 0.3165129194201629,
       "maternal_neonatal_share": 0.0020330549066805764,
       "population": 64698.0,
-      "uhc_index": null
+      "uhc_index": null,
+      "gap_abs_millions": null
     },
     {
       "iso3": "BTN",
@@ -1190,7 +1211,8 @@
       "cancer_share": 0.11540951255375366,
       "maternal_neonatal_share": 0.029785782742346584,
       "population": 786385.0,
-      "uhc_index": 69.0
+      "uhc_index": 69.0,
+      "gap_abs_millions": -0.4028846205
     },
     {
       "iso3": "BOL",
@@ -1240,7 +1262,8 @@
       "cancer_share": 0.2021892930741949,
       "maternal_neonatal_share": 0.0319576341326763,
       "population": 12244159.0,
-      "uhc_index": 67.0
+      "uhc_index": 67.0,
+      "gap_abs_millions": -8.8256228661
     },
     {
       "iso3": "BIH",
@@ -1290,7 +1313,8 @@
       "cancer_share": 0.24193940610412867,
       "maternal_neonatal_share": 0.0021738437436084855,
       "population": 3185073.0,
-      "uhc_index": 64.0
+      "uhc_index": 64.0,
+      "gap_abs_millions": 2.8682499601
     },
     {
       "iso3": "BWA",
@@ -1340,7 +1364,8 @@
       "cancer_share": 0.09041227130650784,
       "maternal_neonatal_share": 0.019800177884117,
       "population": 2480244.0,
-      "uhc_index": 60.0
+      "uhc_index": 60.0,
+      "gap_abs_millions": -2.7805685235
     },
     {
       "iso3": "BRA",
@@ -1390,7 +1415,8 @@
       "cancer_share": 0.1968790339075019,
       "maternal_neonatal_share": 0.014735315318321224,
       "population": 211140729.0,
-      "uhc_index": 84.0
+      "uhc_index": 84.0,
+      "gap_abs_millions": 87.0681501995
     },
     {
       "iso3": "BRN",
@@ -1440,7 +1466,8 @@
       "cancer_share": 0.26949832212540337,
       "maternal_neonatal_share": 0.010542093003380321,
       "population": 458949.0,
-      "uhc_index": 84.0
+      "uhc_index": 84.0,
+      "gap_abs_millions": 0.0985501551
     },
     {
       "iso3": "BGR",
@@ -1490,7 +1517,8 @@
       "cancer_share": 0.17726859798332606,
       "maternal_neonatal_share": 0.001047698655610356,
       "population": 6446596.0,
-      "uhc_index": 73.0
+      "uhc_index": 73.0,
+      "gap_abs_millions": 6.534442411
     },
     {
       "iso3": "BFA",
@@ -1540,7 +1568,8 @@
       "cancer_share": 0.06163665033588112,
       "maternal_neonatal_share": 0.09893732852820349,
       "population": 23025776.0,
-      "uhc_index": 47.0
+      "uhc_index": 47.0,
+      "gap_abs_millions": -52.4979425897
     },
     {
       "iso3": "BDI",
@@ -1590,7 +1619,8 @@
       "cancer_share": 0.0729180373748808,
       "maternal_neonatal_share": 0.1213234203292238,
       "population": 13689450.0,
-      "uhc_index": 48.0
+      "uhc_index": 48.0,
+      "gap_abs_millions": -24.9540227689
     },
     {
       "iso3": "CPV",
@@ -1640,7 +1670,8 @@
       "cancer_share": 0.19664201671669565,
       "maternal_neonatal_share": 0.028452824327102038,
       "population": 522331.0,
-      "uhc_index": 71.0
+      "uhc_index": 71.0,
+      "gap_abs_millions": -0.0502621605
     },
     {
       "iso3": "KHM",
@@ -1690,7 +1721,8 @@
       "cancer_share": 0.1094178099641928,
       "maternal_neonatal_share": 0.024734871410285776,
       "population": 17423880.0,
-      "uhc_index": 62.0
+      "uhc_index": 62.0,
+      "gap_abs_millions": -16.6081808028
     },
     {
       "iso3": "CMR",
@@ -1740,7 +1772,8 @@
       "cancer_share": 0.07031664211461341,
       "maternal_neonatal_share": 0.10726846753913183,
       "population": 28372687.0,
-      "uhc_index": 48.0
+      "uhc_index": 48.0,
+      "gap_abs_millions": -65.5015296709
     },
     {
       "iso3": "CAN",
@@ -1790,7 +1823,8 @@
       "cancer_share": 0.31020781201366604,
       "maternal_neonatal_share": 0.0028111872800256395,
       "population": 40083484.0,
-      "uhc_index": 92.0
+      "uhc_index": 92.0,
+      "gap_abs_millions": 76.6940776552
     },
     {
       "iso3": "CAF",
@@ -1840,7 +1874,8 @@
       "cancer_share": 0.04134849102144249,
       "maternal_neonatal_share": 0.13249247636139252,
       "population": 5152421.0,
-      "uhc_index": 39.0
+      "uhc_index": 39.0,
+      "gap_abs_millions": -16.0281498551
     },
     {
       "iso3": "TCD",
@@ -1890,7 +1925,8 @@
       "cancer_share": 0.04070804679654955,
       "maternal_neonatal_share": 0.1479685542828582,
       "population": 19319064.0,
-      "uhc_index": 26.0
+      "uhc_index": 26.0,
+      "gap_abs_millions": -66.5623876124
     },
     {
       "iso3": "CHL",
@@ -1940,7 +1976,8 @@
       "cancer_share": 0.26745176341124993,
       "maternal_neonatal_share": 0.004747718329172269,
       "population": 19658835.0,
-      "uhc_index": 84.0
+      "uhc_index": 84.0,
+      "gap_abs_millions": 21.0707176618
     },
     {
       "iso3": "CHN",
@@ -1990,7 +2027,8 @@
       "cancer_share": 0.2407055879862134,
       "maternal_neonatal_share": 0.0010600421690263521,
       "population": 1410710000.0,
-      "uhc_index": 85.0
+      "uhc_index": 85.0,
+      "gap_abs_millions": 1065.6272126831
     },
     {
       "iso3": "COL",
@@ -2040,7 +2078,8 @@
       "cancer_share": 0.1964400377047522,
       "maternal_neonatal_share": 0.013970713200144248,
       "population": 52321152.0,
-      "uhc_index": 82.0
+      "uhc_index": 82.0,
+      "gap_abs_millions": 15.4425075372
     },
     {
       "iso3": "COM",
@@ -2090,7 +2129,8 @@
       "cancer_share": 0.08163034415159647,
       "maternal_neonatal_share": 0.09634775888327549,
       "population": 850387.0,
-      "uhc_index": 52.0
+      "uhc_index": 52.0,
+      "gap_abs_millions": -1.1559144812
     },
     {
       "iso3": "COD",
@@ -2140,7 +2180,8 @@
       "cancer_share": 0.08964696464868253,
       "maternal_neonatal_share": 0.08740195985080983,
       "population": 105789731.0,
-      "uhc_index": 41.0
+      "uhc_index": 41.0,
+      "gap_abs_millions": -260.743219681
     },
     {
       "iso3": "COG",
@@ -2190,7 +2231,8 @@
       "cancer_share": 0.09061655586400076,
       "maternal_neonatal_share": 0.06932032115776013,
       "population": 6182885.0,
-      "uhc_index": 45.0
+      "uhc_index": 45.0,
+      "gap_abs_millions": -12.7236723585
     },
     {
       "iso3": "CRI",
@@ -2240,7 +2282,8 @@
       "cancer_share": 0.24262019279558097,
       "maternal_neonatal_share": 0.0063105621921443695,
       "population": 5105525.0,
-      "uhc_index": 84.0
+      "uhc_index": 84.0,
+      "gap_abs_millions": 3.0522848706
     },
     {
       "iso3": "HRV",
@@ -2290,7 +2333,8 @@
       "cancer_share": 0.2546175419461464,
       "maternal_neonatal_share": 0.001062478356505185,
       "population": 3859686.0,
-      "uhc_index": 76.0
+      "uhc_index": 76.0,
+      "gap_abs_millions": 5.4279461756
     },
     {
       "iso3": "CUB",
@@ -2340,7 +2384,8 @@
       "cancer_share": 0.24430980726157503,
       "maternal_neonatal_share": 0.0027076927809658916,
       "population": 11019931.0,
-      "uhc_index": 86.0
+      "uhc_index": 86.0,
+      "gap_abs_millions": 25.9493392023
     },
     {
       "iso3": "CYP",
@@ -2390,7 +2435,8 @@
       "cancer_share": 0.26467312932961434,
       "maternal_neonatal_share": 0.0023873017725937217,
       "population": 1344976.0,
-      "uhc_index": 76.0
+      "uhc_index": 76.0,
+      "gap_abs_millions": 2.3811727317
     },
     {
       "iso3": "CZE",
@@ -2440,7 +2486,8 @@
       "cancer_share": 0.25993354214519476,
       "maternal_neonatal_share": 0.0008287383562728109,
       "population": 10864042.0,
-      "uhc_index": 83.0
+      "uhc_index": 83.0,
+      "gap_abs_millions": 21.1969267134
     },
     {
       "iso3": "CIV",
@@ -2490,7 +2537,8 @@
       "cancer_share": 0.07265974597265998,
       "maternal_neonatal_share": 0.12366413905233307,
       "population": 31165654.0,
-      "uhc_index": 46.0
+      "uhc_index": 46.0,
+      "gap_abs_millions": -83.7022647162
     },
     {
       "iso3": "DNK",
@@ -2540,7 +2588,8 @@
       "cancer_share": 0.34446102163859726,
       "maternal_neonatal_share": 0.001620837394394292,
       "population": 5946952.0,
-      "uhc_index": 85.0
+      "uhc_index": 85.0,
+      "gap_abs_millions": 12.7940197055
     },
     {
       "iso3": "DJI",
@@ -2590,7 +2639,8 @@
       "cancer_share": 0.12073166391365221,
       "maternal_neonatal_share": 0.09003436341903508,
       "population": 1152944.0,
-      "uhc_index": 47.0
+      "uhc_index": 47.0,
+      "gap_abs_millions": -2.2799504032
     },
     {
       "iso3": "DMA",
@@ -2640,7 +2690,8 @@
       "cancer_share": 0.2406798990062318,
       "maternal_neonatal_share": 0.00520498107036569,
       "population": 66510.0,
-      "uhc_index": 75.0
+      "uhc_index": 75.0,
+      "gap_abs_millions": -0.0047741985
     },
     {
       "iso3": "DOM",
@@ -2690,7 +2741,8 @@
       "cancer_share": 0.16560436046630947,
       "maternal_neonatal_share": 0.03787483348878565,
       "population": 11331265.0,
-      "uhc_index": 73.0
+      "uhc_index": 73.0,
+      "gap_abs_millions": -5.4835452166
     },
     {
       "iso3": "ECU",
@@ -2740,7 +2792,8 @@
       "cancer_share": 0.16791029494758059,
       "maternal_neonatal_share": 0.036079903173034285,
       "population": 17980083.0,
-      "uhc_index": 78.0
+      "uhc_index": 78.0,
+      "gap_abs_millions": 4.5636948091
     },
     {
       "iso3": "EGY",
@@ -2790,7 +2843,8 @@
       "cancer_share": 0.11512027672211184,
       "maternal_neonatal_share": 0.0180411185809501,
       "population": 114535772.0,
-      "uhc_index": 71.0
+      "uhc_index": 71.0,
+      "gap_abs_millions": -48.388490744
     },
     {
       "iso3": "SLV",
@@ -2840,7 +2894,8 @@
       "cancer_share": 0.16548894232552522,
       "maternal_neonatal_share": 0.011302913220733565,
       "population": 6309624.0,
-      "uhc_index": 79.0
+      "uhc_index": 79.0,
+      "gap_abs_millions": 0.2304429003
     },
     {
       "iso3": "GNQ",
@@ -2890,7 +2945,8 @@
       "cancer_share": 0.10092531094187367,
       "maternal_neonatal_share": 0.05733137790625458,
       "population": 1847549.0,
-      "uhc_index": 49.0
+      "uhc_index": 49.0,
+      "gap_abs_millions": -4.4693717583
     },
     {
       "iso3": "ERI",
@@ -2940,7 +2996,8 @@
       "cancer_share": 0.10088833851465467,
       "maternal_neonatal_share": 0.08365832584112019,
       "population": 3470390.0,
-      "uhc_index": 40.0
+      "uhc_index": 40.0,
+      "gap_abs_millions": -5.0862851088
     },
     {
       "iso3": "EST",
@@ -2990,7 +3047,8 @@
       "cancer_share": 0.23004377399914125,
       "maternal_neonatal_share": 0.0005838040986448254,
       "population": 1370286.0,
-      "uhc_index": 79.0
+      "uhc_index": 79.0,
+      "gap_abs_millions": 2.2187939359
     },
     {
       "iso3": "SWZ",
@@ -3040,7 +3098,8 @@
       "cancer_share": 0.08148176924005794,
       "maternal_neonatal_share": 0.05115213781208372,
       "population": 1230506.0,
-      "uhc_index": 72.0
+      "uhc_index": 72.0,
+      "gap_abs_millions": -2.524687111
     },
     {
       "iso3": "ETH",
@@ -3090,7 +3149,8 @@
       "cancer_share": 0.13295964068441118,
       "maternal_neonatal_share": 0.13060716756184138,
       "population": 128691692.0,
-      "uhc_index": 33.0
+      "uhc_index": 33.0,
+      "gap_abs_millions": -230.1313982974
     },
     {
       "iso3": "FJI",
@@ -3140,7 +3200,8 @@
       "cancer_share": 0.11809117058506162,
       "maternal_neonatal_share": 0.016435968080841662,
       "population": 924145.0,
-      "uhc_index": 69.0
+      "uhc_index": 69.0,
+      "gap_abs_millions": -0.8117105582
     },
     {
       "iso3": "FIN",
@@ -3190,7 +3251,8 @@
       "cancer_share": 0.2670513534089191,
       "maternal_neonatal_share": 0.0005679825904614592,
       "population": 5583911.0,
-      "uhc_index": 86.0
+      "uhc_index": 86.0,
+      "gap_abs_millions": 14.9343160888
     },
     {
       "iso3": "FRA",
@@ -3240,7 +3302,8 @@
       "cancer_share": 0.3351214922434303,
       "maternal_neonatal_share": 0.0020180149602040125,
       "population": 68372286.0,
-      "uhc_index": 82.0
+      "uhc_index": 82.0,
+      "gap_abs_millions": 160.1312867256
     },
     {
       "iso3": "GAB",
@@ -3290,7 +3353,8 @@
       "cancer_share": 0.1289352124135657,
       "maternal_neonatal_share": 0.05893350136204138,
       "population": 2484789.0,
-      "uhc_index": 48.0
+      "uhc_index": 48.0,
+      "gap_abs_millions": -3.5514331285
     },
     {
       "iso3": "GMB",
@@ -3340,7 +3404,8 @@
       "cancer_share": 0.04948646525544643,
       "maternal_neonatal_share": 0.13484878873304032,
       "population": 2697845.0,
-      "uhc_index": 53.0
+      "uhc_index": 53.0,
+      "gap_abs_millions": -5.3358887546
     },
     {
       "iso3": "GEO",
@@ -3390,7 +3455,8 @@
       "cancer_share": 0.18917505915305602,
       "maternal_neonatal_share": 0.004585434277627351,
       "population": 3715483.0,
-      "uhc_index": 71.0
+      "uhc_index": 71.0,
+      "gap_abs_millions": 3.1154077671
     },
     {
       "iso3": "DEU",
@@ -3440,7 +3506,8 @@
       "cancer_share": 0.27455796535142074,
       "maternal_neonatal_share": 0.0011840542420071163,
       "population": 83287273.0,
-      "uhc_index": 87.0
+      "uhc_index": 87.0,
+      "gap_abs_millions": 231.3159724639
     },
     {
       "iso3": "GHA",
@@ -3490,7 +3557,8 @@
       "cancer_share": 0.07537687856717092,
       "maternal_neonatal_share": 0.07357324870988352,
       "population": 33787914.0,
-      "uhc_index": 56.0
+      "uhc_index": 56.0,
+      "gap_abs_millions": -54.3074051321
     },
     {
       "iso3": "GRC",
@@ -3540,7 +3608,8 @@
       "cancer_share": 0.26670307689782,
       "maternal_neonatal_share": 0.0009817155982915695,
       "population": 10407351.0,
-      "uhc_index": 77.0
+      "uhc_index": 77.0,
+      "gap_abs_millions": 17.4441562437
     },
     {
       "iso3": "GRL",
@@ -3590,7 +3659,8 @@
       "cancer_share": 0.32385598767037505,
       "maternal_neonatal_share": 0.008319546079511722,
       "population": 56865.0,
-      "uhc_index": null
+      "uhc_index": null,
+      "gap_abs_millions": null
     },
     {
       "iso3": "GRD",
@@ -3640,7 +3710,8 @@
       "cancer_share": 0.19778247140289806,
       "maternal_neonatal_share": 0.015000726319783287,
       "population": 117081.0,
-      "uhc_index": 78.0
+      "uhc_index": 78.0,
+      "gap_abs_millions": 0.0201432299
     },
     {
       "iso3": "GUM",
@@ -3690,7 +3761,8 @@
       "cancer_share": 0.1670497279508144,
       "maternal_neonatal_share": 0.016035612601816886,
       "population": 166506.0,
-      "uhc_index": null
+      "uhc_index": null,
+      "gap_abs_millions": null
     },
     {
       "iso3": "GTM",
@@ -3740,7 +3812,8 @@
       "cancer_share": 0.12705528768589833,
       "maternal_neonatal_share": 0.04086189095457395,
       "population": 18124838.0,
-      "uhc_index": 58.0
+      "uhc_index": 58.0,
+      "gap_abs_millions": -10.0449820576
     },
     {
       "iso3": "GIN",
@@ -3790,7 +3863,8 @@
       "cancer_share": 0.06211478731297158,
       "maternal_neonatal_share": 0.11119401952988116,
       "population": 14405468.0,
-      "uhc_index": 43.0
+      "uhc_index": 43.0,
+      "gap_abs_millions": -39.541326763
     },
     {
       "iso3": "GNB",
@@ -3840,7 +3914,8 @@
       "cancer_share": 0.05886307806677161,
       "maternal_neonatal_share": 0.1393355115445022,
       "population": 2153339.0,
-      "uhc_index": 43.0
+      "uhc_index": 43.0,
+      "gap_abs_millions": -4.310036019
     },
     {
       "iso3": "GUY",
@@ -3890,7 +3965,8 @@
       "cancer_share": 0.13324149571474528,
       "maternal_neonatal_share": 0.033958300987545445,
       "population": 826353.0,
-      "uhc_index": 73.0
+      "uhc_index": 73.0,
+      "gap_abs_millions": -0.7177584361
     },
     {
       "iso3": "HTI",
@@ -3940,7 +4016,8 @@
       "cancer_share": 0.09109919199217145,
       "maternal_neonatal_share": 0.06315677820709793,
       "population": 11637398.0,
-      "uhc_index": 44.0
+      "uhc_index": 44.0,
+      "gap_abs_millions": -22.2536058787
     },
     {
       "iso3": "HND",
@@ -3990,7 +4067,8 @@
       "cancer_share": 0.11522240711536176,
       "maternal_neonatal_share": 0.016485166032172753,
       "population": 10644851.0,
-      "uhc_index": 64.0
+      "uhc_index": 64.0,
+      "gap_abs_millions": -4.0063181925
     },
     {
       "iso3": "HUN",
@@ -4040,7 +4118,8 @@
       "cancer_share": 0.24888788808972362,
       "maternal_neonatal_share": 0.0010708361526228479,
       "population": 9592186.0,
-      "uhc_index": 80.0
+      "uhc_index": 80.0,
+      "gap_abs_millions": 12.9315780151
     },
     {
       "iso3": "ISL",
@@ -4090,7 +4169,8 @@
       "cancer_share": 0.31544748285662527,
       "maternal_neonatal_share": 0.002320863647875424,
       "population": 385663.0,
-      "uhc_index": 90.0
+      "uhc_index": 90.0,
+      "gap_abs_millions": 0.9564583621
     },
     {
       "iso3": "IND",
@@ -4140,7 +4220,8 @@
       "cancer_share": 0.10723828038003154,
       "maternal_neonatal_share": 0.032767598934562644,
       "population": 1438069596.0,
-      "uhc_index": 69.0
+      "uhc_index": 69.0,
+      "gap_abs_millions": -1436.5938837444
     },
     {
       "iso3": "IDN",
@@ -4190,7 +4271,8 @@
       "cancer_share": 0.1322318716149625,
       "maternal_neonatal_share": 0.02320104768139808,
       "population": 281190067.0,
-      "uhc_index": 67.0
+      "uhc_index": 67.0,
+      "gap_abs_millions": -229.7438550455
     },
     {
       "iso3": "IRN",
@@ -4240,7 +4322,8 @@
       "cancer_share": 0.1902889840297841,
       "maternal_neonatal_share": 0.01236559846496429,
       "population": 90608707.0,
-      "uhc_index": 81.0
+      "uhc_index": 81.0,
+      "gap_abs_millions": 11.2902519218
     },
     {
       "iso3": "IRQ",
@@ -4290,7 +4373,8 @@
       "cancer_share": 0.16492399121698065,
       "maternal_neonatal_share": 0.04153804551719379,
       "population": 45074049.0,
-      "uhc_index": 64.0
+      "uhc_index": 64.0,
+      "gap_abs_millions": -21.3277160707
     },
     {
       "iso3": "IRL",
@@ -4340,7 +4424,8 @@
       "cancer_share": 0.32736318530612213,
       "maternal_neonatal_share": 0.0018278258776793074,
       "population": 5311538.0,
-      "uhc_index": 82.0
+      "uhc_index": 82.0,
+      "gap_abs_millions": 11.6203188911
     },
     {
       "iso3": "ISR",
@@ -4390,7 +4475,8 @@
       "cancer_share": 0.29343653275015186,
       "maternal_neonatal_share": 0.003240745368697165,
       "population": 9849000.0,
-      "uhc_index": 85.0
+      "uhc_index": 85.0,
+      "gap_abs_millions": 15.3030197234
     },
     {
       "iso3": "ITA",
@@ -4440,7 +4526,8 @@
       "cancer_share": 0.28276914248584245,
       "maternal_neonatal_share": 0.0007136121374128797,
       "population": 58984216.0,
-      "uhc_index": 82.0
+      "uhc_index": 82.0,
+      "gap_abs_millions": 100.2866753198
     },
     {
       "iso3": "JAM",
@@ -4490,7 +4577,8 @@
       "cancer_share": 0.2264945092525759,
       "maternal_neonatal_share": 0.01987365227325555,
       "population": 2839786.0,
-      "uhc_index": 74.0
+      "uhc_index": 74.0,
+      "gap_abs_millions": -1.0158088784
     },
     {
       "iso3": "JPN",
@@ -4540,7 +4628,8 @@
       "cancer_share": 0.3244112588333217,
       "maternal_neonatal_share": 0.0002510961396532391,
       "population": 124516650.0,
-      "uhc_index": 86.0
+      "uhc_index": 86.0,
+      "gap_abs_millions": 361.497935874
     },
     {
       "iso3": "JOR",
@@ -4590,7 +4679,8 @@
       "cancer_share": 0.1976173021839032,
       "maternal_neonatal_share": 0.022460493678705697,
       "population": 11439213.0,
-      "uhc_index": 74.0
+      "uhc_index": 74.0,
+      "gap_abs_millions": 4.2755646793
     },
     {
       "iso3": "KAZ",
@@ -4640,7 +4730,8 @@
       "cancer_share": 0.13274201296907429,
       "maternal_neonatal_share": 0.013644240201548984,
       "population": 20330104.0,
-      "uhc_index": 83.0
+      "uhc_index": 83.0,
+      "gap_abs_millions": 6.4662139724
     },
     {
       "iso3": "KEN",
@@ -4690,7 +4781,8 @@
       "cancer_share": 0.1225450733813856,
       "maternal_neonatal_share": 0.0657362226719553,
       "population": 55339003.0,
-      "uhc_index": 57.0
+      "uhc_index": 57.0,
+      "gap_abs_millions": -116.5751293513
     },
     {
       "iso3": "KIR",
@@ -4740,7 +4832,8 @@
       "cancer_share": 0.0953603344768846,
       "maternal_neonatal_share": 0.07644483307319716,
       "population": 132530.0,
-      "uhc_index": 51.0
+      "uhc_index": 51.0,
+      "gap_abs_millions": -0.1139250665
     },
     {
       "iso3": "KOR",
@@ -4790,7 +4883,8 @@
       "cancer_share": 0.3203067001543349,
       "maternal_neonatal_share": 0.000810157570892771,
       "population": 51712619.0,
-      "uhc_index": 88.0
+      "uhc_index": 88.0,
+      "gap_abs_millions": 130.2898146404
     },
     {
       "iso3": "PRK",
@@ -4840,7 +4934,8 @@
       "cancer_share": 0.18126737556493092,
       "maternal_neonatal_share": 0.006439303922239076,
       "population": 26418204.0,
-      "uhc_index": 77.0
+      "uhc_index": 77.0,
+      "gap_abs_millions": 20.948474914
     },
     {
       "iso3": "KWT",
@@ -4890,7 +4985,8 @@
       "cancer_share": 0.1695461420946078,
       "maternal_neonatal_share": 0.013799651288218407,
       "population": 4853420.0,
-      "uhc_index": 84.0
+      "uhc_index": 84.0,
+      "gap_abs_millions": 3.8035080216
     },
     {
       "iso3": "KGZ",
@@ -4940,7 +5036,8 @@
       "cancer_share": 0.12822759910909212,
       "maternal_neonatal_share": 0.04816402751064163,
       "population": 7099750.0,
-      "uhc_index": 74.0
+      "uhc_index": 74.0,
+      "gap_abs_millions": -0.3035322291
     },
     {
       "iso3": "LAO",
@@ -4990,7 +5087,8 @@
       "cancer_share": 0.10341705252525782,
       "maternal_neonatal_share": 0.0593948504060655,
       "population": 7664993.0,
-      "uhc_index": 64.0
+      "uhc_index": 64.0,
+      "gap_abs_millions": -10.8985262107
     },
     {
       "iso3": "LVA",
@@ -5040,7 +5138,8 @@
       "cancer_share": 0.20675243793160275,
       "maternal_neonatal_share": 0.0007070144360292188,
       "population": 1883710.0,
-      "uhc_index": 77.0
+      "uhc_index": 77.0,
+      "gap_abs_millions": 2.2211009104
     },
     {
       "iso3": "LBN",
@@ -5090,7 +5189,8 @@
       "cancer_share": 0.23561407486122082,
       "maternal_neonatal_share": 0.027963891477405453,
       "population": 5773493.0,
-      "uhc_index": 67.0
+      "uhc_index": 67.0,
+      "gap_abs_millions": 1.6290816928
     },
     {
       "iso3": "LSO",
@@ -5140,7 +5240,8 @@
       "cancer_share": 0.07036726882728224,
       "maternal_neonatal_share": 0.058506939392530384,
       "population": 2311472.0,
-      "uhc_index": 55.0
+      "uhc_index": 55.0,
+      "gap_abs_millions": -5.7270089343
     },
     {
       "iso3": "LBR",
@@ -5190,7 +5291,8 @@
       "cancer_share": 0.07745471248969296,
       "maternal_neonatal_share": 0.14180710217715708,
       "population": 5493031.0,
-      "uhc_index": 49.0
+      "uhc_index": 49.0,
+      "gap_abs_millions": -9.4852016175
     },
     {
       "iso3": "LBY",
@@ -5240,7 +5342,8 @@
       "cancer_share": 0.12060724617612321,
       "maternal_neonatal_share": 0.011368541537154069,
       "population": 7305659.0,
-      "uhc_index": 71.0
+      "uhc_index": 71.0,
+      "gap_abs_millions": 0.8923880564
     },
     {
       "iso3": "LTU",
@@ -5290,7 +5393,8 @@
       "cancer_share": 0.21172926188740215,
       "maternal_neonatal_share": 0.0005431929845682177,
       "population": 2871585.0,
-      "uhc_index": 78.0
+      "uhc_index": 78.0,
+      "gap_abs_millions": 4.9745040142
     },
     {
       "iso3": "LUX",
@@ -5340,7 +5444,8 @@
       "cancer_share": 0.3011139170374054,
       "maternal_neonatal_share": 0.0021655830699121447,
       "population": 666430.0,
-      "uhc_index": 83.0
+      "uhc_index": 83.0,
+      "gap_abs_millions": 1.4564945916
     },
     {
       "iso3": "MDG",
@@ -5390,7 +5495,8 @@
       "cancer_share": 0.10439513957926702,
       "maternal_neonatal_share": 0.08022324839885553,
       "population": 31195932.0,
-      "uhc_index": 33.0
+      "uhc_index": 33.0,
+      "gap_abs_millions": -68.5255255198
     },
     {
       "iso3": "MWI",
@@ -5440,7 +5546,8 @@
       "cancer_share": 0.10699070491094782,
       "maternal_neonatal_share": 0.08672726824878922,
       "population": 21104482.0,
-      "uhc_index": 52.0
+      "uhc_index": 52.0,
+      "gap_abs_millions": -34.3354051799
     },
     {
       "iso3": "MYS",
@@ -5490,7 +5597,8 @@
       "cancer_share": 0.17812791751666662,
       "maternal_neonatal_share": 0.006359917115893848,
       "population": 35126298.0,
-      "uhc_index": 80.0
+      "uhc_index": 80.0,
+      "gap_abs_millions": 3.3232686636
     },
     {
       "iso3": "MDV",
@@ -5540,7 +5648,8 @@
       "cancer_share": 0.13503931454519993,
       "maternal_neonatal_share": 0.026489274128433694,
       "population": 525994.0,
-      "uhc_index": 71.0
+      "uhc_index": 71.0,
+      "gap_abs_millions": 0.6544521507
     },
     {
       "iso3": "MLI",
@@ -5590,7 +5699,8 @@
       "cancer_share": 0.07093897587959674,
       "maternal_neonatal_share": 0.1627239603429931,
       "population": 23769127.0,
-      "uhc_index": 41.0
+      "uhc_index": 41.0,
+      "gap_abs_millions": -65.908058812
     },
     {
       "iso3": "MLT",
@@ -5640,7 +5750,8 @@
       "cancer_share": 0.263702563633925,
       "maternal_neonatal_share": 0.002130288526355449,
       "population": 552747.0,
-      "uhc_index": 82.0
+      "uhc_index": 82.0,
+      "gap_abs_millions": 1.3013202259
     },
     {
       "iso3": "MHL",
@@ -5690,7 +5801,8 @@
       "cancer_share": 0.13857217403520328,
       "maternal_neonatal_share": 0.020394600392194293,
       "population": 38827.0,
-      "uhc_index": 66.0
+      "uhc_index": 66.0,
+      "gap_abs_millions": -0.0045970597
     },
     {
       "iso3": "MRT",
@@ -5740,7 +5852,8 @@
       "cancer_share": 0.11393083918220911,
       "maternal_neonatal_share": 0.10852741394108248,
       "population": 5022441.0,
-      "uhc_index": 40.0
+      "uhc_index": 40.0,
+      "gap_abs_millions": -7.2975924972
     },
     {
       "iso3": "MUS",
@@ -5790,7 +5903,8 @@
       "cancer_share": 0.1347815107932185,
       "maternal_neonatal_share": 0.007934548276828468,
       "population": 1248647.0,
-      "uhc_index": 75.0
+      "uhc_index": 75.0,
+      "gap_abs_millions": 0.244821659
     },
     {
       "iso3": "MEX",
@@ -5840,7 +5954,8 @@
       "cancer_share": 0.13729093106699689,
       "maternal_neonatal_share": 0.015516789282579201,
       "population": 129739759.0,
-      "uhc_index": 79.0
+      "uhc_index": 79.0,
+      "gap_abs_millions": 0.0841242851
     },
     {
       "iso3": "FSM",
@@ -5890,7 +6005,8 @@
       "cancer_share": 0.1152587797778342,
       "maternal_neonatal_share": 0.012893357984750574,
       "population": 112630.0,
-      "uhc_index": 65.0
+      "uhc_index": 65.0,
+      "gap_abs_millions": -0.0491895872
     },
     {
       "iso3": "MDA",
@@ -5940,7 +6056,8 @@
       "cancer_share": 0.16787149012437566,
       "maternal_neonatal_share": 0.002415323076644171,
       "population": 2457783.0,
-      "uhc_index": 71.0
+      "uhc_index": 71.0,
+      "gap_abs_millions": 0.7753907086
     },
     {
       "iso3": "MCO",
@@ -5990,7 +6107,8 @@
       "cancer_share": 0.48192927016035697,
       "maternal_neonatal_share": 0.001070713552851625,
       "population": 38956.0,
-      "uhc_index": 85.0
+      "uhc_index": 85.0,
+      "gap_abs_millions": 0.0806421284
     },
     {
       "iso3": "MNG",
@@ -6040,7 +6158,8 @@
       "cancer_share": 0.2669078406249291,
       "maternal_neonatal_share": 0.023963240370385348,
       "population": 3481145.0,
-      "uhc_index": 70.0
+      "uhc_index": 70.0,
+      "gap_abs_millions": 2.679151742
     },
     {
       "iso3": "MNE",
@@ -6090,7 +6209,8 @@
       "cancer_share": 0.24404455659403568,
       "maternal_neonatal_share": 0.002170193349989555,
       "population": 623529.0,
-      "uhc_index": 70.0
+      "uhc_index": 70.0,
+      "gap_abs_millions": 0.7397935954
     },
     {
       "iso3": "MAR",
@@ -6140,7 +6260,8 @@
       "cancer_share": 0.10621302829060927,
       "maternal_neonatal_share": 0.010412039435271685,
       "population": 37712505.0,
-      "uhc_index": 65.0
+      "uhc_index": 65.0,
+      "gap_abs_millions": -4.6509373487
     },
     {
       "iso3": "MOZ",
@@ -6190,7 +6311,8 @@
       "cancer_share": 0.04755206689876266,
       "maternal_neonatal_share": 0.10508107798394298,
       "population": 33635160.0,
-      "uhc_index": 50.0
+      "uhc_index": 50.0,
+      "gap_abs_millions": -71.2767821976
     },
     {
       "iso3": "MMR",
@@ -6240,7 +6362,8 @@
       "cancer_share": 0.09825301994148704,
       "maternal_neonatal_share": 0.036165832960966,
       "population": 54133798.0,
-      "uhc_index": 52.0
+      "uhc_index": 52.0,
+      "gap_abs_millions": -65.9472691631
     },
     {
       "iso3": "NAM",
@@ -6290,7 +6413,8 @@
       "cancer_share": 0.08457935946179292,
       "maternal_neonatal_share": 0.048555851602735005,
       "population": 2963095.0,
-      "uhc_index": 66.0
+      "uhc_index": 66.0,
+      "gap_abs_millions": -3.884636075
     },
     {
       "iso3": "NRU",
@@ -6340,7 +6464,8 @@
       "cancer_share": 0.1305546780327792,
       "maternal_neonatal_share": 0.039183016771481935,
       "population": 11875.0,
-      "uhc_index": 62.0
+      "uhc_index": 62.0,
+      "gap_abs_millions": 0.0061328855
     },
     {
       "iso3": "NPL",
@@ -6390,7 +6515,8 @@
       "cancer_share": 0.09465054065447076,
       "maternal_neonatal_share": 0.05066032273481014,
       "population": 29694614.0,
-      "uhc_index": 58.0
+      "uhc_index": 58.0,
+      "gap_abs_millions": -15.094150504
     },
     {
       "iso3": "NLD",
@@ -6440,7 +6566,8 @@
       "cancer_share": 0.33724882205504286,
       "maternal_neonatal_share": 0.00177775582405118,
       "population": 17877117.0,
-      "uhc_index": 85.0
+      "uhc_index": 85.0,
+      "gap_abs_millions": 38.5572728949
     },
     {
       "iso3": "NZL",
@@ -6490,7 +6617,8 @@
       "cancer_share": 0.3110174563976825,
       "maternal_neonatal_share": 0.002346481071479987,
       "population": 5200000.0,
-      "uhc_index": 89.0
+      "uhc_index": 89.0,
+      "gap_abs_millions": 10.3464361925
     },
     {
       "iso3": "NIC",
@@ -6540,7 +6668,8 @@
       "cancer_share": 0.14870144141082978,
       "maternal_neonatal_share": 0.02296485178807752,
       "population": 6823613.0,
-      "uhc_index": 70.0
+      "uhc_index": 70.0,
+      "gap_abs_millions": -0.5872390733
     },
     {
       "iso3": "NER",
@@ -6590,7 +6719,8 @@
       "cancer_share": 0.03140879049139002,
       "maternal_neonatal_share": 0.13806532836149016,
       "population": 26159867.0,
-      "uhc_index": 39.0
+      "uhc_index": 39.0,
+      "gap_abs_millions": -73.1984934647
     },
     {
       "iso3": "NGA",
@@ -6640,7 +6770,8 @@
       "cancer_share": 0.06491514009422533,
       "maternal_neonatal_share": 0.13129684103645564,
       "population": 227882945.0,
-      "uhc_index": 47.0
+      "uhc_index": 47.0,
+      "gap_abs_millions": -762.5855514678
     },
     {
       "iso3": "MKD",
@@ -6690,7 +6821,8 @@
       "cancer_share": 0.22462676226820122,
       "maternal_neonatal_share": 0.0023324192349217132,
       "population": 1827816.0,
-      "uhc_index": 69.0
+      "uhc_index": 69.0,
+      "gap_abs_millions": 1.6239201653
     },
     {
       "iso3": "MNP",
@@ -6740,7 +6872,8 @@
       "cancer_share": 0.20439434122267464,
       "maternal_neonatal_share": 0.012487368991468026,
       "population": 45143.0,
-      "uhc_index": null
+      "uhc_index": null,
+      "gap_abs_millions": null
     },
     {
       "iso3": "NOR",
@@ -6790,7 +6923,8 @@
       "cancer_share": 0.2979334285237279,
       "maternal_neonatal_share": 0.0008794838664509348,
       "population": 5519601.0,
-      "uhc_index": 89.0
+      "uhc_index": 89.0,
+      "gap_abs_millions": 15.982802446
     },
     {
       "iso3": "OMN",
@@ -6840,7 +6974,8 @@
       "cancer_share": 0.1300647675393035,
       "maternal_neonatal_share": 0.019374465902766785,
       "population": 5049269.0,
-      "uhc_index": 73.0
+      "uhc_index": 73.0,
+      "gap_abs_millions": 1.5772556469
     },
     {
       "iso3": "PAK",
@@ -6890,7 +7025,8 @@
       "cancer_share": 0.12262493975312588,
       "maternal_neonatal_share": 0.141568508920219,
       "population": 247504495.0,
-      "uhc_index": 56.0
+      "uhc_index": 56.0,
+      "gap_abs_millions": -419.2166799314
     },
     {
       "iso3": "PLW",
@@ -6940,7 +7076,8 @@
       "cancer_share": 0.20842440774114535,
       "maternal_neonatal_share": 0.013620202299293989,
       "population": 17727.0,
-      "uhc_index": 75.0
+      "uhc_index": 75.0,
+      "gap_abs_millions": 0.010918076
     },
     {
       "iso3": "PAN",
@@ -6990,7 +7127,8 @@
       "cancer_share": 0.18146409432410876,
       "maternal_neonatal_share": 0.016436571356530302,
       "population": 4458759.0,
-      "uhc_index": 82.0
+      "uhc_index": 82.0,
+      "gap_abs_millions": 2.3663274333
     },
     {
       "iso3": "PNG",
@@ -7040,7 +7178,8 @@
       "cancer_share": 0.0954803823552165,
       "maternal_neonatal_share": 0.06112510057086243,
       "population": 10389635.0,
-      "uhc_index": 32.0
+      "uhc_index": 32.0,
+      "gap_abs_millions": -18.284825429
     },
     {
       "iso3": "PRY",
@@ -7090,7 +7229,8 @@
       "cancer_share": 0.16747361239654185,
       "maternal_neonatal_share": 0.02106098520180242,
       "population": 6844146.0,
-      "uhc_index": 79.0
+      "uhc_index": 79.0,
+      "gap_abs_millions": -0.5228166631
     },
     {
       "iso3": "PER",
@@ -7140,7 +7280,8 @@
       "cancer_share": 0.21431958433682172,
       "maternal_neonatal_share": 0.016492131892722875,
       "population": 33845617.0,
-      "uhc_index": 68.0
+      "uhc_index": 68.0,
+      "gap_abs_millions": -3.5229440098
     },
     {
       "iso3": "PHL",
@@ -7190,7 +7331,8 @@
       "cancer_share": 0.11929503548382443,
       "maternal_neonatal_share": 0.03221799270177118,
       "population": 114891199.0,
-      "uhc_index": 69.0
+      "uhc_index": 69.0,
+      "gap_abs_millions": -67.7764028493
     },
     {
       "iso3": "POL",
@@ -7240,7 +7382,8 @@
       "cancer_share": 0.2871880806077289,
       "maternal_neonatal_share": 0.0010685695071001842,
       "population": 36687353.0,
-      "uhc_index": 82.0
+      "uhc_index": 82.0,
+      "gap_abs_millions": 49.4677338399
     },
     {
       "iso3": "PRT",
@@ -7290,7 +7433,8 @@
       "cancer_share": 0.2760261241588497,
       "maternal_neonatal_share": 0.0009398652663778072,
       "population": 10578174.0,
-      "uhc_index": 83.0
+      "uhc_index": 83.0,
+      "gap_abs_millions": 19.7307873369
     },
     {
       "iso3": "PRI",
@@ -7340,7 +7484,8 @@
       "cancer_share": 0.19644475195399752,
       "maternal_neonatal_share": 0.0023710904130023543,
       "population": 3203792.0,
-      "uhc_index": null
+      "uhc_index": null,
+      "gap_abs_millions": null
     },
     {
       "iso3": "QAT",
@@ -7390,7 +7535,8 @@
       "cancer_share": 0.16427221620136892,
       "maternal_neonatal_share": 0.017400451211689174,
       "population": 2656032.0,
-      "uhc_index": 84.0
+      "uhc_index": 84.0,
+      "gap_abs_millions": 2.2681117002
     },
     {
       "iso3": "ROU",
@@ -7440,7 +7586,8 @@
       "cancer_share": 0.20901844064016717,
       "maternal_neonatal_share": 0.0012410665495476963,
       "population": 19061062.0,
-      "uhc_index": 77.0
+      "uhc_index": 77.0,
+      "gap_abs_millions": 19.3868170526
     },
     {
       "iso3": "RUS",
@@ -7490,7 +7637,8 @@
       "cancer_share": 0.17022542281604075,
       "maternal_neonatal_share": 0.0012118466067605387,
       "population": 143826130.0,
-      "uhc_index": 81.0
+      "uhc_index": 81.0,
+      "gap_abs_millions": 124.3113433615
     },
     {
       "iso3": "RWA",
@@ -7540,7 +7688,8 @@
       "cancer_share": 0.12926517504529839,
       "maternal_neonatal_share": 0.07790548517216955,
       "population": 13954471.0,
-      "uhc_index": 59.0
+      "uhc_index": 59.0,
+      "gap_abs_millions": -17.1354581493
     },
     {
       "iso3": "WSM",
@@ -7590,7 +7739,8 @@
       "cancer_share": 0.0862787775539516,
       "maternal_neonatal_share": 0.02727956425848851,
       "population": 216663.0,
-      "uhc_index": 62.0
+      "uhc_index": 62.0,
+      "gap_abs_millions": -0.0782143586
     },
     {
       "iso3": "SMR",
@@ -7640,7 +7790,8 @@
       "cancer_share": 0.30909579482776217,
       "maternal_neonatal_share": 0.0013907784333137883,
       "population": 33860.0,
-      "uhc_index": 74.0
+      "uhc_index": 74.0,
+      "gap_abs_millions": 0.0582560442
     },
     {
       "iso3": "SAU",
@@ -7690,7 +7841,8 @@
       "cancer_share": 0.13129954707704997,
       "maternal_neonatal_share": 0.015456673406963944,
       "population": 33702731.0,
-      "uhc_index": 83.0
+      "uhc_index": 83.0,
+      "gap_abs_millions": 25.2594060752
     },
     {
       "iso3": "SEN",
@@ -7740,7 +7892,8 @@
       "cancer_share": 0.0818328512966707,
       "maternal_neonatal_share": 0.12899683109640986,
       "population": 18077573.0,
-      "uhc_index": 48.0
+      "uhc_index": 48.0,
+      "gap_abs_millions": -25.387210458
     },
     {
       "iso3": "SRB",
@@ -7790,7 +7943,8 @@
       "cancer_share": 0.23087362088594723,
       "maternal_neonatal_share": 0.001597420713677396,
       "population": 6623183.0,
-      "uhc_index": 73.0
+      "uhc_index": 73.0,
+      "gap_abs_millions": 8.7741232577
     },
     {
       "iso3": "SYC",
@@ -7840,7 +7994,8 @@
       "cancer_share": 0.22482072581017618,
       "maternal_neonatal_share": 0.00822367617200941,
       "population": 119773.0,
-      "uhc_index": 80.0
+      "uhc_index": 80.0,
+      "gap_abs_millions": 0.030669364
     },
     {
       "iso3": "SLE",
@@ -7890,7 +8045,8 @@
       "cancer_share": 0.057344303404860374,
       "maternal_neonatal_share": 0.10815635115456629,
       "population": 8460512.0,
-      "uhc_index": 48.0
+      "uhc_index": 48.0,
+      "gap_abs_millions": -21.0687928353
     },
     {
       "iso3": "SGP",
@@ -7940,7 +8096,8 @@
       "cancer_share": 0.28481348356865255,
       "maternal_neonatal_share": 0.0009724691131659025,
       "population": 5917648.0,
-      "uhc_index": 88.0
+      "uhc_index": 88.0,
+      "gap_abs_millions": 7.1853045848
     },
     {
       "iso3": "SVK",
@@ -7990,7 +8147,8 @@
       "cancer_share": 0.27351699212285274,
       "maternal_neonatal_share": 0.0017570574827430346,
       "population": 5426740.0,
-      "uhc_index": 78.0
+      "uhc_index": 78.0,
+      "gap_abs_millions": 8.1295412613
     },
     {
       "iso3": "SVN",
@@ -8040,7 +8198,8 @@
       "cancer_share": 0.29894170567167105,
       "maternal_neonatal_share": 0.000596830034803882,
       "population": 2120461.0,
-      "uhc_index": 84.0
+      "uhc_index": 84.0,
+      "gap_abs_millions": 3.8196640782
     },
     {
       "iso3": "SLB",
@@ -8090,7 +8249,8 @@
       "cancer_share": 0.11744340460741531,
       "maternal_neonatal_share": 0.018550677708086785,
       "population": 800005.0,
-      "uhc_index": 47.0
+      "uhc_index": 47.0,
+      "gap_abs_millions": -0.5522865663
     },
     {
       "iso3": "SOM",
@@ -8140,7 +8300,8 @@
       "cancer_share": 0.0442638498132408,
       "maternal_neonatal_share": 0.11832259607576817,
       "population": 18358615.0,
-      "uhc_index": 30.0
+      "uhc_index": 30.0,
+      "gap_abs_millions": -59.4562277678
     },
     {
       "iso3": "ZAF",
@@ -8190,7 +8351,8 @@
       "cancer_share": 0.12315991247810902,
       "maternal_neonatal_share": 0.023252377276006365,
       "population": 63212384.0,
-      "uhc_index": 74.0
+      "uhc_index": 74.0,
+      "gap_abs_millions": -70.4965311062
     },
     {
       "iso3": "SSD",
@@ -8240,7 +8402,8 @@
       "cancer_share": 0.08442355561750262,
       "maternal_neonatal_share": 0.08118871921620113,
       "population": 11483374.0,
-      "uhc_index": 41.0
+      "uhc_index": 41.0,
+      "gap_abs_millions": -32.7625506089
     },
     {
       "iso3": "ESP",
@@ -8290,7 +8453,8 @@
       "cancer_share": 0.28992396792229075,
       "maternal_neonatal_share": 0.0010219438538371878,
       "population": 48352528.0,
-      "uhc_index": 84.0
+      "uhc_index": 84.0,
+      "gap_abs_millions": 85.0860335618
     },
     {
       "iso3": "LKA",
@@ -8340,7 +8504,8 @@
       "cancer_share": 0.1446544005503108,
       "maternal_neonatal_share": 0.0055106332549828664,
       "population": 22037000.0,
-      "uhc_index": 72.0
+      "uhc_index": 72.0,
+      "gap_abs_millions": 7.8073518914
     },
     {
       "iso3": "KNA",
@@ -8390,7 +8555,8 @@
       "cancer_share": 0.19792358402346505,
       "maternal_neonatal_share": 0.014005697747569512,
       "population": 46758.0,
-      "uhc_index": 80.0
+      "uhc_index": 80.0,
+      "gap_abs_millions": 0.0099419965
     },
     {
       "iso3": "LCA",
@@ -8440,7 +8606,8 @@
       "cancer_share": 0.21941608868424806,
       "maternal_neonatal_share": 0.00889292714530763,
       "population": 179285.0,
-      "uhc_index": 75.0
+      "uhc_index": 75.0,
+      "gap_abs_millions": -0.0554712412
     },
     {
       "iso3": "VCT",
@@ -8490,7 +8657,8 @@
       "cancer_share": 0.19371528645616734,
       "maternal_neonatal_share": 0.008459708729539873,
       "population": 101323.0,
-      "uhc_index": 80.0
+      "uhc_index": 80.0,
+      "gap_abs_millions": -0.00480399
     },
     {
       "iso3": "SDN",
@@ -8540,7 +8708,8 @@
       "cancer_share": 0.09537697458284489,
       "maternal_neonatal_share": 0.0507564314473061,
       "population": 50042791.0,
-      "uhc_index": 48.0
+      "uhc_index": 48.0,
+      "gap_abs_millions": -73.9789975115
     },
     {
       "iso3": "SUR",
@@ -8590,7 +8759,8 @@
       "cancer_share": 0.1587113310236661,
       "maternal_neonatal_share": 0.031231843614521335,
       "population": 628886.0,
-      "uhc_index": 74.0
+      "uhc_index": 74.0,
+      "gap_abs_millions": -0.1467386206
     },
     {
       "iso3": "SWE",
@@ -8640,7 +8810,8 @@
       "cancer_share": 0.2914248855468036,
       "maternal_neonatal_share": 0.0010461443057970085,
       "population": 10536632.0,
-      "uhc_index": 85.0
+      "uhc_index": 85.0,
+      "gap_abs_millions": 27.7859128538
     },
     {
       "iso3": "CHE",
@@ -8690,7 +8861,8 @@
       "cancer_share": 0.28500494678954386,
       "maternal_neonatal_share": 0.0016825362606187522,
       "population": 8888822.0,
-      "uhc_index": 87.0
+      "uhc_index": 87.0,
+      "gap_abs_millions": 30.0494497923
     },
     {
       "iso3": "SYR",
@@ -8740,7 +8912,8 @@
       "cancer_share": 0.10027356701991244,
       "maternal_neonatal_share": 0.006350461603799824,
       "population": 23594623.0,
-      "uhc_index": 70.0
+      "uhc_index": 70.0,
+      "gap_abs_millions": -10.1050522457
     },
     {
       "iso3": "STP",
@@ -8790,7 +8963,8 @@
       "cancer_share": 0.12470774580908583,
       "maternal_neonatal_share": 0.03530435196137068,
       "population": 230871.0,
-      "uhc_index": 60.0
+      "uhc_index": 60.0,
+      "gap_abs_millions": -0.1526077773
     },
     {
       "iso3": "TJK",
@@ -8840,7 +9014,8 @@
       "cancer_share": 0.11137470818448063,
       "maternal_neonatal_share": 0.061432435785166085,
       "population": 10389799.0,
-      "uhc_index": 72.0
+      "uhc_index": 72.0,
+      "gap_abs_millions": -1.8820574278
     },
     {
       "iso3": "TZA",
@@ -8890,7 +9065,8 @@
       "cancer_share": 0.09381626266553339,
       "maternal_neonatal_share": 0.10313307029484493,
       "population": 66617606.0,
-      "uhc_index": 49.0
+      "uhc_index": 49.0,
+      "gap_abs_millions": -125.0645633632
     },
     {
       "iso3": "THA",
@@ -8940,7 +9116,8 @@
       "cancer_share": 0.23592628873554447,
       "maternal_neonatal_share": 0.0025840955950775357,
       "population": 71702435.0,
-      "uhc_index": 82.0
+      "uhc_index": 82.0,
+      "gap_abs_millions": -4.0793438613
     },
     {
       "iso3": "TLS",
@@ -8990,7 +9167,8 @@
       "cancer_share": 0.0941529219293702,
       "maternal_neonatal_share": 0.07995692600236633,
       "population": 1384286.0,
-      "uhc_index": 48.0
+      "uhc_index": 48.0,
+      "gap_abs_millions": -0.7705234456
     },
     {
       "iso3": "TGO",
@@ -9040,7 +9218,8 @@
       "cancer_share": 0.07274231988922951,
       "maternal_neonatal_share": 0.08906652347395783,
       "population": 9304337.0,
-      "uhc_index": 42.0
+      "uhc_index": 42.0,
+      "gap_abs_millions": -19.1268417333
     },
     {
       "iso3": "TON",
@@ -9090,7 +9269,8 @@
       "cancer_share": 0.18241465746064542,
       "maternal_neonatal_share": 0.014260259905709033,
       "population": 104597.0,
-      "uhc_index": 71.0
+      "uhc_index": 71.0,
+      "gap_abs_millions": 0.004687099
     },
     {
       "iso3": "TTO",
@@ -9140,7 +9320,8 @@
       "cancer_share": 0.18801923956081515,
       "maternal_neonatal_share": 0.006082965874494473,
       "population": 1367510.0,
-      "uhc_index": 75.0
+      "uhc_index": 75.0,
+      "gap_abs_millions": 0.564219502
     },
     {
       "iso3": "TUN",
@@ -9190,7 +9371,8 @@
       "cancer_share": 0.22846001700770865,
       "maternal_neonatal_share": 0.02934922104196196,
       "population": 12200431.0,
-      "uhc_index": 76.0
+      "uhc_index": 76.0,
+      "gap_abs_millions": 2.7493461663
     },
     {
       "iso3": "TKM",
@@ -9240,7 +9422,8 @@
       "cancer_share": 0.10830862681155691,
       "maternal_neonatal_share": 0.03555980665524463,
       "population": 7364438.0,
-      "uhc_index": 81.0
+      "uhc_index": 81.0,
+      "gap_abs_millions": -4.633090198
     },
     {
       "iso3": "TUV",
@@ -9290,7 +9473,8 @@
       "cancer_share": 0.12343363809481568,
       "maternal_neonatal_share": 0.02060163154232215,
       "population": 9816.0,
-      "uhc_index": 65.0
+      "uhc_index": 65.0,
+      "gap_abs_millions": 0.0023565126
     },
     {
       "iso3": "TUR",
@@ -9340,7 +9524,8 @@
       "cancer_share": 0.209417027480112,
       "maternal_neonatal_share": 0.008543630929080205,
       "population": 85325965.0,
-      "uhc_index": 77.0
+      "uhc_index": 77.0,
+      "gap_abs_millions": 31.9069526337
     },
     {
       "iso3": "UGA",
@@ -9390,7 +9575,8 @@
       "cancer_share": 0.1198385859839397,
       "maternal_neonatal_share": 0.11650895878848748,
       "population": 48656601.0,
-      "uhc_index": 54.0
+      "uhc_index": 54.0,
+      "gap_abs_millions": -84.6462498542
     },
     {
       "iso3": "UKR",
@@ -9440,7 +9626,8 @@
       "cancer_share": 0.14512485083456025,
       "maternal_neonatal_share": 0.001203003538443577,
       "population": 37732836.0,
-      "uhc_index": 80.0
+      "uhc_index": 80.0,
+      "gap_abs_millions": 5.2893240616
     },
     {
       "iso3": "ARE",
@@ -9490,7 +9677,8 @@
       "cancer_share": 0.2069064135455323,
       "maternal_neonatal_share": 0.009422650884765552,
       "population": 10483751.0,
-      "uhc_index": 84.0
+      "uhc_index": 84.0,
+      "gap_abs_millions": 10.7429207406
     },
     {
       "iso3": "GBR",
@@ -9540,7 +9728,8 @@
       "cancer_share": 0.3155503072278863,
       "maternal_neonatal_share": 0.002314417085577891,
       "population": 68492000.0,
-      "uhc_index": 88.0
+      "uhc_index": 88.0,
+      "gap_abs_millions": 127.6250576085
     },
     {
       "iso3": "USA",
@@ -9590,7 +9779,8 @@
       "cancer_share": 0.2287717415607609,
       "maternal_neonatal_share": 0.0036826657684339106,
       "population": 336806231.0,
-      "uhc_index": 88.0
+      "uhc_index": 88.0,
+      "gap_abs_millions": 932.8008392468
     },
     {
       "iso3": "URY",
@@ -9640,7 +9830,8 @@
       "cancer_share": 0.3033914334992504,
       "maternal_neonatal_share": 0.0025927939576496,
       "population": 3388081.0,
-      "uhc_index": 85.0
+      "uhc_index": 85.0,
+      "gap_abs_millions": 5.4188106815
     },
     {
       "iso3": "UZB",
@@ -9690,7 +9881,8 @@
       "cancer_share": 0.09654609051229215,
       "maternal_neonatal_share": 0.05001069675378801,
       "population": 35652307.0,
-      "uhc_index": 79.0
+      "uhc_index": 79.0,
+      "gap_abs_millions": -0.5144668332
     },
     {
       "iso3": "VUT",
@@ -9740,7 +9932,8 @@
       "cancer_share": 0.08395298576905716,
       "maternal_neonatal_share": 0.03228020156031584,
       "population": 320409.0,
-      "uhc_index": 52.0
+      "uhc_index": 52.0,
+      "gap_abs_millions": -0.2436695589
     },
     {
       "iso3": "VEN",
@@ -9790,7 +9983,8 @@
       "cancer_share": 0.1794326395322979,
       "maternal_neonatal_share": 0.027165107360242614,
       "population": 28300854.0,
-      "uhc_index": 75.0
+      "uhc_index": 75.0,
+      "gap_abs_millions": -15.8518122908
     },
     {
       "iso3": "VNM",
@@ -9840,7 +10034,8 @@
       "cancer_share": 0.18007499948634417,
       "maternal_neonatal_share": 0.009642368838830243,
       "population": 100352192.0,
-      "uhc_index": 71.0
+      "uhc_index": 71.0,
+      "gap_abs_millions": -33.0924447514
     },
     {
       "iso3": "VIR",
@@ -9890,7 +10085,8 @@
       "cancer_share": 0.21018616645478372,
       "maternal_neonatal_share": 0.004395166508609984,
       "population": 104917.0,
-      "uhc_index": null
+      "uhc_index": null,
+      "gap_abs_millions": null
     },
     {
       "iso3": "PSE",
@@ -9940,7 +10136,8 @@
       "cancer_share": 0.07366461276635956,
       "maternal_neonatal_share": 0.019572074754615573,
       "population": 5165775.0,
-      "uhc_index": 65.0
+      "uhc_index": 65.0,
+      "gap_abs_millions": -0.9039327254
     },
     {
       "iso3": "YEM",
@@ -9990,7 +10187,8 @@
       "cancer_share": 0.08652658169538759,
       "maternal_neonatal_share": 0.12020829297130292,
       "population": 39390799.0,
-      "uhc_index": 43.0
+      "uhc_index": 43.0,
+      "gap_abs_millions": -46.7044801553
     },
     {
       "iso3": "ZMB",
@@ -10040,7 +10238,8 @@
       "cancer_share": 0.0860189211376501,
       "maternal_neonatal_share": 0.07383897029105563,
       "population": 20723965.0,
-      "uhc_index": 62.0
+      "uhc_index": 62.0,
+      "gap_abs_millions": -35.6664924961
     },
     {
       "iso3": "ZWE",
@@ -10090,7 +10289,8 @@
       "cancer_share": 0.07559407920699578,
       "maternal_neonatal_share": 0.09658404434250586,
       "population": 16340822.0,
-      "uhc_index": 59.0
+      "uhc_index": 59.0,
+      "gap_abs_millions": -39.5039647944
     },
     {
       "iso3": "COK",
@@ -10140,7 +10340,8 @@
       "cancer_share": 0.22620696785770128,
       "maternal_neonatal_share": 0.003878120766467576,
       "population": null,
-      "uhc_index": 75.0
+      "uhc_index": 75.0,
+      "gap_abs_millions": null
     },
     {
       "iso3": "NIU",
@@ -10190,7 +10391,8 @@
       "cancer_share": 0.13220783963446323,
       "maternal_neonatal_share": 0.00644433414724923,
       "population": null,
-      "uhc_index": 67.0
+      "uhc_index": 67.0,
+      "gap_abs_millions": null
     },
     {
       "iso3": "TKL",
@@ -10240,7 +10442,8 @@
       "cancer_share": 0.1231194161465005,
       "maternal_neonatal_share": 0.007367553147437628,
       "population": null,
-      "uhc_index": null
+      "uhc_index": null,
+      "gap_abs_millions": null
     }
   ]
 }

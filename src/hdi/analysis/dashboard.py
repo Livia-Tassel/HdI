@@ -626,7 +626,7 @@ def build_dashboard_assets() -> dict[str, Any]:
     summary = _read_json(REPORTS / "analysis_summary.json") or {}
     resource_gap = _frame_from_records(
         _payload_data(API_OUTPUT / "dim3" / "resource_gap.json"),
-        ["iso3", "actual_resource_index", "theoretical_need_index", "gap", "gap_grade", "gap_grade_en", "country_name", "who_region", "population"],
+        ["iso3", "actual_resource_index", "theoretical_need_index", "gap", "gap_grade", "gap_grade_en", "country_name", "who_region", "population", "gap_abs_millions"],
     )
     efficiency = _frame_from_records(
         _payload_data(API_OUTPUT / "dim3" / "efficiency.json"),
@@ -677,8 +677,9 @@ def build_dashboard_assets() -> dict[str, Any]:
         )
         resource_gap["gap_grade_en"] = resource_gap["gap_grade"]
         _rg_cols = ["iso3", "actual_resource_index", "theoretical_need_index", "gap", "gap_grade", "gap_grade_en"]
-        if "population" in resource_gap.columns:
-            _rg_cols.append("population")
+        for _opt_col in ["population", "gap_abs_millions"]:
+            if _opt_col in resource_gap.columns:
+                _rg_cols.append(_opt_col)
         world_latest = world_latest.merge(resource_gap[_rg_cols], on="iso3", how="left")
     if not efficiency.empty:
         world_latest = world_latest.merge(
@@ -782,7 +783,7 @@ def build_dashboard_assets() -> dict[str, Any]:
                     *[c for c in [
                         "cardiovascular_share", "respiratory_chronic_share",
                         "diabetes_kidney_share", "cancer_share", "maternal_neonatal_share",
-                        "population", "uhc_index",
+                        "population", "uhc_index", "gap_abs_millions",
                     ] if c in world_latest.columns],
                 ]
             ].sort_values("country_name")

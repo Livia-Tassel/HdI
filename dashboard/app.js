@@ -37,7 +37,7 @@ const DIMENSIONS = {
     defaultMetric: "change_pct",
     mapTitle: "全球卫生资源配置分析",
     note: "调整优化目标与预算，对比不同资源配置方案。",
-    metrics: ["change_pct", "gap", "gap_grade_num", "efficiency", "uhc_index", "physicians_per_1000", "nurses_per_1000", "beds_per_1000", "health_exp_per_capita", "gdp_per_capita"],
+    metrics: ["change_pct", "gap", "gap_grade_num", "gap_abs_millions", "efficiency", "uhc_index", "physicians_per_1000", "nurses_per_1000", "beds_per_1000", "health_exp_per_capita", "gdp_per_capita"],
   },
   dim4: {
     label: "中国大陆聚焦",
@@ -148,6 +148,13 @@ const METRIC_META = {
     colorscale: [[0, "#1e0a3c"], [0.25, "#4a1a8c"], [0.5, "#7c3aed"], [0.75, "#a78bfa"], [1, "#e9d5ff"]],
     formatter: (value) => value == null ? NO_DATA_LABEL : `${Number(value).toFixed(0)} 分`,
     accessor: (row) => row.uhc_index,
+  },
+  gap_abs_millions: {
+    label: "绝对资源缺口（人口加权）",
+    colorscale: [[0, "#1f0a0a"], [0.25, "#4a1010"], [0.5, "#7a1a1a"], [0.75, "#b91c1c"], [1, "#f87171"]],
+    formatter: (value) => value == null ? NO_DATA_LABEL : `${Number(value).toFixed(1)}`,
+    accessor: (row) => row.gap_abs_millions,
+    diverging: true,
   },
   health_personnel: {
     label: "卫生人员",

@@ -1124,12 +1124,17 @@ def build_dimension3_outputs(master: pd.DataFrame, resource_panel: pd.DataFrame,
         logger.warning("Could not load population data; skipping population-weighted metrics")
         latest["population"] = np.nan
 
+    # Absolute gap: gap × population (in millions) — captures scale of shortfall
+    if "population" in latest.columns:
+        latest["gap_abs_millions"] = latest["gap"] * (latest["population"] / 1e6)
     resource_gap = latest[
         ["iso3", "country_name", "who_region", "wb_income", "year", "actual_resource", "theoretical_need", "gap", "gap_grade", "gap_grade_en"]
-        + (["population"] if "population" in latest.columns else [])
+        + [c for c in ["population", "gap_abs_millions"] if c in latest.columns]
     ].rename(columns={"actual_resource": "actual_resource_index", "theoretical_need": "theoretical_need_index"})
     export_dim3_resource_gap(resource_gap)
     _save_table(resource_gap.sort_values("gap").head(15), "tab_dim3_most_under_resourced")
+    if "gap_abs_millions" in resource_gap.columns:
+        _save_table(resource_gap.sort_values("gap_abs_millions").head(15), "tab_dim3_largest_absolute_gap")
 
     input_median = latest["input_index"].median()
     output_median = latest["output_index"].median()
