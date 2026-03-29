@@ -1789,13 +1789,26 @@ function renderCountryPanel() {
       ["优化调整", optRow.change_pct != null ? `${optRow.change_pct > 0 ? "+" : ""}${optRow.change_pct.toFixed(1)}%` : NO_DATA_LABEL, "cyan"],
     ];
   } else {
+    const gapGradeDisplay = (code) => {
+      const map = { "A_surplus":"A 富余", "B_relatively_adequate":"B 较充足", "C_balanced":"C 匹配", "D_shortage":"D 不足", "E_critical_shortage":"E 严重不足" };
+      return map[code] ?? code ?? NO_DATA_LABEL;
+    };
+    const gapGradeAccent = (code) => {
+      if (!code) return "amber";
+      if (code.startsWith("A") || code.startsWith("B")) return "emerald";
+      if (code.startsWith("E")) return "rose";
+      return "amber";
+    };
     items = [
-      ["优化目标", objectiveLabel(state.objective), "cyan"],
-      ["当前支出", formatCurrency(scenarioRow?.current ?? latest.current), "teal"],
+      ["缺口等级", gapGradeDisplay(latest.gap_grade_en), gapGradeAccent(latest.gap_grade_en)],
+      ["象限类型", (() => { const m = {"Q1_high_input_high_output":"Q1高投高产","Q2_low_input_high_output":"Q2低投高产","Q3_high_input_low_output":"Q3高投低产","Q4_low_input_low_output":"Q4低投低产"}; return m[latest.quadrant] ?? latest.quadrant ?? NO_DATA_LABEL; })(), "violet"],
+      ["当前支出", formatCurrency(scenarioRow?.current ?? latest.current ?? latest.health_exp_per_capita), "teal"],
       ["最优方案", formatCurrency(scenarioRow?.optimal ?? latest.optimal), "blue"],
-      ["建议调整", formatSignedPercent(scenarioRow?.change_pct ?? latest.change_pct), "violet"],
-      ["资源缺口", formatSigned(latest.gap), "rose"],
-      ["效率", formatSigned(latest.efficiency), "amber"],
+      ["建议调整", formatSignedPercent(scenarioRow?.change_pct ?? latest.change_pct), "cyan"],
+      ["预期寿命", latest.life_expectancy != null ? `${Number(latest.life_expectancy).toFixed(1)} 岁` : NO_DATA_LABEL, "emerald"],
+      ...(latest.uhc_index != null ? [["UHC指数", `${latest.uhc_index} 分`, "violet"]] : []),
+      ["资源缺口指数", formatSigned(latest.gap), "rose"],
+      ["效率评分", formatSigned(latest.efficiency), "amber"],
     ];
   }
 
