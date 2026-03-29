@@ -592,9 +592,9 @@ def build_dashboard_assets() -> dict[str, Any]:
     latest_year = int(master["year"].max())
     overview_latest = master[master["year"] == latest_year].copy()
 
-    # Backfill physicians_per_1000 and beds_per_1000 from up to 6 prior years to
+    # Backfill workforce/infrastructure metrics from up to 6 prior years to
     # improve global coverage (official data typically lags 2-4 years)
-    for _lag_col in ["physicians_per_1000", "beds_per_1000"]:
+    for _lag_col in ["physicians_per_1000", "beds_per_1000", "nurses_per_1000"]:
         if _lag_col not in overview_latest.columns:
             continue
         for _backfill_yr in range(latest_year - 1, max(latest_year - 6, 2015), -1):
@@ -604,6 +604,12 @@ def build_dashboard_assets() -> dict[str, Any]:
             _fill_map = _back.set_index("iso3")[_lag_col]
             still_missing = overview_latest[_lag_col].isna()
             overview_latest.loc[still_missing, _lag_col] = overview_latest.loc[still_missing, "iso3"].map(_fill_map)
+
+    # Compute cause-specific mortality shares (all have 203/203 coverage)
+    for _cause in ["cardiovascular_deaths", "respiratory_chronic_deaths", "diabetes_kidney_deaths", "cancer_deaths", "maternal_neonatal_deaths"]:
+        _share_col = _cause.replace("_deaths", "_share")
+        if _cause in overview_latest.columns and "total_deaths" in overview_latest.columns:
+            overview_latest[_share_col] = overview_latest[_cause] / overview_latest["total_deaths"].replace(0, float("nan"))
 
     summary = _read_json(REPORTS / "analysis_summary.json") or {}
     resource_gap = _frame_from_records(
@@ -750,6 +756,10 @@ def build_dashboard_assets() -> dict[str, Any]:
                     "urban_population_pct",
                     "fertility_rate",
                     "nurses_per_1000",
+                    *[c for c in [
+                        "cardiovascular_share", "respiratory_chronic_share",
+                        "diabetes_kidney_share", "cancer_share", "maternal_neonatal_share",
+                    ] if c in world_latest.columns],
                 ]
             ].sort_values("country_name")
         ),

@@ -19,9 +19,11 @@ const DIMENSIONS = {
     note: "点击国家查看预期寿命、疾病结构和卫生体系状况。",
     metrics: ["life_expectancy", "ncd_share", "communicable_share", "health_exp_pct_gdp",
               "infant_mortality", "under5_mortality", "adult_mortality_male", "adult_mortality_female",
-              "physicians_per_1000", "beds_per_1000", "health_exp_per_capita", "gdp_per_capita",
+              "physicians_per_1000", "nurses_per_1000", "beds_per_1000", "health_exp_per_capita", "gdp_per_capita",
               "basic_water_pct", "basic_sanitation_pct", "measles_immunization_pct",
-              "urban_population_pct", "fertility_rate"],
+              "urban_population_pct", "fertility_rate",
+              "cardiovascular_share", "cancer_share", "diabetes_kidney_share",
+              "respiratory_chronic_share", "maternal_neonatal_share"],
   },
   dim2: {
     label: "风险因素",
@@ -35,7 +37,7 @@ const DIMENSIONS = {
     defaultMetric: "change_pct",
     mapTitle: "全球卫生资源配置分析",
     note: "调整优化目标与预算，对比不同资源配置方案。",
-    metrics: ["change_pct", "gap", "efficiency", "physicians_per_1000", "beds_per_1000", "health_exp_per_capita", "gdp_per_capita"],
+    metrics: ["change_pct", "gap", "gap_grade_num", "efficiency", "physicians_per_1000", "nurses_per_1000", "beds_per_1000", "health_exp_per_capita", "gdp_per_capita"],
   },
   dim4: {
     label: "中国大陆聚焦",
@@ -103,6 +105,36 @@ const METRIC_META = {
     formatter: (value) => formatSigned(value),
     accessor: (row) => row.gap,
     diverging: true,
+  },
+  gap_grade_num: {
+    label: "资源缺口等级（A–E）",
+    colorscale: [
+      [0, "#ef4444"], [0.2, "#ef4444"],
+      [0.2, "#f97316"], [0.4, "#f97316"],
+      [0.4, "#64748b"], [0.6, "#64748b"],
+      [0.6, "#2dd4bf"], [0.8, "#2dd4bf"],
+      [0.8, "#22c55e"], [1, "#22c55e"],
+    ],
+    formatter: (value) => {
+      const labels = { 1: "E 严重不足", 2: "D 不足", 3: "C 匹配", 4: "B 较充足", 5: "A 富余" };
+      return value == null ? NO_DATA_LABEL : (labels[Math.round(value)] ?? NO_DATA_LABEL);
+    },
+    accessor: (row) => {
+      const gradeMap = {
+        "E_severe_shortage": 1, "E_critical_shortage": 1, "E_严重不足": 1,
+        "D_shortage": 2, "D_不足": 2,
+        "C_matched": 3, "C_balanced": 3, "C_匹配": 3,
+        "B_slight_surplus": 4, "B_relatively_adequate": 4, "B_较充足": 4,
+        "A_surplus": 5, "A_富余": 5,
+      };
+      const grade = row.gap_grade_en ?? row.gap_grade;
+      return grade && grade !== "nan" ? (gradeMap[grade] ?? null) : null;
+    },
+    colorbarExtra: {
+      tickvals: [1, 2, 3, 4, 5],
+      ticktext: ["E 严重不足", "D 不足", "C 匹配", "B 较充足", "A 富余"],
+    },
+    fixedRange: [0.5, 5.5],
   },
   efficiency: {
     label: "资源使用效率",
@@ -372,6 +404,43 @@ const METRIC_META = {
     colorscale: [[0, "#071a17"], [0.25, "#0c3a32"], [0.5, "#12705f"], [0.75, "#2dd4bf"], [1, "#99f6e4"]],
     formatter: (value) => value == null ? NO_DATA_LABEL : `${Number(value).toFixed(2)}/千人`,
     accessor: (row) => row.beds_per_1000,
+  },
+  nurses_per_1000: {
+    label: "护士密度（每千人）",
+    colorscale: [[0, "#0c1929"], [0.25, "#0e3a5e"], [0.5, "#0d6577"], [0.75, "#17a2b8"], [1, "#22d3ee"]],
+    formatter: (value) => value == null ? NO_DATA_LABEL : `${Number(value).toFixed(2)}/千人`,
+    accessor: (row) => row.nurses_per_1000,
+  },
+  cardiovascular_share: {
+    label: "心血管病死亡占比",
+    colorscale: [[0, "#0c1929"], [0.25, "#1a2747"], [0.5, "#6d28d9"], [0.75, "#8b5cf6"], [1, "#c4b5fd"]],
+    formatter: (value) => formatShare(value),
+    accessor: (row) => row.cardiovascular_share,
+  },
+  cancer_share: {
+    label: "癌症死亡占比",
+    colorscale: [[0, "#0c1929"], [0.25, "#4a1510"], [0.5, "#991b1b"], [0.75, "#ef4444"], [1, "#fca5a5"]],
+    formatter: (value) => formatShare(value),
+    accessor: (row) => row.cancer_share,
+  },
+  diabetes_kidney_share: {
+    label: "糖尿病/肾病死亡占比",
+    colorscale: [[0, "#071a17"], [0.25, "#0c3a32"], [0.5, "#12705f"], [0.75, "#1db99a"], [1, "#2dd4bf"]],
+    formatter: (value) => formatShare(value),
+    accessor: (row) => row.diabetes_kidney_share,
+  },
+  respiratory_chronic_share: {
+    label: "慢性呼吸病死亡占比",
+    colorscale: [[0, "#1a0808"], [0.25, "#4a1010"], [0.5, "#8b2020"], [0.75, "#dc2626"], [1, "#f87171"]],
+    formatter: (value) => formatShare(value),
+    accessor: (row) => row.respiratory_chronic_share,
+  },
+  maternal_neonatal_share: {
+    label: "孕产妇/新生儿死亡占比",
+    colorscale: [[0, "#0c1929"], [0.25, "#4a3010"], [0.5, "#7a5518"], [0.75, "#d4941a"], [1, "#fbbf24"]],
+    formatter: (value) => formatShare(value),
+    accessor: (row) => row.maternal_neonatal_share,
+    invertGradient: true,
   },
 };
 
@@ -1243,8 +1312,21 @@ function renderMap() {
   const metric = METRIC_META[state.metric];
   const records = getMapRecords();
   const values = records.map((row) => metric.accessor(row));
-  const bounds = getScaleBounds(values, metric.diverging);
+  const bounds = metric.fixedRange
+    ? { zmin: metric.fixedRange[0], zmax: metric.fixedRange[1], zmid: null }
+    : getScaleBounds(values, metric.diverging);
   const selected = records.find((row) => row.iso3 === state.country);
+  const colorbarBase = {
+    title: metric.label,
+    thickness: 12,
+    len: 0.68,
+    x: 0.02,
+    xanchor: "left",
+    tickfont: { family: "SFMono-Regular, ui-monospace, monospace", size: 11, color: THEME.muted },
+    titlefont: { family: "system-ui, sans-serif", size: 12, color: THEME.muted },
+    outlinewidth: 0,
+    ...(metric.colorbarExtra ?? {}),
+  };
 
   Plotly.react(
     "map-chart",
@@ -1269,16 +1351,7 @@ function renderMap() {
             width: records.map((row) => (row.iso3 === state.country ? 2 : 0.4)),
           },
         },
-        colorbar: {
-          title: metric.label,
-          thickness: 12,
-          len: 0.68,
-          x: 0.02,
-          xanchor: "left",
-          tickfont: { family: "SFMono-Regular, ui-monospace, monospace", size: 11, color: THEME.muted },
-          titlefont: { family: "system-ui, sans-serif", size: 12, color: THEME.muted },
-          outlinewidth: 0,
-        },
+        colorbar: colorbarBase,
       },
       {
         type: "choropleth",
@@ -1571,9 +1644,12 @@ function buildHoverText(row) {
     const GAP_GRADE_ZH = {
       "A_surplus": "A 富余", "A_富余": "A 富余",
       "B_slight_surplus": "B 较充足", "B_较充足": "B 较充足",
+      "B_relatively_adequate": "B 较充足",
       "C_matched": "C 匹配", "C_匹配": "C 匹配",
+      "C_balanced": "C 匹配",
       "D_shortage": "D 不足", "D_不足": "D 不足",
       "E_severe_shortage": "E 严重不足", "E_严重不足": "E 严重不足",
+      "E_critical_shortage": "E 严重不足",
     };
     return [
       `<b>${escapeHtml(countryLabel(row))}</b>`,

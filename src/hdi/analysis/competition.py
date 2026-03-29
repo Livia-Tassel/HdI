@@ -1037,9 +1037,9 @@ def build_dimension3_outputs(master: pd.DataFrame, resource_panel: pd.DataFrame,
     latest_year = int(resource_panel["year"].max())
     latest = resource_panel[resource_panel["year"] == latest_year].copy()
 
-    # Forward-fill physicians_per_1000 and beds_per_1000 from most recent available year
+    # Forward-fill workforce/infrastructure metrics from most recent available year
     # (these metrics lag in official reports by 2-4 years)
-    for _lag_col in ["physicians_per_1000", "beds_per_1000"]:
+    for _lag_col in ["physicians_per_1000", "beds_per_1000", "nurses_per_1000"]:
         if _lag_col not in latest.columns:
             continue
         missing_mask = latest[_lag_col].isna()
@@ -1055,15 +1055,15 @@ def build_dimension3_outputs(master: pd.DataFrame, resource_panel: pd.DataFrame,
             if not latest[_lag_col].isna().any():
                 break
 
-    latest["input_index"] = pd.concat(
-        [
-            _standardize(latest["physicians_per_1000"]),
-            _standardize(latest["beds_per_1000"]),
-            _standardize(latest["health_exp_pct_gdp"]),
-            _standardize(latest["health_exp_per_capita"]),
-        ],
-        axis=1,
-    ).mean(axis=1)
+    _input_components = [
+        _standardize(latest["physicians_per_1000"]),
+        _standardize(latest["beds_per_1000"]),
+        _standardize(latest["health_exp_pct_gdp"]),
+        _standardize(latest["health_exp_per_capita"]),
+    ]
+    if "nurses_per_1000" in latest.columns and latest["nurses_per_1000"].notna().sum() > 10:
+        _input_components.append(_standardize(latest["nurses_per_1000"]))
+    latest["input_index"] = pd.concat(_input_components, axis=1).mean(axis=1)
     latest["output_index"] = pd.concat(
         [
             _standardize(latest["life_expectancy"]),
