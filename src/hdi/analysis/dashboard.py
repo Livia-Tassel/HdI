@@ -859,25 +859,17 @@ def build_dashboard_assets() -> dict[str, Any]:
     }
 
     country_profiles: dict[str, Any] = {}
-    trend_cols = [
-        "year",
-        "life_expectancy",
-        "communicable_share",
-        "ncd_share",
-        "injury_share",
-        "gdp_per_capita",
-        "health_exp_pct_gdp",
-        "health_exp_per_capita",
-        "physicians_per_1000",
-        "beds_per_1000",
-        "urban_population_pct",
-        "basic_water_pct",
-        "basic_sanitation_pct",
-        "measles_immunization_pct",
-        "fertility_rate",
-        "infant_mortality",
-        "under5_mortality",
+    _all_trend_candidates = [
+        "year", "life_expectancy", "communicable_share", "ncd_share", "injury_share",
+        "gdp_per_capita", "health_exp_pct_gdp", "health_exp_per_capita",
+        "physicians_per_1000", "nurses_per_1000", "beds_per_1000",
+        "urban_population_pct", "basic_water_pct", "basic_sanitation_pct",
+        "measles_immunization_pct", "fertility_rate",
+        "infant_mortality", "under5_mortality",
+        "cardiovascular_share", "cancer_share", "diabetes_kidney_share",
+        "respiratory_chronic_share", "maternal_neonatal_share",
     ]
+    trend_cols = [c for c in _all_trend_candidates if c in master.columns]
     risk_history_base = (
         risk_deaths.groupby(["iso3", "year", "risk_code", "risk_factor"], as_index=False)["value"]
         .sum()

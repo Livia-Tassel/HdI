@@ -21,7 +21,7 @@ const DIMENSIONS = {
               "infant_mortality", "under5_mortality", "adult_mortality_male", "adult_mortality_female",
               "physicians_per_1000", "nurses_per_1000", "beds_per_1000", "health_exp_per_capita", "gdp_per_capita",
               "basic_water_pct", "basic_sanitation_pct", "measles_immunization_pct",
-              "urban_population_pct", "fertility_rate",
+              "urban_population_pct", "fertility_rate", "population",
               "cardiovascular_share", "cancer_share", "diabetes_kidney_share",
               "respiratory_chronic_share", "maternal_neonatal_share"],
   },
@@ -441,6 +441,12 @@ const METRIC_META = {
     formatter: (value) => formatShare(value),
     accessor: (row) => row.maternal_neonatal_share,
     invertGradient: true,
+  },
+  population: {
+    label: "人口规模",
+    colorscale: [[0, "#071a17"], [0.25, "#0c3a32"], [0.5, "#12705f"], [0.75, "#1db99a"], [1, "#2dd4bf"]],
+    formatter: (value) => value == null ? NO_DATA_LABEL : (value >= 1e9 ? `${(value / 1e9).toFixed(2)}亿` : value >= 1e6 ? `${(value / 1e6).toFixed(1)}百万` : `${Math.round(value / 1000)}千`),
+    accessor: (row) => row.population,
   },
 };
 
@@ -3861,6 +3867,11 @@ function renderSpotlightContent(iso3) {
     ...(latest.infant_mortality != null ? [["婴儿死亡率", `${Number(latest.infant_mortality).toFixed(1)} ‰`, "rose"]] : []),
     ...(latest.under5_mortality != null ? [["5岁以下死亡率", `${Number(latest.under5_mortality).toFixed(1)} ‰`, "amber"]] : []),
     ...(latest.physicians_per_1000 != null && latest.doctor_density == null ? [["医生密度（每千人）", `${Number(latest.physicians_per_1000).toFixed(2)}/千人`, "teal"]] : []),
+    ...(latest.nurses_per_1000 != null ? [["护士密度（每千人）", `${Number(latest.nurses_per_1000).toFixed(2)}/千人`, "cyan"]] : []),
+    ...(latest.population != null ? [["人口规模", METRIC_META.population.formatter(latest.population), "violet"]] : []),
+    ...(latest.cardiovascular_share != null ? [["心血管病占比", formatShare(latest.cardiovascular_share), "rose"]] : []),
+    ...(latest.cancer_share != null ? [["癌症死亡占比", formatShare(latest.cancer_share), "amber"]] : []),
+    ...(latest.gap_grade_en ? [["资源缺口等级", ({"A_surplus":"A 富余","B_relatively_adequate":"B 较充足","C_balanced":"C 匹配","D_shortage":"D 不足","E_critical_shortage":"E 严重不足"}[latest.gap_grade_en] ?? latest.gap_grade_en), latest.gap_grade_en?.startsWith("A") || latest.gap_grade_en?.startsWith("B") ? "emerald" : latest.gap_grade_en?.startsWith("E") ? "rose" : "amber"]] : []),
   ];
 
   document.getElementById("spotlight-metrics").innerHTML = metrics
