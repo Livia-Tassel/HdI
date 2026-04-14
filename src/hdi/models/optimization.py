@@ -143,12 +143,15 @@ def optimize_allocation_max_output(
     budget_multiplier: float = 1.0,
     min_ratio: float = 0.5,
     max_ratio: float = 2.0,
+    a_vec: np.ndarray | None = None,
+    b_vec: np.ndarray | None = None,
 ) -> OptimizationResult:
     """Maximize aggregate health output subject to total budget constraint.
 
     max sum_i f_i(x_i) s.t. sum_i x_i <= B, x_i in [x_i_min, x_i_max]
 
-    Uses CVXPY for convex optimization with concave production functions.
+    When a_vec/b_vec are provided (per-entity production function parameters),
+    uses per-entity log curves instead of a single globally-fitted curve.
     """
     data = df[[entity_col, input_col, output_col]].dropna()
     if data.empty:
@@ -161,7 +164,15 @@ def optimize_allocation_max_output(
     current_inputs = data[input_col].values
     current_outputs = data[output_col].values
     total_budget = current_inputs.sum() * budget_multiplier
-    a_coef, b_coef = _fit_log_production(current_inputs, current_outputs)
+
+    if a_vec is not None and b_vec is not None:
+        a_arr = np.asarray(a_vec, dtype=float)[: len(current_inputs)]
+        b_arr = np.asarray(b_vec, dtype=float)[: len(current_inputs)]
+    else:
+        scalar_a, scalar_b = _fit_log_production(current_inputs, current_outputs)
+        a_arr = np.full(len(current_inputs), scalar_a)
+        b_arr = np.full(len(current_inputs), scalar_b)
+
     lower = current_inputs * min_ratio
     upper = current_inputs * max_ratio
 
@@ -171,10 +182,10 @@ def optimize_allocation_max_output(
         lower=lower,
         upper=upper,
         objective="max_output",
-        a_coef=a_coef,
-        b_coef=b_coef,
+        a_coef=a_arr,
+        b_coef=b_arr,
     )
-    objective_value = float(np.sum(_project_outputs(optimal, a_coef, b_coef)))
+    objective_value = float(np.sum(_project_outputs(optimal, a_arr, b_arr)))
 
     result_df = pd.DataFrame({
         entity_col: data[entity_col].values,
@@ -200,10 +211,15 @@ def optimize_allocation_maximin(
     budget_multiplier: float = 1.0,
     min_ratio: float = 0.3,
     max_ratio: float = 2.0,
+    a_vec: np.ndarray | None = None,
+    b_vec: np.ndarray | None = None,
 ) -> OptimizationResult:
     """Rawlsian maximin: maximize the minimum health output.
 
     max min_i {f_i(x_i)} s.t. sum_i x_i <= B, x_i >= 0
+
+    When a_vec/b_vec are provided (per-entity production function parameters),
+    uses per-entity log curves instead of a single globally-fitted curve.
     """
     data = df[[entity_col, input_col, output_col]].dropna()
     if data.empty:
@@ -216,7 +232,15 @@ def optimize_allocation_maximin(
     current_inputs = data[input_col].values
     total_budget = current_inputs.sum() * budget_multiplier
     current_outputs = data[output_col].values
-    a_coef, b_coef = _fit_log_production(current_inputs, current_outputs)
+
+    if a_vec is not None and b_vec is not None:
+        a_arr = np.asarray(a_vec, dtype=float)[: len(current_inputs)]
+        b_arr = np.asarray(b_vec, dtype=float)[: len(current_inputs)]
+    else:
+        scalar_a, scalar_b = _fit_log_production(current_inputs, current_outputs)
+        a_arr = np.full(len(current_inputs), scalar_a)
+        b_arr = np.full(len(current_inputs), scalar_b)
+
     lower = current_inputs * min_ratio
     upper = current_inputs * max_ratio
 
@@ -226,10 +250,10 @@ def optimize_allocation_maximin(
         lower=lower,
         upper=upper,
         objective="maximin",
-        a_coef=a_coef,
-        b_coef=b_coef,
+        a_coef=a_arr,
+        b_coef=b_arr,
     )
-    objective_value = float(np.min(_project_outputs(optimal, a_coef, b_coef)))
+    objective_value = float(np.min(_project_outputs(optimal, a_arr, b_arr)))
 
     result_df = pd.DataFrame({
         entity_col: data[entity_col].values,
@@ -310,23 +334,60 @@ def _waterfill_box_budget(lower: np.ndarray, upper: np.ndarray, total_budget: fl
     return _rebalance_to_budget(trial, lower, upper, feasible_budget)
 
 
+def _waterfill_box_budget_hetero(
+    lower: np.ndarray, upper: np.ndarray, total_budget: float, a_vec: np.ndarray
+) -> np.ndarray:
+    """Generalized water-fill for heterogeneous log production functions.
+
+    Each entity k has f_k(x) = a_k * ln(x+1) + b_k (b_k cancels in first-order condition).
+    The optimality condition is a_k / (x_k* + 1) = mu for unconstrained entities, giving
+    x_k* = clip(a_k / mu - 1, lower_k, upper_k).  Binary-search on mu so that sum(x*) = B.
+    """
+    feasible_budget = float(np.clip(total_budget, lower.sum(), upper.sum()))
+    # mu_lo: all entities hit upper bound  → sum = upper.sum() >= feasible_budget
+    # mu_hi: all entities hit lower bound  → sum = lower.sum() <= feasible_budget
+    mu_lo = float(np.min(a_vec / (upper + 1.0))) * 0.5
+    mu_hi = float(np.max(a_vec / np.maximum(lower + 1.0, 1e-9))) * 2.0
+    mu_lo = max(mu_lo, 1e-12)
+
+    for _ in range(300):
+        mid = (mu_lo + mu_hi) / 2.0
+        trial = np.clip(a_vec / mid - 1.0, lower, upper)
+        if float(trial.sum()) > feasible_budget:
+            mu_lo = mid  # too much, raise mu to shrink allocations
+        else:
+            mu_hi = mid
+
+    trial = np.clip(a_vec / ((mu_lo + mu_hi) / 2.0) - 1.0, lower, upper)
+    return _rebalance_to_budget(trial, lower, upper, feasible_budget)
+
+
 def _solve_constrained_problem(
     current_inputs: np.ndarray,
     total_budget: float,
     lower: np.ndarray,
     upper: np.ndarray,
     objective: str,
-    a_coef: float,
-    b_coef: float,
+    a_coef: float | np.ndarray,
+    b_coef: float | np.ndarray,
 ) -> tuple[np.ndarray, str]:
-    """Solve the resource allocation problem with SciPy SLSQP and a safe fallback."""
+    """Solve the resource allocation problem with SciPy SLSQP and a safe fallback.
+
+    a_coef and b_coef may be scalars (uniform production function) or 1-D arrays
+    of the same length as current_inputs (per-entity production functions).
+    """
     from scipy.optimize import minimize
+
+    a_arr = np.broadcast_to(np.asarray(a_coef, dtype=float), current_inputs.shape).copy()
+    b_arr = np.broadcast_to(np.asarray(b_coef, dtype=float), current_inputs.shape).copy()
 
     feasible_budget = float(np.clip(total_budget, lower.sum(), upper.sum()))
     start = _rebalance_to_budget(current_inputs * (feasible_budget / max(current_inputs.sum(), 1e-9)), lower, upper, feasible_budget)
 
     if objective == "max_output":
-        return _waterfill_box_budget(lower, upper, feasible_budget), "optimal_waterfill"
+        if np.all(a_arr == a_arr[0]):
+            return _waterfill_box_budget(lower, upper, feasible_budget), "optimal_waterfill"
+        return _waterfill_box_budget_hetero(lower, upper, feasible_budget, a_arr), "optimal_waterfill_hetero"
 
     def objective_fn(vector: np.ndarray) -> float:
         return -float(vector[-1])
@@ -336,11 +397,13 @@ def _solve_constrained_problem(
         constraints.append(
             {
                 "type": "ineq",
-                "fun": lambda vector, idx=index: float(_project_outputs(np.array([vector[idx]]), a_coef, b_coef)[0] - vector[-1]),
+                "fun": lambda vector, idx=index: float(
+                    _project_outputs(np.array([vector[idx]]), a_arr[idx], b_arr[idx])[0] - vector[-1]
+                ),
             }
         )
 
-    start_with_floor = np.concatenate([start, [float(np.min(_project_outputs(start, a_coef, b_coef)))]])
+    start_with_floor = np.concatenate([start, [float(np.min(_project_outputs(start, a_arr, b_arr)))]])
     result = minimize(
         objective_fn,
         start_with_floor,

@@ -523,36 +523,85 @@ def generate_production_fit(global_opt: dict, china_payload: dict) -> None:
     global_base = pd.DataFrame(
         next(item for item in global_opt["scenarios"] if item["scenario_id"] == "max_output_budget_100")["allocation"]
     )
-    global_x = global_base["current"].to_numpy(dtype=float)
-    global_y = global_base["output_index"].to_numpy(dtype=float)
-    global_a, global_b, global_r2 = fit_log_curve(global_x, global_y)
-
     china_base = pd.DataFrame(china_payload["provinces"]).copy()
     china_x = china_base["health_exp_per_capita"].to_numpy(dtype=float)
     china_y = china_base["output_index"].to_numpy(dtype=float)
     china_a, china_b, china_r2 = fit_log_curve(china_x, china_y)
 
+    # --- Per-quadrant fits for global ---
+    _q_order = [
+        "Q1_high_input_high_output",
+        "Q2_low_input_high_output",
+        "Q3_high_input_low_output",
+        "Q4_low_input_low_output",
+    ]
+    quad_fits: dict[str, tuple[float, float, float, np.ndarray, np.ndarray]] = {}
+    for q in _q_order:
+        qdf = global_base[global_base["quadrant"] == q] if "quadrant" in global_base.columns else pd.DataFrame()
+        if len(qdf) >= 5:
+            qx = qdf["current"].to_numpy(dtype=float)
+            qy = qdf["output_index"].to_numpy(dtype=float)
+            qa, qb, qr2 = fit_log_curve(qx, qy)
+        else:
+            gx = global_base["current"].to_numpy(dtype=float)
+            gy = global_base["output_index"].to_numpy(dtype=float)
+            qa, qb, qr2 = fit_log_curve(gx, gy)
+            qx, qy = gx, gy
+        quad_fits[q] = (qa, qb, qr2, qdf["current"].to_numpy(dtype=float) if len(qdf) >= 1 else np.array([]),
+                        qdf["output_index"].to_numpy(dtype=float) if len(qdf) >= 1 else np.array([]))
+
     fig, axes = plt.subplots(1, 2, figsize=(15.5, 5.8))
-    for ax, x, y, a_coef, b_coef, r2, title in [
-        (axes[0], global_x, global_y, global_a, global_b, global_r2, "全球国家样本"),
-        (axes[1], china_x, china_y, china_a, china_b, china_r2, "中国省级样本"),
-    ]:
-        ax.scatter(x, y, s=32, alpha=0.72, color="#4E79A7", edgecolors="white", linewidths=0.4)
-        x_line = np.linspace(max(1.0, np.min(x)), np.max(x), 300)
-        y_line = a_coef * np.log(x_line + 1.0) + b_coef
-        ax.plot(x_line, y_line, color="#C73E1D", linewidth=2.4)
-        ax.set_xscale("log")
-        ax.set_title(title)
-        ax.set_xlabel("人均卫生支出（对数刻度）")
-        ax.text(
-            0.03,
-            0.05,
-            f"f(x) = {a_coef:.3f}·ln(x+1) {b_coef:+.3f}\n$R^2$ = {r2:.3f}",
-            transform=ax.transAxes,
-            fontsize=10,
-            color="#444444",
-        )
-    axes[0].set_ylabel("产出指数")
+
+    # --- Left subplot: global per-quadrant scatter + 4 fit curves ---
+    ax_global = axes[0]
+    for q in _q_order:
+        qa, qb, qr2, qx, qy = quad_fits[q]
+        color = QUADRANT_COLORS.get(q, "#888888")
+        label = QUADRANT_LABELS.get(q, q)
+        ax_global.scatter(qx, qy, s=28, alpha=0.72, color=color, edgecolors="white", linewidths=0.3, label=label)
+        if len(qx) >= 2:
+            x_line = np.linspace(max(1.0, float(np.min(qx))), float(np.max(qx)), 200)
+            y_line = qa * np.log(x_line + 1.0) + qb
+            ax_global.plot(x_line, y_line, color=color, linewidth=1.8, alpha=0.9)
+    ax_global.set_xscale("log")
+    ax_global.set_title("全球国家样本（按四象限分组拟合）")
+    ax_global.set_xlabel("人均卫生支出（对数刻度）")
+    ax_global.set_ylabel("产出指数")
+    ax_global.legend(loc="lower right", fontsize=8, framealpha=0.8)
+
+    # Annotation: per-quadrant params
+    lines = []
+    for q in _q_order:
+        qa, qb, qr2, _, _ = quad_fits[q]
+        short = QUADRANT_LABELS.get(q, q).split(" ")[0]
+        lines.append(f"{short}: a={qa:.3f}, b={qb:+.3f}, $R^2$={qr2:.3f}")
+    ax_global.text(
+        0.02, 0.03,
+        "\n".join(lines),
+        transform=ax_global.transAxes,
+        fontsize=7.5,
+        color="#333333",
+        verticalalignment="bottom",
+        bbox={"boxstyle": "round,pad=0.3", "facecolor": "white", "alpha": 0.7},
+    )
+
+    # --- Right subplot: China (unchanged) ---
+    ax_china = axes[1]
+    ax_china.scatter(china_x, china_y, s=32, alpha=0.72, color="#4E79A7", edgecolors="white", linewidths=0.4)
+    x_line = np.linspace(max(1.0, float(np.min(china_x))), float(np.max(china_x)), 300)
+    y_line = china_a * np.log(x_line + 1.0) + china_b
+    ax_china.plot(x_line, y_line, color="#C73E1D", linewidth=2.4)
+    ax_china.set_xscale("log")
+    ax_china.set_title("中国省级样本")
+    ax_china.set_xlabel("人均卫生支出（对数刻度）")
+    ax_china.text(
+        0.03, 0.05,
+        f"f(x) = {china_a:.3f}·ln(x+1) {china_b:+.3f}\n$R^2$ = {china_r2:.3f}",
+        transform=ax_china.transAxes,
+        fontsize=10,
+        color="#444444",
+    )
+
     fig.suptitle("图3-6 人均卫生支出与健康产出的对数生产函数拟合", y=1.03, fontsize=15)
     fig.tight_layout()
     save_matplotlib(fig, "p3_06_production_fit.png")

@@ -277,14 +277,23 @@ def _build_optimization_scenario(
     objective_meta = (objectives_dict or _all_objectives)[objective]
     _merge_cols = [c for c in ["iso3", "country_name", "who_region", "wb_income",
                                "quadrant", "theoretical_need", "gap", "efficiency",
-                               "output_index", "life_expectancy"] if c in optimize_base.columns]
+                               "output_index", "life_expectancy",
+                               "a_coef_fit", "b_coef_fit"] if c in optimize_base.columns]
     allocation = result.optimal_allocation.merge(
         optimize_base[_merge_cols],
         on="iso3",
         how="left",
     )
-    allocation["projected_output_current"] = _project_output_curve(allocation["current"].to_numpy(dtype=float), a_coef, b_coef)
-    allocation["projected_output_optimal"] = _project_output_curve(allocation["optimal"].to_numpy(dtype=float), a_coef, b_coef)
+    # Use per-entity production parameters when available (quadrant-specific fits),
+    # otherwise fall back to the scalar coefficients passed in.
+    if "a_coef_fit" in allocation.columns and allocation["a_coef_fit"].notna().all():
+        a_arr = allocation["a_coef_fit"].to_numpy(dtype=float)
+        b_arr = allocation["b_coef_fit"].to_numpy(dtype=float)
+    else:
+        a_arr = a_coef
+        b_arr = b_coef
+    allocation["projected_output_current"] = _project_output_curve(allocation["current"].to_numpy(dtype=float), a_arr, b_arr)
+    allocation["projected_output_optimal"] = _project_output_curve(allocation["optimal"].to_numpy(dtype=float), a_arr, b_arr)
     allocation["projected_output_delta"] = allocation["projected_output_optimal"] - allocation["projected_output_current"]
     allocation = allocation.sort_values("change_pct", ascending=False).reset_index(drop=True)
 
@@ -1223,6 +1232,38 @@ def build_dimension3_outputs(master: pd.DataFrame, resource_panel: pd.DataFrame,
         optimize_base["output_index"].to_numpy(dtype=float),
     )
 
+    # --- Per-quadrant production function fitting ---
+    _QUADRANT_KEYS = [
+        "Q1_high_input_high_output",
+        "Q2_low_input_high_output",
+        "Q3_high_input_low_output",
+        "Q4_low_input_low_output",
+    ]
+    quadrant_params: dict[str, tuple[float, float]] = {}
+    for _q in _QUADRANT_KEYS:
+        _qmask = optimize_base["quadrant"] == _q
+        if _qmask.sum() >= 5:
+            _qa, _qb = _fit_output_curve(
+                optimize_base.loc[_qmask, "health_exp_per_capita"].to_numpy(dtype=float),
+                optimize_base.loc[_qmask, "output_index"].to_numpy(dtype=float),
+            )
+        else:
+            _qa, _qb = a_coef, b_coef  # fall back to global when too few points
+        quadrant_params[_q] = (_qa, _qb)
+    quadrant_params["unclassified"] = (a_coef, b_coef)
+    optimize_base["a_coef_fit"] = optimize_base["quadrant"].map(
+        lambda q: quadrant_params.get(q, (a_coef, b_coef))[0]
+    )
+    optimize_base["b_coef_fit"] = optimize_base["quadrant"].map(
+        lambda q: quadrant_params.get(q, (a_coef, b_coef))[1]
+    )
+    a_vec_global = optimize_base["a_coef_fit"].to_numpy(dtype=float)
+    b_vec_global = optimize_base["b_coef_fit"].to_numpy(dtype=float)
+    logger.info(
+        "Per-quadrant production fits: %s",
+        {q: f"a={v[0]:.4f}, b={v[1]:.4f}" for q, v in quadrant_params.items() if q != "unclassified"},
+    )
+
     scenario_rows: list[dict[str, object]] = []
     default_scenario_id = _scenario_id("max_output", 1.0)
     default_allocation = pd.DataFrame()
@@ -1235,6 +1276,8 @@ def build_dimension3_outputs(master: pd.DataFrame, resource_panel: pd.DataFrame,
                     output_col="output_index",
                     input_col="health_exp_per_capita",
                     budget_multiplier=budget_multiplier,
+                    a_vec=a_vec_global,
+                    b_vec=b_vec_global,
                 )
                 scenario_payload = _build_optimization_scenario(
                     optimize_base=optimize_base,
@@ -1265,8 +1308,8 @@ def build_dimension3_outputs(master: pd.DataFrame, resource_panel: pd.DataFrame,
                         "country_count": int(len(fallback_result)),
                         "current_budget": float(fallback_result["current"].sum()),
                         "optimal_budget": float(fallback_result["optimal"].sum()),
-                        "projected_output_current": float(np.sum(_project_output_curve(fallback_result["current"].to_numpy(dtype=float), a_coef, b_coef))),
-                        "projected_output_optimal": float(np.sum(_project_output_curve(fallback_result["optimal"].to_numpy(dtype=float), a_coef, b_coef))),
+                        "projected_output_current": float(np.sum(_project_output_curve(fallback_result["current"].to_numpy(dtype=float), a_vec_global, b_vec_global))),
+                        "projected_output_optimal": float(np.sum(_project_output_curve(fallback_result["optimal"].to_numpy(dtype=float), a_vec_global, b_vec_global))),
                         "projected_output_gain_pct": 0.0,
                         "recipient_count": 0,
                         "donor_count": 0,

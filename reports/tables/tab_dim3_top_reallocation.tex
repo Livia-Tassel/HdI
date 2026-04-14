@@ -1,21 +1,21 @@
-\begin{tabular}{lrrrrllllrrrrrrrr}
+\begin{tabular}{lrrrrllllrrrrrrrrrr}
 \toprule
-iso3 & current & optimal & change & change_pct & country_name & who_region & wb_income & quadrant & theoretical_need & gap & efficiency & output_index & life_expectancy & projected_output_current & projected_output_optimal & projected_output_delta \\
+iso3 & current & optimal & change & change_pct & country_name & who_region & wb_income & quadrant & theoretical_need & gap & efficiency & output_index & life_expectancy & a_coef_fit & b_coef_fit & projected_output_current & projected_output_optimal & projected_output_delta \\
 \midrule
-PAN & 1472.046 & 2944.093 & 1472.046 & 100.000 & Panama & AMRO & HIC & Q1_high_input_high_output & -0.582 & 0.531 & 0.671 & 0.619 & 76.826 & 0.591 & 0.911 & 0.321 \\
-HUN & 1407.487 & 2814.975 & 1407.487 & 100.000 & Hungary & EURO & HIC & Q1_high_input_high_output & -0.803 & 1.348 & 0.219 & 0.764 & 76.017 & 0.570 & 0.891 & 0.321 \\
-ARG & 1370.885 & 2741.769 & 1370.885 & 100.000 & Argentina & AMRO & UMC & Q1_high_input_high_output & -0.520 & 1.119 & -0.001 & 0.598 & 76.064 & 0.558 & 0.878 & 0.321 \\
-HRV & 1344.190 & 2688.380 & 1344.190 & 100.000 & Croatia & EURO & HIC & Q1_high_input_high_output & -0.851 & 1.406 & 0.288 & 0.843 & 77.576 & 0.549 & 0.869 & 0.321 \\
-BRB & 1302.059 & 2604.118 & 1302.059 & 100.000 & Barbados & AMRO & HIC & Q1_high_input_high_output & -0.597 & 0.796 & 0.386 & 0.585 & 77.706 & 0.534 & 0.855 & 0.321 \\
-TTO & 1292.018 & 2584.036 & 1292.018 & 100.000 & Trinidad and Tobago & AMRO & HIC & Q1_high_input_high_output & -0.332 & 0.413 & 0.166 & 0.246 & 74.708 & 0.530 & 0.851 & 0.321 \\
-KNA & 1160.264 & 2320.529 & 1160.264 & 100.000 & St. Kitts and Nevis & AMRO & HIC & Q3_high_input_low_output & -0.181 & 0.213 & 0.093 & 0.124 & 72.027 & 0.481 & 0.801 & 0.321 \\
-MDV & 1150.686 & 2301.371 & 1150.686 & 100.000 & Maldives & SEARO & UMC & Q1_high_input_high_output & -1.011 & 1.244 & 0.890 & 1.124 & 80.839 & 0.477 & 0.797 & 0.321 \\
-BHR & 1110.676 & 2221.352 & 1110.676 & 100.000 & Bahrain & EMRO & HIC & Q2_low_input_high_output & -0.957 & 0.401 & 1.545 & 0.989 & 79.246 & 0.460 & 0.781 & 0.321 \\
-MNE & 1107.064 & 2214.129 & 1107.064 & 100.000 & Montenegro & EURO & UMC & Q1_high_input_high_output & -0.758 & 1.186 & 0.306 & 0.734 & 76.188 & 0.459 & 0.779 & 0.321 \\
-ATG & 1084.883 & 2169.767 & 1084.883 & 100.000 & Antigua and Barbuda & AMRO & HIC & Q1_high_input_high_output & -0.637 & 0.858 & 0.435 & 0.656 & 79.236 & 0.449 & 0.770 & 0.321 \\
-TUV & 1084.670 & 2169.339 & 1084.670 & 100.000 & Tuvalu & WPRO & UMC & Q3_high_input_low_output & 0.460 & 0.240 & -1.310 & -0.611 & 64.854 & 0.449 & 0.770 & 0.321 \\
-RUS & 1078.235 & 2156.470 & 1078.235 & 100.000 & Russian Federation & EURO & HIC & Q3_high_input_low_output & -0.263 & 0.864 & -0.453 & 0.148 & 72.546 & 0.447 & 0.767 & 0.321 \\
-BGR & 1011.095 & 2022.189 & 1011.095 & 100.000 & Bulgaria & EURO & HIC & Q1_high_input_high_output & -0.377 & 1.014 & -0.370 & 0.267 & 74.361 & 0.417 & 0.738 & 0.321 \\
-CRI & 978.842 & 1957.683 & 978.842 & 100.000 & Costa Rica & AMRO & HIC & Q1_high_input_high_output & -0.766 & 0.598 & 0.927 & 0.759 & 77.320 & 0.402 & 0.723 & 0.321 \\
+PAN & 1472.046 & 2944.093 & 1472.046 & 100.000 & Panama & AMRO & HIC & Q1_high_input_high_output & -0.582 & 0.531 & 0.671 & 0.619 & 76.826 & 0.242 & -1.003 & 0.760 & 0.927 & 0.167 \\
+HUN & 1407.487 & 2814.975 & 1407.487 & 100.000 & Hungary & EURO & HIC & Q1_high_input_high_output & -0.803 & 1.348 & 0.219 & 0.764 & 76.017 & 0.242 & -1.003 & 0.749 & 0.916 & 0.167 \\
+ARG & 1370.885 & 2741.769 & 1370.885 & 100.000 & Argentina & AMRO & UMC & Q1_high_input_high_output & -0.520 & 1.119 & -0.001 & 0.598 & 76.064 & 0.242 & -1.003 & 0.742 & 0.910 & 0.167 \\
+HRV & 1344.190 & 2688.380 & 1344.190 & 100.000 & Croatia & EURO & HIC & Q1_high_input_high_output & -0.851 & 1.406 & 0.288 & 0.843 & 77.576 & 0.242 & -1.003 & 0.738 & 0.905 & 0.167 \\
+BRB & 1302.059 & 2604.118 & 1302.059 & 100.000 & Barbados & AMRO & HIC & Q1_high_input_high_output & -0.597 & 0.796 & 0.386 & 0.585 & 77.706 & 0.242 & -1.003 & 0.730 & 0.897 & 0.167 \\
+TTO & 1292.018 & 2584.036 & 1292.018 & 100.000 & Trinidad and Tobago & AMRO & HIC & Q1_high_input_high_output & -0.332 & 0.413 & 0.166 & 0.246 & 74.708 & 0.242 & -1.003 & 0.728 & 0.896 & 0.167 \\
+MDV & 1150.686 & 2301.371 & 1150.686 & 100.000 & Maldives & SEARO & UMC & Q1_high_input_high_output & -1.011 & 1.244 & 0.890 & 1.124 & 80.839 & 0.242 & -1.003 & 0.700 & 0.868 & 0.167 \\
+BHR & 1110.676 & 2221.352 & 1110.676 & 100.000 & Bahrain & EMRO & HIC & Q2_low_input_high_output & -0.957 & 0.401 & 1.545 & 0.989 & 79.246 & 0.223 & -0.771 & 0.795 & 0.949 & 0.155 \\
+MNE & 1107.064 & 2214.129 & 1107.064 & 100.000 & Montenegro & EURO & UMC & Q1_high_input_high_output & -0.758 & 1.186 & 0.306 & 0.734 & 76.188 & 0.242 & -1.003 & 0.691 & 0.858 & 0.167 \\
+ATG & 1084.883 & 2169.767 & 1084.883 & 100.000 & Antigua and Barbuda & AMRO & HIC & Q1_high_input_high_output & -0.637 & 0.858 & 0.435 & 0.656 & 79.236 & 0.242 & -1.003 & 0.686 & 0.853 & 0.167 \\
+BGR & 1011.095 & 2022.189 & 1011.095 & 100.000 & Bulgaria & EURO & HIC & Q1_high_input_high_output & -0.377 & 1.014 & -0.370 & 0.267 & 74.361 & 0.242 & -1.003 & 0.669 & 0.836 & 0.167 \\
+CRI & 978.842 & 1957.683 & 978.842 & 100.000 & Costa Rica & AMRO & HIC & Q1_high_input_high_output & -0.766 & 0.598 & 0.927 & 0.759 & 77.320 & 0.242 & -1.003 & 0.661 & 0.828 & 0.167 \\
+SRB & 903.118 & 1806.237 & 903.118 & 100.000 & Serbia & EURO & UMC & Q1_high_input_high_output & -0.673 & 1.325 & 0.003 & 0.655 & 75.482 & 0.242 & -1.003 & 0.642 & 0.809 & 0.167 \\
+ROU & 902.268 & 1804.535 & 902.268 & 100.000 & Romania & EURO & HIC & Q1_high_input_high_output & -0.567 & 1.017 & 0.082 & 0.532 & 75.305 & 0.242 & -1.003 & 0.641 & 0.809 & 0.167 \\
+BRA & 848.571 & 1697.142 & 848.571 & 100.000 & Brazil & AMRO & UMC & Q1_high_input_high_output & -0.345 & 0.412 & 0.269 & 0.337 & 73.425 & 0.242 & -1.003 & 0.627 & 0.794 & 0.167 \\
 \bottomrule
 \end{tabular}
