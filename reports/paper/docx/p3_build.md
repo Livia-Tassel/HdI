@@ -227,12 +227,12 @@ Q4地区属于低投入低产出，是卫生资源再分配中最需要优先关
 
 参考文献
 
-[1]World Bank.World Development Indicators(WDI)[DB/OL].https://databank.worldbank.org/source/world-development-indicators.
+[1] Institute for Health Metrics and Evaluation. Global Burden of Disease Results Tool[DB/OL]. Seattle: IHME, 2024[2026-04-21]. https://vizhub.healthdata.org/gbd-results/.
 
-[2]Institute for Health Metrics and Evaluation.Global Burden of Disease Study 2019(GBD2019)Results[DB/OL].https://www.healthdata.org/gbd.
+[2] World Bank. World Development Indicators[DB/OL]. Washington, DC: World Bank, 2024[2026-04-21]. https://databank.worldbank.org/source/world-development-indicators.
 
-[3]World Health Organization.World health statistics 2023:monitoring health for the SDGs,sustainable development goals[M].Geneva:WHO,2023.
+[3] World Bank. Health Nutrition and Population Statistics[DB/OL]. Washington, DC: World Bank, 2024[2026-04-21]. https://databank.worldbank.org/source/health-nutrition-and-population-statistics.
 
-[4]Rawls J.A Theory of Justice[M].Cambridge,MA:Harvard University Press,1971.
+[4] 国家统计局. 中国统计年鉴[DB/OL]. 北京: 中国统计出版社, 2024[2026-04-21]. https://www.stats.gov.cn/sj/ndsj/.
 
-[5]国家统计局.中国统计年鉴与卫生统计年鉴相关年度数据[DB/OL].
+[5] Rawls J. A Theory of Justice[M]. Cambridge, MA: Harvard University Press, 1971.

@@ -444,6 +444,27 @@ def finalize_cover() -> None:
     doc.save(OUTPUT_DOCX)
 
 
+def finalize_references() -> None:
+    refs = [
+        "[1] Institute for Health Metrics and Evaluation. Global Burden of Disease Results Tool[DB/OL]. Seattle: IHME, 2024[2026-04-21]. https://vizhub.healthdata.org/gbd-results/.",
+        "[2] World Bank. World Development Indicators[DB/OL]. Washington, DC: World Bank, 2024[2026-04-21]. https://databank.worldbank.org/source/world-development-indicators.",
+        "[3] World Bank. Health Nutrition and Population Statistics[DB/OL]. Washington, DC: World Bank, 2024[2026-04-21]. https://databank.worldbank.org/source/health-nutrition-and-population-statistics.",
+        "[4] 国家统计局. 中国统计年鉴[DB/OL]. 北京: 中国统计出版社, 2024[2026-04-21]. https://www.stats.gov.cn/sj/ndsj/.",
+        "[5] Rawls J. A Theory of Justice[M]. Cambridge, MA: Harvard University Press, 1971.",
+    ]
+    doc = Document(OUTPUT_DOCX)
+    ref_index = 0
+    for paragraph in doc.paragraphs:
+        text = paragraph.text.strip()
+        if text.startswith("[") and ref_index < len(refs):
+            set_paragraph_text(paragraph, refs[ref_index])
+            paragraph.paragraph_format.first_line_indent = None
+            ref_index += 1
+    if ref_index != len(refs):
+        raise RuntimeError(f"Expected {len(refs)} references, updated {ref_index}.")
+    doc.save(OUTPUT_DOCX)
+
+
 def main() -> None:
     if not TEMPLATE_DOCX.exists():
         raise FileNotFoundError(TEMPLATE_DOCX)
@@ -455,6 +476,7 @@ def main() -> None:
     merge_into_template()
     insert_native_tables()
     finalize_cover()
+    finalize_references()
 
 
 if __name__ == "__main__":
