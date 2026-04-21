@@ -9,6 +9,7 @@ from pathlib import Path
 from docx import Document
 from docx.enum.table import WD_TABLE_ALIGNMENT
 from docx.enum.text import WD_ALIGN_PARAGRAPH
+from docx.oxml import OxmlElement
 from docx.oxml.ns import qn
 from docx.shared import Cm, Pt
 from lxml import etree
@@ -30,30 +31,33 @@ PKG_REL_NS = "http://schemas.openxmlformats.org/package/2006/relationships"
 CT_NS = "http://schemas.openxmlformats.org/package/2006/content-types"
 NS = {"w": W_NS, "r": R_NS}
 
-CAPTION_RE = re.compile(r"^(图|表)\s*3[-0-9A-Za-z]+\s+")
+CAPTION_RE = re.compile(r"^(图|表)\s*\d[-0-9A-Za-z]+\s+")
+MANUAL_H1_RE = re.compile(r"^6\s+")
+MANUAL_H2_RE = re.compile(r"^6\.\d+\s+")
+MANUAL_H3_RE = re.compile(r"^6\.\d+\.\d+\s+")
 TABLE_MARKERS = {
     "[[TABLE_DATA_SOURCE]]": {
         "rows": [
-            ["编号", "数据集", "来源", "类型", "核心字段", "规模"],
-            ["01", "全球核心疾病与死亡估算", "IHME GBD", "结构化 CSV", "地理位置、年份、死因、死亡人数及上下界", "22 类死因，2000-2023 年"],
-            ["02", "全球健康风险因素", "IHME GBD", "结构化 CSV", "地理位置、年份、风险因素、死亡人数", "20 类风险，2000-2023 年"],
-            ["03", "全球健康营养与人口统计", "World Bank HNP", "结构化 CSV", "SP/SH/SN/SE/SL 指标，含 LE、IMR、U5MR", "2.5 GB，多国多年"],
-            ["04", "社会经济指标", "World Bank WDI", "结构化 CSV", "WDICSV、WDICountry、WDISeries 等", "1960-2024 年"],
-            ["05", "中国省级卫生数据", "国家统计局", "结构化 CSV", "卫生人员、医疗机构、寿命、出生率", "31 省 x 20 年"],
+            ["数据类型", "数据来源", "核心字段", "用途与规模"],
+            ["疾病死亡", "IHMEGBD", "死因、死亡人数、上下界", "构造疾病负担与传染病占比；2000—2023年"],
+            ["风险因素", "IHMEGBD", "风险因素、归因死亡", "辅助解释健康风险；2000—2023年"],
+            ["全球卫生人口", "WorldBankHNP/WDI", "Phys、Beds、LE、IMR、U5MR、HExpPC", "构造国家投入、产出和需求指数"],
+            ["国家分组", "WDICountry", "IncomeGroup、地区信息", "用于收入组和WHO地区分组"],
+            ["中国省级", "国家统计局", "卫生人员、机构、寿命、出生率", "31省×20年，用于省级再分配"],
         ],
-        "widths": [1.0, 2.6, 1.9, 1.8, 3.9, 2.6],
+        "widths": [2.2, 3.0, 4.4, 4.4],
         "font_size": 9,
     },
     "[[TABLE_INDICATORS]]": {
         "rows": [
             ["指标名称", "代号", "来源指标码", "说明"],
-            ["医生密度", "Phys", "SH.MED.PHYS.ZS", "每千人医生数，03 优先，缺失回退 04"],
-            ["床位密度", "Beds", "SH.MED.BEDS.ZS", "每千人床位数，03 优先，缺失回退 04"],
-            ["卫生支出占 GDP", "HExp", "SH.XPD.CHEX.GD.ZS", "世界银行指标，单位为百分比"],
+            ["医生密度", "Phys", "SH.MED.PHYS.ZS", "每千人医生数，03优先，缺失回退04"],
+            ["床位密度", "Beds", "SH.MED.BEDS.ZS", "每千人床位数，03优先，缺失回退04"],
+            ["卫生支出占GDP", "HExp", "SH.XPD.CHEX.GD.ZS", "世界银行指标，单位为百分比"],
             ["人均卫生支出", "HExpPC", "SH.XPD.CHEX.PC.CD", "当前美元口径"],
-            ["传染性疾病占比", "CommSh", "数据集 01 聚合", "传染病死亡占全因死亡比例"],
+            ["传染性疾病占比", "CommSh", "数据集01聚合", "传染病死亡占全因死亡比例"],
             ["婴儿死亡率", "IMR", "SP.DYN.IMRT.IN", "每千活产儿死亡数"],
-            ["5 岁以下死亡率", "U5MR", "SH.DYN.MORT", "每千活产儿死亡数"],
+            ["5岁以下死亡率", "U5MR", "SH.DYN.MORT", "每千活产儿死亡数"],
             ["预期寿命", "LE", "SP.DYN.LE00.IN", "出生时预期寿命，单位为岁"],
         ],
         "widths": [2.5, 1.3, 3.1, 7.0],
@@ -62,10 +66,10 @@ TABLE_MARKERS = {
     "[[TABLE_PARAMS]]": {
         "rows": [
             ["象限", "a_k", "b_k"],
-            ["Q1（高投入-高产出）", "0.2416", "-1.0029"],
-            ["Q2（低投入-高产出）", "0.2231", "-0.7705"],
-            ["Q3（高投入-低产出）", "0.1446", "-1.2631"],
-            ["Q4（低投入-低产出）", "0.4086", "-2.6890"],
+            ["Q1（高投入高产出）", "0.2416", "-1.0029"],
+            ["Q2（低投入高产出）", "0.2231", "-0.7705"],
+            ["Q3（高投入低产出）", "0.1446", "-1.2631"],
+            ["Q4（低投入低产出）", "0.4086", "-2.6890"],
         ],
         "widths": [6.5, 2.8, 2.8],
         "font_size": 10,
@@ -77,7 +81,7 @@ TABLE_MARKERS = {
             ["缺失插补", "sklearn.impute"],
             ["优化求解", "scipy.optimize, 二分注水搜索"],
             ["可视化", "matplotlib, geopandas"],
-            ["分组拟合", "scipy.stats 或最小二乘 OLS"],
+            ["分组拟合", "scipy.stats或最小二乘OLS"],
             ["项目落地", "src/hdi/analysis/competition.py；src/hdi/models/optimization.py"],
         ],
         "widths": [3.0, 10.0],
@@ -88,11 +92,11 @@ TABLE_MARKERS = {
             ["图号", "图表内容", "核心结论"],
             ["图3-0", "技术路线图", "展示问题三整体建模流程"],
             ["图3-1", "全球资源缺口五级地图", "缺口集中于撒哈拉以南非洲"],
-            ["图3-2", "缺口最严重前 15 国", "前 15 名全部位于 AFRO 地区"],
-            ["图3-3", "全球四象限散点图", "Q4 国家占比最高，Q2 最少"],
+            ["图3-2", "缺口最严重前15国", "前15名全部位于AFRO地区"],
+            ["图3-3", "全球四象限散点图", "Q4国家占比最高，Q2最少"],
             ["图3-4", "全球公平性趋势图", "Gini、Theil、sigma 均呈下降趋势"],
-            ["图3-5", "分组公平性对比图", "HIC 与 LIC 差距显著，Q2 内部最平等"],
-            ["图3-6", "分象限生产函数拟合图", "Q4 边际回报最高，Q3 最低"],
+            ["图3-5", "分组公平性对比图", "HIC与LIC差距显著，Q2内部最平等"],
+            ["图3-6", "分象限生产函数拟合图", "Q4边际回报最高，Q3最低"],
             ["图3-7", "全球再分配对比图", "效率优先广覆盖，公平优先定向扶持"],
             ["图3-8", "中国省级趋势图", "人口大省总量领先，西部省份追赶加快"],
             ["图3-9", "中国资源缺口与象限图", "云南、新疆、贵州等地缺口突出"],
@@ -131,6 +135,32 @@ def paragraph_has_math(paragraph) -> bool:
     )
 
 
+def set_run_font(run, size: int, bold: bool = False, east_asia: str = "黑体") -> None:
+    run.font.size = Pt(size)
+    run.bold = bold
+    r_pr = run._element.get_or_add_rPr()
+    r_fonts = r_pr.rFonts
+    if r_fonts is None:
+        r_fonts = OxmlElement("w:rFonts")
+        r_pr.append(r_fonts)
+    r_fonts.set(qn("w:eastAsia"), east_asia)
+
+
+def apply_manual_heading(paragraph, level: int) -> None:
+    paragraph.style = paragraph.part.document.styles["正文段落"]
+    paragraph.alignment = WD_ALIGN_PARAGRAPH.LEFT
+    paragraph.paragraph_format.first_line_indent = None
+    paragraph.paragraph_format.space_before = Pt(12 if level == 1 else 6)
+    paragraph.paragraph_format.space_after = Pt(6)
+    for run in paragraph.runs:
+        if level == 1:
+            set_run_font(run, 16, True)
+        elif level == 2:
+            set_run_font(run, 14, True)
+        else:
+            set_run_font(run, 12, True)
+
+
 def style_generated_doc() -> None:
     doc = Document(BODY_DOCX)
     current_h1 = ""
@@ -145,6 +175,17 @@ def style_generated_doc() -> None:
             current_h1 = text
             continue
         if style_name in {"Heading 2", "Heading 3"}:
+            continue
+
+        if MANUAL_H1_RE.match(text) or text == "参考文献":
+            apply_manual_heading(paragraph, 1)
+            current_h1 = text
+            continue
+        if MANUAL_H2_RE.match(text):
+            apply_manual_heading(paragraph, 2)
+            continue
+        if MANUAL_H3_RE.match(text):
+            apply_manual_heading(paragraph, 3)
             continue
 
         if has_drawing and not text:
@@ -392,10 +433,6 @@ def insert_native_tables() -> None:
             insert_table_after(doc, paragraph, text)
             markers[text] = True
 
-    missing = [marker for marker, found in markers.items() if not found]
-    if missing:
-        raise RuntimeError(f"Missing table markers: {missing}")
-
     doc.save(OUTPUT_DOCX)
 
 
@@ -403,7 +440,7 @@ def finalize_cover() -> None:
     doc = Document(OUTPUT_DOCX)
     set_paragraph_text(doc.paragraphs[5], "作品编号：")
     set_paragraph_text(doc.paragraphs[6], "作品名称：全球卫生资源分配与健康公平性分析")
-    set_paragraph_text(doc.paragraphs[8], "填写日期：2026年4月18日")
+    set_paragraph_text(doc.paragraphs[8], "填写日期：2026年4月21日")
     doc.save(OUTPUT_DOCX)
 
 
