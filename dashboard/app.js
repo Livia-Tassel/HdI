@@ -1680,9 +1680,9 @@ function renderMap() {
         marker: {
           line: {
             color: records.map((row) =>
-              row.iso3 === state.country ? "rgba(217,104,10,0.90)" : "rgba(198,204,212,0.9)",
+              row.iso3 === state.country ? "rgba(0,210,220,0.95)" : "rgba(198,204,212,0.9)",
             ),
-            width: records.map((row) => (row.iso3 === state.country ? 2.5 : 0.4)),
+            width: records.map((row) => (row.iso3 === state.country ? 3 : 0.4)),
           },
         },
         colorbar: colorbarBase,
@@ -1700,7 +1700,7 @@ function renderMap() {
         zmax: bounds.zmax,
         zmid: bounds.zmid,
         marker: {
-          line: { color: "rgba(217,104,10,0.95)", width: 3 },
+          line: { color: "rgba(0,210,220,0.98)", width: 3.5 },
         },
       },
     ],
@@ -1939,10 +1939,10 @@ function updateMapHighlight(iso3) {
     {
       "marker.line.color": [
         records.map((row) =>
-          row.iso3 === iso3 ? "rgba(217,104,10,0.90)" : "rgba(198,204,212,0.9)",
+          row.iso3 === iso3 ? "rgba(0,210,220,0.95)" : "rgba(198,204,212,0.9)",
         ),
       ],
-      "marker.line.width": [records.map((row) => (row.iso3 === iso3 ? 2.5 : 0.4))],
+      "marker.line.width": [records.map((row) => (row.iso3 === iso3 ? 3 : 0.4))],
     },
     [0],
   );
@@ -4068,7 +4068,7 @@ function renderRadarChart() {
     {
       paper_bgcolor: "rgba(0,0,0,0)",
       plot_bgcolor: "rgba(0,0,0,0)",
-      margin: { l: 50, r: 50, t: 30, b: 30 },
+      margin: { l: 56, r: 56, t: 40, b: 80 },
       font: { family: "system-ui, sans-serif", color: THEME.muted },
       polar: {
         bgcolor: "rgba(0,0,0,0)",

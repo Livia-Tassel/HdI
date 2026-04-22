@@ -74,10 +74,10 @@
   --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
   --ease-smooth: cubic-bezier(0.25, 0.1, 0.25, 1);
 
-  /* National / selection highlight — high-contrast orange, distinct from all map colorscales */
-  --highlight: #D9680A;
-  --highlight-soft: rgba(217, 104, 10, 0.10);
-  --highlight-ring: rgba(217, 104, 10, 0.22);
+  /* National / selection highlight — vivid cyan, universal contrast on all map colorscales */
+  --highlight: #00D2DC;
+  --highlight-soft: rgba(0, 210, 220, 0.10);
+  --highlight-ring: rgba(0, 210, 220, 0.22);
 
   /* Refined elevation with warmer tones */
   --shadow-xs: 0 1px 2px rgba(15, 23, 42, 0.04);
@@ -168,7 +168,6 @@ body {
   background: var(--surface);
   border: 1px solid var(--line);
   border-radius: 18px;
-  box-shadow: var(--shadow-sm);
   /* Subtle inner top-edge highlight for glass depth */
   box-shadow: var(--shadow-sm), inset 0 1px 0 rgba(255, 255, 255, 0.85);
   transition:
@@ -176,6 +175,13 @@ body {
     box-shadow 300ms var(--ease-smooth),
     transform 300ms var(--ease-out-expo);
 }
+
+/* Thin accent top line per card type — adds character without noise */
+.map-card    { border-top: 2px solid var(--accent-1); }
+.insight-card { border-top: 2px solid var(--accent-2); }
+.chart-card:nth-of-type(3) { border-top: 2px solid var(--accent-5); }
+.chart-card:nth-of-type(4) { border-top: 2px solid var(--accent-4); }
+.context-card { border-top: 2px solid var(--accent-3); }
 
 .glass-card:hover {
   border-color: var(--line-strong);
@@ -190,24 +196,78 @@ body {
 
 /* ── Masthead ─────────────────────────────────────────────────────── */
 
+/* Flowing aurora gradient for masthead background */
+@keyframes masthead-aurora {
+  0%   { opacity: 0.65; background-position: 0% 50%; }
+  50%  { opacity: 1;    background-position: 100% 50%; }
+  100% { opacity: 0.75; background-position: 0% 50%; }
+}
+
+/* Logo shimmer sweep */
+@keyframes logo-shimmer {
+  0%   { transform: translateX(-180%) rotate(20deg); }
+  18%  { transform: translateX(280%) rotate(20deg); }
+  100% { transform: translateX(280%) rotate(20deg); }
+}
+
 .masthead {
   display: flex;
   align-items: center;
   gap: 18px;
-  padding: 16px 24px;
+  padding: 20px 28px;
   flex-wrap: wrap;
-  /* Thin gradient bottom separator for visual grounding */
+  position: relative;
+  overflow: hidden;
   border-bottom: 1px solid transparent;
   background-clip: padding-box;
   box-shadow: var(--shadow-sm), inset 0 1px 0 rgba(255, 255, 255, 0.85), 0 1px 0 var(--line);
 }
 
+/* Aurora gradient overlay */
+.masthead::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 55% 90% at 5% 50%,  rgba(11,111,184,0.09)  0%, transparent 70%),
+    radial-gradient(ellipse 35% 70% at 88% 20%,  rgba(109,95,176,0.07)  0%, transparent 65%),
+    radial-gradient(ellipse 45% 110% at 55% 100%, rgba(76,181,143,0.06) 0%, transparent 60%);
+  background-size: 300% 300%;
+  animation: masthead-aurora 20s ease-in-out infinite alternate;
+}
+
+/* Decorative concentric rings — right-edge world-sphere motif */
+.masthead::after {
+  content: "";
+  position: absolute;
+  right: -90px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 230px;
+  height: 230px;
+  border-radius: 50%;
+  border: 1px solid rgba(11,111,184,0.07);
+  box-shadow:
+    0 0 0 34px rgba(11,111,184,0.035),
+    0 0 0 68px rgba(11,111,184,0.018);
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* Lift all direct content above decorative layers */
+.masthead > * {
+  position: relative;
+  z-index: 1;
+}
+
 .masthead-brand {
   flex-shrink: 0;
-  width: 42px;
-  height: 42px;
-  border-radius: 12px;
-  background: linear-gradient(135deg, var(--primary), var(--accent-6));
+  width: 46px;
+  height: 46px;
+  border-radius: 13px;
+  background: linear-gradient(145deg, #0B6FB8 0%, #3A8CCF 45%, #6D5FB0 100%);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -217,18 +277,37 @@ body {
   font-size: 15px;
   color: #FFFFFF;
   letter-spacing: -0.04em;
-  box-shadow: 0 4px 14px rgba(11, 111, 184, 0.20), 0 1px 3px rgba(11, 111, 184, 0.15);
+  box-shadow: 0 4px 16px rgba(11, 111, 184, 0.25), 0 1px 4px rgba(11, 111, 184, 0.18);
   transition: transform 250ms var(--ease-spring), box-shadow 250ms ease;
+  overflow: hidden;
+}
+
+/* Shimmer sweep over the logo */
+.masthead-brand::after {
+  content: "";
+  position: absolute;
+  top: -80%;
+  left: -60%;
+  width: 55%;
+  height: 260%;
+  background: linear-gradient(
+    105deg,
+    transparent 35%,
+    rgba(255,255,255,0.30) 50%,
+    transparent 65%
+  );
+  animation: logo-shimmer 5s ease 2.5s infinite;
+  pointer-events: none;
 }
 
 .masthead-brand:hover {
-  transform: scale(1.06);
-  box-shadow: 0 6px 20px rgba(11, 111, 184, 0.28), 0 0 0 4px rgba(11, 111, 184, 0.08);
+  transform: scale(1.07);
+  box-shadow: 0 7px 24px rgba(11, 111, 184, 0.32), 0 0 0 5px rgba(11, 111, 184, 0.09);
 }
 
 @keyframes logo-pulse {
-  0%, 100% { box-shadow: 0 4px 14px rgba(11, 111, 184, 0.20), 0 1px 3px rgba(11, 111, 184, 0.15); }
-  50%       { box-shadow: 0 4px 18px rgba(11, 111, 184, 0.34), 0 0 0 5px rgba(11, 111, 184, 0.07); }
+  0%, 100% { box-shadow: 0 4px 16px rgba(11, 111, 184, 0.25), 0 1px 4px rgba(11, 111, 184, 0.18); }
+  50%       { box-shadow: 0 6px 22px rgba(11, 111, 184, 0.40), 0 0 0 6px rgba(11, 111, 184, 0.08); }
 }
 
 body.ready .masthead-brand {
@@ -245,6 +324,24 @@ body.ready .masthead-brand {
   flex-shrink: 0;
 }
 
+/* Injected eyebrow label via CSS (no HTML change needed) */
+.masthead-identity::before {
+  content: "Global Health Data Intelligence";
+  display: block;
+  font-family: var(--font-display);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  background: linear-gradient(90deg, var(--primary) 0%, var(--accent-5) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 4px;
+  opacity: 0.9;
+  white-space: nowrap;
+}
+
 .eyebrow {
   margin: 0 0 3px;
   color: var(--primary);
@@ -259,16 +356,16 @@ body.ready .masthead-brand {
   margin: 0;
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: clamp(18px, 2.2vw, 26px);
-  line-height: 1.2;
-  letter-spacing: -0.02em;
+  font-size: clamp(20px, 2.6vw, 30px);
+  line-height: 1.15;
+  letter-spacing: -0.03em;
   white-space: nowrap;
   color: var(--ink);
 }
 
-/* Gradient-text is kept as a subtle gradient on the headline (no shimmer animation) */
+/* Vivid multi-stop gradient on the main title */
 .gradient-text {
-  background: linear-gradient(125deg, #0B1220 0%, #0B6FB8 48%, #3A8CCF 78%, #6D5FB0 100%);
+  background: linear-gradient(125deg, #071428 0%, #0B6FB8 30%, #2B9FD4 55%, #6D5FB0 80%, #B87FC0 100%);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -675,6 +772,15 @@ body.ready .masthead-brand {
   background: var(--surface);
 }
 
+/* In the full-width context card, place the pill inline with the title
+   rather than floating it to the far-right edge of the viewport */
+.context-card .card-topline {
+  justify-content: flex-start;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
 /* ── Card Topline ─────────────────────────────────────────────────── */
 
 .card-topline {
@@ -711,15 +817,15 @@ body.ready .masthead-brand {
   gap: 7px;
 }
 
-/* Editorial accent line before section label */
+/* Editorial accent line before section label — gradient for depth */
 .section-kicker::before {
   content: "";
   width: 16px;
   height: 2px;
   border-radius: 1px;
-  background: currentColor;
+  background: linear-gradient(90deg, var(--primary) 0%, var(--accent-2) 100%);
   flex-shrink: 0;
-  opacity: 0.75;
+  opacity: 0.85;
 }
 
 .inline-note {
