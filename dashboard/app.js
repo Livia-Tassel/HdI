@@ -58,50 +58,50 @@ const DIMENSIONS = {
 const METRIC_META = {
   life_expectancy: {
     label: "预期寿命",
-    colorscale: [[0, "#0c1929"], [0.25, "#0e3a5e"], [0.5, "#0d6577"], [0.75, "#17a2b8"], [1, "#22d3ee"]],
+    colorscale: [[0, "#EEF5FB"], [0.25, "#CBDEF0"], [0.5, "#8FB8DE"], [0.75, "#4A8FC4"], [1, "#0B6FB8"]],
     formatter: (value) => (value == null ? NO_DATA_LABEL : `${Number(value).toFixed(1)} 岁`),
     accessor: (row) => row.life_expectancy,
   },
   ncd_share: {
     label: "非传染性疾病占比",
-    colorscale: [[0, "#0c1929"], [0.25, "#1a2747"], [0.5, "#2e4070"], [0.75, "#6366f1"], [1, "#a78bfa"]],
+    colorscale: [[0, "#F4F2FA"], [0.25, "#DCCFEC"], [0.5, "#B097D0"], [0.75, "#7D61B0"], [1, "#5A3F9E"]],
     formatter: (value) => formatShare(value),
     accessor: (row) => row.ncd_share,
   },
   communicable_share: {
     label: "传染性疾病占比",
-    colorscale: [[0, "#1a1308"], [0.25, "#4a3010"], [0.5, "#7a5518"], [0.75, "#d4941a"], [1, "#fbbf24"]],
+    colorscale: [[0, "#FDF6EA"], [0.25, "#F5DFB0"], [0.5, "#E7B76E"], [0.75, "#C68A2F"], [1, "#8A5C16"]],
     formatter: (value) => formatShare(value),
     accessor: (row) => row.communicable_share,
   },
   health_exp_pct_gdp: {
     label: "卫生支出占GDP比重",
-    colorscale: [[0, "#071a17"], [0.25, "#0c3a32"], [0.5, "#12705f"], [0.75, "#1db99a"], [1, "#2dd4bf"]],
+    colorscale: [[0, "#F0F9F5"], [0.25, "#C8E6D7"], [0.5, "#8DCAB0"], [0.75, "#4CB58F"], [1, "#1F7E5C"]],
     formatter: (value) => formatPercentValue(value),
     accessor: (row) => row.health_exp_pct_gdp,
   },
   share: {
     label: "风险因素占比",
-    colorscale: [[0, "#0c1929"], [0.25, "#2a1a4e"], [0.5, "#6b21a8"], [0.75, "#9333ea"], [1, "#c084fc"]],
+    colorscale: [[0, "#FDF4F1"], [0.25, "#F5CEC0"], [0.5, "#E68A6F"], [0.75, "#B84A2F"], [1, "#7A2815"]],
     formatter: (value) => formatShare(value),
     accessor: (row) => row.share,
   },
   attributable_deaths: {
     label: "风险致死",
-    colorscale: [[0, "#0c1929"], [0.25, "#1e3a5f"], [0.5, "#0d6577"], [0.75, "#22d3ee"], [1, "#fbbf24"]],
+    colorscale: [[0, "#EEF5FB"], [0.25, "#CBDEF0"], [0.5, "#8FB8DE"], [0.75, "#D99938"], [1, "#A9701F"]],
     formatter: (value) => formatCompact(value),
     accessor: (row) => row.attributable_deaths,
   },
   change_pct: {
     label: "资源调整方案",
-    colorscale: [[0, "#fb7185"], [0.25, "#9f1239"], [0.5, "#475569"], [0.75, "#0e7490"], [1, "#22d3ee"]],
+    colorscale: [[0, "#C0432C"], [0.2, "#E86A4F"], [0.45, "#F6C6B7"], [0.5, "#F2F4F8"], [0.55, "#B3D3EC"], [0.8, "#4A8FC4"], [1, "#0B6FB8"]],
     formatter: (value) => formatSignedPercent(value),
     accessor: (row) => row.change_pct,
     diverging: true,
   },
   gap: {
     label: "资源缺口",
-    colorscale: [[0, "#fb7185"], [0.25, "#9f1239"], [0.5, "#475569"], [0.75, "#0f766e"], [1, "#2dd4bf"]],
+    colorscale: [[0, "#C0432C"], [0.2, "#E86A4F"], [0.45, "#F6C6B7"], [0.5, "#F2F4F8"], [0.55, "#B3E2CF"], [0.8, "#4CB58F"], [1, "#1F7E5C"]],
     formatter: (value) => formatSigned(value),
     accessor: (row) => row.gap,
     diverging: true,
@@ -109,11 +109,11 @@ const METRIC_META = {
   gap_grade_num: {
     label: "资源缺口等级（A–E）",
     colorscale: [
-      [0, "#ef4444"], [0.2, "#ef4444"],
-      [0.2, "#f97316"], [0.4, "#f97316"],
-      [0.4, "#64748b"], [0.6, "#64748b"],
-      [0.6, "#2dd4bf"], [0.8, "#2dd4bf"],
-      [0.8, "#22c55e"], [1, "#22c55e"],
+      [0, "#C0432C"], [0.2, "#C0432C"],
+      [0.2, "#E7A64A"], [0.4, "#E7A64A"],
+      [0.4, "#9AA3B2"], [0.6, "#9AA3B2"],
+      [0.6, "#4CB58F"], [0.8, "#4CB58F"],
+      [0.8, "#1B9E6A"], [1, "#1B9E6A"],
     ],
     formatter: (value) => {
       const labels = { 1: "E 严重不足", 2: "D 不足", 3: "C 匹配", 4: "B 较充足", 5: "A 富余" };
@@ -138,346 +138,370 @@ const METRIC_META = {
   },
   efficiency: {
     label: "资源使用效率",
-    colorscale: [[0, "#fb7185"], [0.25, "#9f1239"], [0.5, "#475569"], [0.75, "#0f766e"], [1, "#2dd4bf"]],
+    colorscale: [[0, "#C0432C"], [0.2, "#E86A4F"], [0.45, "#F6C6B7"], [0.5, "#F2F4F8"], [0.55, "#B3E2CF"], [0.8, "#4CB58F"], [1, "#1F7E5C"]],
     formatter: (value) => formatSigned(value),
     accessor: (row) => row.efficiency,
     diverging: true,
   },
   uhc_index: {
     label: "UHC服务覆盖指数",
-    colorscale: [[0, "#1e0a3c"], [0.25, "#4a1a8c"], [0.5, "#7c3aed"], [0.75, "#a78bfa"], [1, "#e9d5ff"]],
+    colorscale: [[0, "#F6F3FA"], [0.25, "#DED1EB"], [0.5, "#B399D1"], [0.75, "#8467B4"], [1, "#5A3F9E"]],
     formatter: (value) => value == null ? NO_DATA_LABEL : `${Number(value).toFixed(0)} 分`,
     accessor: (row) => row.uhc_index,
   },
   gap_abs_millions: {
     label: "绝对资源缺口（人口加权）",
-    colorscale: [[0, "#1f0a0a"], [0.25, "#4a1010"], [0.5, "#7a1a1a"], [0.75, "#b91c1c"], [1, "#f87171"]],
+    colorscale: [[0, "#FDF4F0"], [0.25, "#F6C6B7"], [0.5, "#E99275"], [0.75, "#D4563A"], [1, "#A0331F"]],
     formatter: (value) => value == null ? NO_DATA_LABEL : `${Number(value).toFixed(1)}`,
     accessor: (row) => row.gap_abs_millions,
     diverging: true,
   },
   health_personnel: {
     label: "卫生人员",
-    colorscale: [[0, "#1a0808"], [0.25, "#4a1010"], [0.5, "#8b2020"], [0.75, "#dc2626"], [1, "#f87171"]],
+    colorscale: [[0, "#FDF4F0"], [0.25, "#F6C6B7"], [0.5, "#E99275"], [0.75, "#D4563A"], [1, "#A0331F"]],
     formatter: (value) => value == null ? NO_DATA_LABEL : `${formatCompact(value)} 万人`,
     accessor: (row) => row.value,
   },
   health_institutions: {
     label: "卫生机构",
-    colorscale: [[0, "#1a0808"], [0.25, "#4a1010"], [0.5, "#8b2020"], [0.75, "#dc2626"], [1, "#f87171"]],
+    colorscale: [[0, "#FDF4F0"], [0.25, "#F6C6B7"], [0.5, "#E99275"], [0.75, "#D4563A"], [1, "#A0331F"]],
     formatter: (value) => value == null ? NO_DATA_LABEL : `${formatCompact(value)} 个`,
     accessor: (row) => row.value,
   },
   prov_gap: {
     label: "省级资源缺口",
-    colorscale: [[0, "#fb7185"], [0.25, "#9f1239"], [0.5, "#475569"], [0.75, "#0f766e"], [1, "#2dd4bf"]],
+    colorscale: [[0, "#C0432C"], [0.2, "#E86A4F"], [0.45, "#F6C6B7"], [0.5, "#F2F4F8"], [0.55, "#B3E2CF"], [0.8, "#4CB58F"], [1, "#1F7E5C"]],
     formatter: (value) => formatSigned(value),
     accessor: (row) => row.gap,
     diverging: true,
   },
   prov_efficiency: {
     label: "省级资源效率",
-    colorscale: [[0, "#fb7185"], [0.25, "#9f1239"], [0.5, "#475569"], [0.75, "#0f766e"], [1, "#2dd4bf"]],
+    colorscale: [[0, "#C0432C"], [0.2, "#E86A4F"], [0.45, "#F6C6B7"], [0.5, "#F2F4F8"], [0.55, "#B3E2CF"], [0.8, "#4CB58F"], [1, "#1F7E5C"]],
     formatter: (value) => formatSigned(value),
     accessor: (row) => row.efficiency,
     diverging: true,
   },
   prov_life_expectancy: {
     label: "平均预期寿命",
-    colorscale: [[0, "#0c1929"], [0.25, "#0e3a5e"], [0.5, "#0d6577"], [0.75, "#17a2b8"], [1, "#22d3ee"]],
+    colorscale: [[0, "#EEF5FB"], [0.25, "#CBDEF0"], [0.5, "#8FB8DE"], [0.75, "#4A8FC4"], [1, "#0B6FB8"]],
     formatter: (value) => value == null ? NO_DATA_LABEL : `${Number(value).toFixed(1)} 岁`,
     accessor: (row) => row.life_expectancy,
   },
   prov_infant_mortality: {
     label: "婴儿死亡率",
-    colorscale: [[0, "#0c1929"], [0.25, "#1e3a5f"], [0.5, "#7a5518"], [0.75, "#d4941a"], [1, "#fbbf24"]],
+    colorscale: [[0, "#FDF7EA"], [0.25, "#F7DFAA"], [0.5, "#EDBF68"], [0.75, "#D99938"], [1, "#A9701F"]],
     formatter: (value) => value == null ? NO_DATA_LABEL : `${Number(value).toFixed(1)} ‰`,
     accessor: (row) => row.infant_mortality,
   },
   prov_personnel_per_1000: {
     label: "卫生人员密度（每千人）",
-    colorscale: [[0, "#071a17"], [0.25, "#0c3a32"], [0.5, "#12705f"], [0.75, "#2dd4bf"], [1, "#99f6e4"]],
+    colorscale: [[0, "#F0F9F5"], [0.25, "#C8E6D7"], [0.5, "#8DCAB0"], [0.75, "#4CB58F"], [1, "#1F7E5C"]],
     formatter: (value) => value == null ? NO_DATA_LABEL : `${Number(value).toFixed(2)}/千人`,
     accessor: (row) => row.personnel_per_1000,
   },
   prov_hospital_beds_per_1000: {
     label: "医院床位（每千人）",
-    colorscale: [[0, "#071a17"], [0.25, "#0c3a32"], [0.5, "#12705f"], [0.75, "#2dd4bf"], [1, "#99f6e4"]],
+    colorscale: [[0, "#F0F9F5"], [0.25, "#C8E6D7"], [0.5, "#8DCAB0"], [0.75, "#4CB58F"], [1, "#1F7E5C"]],
     formatter: (value) => value == null ? NO_DATA_LABEL : `${Number(value).toFixed(2)}/千人`,
     accessor: (row) => row.hospital_beds_per_1000,
   },
   prov_physicians_per_1000: {
     label: "执业医师（每千人）",
-    colorscale: [[0, "#0c1929"], [0.25, "#0e3a5e"], [0.5, "#0d6577"], [0.75, "#17a2b8"], [1, "#22d3ee"]],
+    colorscale: [[0, "#EEF5FB"], [0.25, "#CBDEF0"], [0.5, "#8FB8DE"], [0.75, "#4A8FC4"], [1, "#0B6FB8"]],
     formatter: (value) => value == null ? NO_DATA_LABEL : `${Number(value).toFixed(2)}/千人`,
     accessor: (row) => row.physicians_per_1000,
   },
   prov_nurses_per_1000: {
     label: "注册护士（每千人）",
-    colorscale: [[0, "#1a0f2e"], [0.25, "#2d1b69"], [0.5, "#6366f1"], [0.75, "#818cf8"], [1, "#c7d2fe"]],
+    colorscale: [[0, "#F2F4FB"], [0.25, "#C9D0EC"], [0.5, "#9AA3D8"], [0.75, "#6770B4"], [1, "#3F458A"]],
     formatter: (value) => value == null ? NO_DATA_LABEL : `${Number(value).toFixed(2)}/千人`,
     accessor: (row) => row.nurses_per_1000,
   },
   prov_health_exp: {
     label: "人均卫生支出（元）",
-    colorscale: [[0, "#0c1929"], [0.25, "#0e3a5e"], [0.5, "#1d4ed8"], [0.75, "#38bdf8"], [1, "#bae6fd"]],
+    colorscale: [[0, "#EEF5FB"], [0.25, "#CBDEF0"], [0.5, "#8FB8DE"], [0.75, "#4A8FC4"], [1, "#0B6FB8"]],
     formatter: (value) => value == null ? NO_DATA_LABEL : `¥${Number(value).toLocaleString()}`,
     accessor: (row) => row.health_exp_per_capita,
   },
   prov_gdp_per_capita: {
     label: "人均GDP（元，2023）",
-    colorscale: [[0, "#071a17"], [0.25, "#0c3a32"], [0.5, "#12705f"], [0.75, "#34d399"], [1, "#6ee7b7"]],
+    colorscale: [[0, "#F2F9F2"], [0.25, "#D3E9D4"], [0.5, "#9FCCA5"], [0.75, "#5EB276"], [1, "#1F8540"]],
     formatter: (value) => value == null ? NO_DATA_LABEL : `¥${Number(value).toLocaleString()}`,
     accessor: (row) => row.gdp_per_capita,
   },
   prov_rural_income: {
     label: "农村人均收入（元，2023）",
-    colorscale: [[0, "#1c0533"], [0.25, "#4b1c6e"], [0.5, "#7c3aed"], [0.75, "#a78bfa"], [1, "#ddd6fe"]],
+    colorscale: [[0, "#F4F1F9"], [0.25, "#DBCBEC"], [0.5, "#B395D0"], [0.75, "#875AAB"], [1, "#4E2A7F"]],
     formatter: (value) => value == null ? NO_DATA_LABEL : `¥${Number(value).toLocaleString()}`,
     accessor: (row) => row.rural_income_per_capita,
   },
   prov_maternal_mortality: {
     label: "产妇死亡率（/10万，2020）",
-    colorscale: [[0, "#f0fdf4"], [0.25, "#6ee7b7"], [0.5, "#fbbf24"], [0.75, "#ef4444"], [1, "#7f1d1d"]],
+    colorscale: [[0, "#F4FAF5"], [0.25, "#BEDFCA"], [0.5, "#F3D893"], [0.75, "#E48572"], [1, "#8A2818"]],
     formatter: (value) => value == null ? NO_DATA_LABEL : `${Number(value).toFixed(1)}/10万`,
     accessor: (row) => row.maternal_mortality,
   },
   prov_under5_mortality: {
     label: "5岁以下死亡率（‰，2020）",
-    colorscale: [[0, "#f0fdf4"], [0.25, "#6ee7b7"], [0.5, "#fbbf24"], [0.75, "#ef4444"], [1, "#7f1d1d"]],
+    colorscale: [[0, "#F4FAF5"], [0.25, "#BEDFCA"], [0.5, "#F3D893"], [0.75, "#E48572"], [1, "#8A2818"]],
     formatter: (value) => value == null ? NO_DATA_LABEL : `${Number(value).toFixed(1)} ‰`,
     accessor: (row) => row.under5_mortality,
   },
   prov_optimization_change: {
     label: "最优化调整方案（%）",
-    colorscale: [[0, "#fb7185"], [0.25, "#9f1239"], [0.5, "#475569"], [0.75, "#0e7490"], [1, "#22d3ee"]],
+    colorscale: [[0, "#C0432C"], [0.2, "#E86A4F"], [0.45, "#F6C6B7"], [0.5, "#F2F4F8"], [0.55, "#B3D3EC"], [0.8, "#4A8FC4"], [1, "#0B6FB8"]],
     formatter: (value) => formatSignedPercent(value),
     accessor: (row) => row.prov_change_pct,
     diverging: true,
   },
   prov_elderly_share: {
     label: "老龄化率（65岁以上，%，2020）",
-    colorscale: [[0, "#0c1929"], [0.25, "#1e3a5f"], [0.5, "#6366f1"], [0.75, "#c084fc"], [1, "#f0abfc"]],
+    colorscale: [[0, "#F6EFF6"], [0.25, "#E1BDE1"], [0.5, "#BE82BE"], [0.75, "#914891"], [1, "#5B195B"]],
     formatter: (value) => value == null ? NO_DATA_LABEL : `${Number(value).toFixed(1)} %`,
     accessor: (row) => row.elderly_share,
   },
   prov_urbanization: {
     label: "城镇化率（%，2022）",
-    colorscale: [[0, "#071a17"], [0.25, "#0c3a32"], [0.5, "#12705f"], [0.75, "#1db99a"], [1, "#2dd4bf"]],
+    colorscale: [[0, "#F0F9F5"], [0.25, "#C8E6D7"], [0.5, "#8DCAB0"], [0.75, "#4CB58F"], [1, "#1F7E5C"]],
     formatter: (value) => value == null ? NO_DATA_LABEL : `${Number(value).toFixed(1)} %`,
     accessor: (row) => row.urbanization_rate,
   },
   prov_basic_insurance: {
     label: "基本医疗保险参保率（%，2022）",
-    colorscale: [[0, "#1a0f2e"], [0.25, "#2d1b69"], [0.5, "#6366f1"], [0.75, "#818cf8"], [1, "#c7d2fe"]],
+    colorscale: [[0, "#F2F4FB"], [0.25, "#C9D0EC"], [0.5, "#9AA3D8"], [0.75, "#6770B4"], [1, "#3F458A"]],
     formatter: (value) => value == null ? NO_DATA_LABEL : `${Number(value).toFixed(1)} %`,
     accessor: (row) => row.basic_insurance_rate,
   },
   prov_primary_care: {
     label: "基层医疗机构密度（/万人，2020）",
-    colorscale: [[0, "#071a17"], [0.25, "#0c3a32"], [0.5, "#12705f"], [0.75, "#34d399"], [1, "#6ee7b7"]],
+    colorscale: [[0, "#F2F9F2"], [0.25, "#D3E9D4"], [0.5, "#9FCCA5"], [0.75, "#5EB276"], [1, "#1F8540"]],
     formatter: (value) => value == null ? NO_DATA_LABEL : `${Number(value).toFixed(2)} /万人`,
     accessor: (row) => row.primary_care_density,
   },
   prov_hypertension: {
     label: "高血压患病率（%，2018）",
-    colorscale: [[0, "#f0fdf4"], [0.25, "#6ee7b7"], [0.5, "#fbbf24"], [0.75, "#ef4444"], [1, "#7f1d1d"]],
+    colorscale: [[0, "#F4FAF5"], [0.25, "#BEDFCA"], [0.5, "#F3D893"], [0.75, "#E48572"], [1, "#8A2818"]],
     formatter: (value) => value == null ? NO_DATA_LABEL : `${Number(value).toFixed(1)} %`,
     accessor: (row) => row.hypertension_prevalence,
     invertGradient: true,
   },
   prov_diabetes: {
     label: "糖尿病患病率（%，2018）",
-    colorscale: [[0, "#f0fdf4"], [0.25, "#bae6fd"], [0.5, "#6366f1"], [0.75, "#7c3aed"], [1, "#4c1d95"]],
+    colorscale: [[0, "#F4F1F9"], [0.25, "#D5CEEC"], [0.5, "#A494D6"], [0.75, "#6D58B3"], [1, "#3F2584"]],
     formatter: (value) => value == null ? NO_DATA_LABEL : `${Number(value).toFixed(1)} %`,
     accessor: (row) => row.diabetes_prevalence,
     invertGradient: true,
   },
   prov_obesity: {
     label: "超重/肥胖率（BMI≥28，%，2018）",
-    colorscale: [[0, "#f0fdf4"], [0.25, "#6ee7b7"], [0.5, "#fbbf24"], [0.75, "#f97316"], [1, "#7f1d1d"]],
+    colorscale: [[0, "#F4FAF5"], [0.25, "#BEDFCA"], [0.5, "#F3D893"], [0.75, "#E48572"], [1, "#8A2818"]],
     formatter: (value) => value == null ? NO_DATA_LABEL : `${Number(value).toFixed(1)} %`,
     accessor: (row) => row.obesity_prevalence,
     invertGradient: true,
   },
   hdi: {
     label: "人类发展指数",
-    colorscale: [[0, "#071a17"], [0.25, "#0c3a32"], [0.5, "#12705f"], [0.75, "#34d399"], [1, "#6ee7b7"]],
+    colorscale: [[0, "#F2F9F2"], [0.25, "#D3E9D4"], [0.5, "#9FCCA5"], [0.75, "#5EB276"], [1, "#1F8540"]],
     formatter: (value) => (value == null ? NO_DATA_LABEL : Number(value).toFixed(3)),
     accessor: (row) => row.hdi,
   },
   hale: {
     label: "健康预期寿命",
-    colorscale: [[0, "#0c1929"], [0.25, "#0e3a5e"], [0.5, "#0d6577"], [0.75, "#17a2b8"], [1, "#22d3ee"]],
+    colorscale: [[0, "#EEF5FB"], [0.25, "#CBDEF0"], [0.5, "#8FB8DE"], [0.75, "#4A8FC4"], [1, "#0B6FB8"]],
     formatter: (value) => (value == null ? NO_DATA_LABEL : `${Number(value).toFixed(1)} 岁`),
     accessor: (row) => row.hale,
   },
   uhc_index: {
     label: "全民健康覆盖指数",
-    colorscale: [[0, "#1a0f2e"], [0.25, "#2d1b69"], [0.5, "#6366f1"], [0.75, "#818cf8"], [1, "#c7d2fe"]],
+    colorscale: [[0, "#F2F4FB"], [0.25, "#C9D0EC"], [0.5, "#9AA3D8"], [0.75, "#6770B4"], [1, "#3F458A"]],
     formatter: (value) => (value == null ? NO_DATA_LABEL : `${Number(value).toFixed(1)}`),
     accessor: (row) => row.uhc_index,
   },
   pm25: {
     label: "PM2.5 暴露浓度",
-    colorscale: [[0, "#071a17"], [0.25, "#4a3010"], [0.5, "#7a5518"], [0.75, "#d4941a"], [1, "#fbbf24"]],
+    colorscale: [[0, "#FDF6EA"], [0.25, "#F5DFB0"], [0.5, "#E7B76E"], [0.75, "#C68A2F"], [1, "#8A5C16"]],
     formatter: (value) => (value == null ? NO_DATA_LABEL : `${Number(value).toFixed(1)} μg/m³`),
     accessor: (row) => row.pm25,
   },
   doctor_density: {
     label: "医生密度（每万人）",
-    colorscale: [[0, "#0c1929"], [0.25, "#1e3a5f"], [0.5, "#0d6577"], [0.75, "#2dd4bf"], [1, "#99f6e4"]],
+    colorscale: [[0, "#EEF5FB"], [0.25, "#CBDEF0"], [0.5, "#8FB8DE"], [0.75, "#4A8FC4"], [1, "#0B6FB8"]],
     formatter: (value) => (value == null ? NO_DATA_LABEL : `${Number(value).toFixed(1)}`),
     accessor: (row) => row.doctor_density,
   },
   che_per_capita: {
     label: "人均卫生支出",
-    colorscale: [[0, "#0c1929"], [0.25, "#0e3a5e"], [0.5, "#1d4ed8"], [0.75, "#38bdf8"], [1, "#bae6fd"]],
+    colorscale: [[0, "#EEF5FB"], [0.25, "#CBDEF0"], [0.5, "#8FB8DE"], [0.75, "#4A8FC4"], [1, "#0B6FB8"]],
     formatter: (value) => formatCurrency(value),
     accessor: (row) => row.che_per_capita,
   },
   gdp_per_capita: {
     label: "人均GDP（美元）",
-    colorscale: [[0, "#071a17"], [0.25, "#0c3a32"], [0.5, "#12705f"], [0.75, "#34d399"], [1, "#6ee7b7"]],
+    colorscale: [[0, "#F2F9F2"], [0.25, "#D3E9D4"], [0.5, "#9FCCA5"], [0.75, "#5EB276"], [1, "#1F8540"]],
     formatter: (value) => value == null ? NO_DATA_LABEL : `$${Math.round(Number(value)).toLocaleString()}`,
     accessor: (row) => row.gdp_per_capita,
   },
   health_exp_per_capita: {
     label: "人均卫生支出（美元）",
-    colorscale: [[0, "#0c1929"], [0.25, "#0e3a5e"], [0.5, "#1d4ed8"], [0.75, "#38bdf8"], [1, "#bae6fd"]],
+    colorscale: [[0, "#EEF5FB"], [0.25, "#CBDEF0"], [0.5, "#8FB8DE"], [0.75, "#4A8FC4"], [1, "#0B6FB8"]],
     formatter: (value) => value == null ? NO_DATA_LABEL : `$${Math.round(Number(value)).toLocaleString()}`,
     accessor: (row) => row.health_exp_per_capita,
   },
   adult_mortality_male: {
     label: "男性成人死亡率（‰）",
-    colorscale: [[0, "#f0fdf4"], [0.25, "#6ee7b7"], [0.5, "#fbbf24"], [0.75, "#ef4444"], [1, "#7f1d1d"]],
+    colorscale: [[0, "#F4FAF5"], [0.25, "#BEDFCA"], [0.5, "#F3D893"], [0.75, "#E48572"], [1, "#8A2818"]],
     formatter: (value) => value == null ? NO_DATA_LABEL : `${Number(value).toFixed(0)} ‰`,
     accessor: (row) => row.adult_mortality_male,
     invertGradient: true,
   },
   adult_mortality_female: {
     label: "女性成人死亡率（‰）",
-    colorscale: [[0, "#f0fdf4"], [0.25, "#6ee7b7"], [0.5, "#fbbf24"], [0.75, "#ef4444"], [1, "#7f1d1d"]],
+    colorscale: [[0, "#F4FAF5"], [0.25, "#BEDFCA"], [0.5, "#F3D893"], [0.75, "#E48572"], [1, "#8A2818"]],
     formatter: (value) => value == null ? NO_DATA_LABEL : `${Number(value).toFixed(0)} ‰`,
     accessor: (row) => row.adult_mortality_female,
     invertGradient: true,
   },
   infant_mortality: {
     label: "婴儿死亡率（‰）",
-    colorscale: [[0, "#f0fdf4"], [0.25, "#6ee7b7"], [0.5, "#fbbf24"], [0.75, "#ef4444"], [1, "#7f1d1d"]],
+    colorscale: [[0, "#F4FAF5"], [0.25, "#BEDFCA"], [0.5, "#F3D893"], [0.75, "#E48572"], [1, "#8A2818"]],
     formatter: (value) => value == null ? NO_DATA_LABEL : `${Number(value).toFixed(1)} ‰`,
     accessor: (row) => row.infant_mortality,
     invertGradient: true,
   },
   under5_mortality: {
     label: "5岁以下死亡率（‰）",
-    colorscale: [[0, "#f0fdf4"], [0.25, "#6ee7b7"], [0.5, "#fbbf24"], [0.75, "#ef4444"], [1, "#7f1d1d"]],
+    colorscale: [[0, "#F4FAF5"], [0.25, "#BEDFCA"], [0.5, "#F3D893"], [0.75, "#E48572"], [1, "#8A2818"]],
     formatter: (value) => value == null ? NO_DATA_LABEL : `${Number(value).toFixed(1)} ‰`,
     accessor: (row) => row.under5_mortality,
     invertGradient: true,
   },
   basic_water_pct: {
     label: "安全饮水覆盖率（%）",
-    colorscale: [[0, "#0c1929"], [0.25, "#0e3a5e"], [0.5, "#0d6577"], [0.75, "#17a2b8"], [1, "#22d3ee"]],
+    colorscale: [[0, "#EEF5FB"], [0.25, "#CBDEF0"], [0.5, "#8FB8DE"], [0.75, "#4A8FC4"], [1, "#0B6FB8"]],
     formatter: (value) => value == null ? NO_DATA_LABEL : `${Number(value).toFixed(1)} %`,
     accessor: (row) => row.basic_water_pct,
   },
   basic_sanitation_pct: {
     label: "基本卫生设施覆盖率（%）",
-    colorscale: [[0, "#071a17"], [0.25, "#0c3a32"], [0.5, "#12705f"], [0.75, "#1db99a"], [1, "#2dd4bf"]],
+    colorscale: [[0, "#F0F9F5"], [0.25, "#C8E6D7"], [0.5, "#8DCAB0"], [0.75, "#4CB58F"], [1, "#1F7E5C"]],
     formatter: (value) => value == null ? NO_DATA_LABEL : `${Number(value).toFixed(1)} %`,
     accessor: (row) => row.basic_sanitation_pct,
   },
   measles_immunization_pct: {
     label: "麻疹疫苗接种率（%）",
-    colorscale: [[0, "#1a0f2e"], [0.25, "#2d1b69"], [0.5, "#6366f1"], [0.75, "#818cf8"], [1, "#c7d2fe"]],
+    colorscale: [[0, "#F2F4FB"], [0.25, "#C9D0EC"], [0.5, "#9AA3D8"], [0.75, "#6770B4"], [1, "#3F458A"]],
     formatter: (value) => value == null ? NO_DATA_LABEL : `${Number(value).toFixed(0)} %`,
     accessor: (row) => row.measles_immunization_pct,
   },
   urban_population_pct: {
     label: "城镇人口比例（%）",
-    colorscale: [[0, "#071a17"], [0.25, "#0c3a32"], [0.5, "#12705f"], [0.75, "#34d399"], [1, "#6ee7b7"]],
+    colorscale: [[0, "#F2F9F2"], [0.25, "#D3E9D4"], [0.5, "#9FCCA5"], [0.75, "#5EB276"], [1, "#1F8540"]],
     formatter: (value) => value == null ? NO_DATA_LABEL : `${Number(value).toFixed(1)} %`,
     accessor: (row) => row.urban_population_pct,
   },
   fertility_rate: {
     label: "总和生育率",
-    colorscale: [[0, "#071a17"], [0.25, "#4a3010"], [0.5, "#7a5518"], [0.75, "#d4941a"], [1, "#fbbf24"]],
+    colorscale: [[0, "#FDF6EA"], [0.25, "#F5DFB0"], [0.5, "#E7B76E"], [0.75, "#C68A2F"], [1, "#8A5C16"]],
     formatter: (value) => value == null ? NO_DATA_LABEL : Number(value).toFixed(2),
     accessor: (row) => row.fertility_rate,
   },
   physicians_per_1000: {
     label: "医生密度（每千人）",
-    colorscale: [[0, "#0c1929"], [0.25, "#0e3a5e"], [0.5, "#0d6577"], [0.75, "#17a2b8"], [1, "#22d3ee"]],
+    colorscale: [[0, "#EEF5FB"], [0.25, "#CBDEF0"], [0.5, "#8FB8DE"], [0.75, "#4A8FC4"], [1, "#0B6FB8"]],
     formatter: (value) => value == null ? NO_DATA_LABEL : `${Number(value).toFixed(2)}/千人`,
     accessor: (row) => row.physicians_per_1000,
   },
   beds_per_1000: {
     label: "医院床位（每千人）",
-    colorscale: [[0, "#071a17"], [0.25, "#0c3a32"], [0.5, "#12705f"], [0.75, "#2dd4bf"], [1, "#99f6e4"]],
+    colorscale: [[0, "#F0F9F5"], [0.25, "#C8E6D7"], [0.5, "#8DCAB0"], [0.75, "#4CB58F"], [1, "#1F7E5C"]],
     formatter: (value) => value == null ? NO_DATA_LABEL : `${Number(value).toFixed(2)}/千人`,
     accessor: (row) => row.beds_per_1000,
   },
   nurses_per_1000: {
     label: "护士密度（每千人）",
-    colorscale: [[0, "#0c1929"], [0.25, "#0e3a5e"], [0.5, "#0d6577"], [0.75, "#17a2b8"], [1, "#22d3ee"]],
+    colorscale: [[0, "#EEF5FB"], [0.25, "#CBDEF0"], [0.5, "#8FB8DE"], [0.75, "#4A8FC4"], [1, "#0B6FB8"]],
     formatter: (value) => value == null ? NO_DATA_LABEL : `${Number(value).toFixed(2)}/千人`,
     accessor: (row) => row.nurses_per_1000,
   },
   cardiovascular_share: {
     label: "心血管病死亡占比",
-    colorscale: [[0, "#0c1929"], [0.25, "#1a2747"], [0.5, "#6d28d9"], [0.75, "#8b5cf6"], [1, "#c4b5fd"]],
+    colorscale: [[0, "#F4F2FA"], [0.25, "#DCCFEC"], [0.5, "#B097D0"], [0.75, "#7D61B0"], [1, "#5A3F9E"]],
     formatter: (value) => formatShare(value),
     accessor: (row) => row.cardiovascular_share,
   },
   cancer_share: {
     label: "癌症死亡占比",
-    colorscale: [[0, "#0c1929"], [0.25, "#4a1510"], [0.5, "#991b1b"], [0.75, "#ef4444"], [1, "#fca5a5"]],
+    colorscale: [[0, "#FDF4F0"], [0.25, "#F6C6B7"], [0.5, "#E99275"], [0.75, "#D4563A"], [1, "#A0331F"]],
     formatter: (value) => formatShare(value),
     accessor: (row) => row.cancer_share,
   },
   diabetes_kidney_share: {
     label: "糖尿病/肾病死亡占比",
-    colorscale: [[0, "#071a17"], [0.25, "#0c3a32"], [0.5, "#12705f"], [0.75, "#1db99a"], [1, "#2dd4bf"]],
+    colorscale: [[0, "#F0F9F5"], [0.25, "#C8E6D7"], [0.5, "#8DCAB0"], [0.75, "#4CB58F"], [1, "#1F7E5C"]],
     formatter: (value) => formatShare(value),
     accessor: (row) => row.diabetes_kidney_share,
   },
   respiratory_chronic_share: {
     label: "慢性呼吸病死亡占比",
-    colorscale: [[0, "#1a0808"], [0.25, "#4a1010"], [0.5, "#8b2020"], [0.75, "#dc2626"], [1, "#f87171"]],
+    colorscale: [[0, "#FDF4F0"], [0.25, "#F6C6B7"], [0.5, "#E99275"], [0.75, "#D4563A"], [1, "#A0331F"]],
     formatter: (value) => formatShare(value),
     accessor: (row) => row.respiratory_chronic_share,
   },
   maternal_neonatal_share: {
     label: "孕产妇/新生儿死亡占比",
-    colorscale: [[0, "#0c1929"], [0.25, "#4a3010"], [0.5, "#7a5518"], [0.75, "#d4941a"], [1, "#fbbf24"]],
+    colorscale: [[0, "#FDF6EA"], [0.25, "#F5DFB0"], [0.5, "#E7B76E"], [0.75, "#C68A2F"], [1, "#8A5C16"]],
     formatter: (value) => formatShare(value),
     accessor: (row) => row.maternal_neonatal_share,
     invertGradient: true,
   },
   population: {
     label: "人口规模",
-    colorscale: [[0, "#071a17"], [0.25, "#0c3a32"], [0.5, "#12705f"], [0.75, "#1db99a"], [1, "#2dd4bf"]],
+    colorscale: [[0, "#F0F9F5"], [0.25, "#C8E6D7"], [0.5, "#8DCAB0"], [0.75, "#4CB58F"], [1, "#1F7E5C"]],
     formatter: (value) => value == null ? NO_DATA_LABEL : (value >= 1e9 ? `${(value / 1e9).toFixed(2)}亿` : value >= 1e6 ? `${(value / 1e6).toFixed(1)}百万` : `${Math.round(value / 1000)}千`),
     accessor: (row) => row.population,
   },
 };
 
 const THEME = {
-  ink: "#e2e8f0",
-  inkBright: "#f8fafc",
-  muted: "#94a3b8",
-  dim: "#64748b",
-  cyan: "#22d3ee",
-  teal: "#2dd4bf",
-  blue: "#38bdf8",
-  amber: "#fbbf24",
-  rose: "#fb7185",
-  violet: "#a78bfa",
-  emerald: "#34d399",
-  grid: "rgba(148,163,184,0.08)",
-  hover: "rgba(15,23,42,0.94)",
+  ink: "#0F172A",
+  inkBright: "#0B1220",
+  inkBody: "#1F2937",
+  muted: "#4B5563",
+  dim: "#6B7280",
+  placeholder: "#9CA3AF",
+  surface: "#FFFFFF",
+  surfaceAlt: "#F2F4F8",
+  line: "#E3E7EE",
+  grid: "#E3E7EE",
+  gridSoft: "#EEF1F6",
+  primary: "#0B6FB8",
+  primaryInk: "#084E82",
+  primarySoft: "#E6F0F8",
+  cyan: "#0B6FB8",
+  teal: "#4CB58F",
+  blue: "#3A8CCF",
+  amber: "#E7A64A",
+  rose: "#E86A4F",
+  violet: "#6D5FB0",
+  coral: "#E86A4F",
+  emerald: "#4CB58F",
+  critical: "#C0432C",
+  positive: "#1B9E6A",
+  regions: {
+    AFRO: "#6D5FB0",
+    AMRO: "#E86A4F",
+    EMRO: "#B87FC0",
+    EURO: "#3A8CCF",
+    SEARO: "#4CB58F",
+    WPRO: "#E7A64A",
+  },
+  hover: "rgba(255,255,255,0.98)",
 };
+
+const FONT_FAMILY_DISPLAY = "\"Alibaba PuHuiTi 3.0\", \"PingFang SC\", \"Hiragino Sans GB\", system-ui, sans-serif";
+const FONT_FAMILY_BODY = FONT_FAMILY_DISPLAY;
+const FONT_FAMILY_MONO = "\"IBM Plex Mono\", \"SF Mono\", Menlo, monospace";
 
 const OBJECTIVE_META = {
   max_output: {
@@ -744,7 +768,6 @@ async function loadData() {
   }
 
   primeState();
-  populateCountryDatalist();
 }
 
 async function loadJson(url) {
@@ -901,6 +924,14 @@ function buildScenarioSummary(scenario, rawSummary = {}) {
   return merged;
 }
 
+function updateSliderFill(slider) {
+  const min = Number(slider.min) || 2000;
+  const max = Number(slider.max) || 2023;
+  const val = Number(slider.value);
+  const pct = ((val - min) / (max - min)) * 100;
+  slider.style.setProperty("--slider-fill", `${pct.toFixed(1)}%`);
+}
+
 function bindEvents() {
   document.querySelectorAll("[data-dimension]").forEach((button) => {
     button.addEventListener("click", () => {
@@ -940,17 +971,15 @@ function bindEvents() {
     renderAll();
   });
 
-  document.getElementById("country-jump").addEventListener("click", handleCountryJump);
-  document.getElementById("country-search").addEventListener("keydown", (event) => {
-    if (event.key === "Enter") {
-      event.preventDefault();
-      handleCountryJump();
-    }
-  });
+  initCombobox();
 
-  document.getElementById("year-slider").addEventListener("input", (event) => {
+  const yearSliderEl = document.getElementById("year-slider");
+  updateSliderFill(yearSliderEl);
+
+  yearSliderEl.addEventListener("input", (event) => {
     state.year = Number(event.target.value);
     document.getElementById("year-display").textContent = state.year;
+    updateSliderFill(event.target);
     if (state.dimension === "dim5") {
       renderBubbleChart();
     } else {
@@ -1019,34 +1048,39 @@ function nearestScenario(scenarios, budgetMultiplier) {
   )[0];
 }
 
-function populateCountryDatalist() {
-  const datalist = document.getElementById("country-list");
-  datalist.innerHTML = (store.overview.countries ?? [])
-    .map((country) => `<option value="${escapeHtml(countryLabel(country))} (${country.iso3})"></option>`)
-    .join("");
+function getCountryOptions() {
+  return (store.overview.countries ?? [])
+    .map((country) => ({
+      id: country.iso3,
+      name: countryLabel(country),
+      code: country.iso3,
+    }))
+    .sort((a, b) => a.name.localeCompare(b.name, "zh-Hans-CN"));
 }
 
-function handleCountryJump() {
-  const input = document.getElementById("country-search").value.trim();
-  if (!input) return;
+function getProvinceOptions() {
+  const provinces = store.chinaDeepDive?.provinces ?? [];
+  return provinces
+    .map((p) => {
+      const key = p.province ?? p;
+      return { id: key, name: provinceLabel(key), code: "" };
+    })
+    .sort((a, b) => a.name.localeCompare(b.name, "zh-Hans-CN"));
+}
 
-  if (state.dimension === "dim4") {
-    const match = resolveProvinceInput(input);
-    if (match) {
-      state.province = match;
-      renderPanels();
-      renderChinaMap();
-    }
-    return;
-  }
-
-  const iso3 = resolveCountryInput(safeLower(input));
+function selectCountry(iso3) {
   if (!iso3) return;
-
   state.country = iso3;
   renderPanels();
   updateMapHighlight(iso3);
   openSpotlightModal(iso3);
+}
+
+function selectProvince(name) {
+  if (!name) return;
+  state.province = name;
+  renderPanels();
+  renderChinaMap();
 }
 
 function resolveCountryInput(input) {
@@ -1152,6 +1186,7 @@ function syncControls() {
     slider.max = store.availableYears[store.availableYears.length - 1];
     slider.value = state.year;
     document.getElementById("year-display").textContent = state.year;
+    updateSliderFill(slider);
   } else if (state.dimension === "dim5" && store.bubbleYears.length > 1) {
     sliderGroup.style.display = "flex";
     const slider = document.getElementById("year-slider");
@@ -1159,6 +1194,7 @@ function syncControls() {
     slider.max = store.bubbleYears[store.bubbleYears.length - 1];
     slider.value = state.year;
     document.getElementById("year-display").textContent = state.year;
+    updateSliderFill(slider);
   } else {
     sliderGroup.style.display = "none";
     if (state.animating) stopAnimation();
@@ -1205,26 +1241,299 @@ function syncControls() {
 }
 
 function syncSearchField() {
-  if (state.dimension === "dim4") return;
-  const searchInput = document.getElementById("country-search");
-  searchInput.placeholder = "输入国家名称或三位国家代码";
-  populateCountryDatalist();
-  const country = store.overviewIndex.get(state.country);
-  if (country) {
-    searchInput.value = `${countryLabel(country)} (${country.iso3})`;
-  }
+  // Delegates to the combobox controller so dim1-3,5 and dim4 share one UI.
+  syncCombobox();
 }
 
 function syncProvinceSearch() {
-  const searchInput = document.getElementById("country-search");
-  const datalist = document.getElementById("country-list");
-  const provinces = store.chinaDeepDive?.provinces ?? [];
-  searchInput.value = state.province ? provinceLabel(state.province) : "";
-  searchInput.placeholder = "输入省份名称";
-  datalist.innerHTML = provinces
-    .map((p) => `<option value="${escapeHtml(provinceLabel(p.province ?? p))}"></option>`)
-    .join("");
+  syncCombobox();
 }
+
+function syncCombobox() {
+  if (!comboboxController) return;
+  comboboxController.refresh();
+}
+
+// ── Combobox controller ───────────────────────────────────────────
+// Single-click country/province picker. Focus opens the listbox with all
+// options; typing filters; clicking or pressing Enter on a highlighted row
+// locks the selection immediately — no separate 定位 button.
+
+let comboboxController = null;
+
+function initCombobox() {
+  const root = document.getElementById("country-combobox");
+  const input = document.getElementById("country-search");
+  const listbox = document.getElementById("country-listbox");
+  const clearBtn = document.getElementById("country-clear");
+  const label = document.getElementById("country-search-label");
+  if (!root || !input || !listbox || !clearBtn) return;
+
+  let options = [];
+  let filtered = [];
+  let activeIndex = -1;
+  let open = false;
+  let query = "";
+  let suppressNextFocusOpen = false;
+
+  const modeConfig = () => {
+    const isProvince = state.dimension === "dim4";
+    return {
+      isProvince,
+      placeholder: isProvince ? "搜索省份" : "搜索国家或地区",
+      labelText: isProvince ? "定位省份" : "定位国家",
+      options: isProvince ? getProvinceOptions() : getCountryOptions(),
+      selectedId: isProvince ? state.province : state.country,
+      select: isProvince ? selectProvince : selectCountry,
+      displayFor: (opt) => opt.code ? `${opt.name} (${opt.code})` : opt.name,
+    };
+  };
+
+  let cfg = modeConfig();
+
+  function getSelectedOption() {
+    return cfg.options.find((o) => o.id === cfg.selectedId) ?? null;
+  }
+
+  function matchesQuery(opt, q) {
+    if (!q) return true;
+    const name = opt.name.toLowerCase();
+    const code = (opt.code || "").toLowerCase();
+    return name.includes(q) || code.includes(q);
+  }
+
+  function highlightMatch(text, q) {
+    if (!q) return escapeHtml(text);
+    const idx = text.toLowerCase().indexOf(q);
+    if (idx < 0) return escapeHtml(text);
+    const before = escapeHtml(text.slice(0, idx));
+    const match = escapeHtml(text.slice(idx, idx + q.length));
+    const after = escapeHtml(text.slice(idx + q.length));
+    return `${before}<span class="opt-match">${match}</span>${after}`;
+  }
+
+  function renderListbox() {
+    if (!filtered.length) {
+      listbox.innerHTML = `<li class="combobox-empty">无匹配结果</li>`;
+      return;
+    }
+    const q = query;
+    listbox.innerHTML = filtered.map((opt, idx) => {
+      const isSelected = opt.id === cfg.selectedId;
+      const isActive = idx === activeIndex;
+      const cls = [
+        "combobox-option",
+        isSelected ? "is-selected" : "",
+        isActive ? "is-active" : "",
+      ].filter(Boolean).join(" ");
+      const codeSpan = opt.code ? `<span class="opt-code">${escapeHtml(opt.code)}</span>` : "";
+      return `<li class="${cls}" role="option" aria-selected="${isSelected}" data-index="${idx}">
+        <span class="opt-name">${highlightMatch(opt.name, q)}</span>
+        ${codeSpan}
+      </li>`;
+    }).join("");
+  }
+
+  function applyFilter() {
+    filtered = cfg.options.filter((o) => matchesQuery(o, query));
+    if (activeIndex >= filtered.length) activeIndex = filtered.length - 1;
+    if (activeIndex < 0 && filtered.length) activeIndex = 0;
+    renderListbox();
+    scrollActiveIntoView();
+  }
+
+  function scrollActiveIntoView() {
+    if (!open || activeIndex < 0) return;
+    const el = listbox.querySelector(`[data-index="${activeIndex}"]`);
+    if (el) el.scrollIntoView({ block: "nearest" });
+  }
+
+  function openListbox() {
+    if (open) return;
+    open = true;
+    root.dataset.open = "true";
+    root.classList.add("is-open");
+    input.setAttribute("aria-expanded", "true");
+    listbox.hidden = false;
+
+    // Preselect the currently-locked option if no query
+    if (!query) {
+      const sel = cfg.selectedId;
+      const idx = filtered.findIndex((o) => o.id === sel);
+      activeIndex = idx >= 0 ? idx : (filtered.length ? 0 : -1);
+      renderListbox();
+      scrollActiveIntoView();
+    }
+  }
+
+  function closeListbox() {
+    if (!open) return;
+    open = false;
+    root.dataset.open = "false";
+    root.classList.remove("is-open");
+    input.setAttribute("aria-expanded", "false");
+    listbox.hidden = true;
+  }
+
+  function commit(idx) {
+    const opt = filtered[idx];
+    if (!opt) return;
+    cfg.select(opt.id);
+    query = "";
+    input.value = cfg.displayFor(opt);
+    clearBtn.hidden = !input.value;
+    closeListbox();
+    input.blur();
+  }
+
+  function updateClearVisibility() {
+    clearBtn.hidden = !input.value;
+  }
+
+  function resetInputFromSelection() {
+    const sel = getSelectedOption();
+    input.value = sel ? cfg.displayFor(sel) : "";
+    query = "";
+    updateClearVisibility();
+  }
+
+  // ── Event wiring ────────────────────────────────────────────
+  input.addEventListener("focus", () => {
+    if (suppressNextFocusOpen) {
+      suppressNextFocusOpen = false;
+      return;
+    }
+    // When the input shows the currently locked selection, focusing should
+    // show the full list (not a filter for the current value). We reset query.
+    query = "";
+    applyFilter();
+    openListbox();
+    // Select all text so typing replaces it immediately
+    requestAnimationFrame(() => input.select());
+  });
+
+  input.addEventListener("click", () => {
+    if (!open) {
+      query = "";
+      applyFilter();
+      openListbox();
+    }
+  });
+
+  input.addEventListener("input", () => {
+    query = input.value.trim().toLowerCase();
+    if (!open) openListbox();
+    applyFilter();
+    updateClearVisibility();
+  });
+
+  input.addEventListener("keydown", (event) => {
+    if (event.key === "ArrowDown") {
+      event.preventDefault();
+      if (!open) {
+        openListbox();
+        return;
+      }
+      if (filtered.length) {
+        activeIndex = (activeIndex + 1) % filtered.length;
+        renderListbox();
+        scrollActiveIntoView();
+      }
+    } else if (event.key === "ArrowUp") {
+      event.preventDefault();
+      if (!open) {
+        openListbox();
+        return;
+      }
+      if (filtered.length) {
+        activeIndex = (activeIndex - 1 + filtered.length) % filtered.length;
+        renderListbox();
+        scrollActiveIntoView();
+      }
+    } else if (event.key === "Enter") {
+      if (open && activeIndex >= 0) {
+        event.preventDefault();
+        commit(activeIndex);
+      }
+    } else if (event.key === "Escape") {
+      if (open) {
+        event.preventDefault();
+        closeListbox();
+        resetInputFromSelection();
+      }
+    } else if (event.key === "Tab") {
+      closeListbox();
+    }
+  });
+
+  input.addEventListener("blur", (event) => {
+    // Delay so option mousedown (which happens before blur) can commit first
+    setTimeout(() => {
+      if (!root.contains(document.activeElement)) {
+        closeListbox();
+        // If the user typed something non-matching, restore the locked value
+        const sel = getSelectedOption();
+        if (sel && input.value !== cfg.displayFor(sel)) {
+          input.value = cfg.displayFor(sel);
+          query = "";
+          updateClearVisibility();
+        }
+      }
+    }, 120);
+  });
+
+  listbox.addEventListener("mousedown", (event) => {
+    // Prevent input blur before click handler fires
+    event.preventDefault();
+  });
+
+  listbox.addEventListener("click", (event) => {
+    const li = event.target.closest(".combobox-option");
+    if (!li) return;
+    const idx = Number(li.dataset.index);
+    if (!Number.isNaN(idx)) commit(idx);
+  });
+
+  listbox.addEventListener("mousemove", (event) => {
+    const li = event.target.closest(".combobox-option");
+    if (!li) return;
+    const idx = Number(li.dataset.index);
+    if (!Number.isNaN(idx) && idx !== activeIndex) {
+      activeIndex = idx;
+      renderListbox();
+    }
+  });
+
+  clearBtn.addEventListener("click", () => {
+    input.value = "";
+    query = "";
+    updateClearVisibility();
+    applyFilter();
+    openListbox();
+    suppressNextFocusOpen = true;
+    input.focus();
+  });
+
+  document.addEventListener("click", (event) => {
+    if (!root.contains(event.target)) closeListbox();
+  });
+
+  comboboxController = {
+    refresh() {
+      cfg = modeConfig();
+      if (label) label.textContent = cfg.labelText;
+      input.placeholder = cfg.placeholder;
+      resetInputFromSelection();
+      query = "";
+      filtered = cfg.options.slice();
+      activeIndex = -1;
+      if (open) applyFilter();
+    },
+  };
+
+  comboboxController.refresh();
+}
+
 
 function renderSummaryStrip() {
   const summary = store.overview.summary ?? {};
@@ -1371,9 +1680,9 @@ function renderMap() {
         marker: {
           line: {
             color: records.map((row) =>
-              row.iso3 === state.country ? "rgba(34,211,238,0.72)" : "rgba(148,163,184,0.18)",
+              row.iso3 === state.country ? "rgba(217,104,10,0.90)" : "rgba(198,204,212,0.9)",
             ),
-            width: records.map((row) => (row.iso3 === state.country ? 2 : 0.4)),
+            width: records.map((row) => (row.iso3 === state.country ? 2.5 : 0.4)),
           },
         },
         colorbar: colorbarBase,
@@ -1391,7 +1700,7 @@ function renderMap() {
         zmax: bounds.zmax,
         zmid: bounds.zmid,
         marker: {
-          line: { color: "rgba(34,211,238,0.95)", width: 3 },
+          line: { color: "rgba(217,104,10,0.95)", width: 3 },
         },
       },
     ],
@@ -1400,19 +1709,22 @@ function renderMap() {
       plot_bgcolor: "rgba(0,0,0,0)",
       margin: { l: 0, r: 0, t: 0, b: 0 },
       geo: {
-        projection: { type: "natural earth", scale: 1.06 },
+        projection: { type: "robinson", scale: 1.06 },
         showframe: false,
         showcountries: true,
-        countrycolor: "rgba(148,163,184,0.18)",
-        showcoastlines: false,
-        landcolor: "rgba(30,41,59,0.92)",
+        countrycolor: "#D7DDE5",
+        showcoastlines: true,
+        coastlinecolor: "#C6CCD4",
+        showocean: false,
+        landcolor: "#F4F6FA",
         bgcolor: "rgba(0,0,0,0)",
+        lakecolor: "#FFFFFF",
       },
-      font: { family: "system-ui, sans-serif", color: THEME.ink },
+      font: { family: FONT_FAMILY_BODY, color: THEME.inkBody },
       hoverlabel: {
-        bgcolor: THEME.hover,
-        bordercolor: "rgba(34,211,238,0.22)",
-        font: { family: "system-ui, sans-serif", color: THEME.inkBright, size: 13 },
+        bgcolor: "#FFFFFF",
+        bordercolor: THEME.line,
+        font: { family: FONT_FAMILY_BODY, color: THEME.ink, size: 13 },
       },
     },
     {
@@ -1556,10 +1868,10 @@ function renderChinaMap() {
       showlegend: false,
       line: {
         color: isSelected
-          ? "rgba(251,191,36,0.95)"
+          ? "rgba(231,166,74,0.95)"
           : hasData
-            ? "rgba(148,163,184,0.38)"
-            : "rgba(148,163,184,0.5)",
+            ? "#9AA3B2"
+            : "#6B7280",
         width: isSelected ? 2.5 : 0.85,
       },
     });
@@ -1591,7 +1903,7 @@ function renderChinaMap() {
       font: { family: "system-ui, sans-serif", color: THEME.ink },
       hoverlabel: {
         bgcolor: THEME.hover,
-        bordercolor: "rgba(34,211,238,0.22)",
+        bordercolor: THEME.line,
         font: { family: "system-ui, sans-serif", color: THEME.inkBright, size: 13 },
       },
     },
@@ -1627,10 +1939,10 @@ function updateMapHighlight(iso3) {
     {
       "marker.line.color": [
         records.map((row) =>
-          row.iso3 === iso3 ? "rgba(34,211,238,0.72)" : "rgba(148,163,184,0.18)",
+          row.iso3 === iso3 ? "rgba(217,104,10,0.90)" : "rgba(198,204,212,0.9)",
         ),
       ],
-      "marker.line.width": [records.map((row) => (row.iso3 === iso3 ? 2 : 0.4))],
+      "marker.line.width": [records.map((row) => (row.iso3 === iso3 ? 2.5 : 0.4))],
     },
     [0],
   );
@@ -1910,7 +2222,7 @@ function renderDim4RankingList() {
     .map((row, index) => {
       const progress = Math.round((Math.abs(row.value) / maxAbs) * 100);
       const accent = metric.diverging
-        ? row.value >= 0 ? "style='--bar-color:rgba(34,211,238,0.5)'" : "style='--bar-color:rgba(251,113,133,0.5)'"
+        ? row.value >= 0 ? "style='--bar-color:rgba(11,111,184,0.55)'" : "style='--bar-color:rgba(232,106,79,0.55)'"
         : "";
       return `
         <button
@@ -1967,8 +2279,8 @@ function renderChinaOptimizationDetail() {
             r.province === selectedProv
               ? THEME.amber
               : r.change_pct >= 0
-              ? "rgba(34,211,238,0.65)"
-              : "rgba(251,113,133,0.55)"
+              ? "rgba(11,111,184,0.65)"
+              : "rgba(232,106,79,0.55)"
           ),
           cornerradius: 4,
           line: { width: 0 },
@@ -1978,7 +2290,7 @@ function renderChinaOptimizationDetail() {
     ],
     {
       ...baseLayout({
-        xaxis: { title: "建议调整幅度（%）", zeroline: true, zerolinecolor: "rgba(148,163,184,0.3)" },
+        xaxis: { title: "建议调整幅度（%）", zeroline: true, zerolinecolor: "#CBD2DC" },
         yaxis: { automargin: true, dtick: 1 },
         margin: { l: 110, r: 24, t: 8, b: 42 },
       }),
@@ -2061,7 +2373,7 @@ function renderDimension1Detail(profile) {
         line: { color: THEME.cyan, width: 3, shape: "spline" },
         marker: { size: 6, color: THEME.cyan },
         fill: "tozeroy",
-        fillcolor: "rgba(34,211,238,0.08)",
+        fillcolor: "rgba(11,111,184,0.10)",
       },
       {
         x: trend.map((row) => row.year),
@@ -2150,7 +2462,7 @@ function renderDimension3Detail(profile) {
       line: { color: THEME.teal, width: 2.5, shape: "spline" },
       marker: { size: 4, color: THEME.teal },
       fill: "tozeroy",
-      fillcolor: "rgba(45,212,191,0.06)",
+      fillcolor: "rgba(76,181,143,0.08)",
       hovertemplate: "<b>人均卫生支出</b><br>%{x}: $%{y:,.0f}<extra></extra>",
     });
   }
@@ -2186,7 +2498,7 @@ function renderDimension3Detail(profile) {
       overlaying: "y",
       side: "right",
       showgrid: false,
-      tickfont: { color: "rgba(167,139,250,0.8)" },
+      tickfont: { color: "#6D5FB0" },
     },
     legend: { orientation: "h", y: -0.18, x: 0, font: { size: 10 } },
   }), {
@@ -2215,10 +2527,10 @@ function renderChinaDetailChart() {
         y: series.map((r) => r.value),
         name: provinceLabel(prov),
         mode: "lines+markers",
-        line: { color: "#f87171", width: 3, shape: "spline" },
-        marker: { size: 6, color: "#f87171" },
+        line: { color: "#C0432C", width: 3, shape: "spline" },
+        marker: { size: 6, color: "#C0432C" },
         fill: "tozeroy",
-        fillcolor: "rgba(248, 113, 113, 0.08)",
+        fillcolor: "rgba(192,67,44,0.10)",
       },
     ],
     baseLayout({
@@ -2370,7 +2682,7 @@ function renderGlobalDiseaseTrend() {
         mode: "lines",
         line: { color: THEME.amber, width: 0, shape: "spline" },
         fill: "tonexty",
-        fillcolor: "rgba(251, 191, 36, 0.35)",
+        fillcolor: "rgba(231,166,74,0.35)",
         stackgroup: "share",
         hovertemplate: "<b>传染性疾病</b><br>%{x}: %{y:.1%}<extra></extra>",
       },
@@ -2381,7 +2693,7 @@ function renderGlobalDiseaseTrend() {
         mode: "lines",
         line: { color: THEME.teal, width: 0, shape: "spline" },
         fill: "tonexty",
-        fillcolor: "rgba(45, 212, 191, 0.35)",
+        fillcolor: "rgba(76,181,143,0.35)",
         stackgroup: "share",
         hovertemplate: "<b>非传染性疾病</b><br>%{x}: %{y:.1%}<extra></extra>",
       },
@@ -2392,7 +2704,7 @@ function renderGlobalDiseaseTrend() {
         mode: "lines",
         line: { color: THEME.rose, width: 0, shape: "spline" },
         fill: "tonexty",
-        fillcolor: "rgba(251, 113, 133, 0.35)",
+        fillcolor: "rgba(232,106,79,0.35)",
         stackgroup: "share",
         hovertemplate: "<b>伤害</b><br>%{x}: %{y:.1%}<extra></extra>",
       },
@@ -2421,22 +2733,22 @@ function renderRiskSankey() {
           label: sankey.nodes.map((node) => translateSankeyNode(node)),
           pad: 16,
           thickness: 18,
-          line: { color: "rgba(148,163,184,0.12)", width: 0.5 },
+          line: { color: "#EEF1F6", width: 0.5 },
           color: sankey.nodes.map((node) =>
             REGION_LABELS[node]
-              ? "rgba(167,139,250,0.72)"
-              : "rgba(34,211,238,0.72)",
+              ? "rgba(109,95,176,0.72)"
+              : "rgba(11,111,184,0.85)",
           ),
         },
         link: {
           source: sankey.sources,
           target: sankey.targets,
           value: sankey.values,
-          color: "rgba(148,163,184,0.10)",
+          color: "#EEF1F6",
         },
         hoverlabel: {
           bgcolor: THEME.hover,
-          bordercolor: "rgba(34,211,238,0.18)",
+          bordercolor: THEME.line,
           font: { family: "system-ui, sans-serif", color: THEME.inkBright },
         },
       },
@@ -2605,7 +2917,7 @@ function renderOptimizationLorenz() {
     {
       x: [0, 100], y: [0, 100],
       mode: "lines", name: "完全平等线",
-      line: { color: "rgba(148,163,184,0.35)", width: 1.5, dash: "dot" },
+      line: { color: "#9AA3B2", width: 1.5, dash: "dot" },
       hoverinfo: "skip",
     },
   ];
@@ -2614,7 +2926,7 @@ function renderOptimizationLorenz() {
       x: curLorenz.x, y: curLorenz.y,
       mode: "lines", name: `优化前（基尼=${giniB}）`,
       line: { color: THEME.rose, width: 2.5, shape: "spline" },
-      fill: "tonexty", fillcolor: "rgba(251,113,133,0.06)",
+      fill: "tonexty", fillcolor: "rgba(232,106,79,0.09)",
       hovertemplate: "底部 %{x:.0f}% 国家占 %{y:.1f}% 健康产出<extra></extra>",
     });
   }
@@ -2733,7 +3045,7 @@ function renderLorenzChart() {
     y: [0, 100],
     mode: "lines",
     name: "完全平等线",
-    line: { color: "rgba(148,163,184,0.4)", width: 1.5, dash: "dot" },
+    line: { color: "#9AA3B2", width: 1.5, dash: "dot" },
     hoverinfo: "skip",
   });
 
@@ -2745,7 +3057,7 @@ function renderLorenzChart() {
       name: `${expData.label}（${expData.year}）`,
       line: { color: THEME.rose, width: 2.5, shape: "spline" },
       fill: "tonexty",
-      fillcolor: "rgba(251,113,133,0.07)",
+      fillcolor: "rgba(232,106,79,0.10)",
       hovertemplate: "底部 %{x:.0f}% 国家占 %{y:.1f}% 支出<extra></extra>",
     });
   }
@@ -2826,8 +3138,8 @@ function renderGlobalQuadrantScatter() {
   }));
 
   const shapes = [
-    { type: "line", x0: 0, x1: 0, y0: -5, y1: 5, line: { color: "rgba(148,163,184,0.25)", width: 1, dash: "dash" } },
-    { type: "line", x0: -5, x1: 5, y0: 0, y1: 0, line: { color: "rgba(148,163,184,0.25)", width: 1, dash: "dash" } },
+    { type: "line", x0: 0, x1: 0, y0: -5, y1: 5, line: { color: "#CBD2DC", width: 1, dash: "dash" } },
+    { type: "line", x0: -5, x1: 5, y0: 0, y1: 0, line: { color: "#CBD2DC", width: 1, dash: "dash" } },
   ];
 
   Plotly.react(
@@ -2875,10 +3187,10 @@ function renderChinaNationalTrend() {
         y: series.map((r) => r.value),
         name: `全国${METRIC_META[metricKey].label}`,
         mode: "lines+markers",
-        line: { color: "#f87171", width: 3, shape: "spline" },
-        marker: { size: 6, color: "#f87171" },
+        line: { color: "#C0432C", width: 3, shape: "spline" },
+        marker: { size: 6, color: "#C0432C" },
         fill: "tozeroy",
-        fillcolor: "rgba(248, 113, 113, 0.08)",
+        fillcolor: "rgba(192,67,44,0.10)",
       },
     ],
     baseLayout({
@@ -2915,7 +3227,7 @@ function renderChinaProvincePersonnelTrend() {
       line: { color: THEME.amber, width: 3, shape: "spline" },
       marker: { size: 6, color: THEME.amber },
       fill: "tozeroy",
-      fillcolor: "rgba(251,191,36,0.07)",
+      fillcolor: "rgba(231,166,74,0.10)",
     },
   ];
 
@@ -2957,13 +3269,13 @@ function renderChinaLorenzChart() {
       y: [0, 100],
       mode: "lines",
       name: "完全平等线",
-      line: { color: "rgba(148,163,184,0.4)", width: 1.5, dash: "dot" },
+      line: { color: "#9AA3B2", width: 1.5, dash: "dot" },
       hoverinfo: "skip",
     },
   ];
 
   const seriesConfig = [
-    { key: "health_exp", color: THEME.rose, fill: "rgba(251,113,133,0.07)" },
+    { key: "health_exp", color: THEME.rose, fill: "rgba(232,106,79,0.10)" },
     { key: "life_expectancy", color: THEME.teal, fill: null },
     { key: "personnel_per_1000", color: THEME.amber, fill: null },
   ];
@@ -3032,7 +3344,7 @@ function renderChinaOptimizationLorenz() {
     {
       x: [0, 100], y: [0, 100],
       mode: "lines", name: "完全平等线",
-      line: { color: "rgba(148,163,184,0.35)", width: 1.5, dash: "dot" },
+      line: { color: "#9AA3B2", width: 1.5, dash: "dot" },
       hoverinfo: "skip",
     },
   ];
@@ -3041,7 +3353,7 @@ function renderChinaOptimizationLorenz() {
       x: curLorenz.x, y: curLorenz.y,
       mode: "lines", name: `优化前（基尼=${giniB}）`,
       line: { color: THEME.rose, width: 2.5, shape: "spline" },
-      fill: "tonexty", fillcolor: "rgba(251,113,133,0.06)",
+      fill: "tonexty", fillcolor: "rgba(232,106,79,0.09)",
       hovertemplate: "底部 %{x:.0f}% 省份占 %{y:.1f}% 健康产出<extra></extra>",
     });
   }
@@ -3102,7 +3414,7 @@ function renderChinaQuadrantScatter() {
     y: provs.map((p) => p.output_index),
     text: provs.map((p) => p.province_en),
     textposition: "top center",
-    textfont: { size: 9, color: "rgba(148,163,184,0.8)" },
+    textfont: { size: 9, color: "#4B5563" },
     marker: {
       size: provs.map((p) => p.province === state.province ? 14 : 9),
       color: provs.map((p) => p.province === state.province ? THEME.amber : (QUADRANT_COLORS[q] ?? THEME.dim)),
@@ -3118,8 +3430,8 @@ function renderChinaQuadrantScatter() {
 
   // Quadrant dividers at x=0, y=0
   const shapes = [
-    { type: "line", x0: 0, x1: 0, y0: -3, y1: 3, line: { color: "rgba(148,163,184,0.25)", width: 1, dash: "dash" } },
-    { type: "line", x0: -3, x1: 3, y0: 0, y1: 0, line: { color: "rgba(148,163,184,0.25)", width: 1, dash: "dash" } },
+    { type: "line", x0: 0, x1: 0, y0: -3, y1: 3, line: { color: "#CBD2DC", width: 1, dash: "dash" } },
+    { type: "line", x0: -3, x1: 3, y0: 0, y1: 0, line: { color: "#CBD2DC", width: 1, dash: "dash" } },
   ];
 
   Plotly.react(
@@ -3352,8 +3664,8 @@ function renderDim3Context() {
 
   const isPersonnel = state.objective?.includes("personnel");
   const methodBlock = `
-    <div class="context-method-block" style="font-size:0.8rem;opacity:0.85;line-height:1.6;padding:0.6rem 0.8rem;background:rgba(15,23,42,0.4);border-radius:8px;border-left:3px solid rgba(34,211,238,0.4);margin-bottom:0.75rem">
-      <strong style="display:block;margin-bottom:0.3rem;color:rgba(226,232,240,0.9)">数学规划模型说明</strong>
+    <div class="context-method-block" style="font-size:0.8rem;line-height:1.6;padding:0.6rem 0.8rem;background:#F2F4F8;border-radius:8px;border-left:3px solid rgba(11,111,184,0.45);margin-bottom:0.75rem">
+      <strong style="display:block;margin-bottom:0.3rem;color:#0F172A">数学规划模型说明</strong>
       ${isPersonnel
         ? `决策变量：各国医生密度 xᵢ（每千人）。约束：Σxᵢ = ${scenarioSummary.budget_multiplier ?? state.budgetMultiplier}×Σx₀ᵢ（总人力预算守恒）；xᵢ ≥ 0.01。`
         : `决策变量：各国人均卫生支出 xᵢ（$USD）。约束：Σxᵢ = ${scenarioSummary.budget_multiplier ?? state.budgetMultiplier ?? "1.0"}×Σx₀ᵢ（总预算守恒）；xᵢ ≥ 0.`
@@ -3381,19 +3693,19 @@ function renderDim3Context() {
     return exps.length > 0 ? exps[Math.floor(exps.length / 2)] : null;
   })();
   const q2LeaderBlock = q2Leaders.length >= 3 ? `
-    <div class="context-method-block" style="font-size:0.79rem;line-height:1.6;padding:0.65rem 0.85rem;background:rgba(5,46,22,0.35);border-radius:8px;border-left:3px solid rgba(34,197,94,0.5);margin-bottom:0.75rem">
-      <strong style="display:block;margin-bottom:0.4rem;color:rgba(134,239,172,0.95)">Q2 效率标杆：低投入高产出典型案例</strong>
+    <div class="context-method-block" style="font-size:0.79rem;line-height:1.6;padding:0.65rem 0.85rem;background:#EFF8F2;border-radius:8px;border-left:3px solid #4CB58F;margin-bottom:0.75rem">
+      <strong style="display:block;margin-bottom:0.4rem;color:#156E4A">Q2 效率标杆：低投入高产出典型案例</strong>
       <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:0.35rem 0.6rem;margin-bottom:0.5rem">
         ${q2Leaders.map((c) => `
-          <div style="background:rgba(0,0,0,0.2);border-radius:5px;padding:0.3rem 0.5rem">
-            <div style="font-weight:600;color:rgba(226,232,240,0.92)">${escapeHtml(translateCountryIso3(c.iso3))}</div>
-            <div style="color:rgba(148,163,184,0.85)">支出：$${Math.round(c.health_exp_per_capita)}/人</div>
-            <div style="color:rgba(134,239,172,0.8)">寿命：${c.life_expectancy.toFixed(1)}岁</div>
-            ${c.physicians_per_1000 != null ? `<div style="color:rgba(148,163,184,0.75)">医生：${c.physicians_per_1000.toFixed(2)}/千人</div>` : ""}
+          <div style="background:#FFFFFF;border:1px solid #DDECE3;border-radius:5px;padding:0.3rem 0.5rem">
+            <div style="font-weight:600;color:#0F172A">${escapeHtml(translateCountryIso3(c.iso3))}</div>
+            <div style="color:#4B5563">支出：$${Math.round(c.health_exp_per_capita)}/人</div>
+            <div style="color:#1F7E5C">寿命：${c.life_expectancy.toFixed(1)}岁</div>
+            ${c.physicians_per_1000 != null ? `<div style="color:#6B7280">医生：${c.physicians_per_1000.toFixed(2)}/千人</div>` : ""}
           </div>
         `).join("")}
       </div>
-      <p style="margin:0;color:rgba(203,213,225,0.82)">以上国家人均卫生支出均低于全球中位数${globalMedianExp != null ? "（$" + Math.round(globalMedianExp) + "）" : ""}，却实现了高于全球中位预期寿命${globalMedianLE != null ? "（" + globalMedianLE.toFixed(1) + "岁）" : ""}的健康产出。共同经验：<b>强基层卫生网络</b>（社区卫生工作者、全科医生制度）、<b>高免疫覆盖率</b>、<b>重预防轻住院</b>的支出结构及良好的健康行为干预机制。这些可复制经验尤其适合向Q4低投入低产出国家推广。</p>
+      <p style="margin:0;color:#4B5563">以上国家人均卫生支出均低于全球中位数${globalMedianExp != null ? "（$" + Math.round(globalMedianExp) + "）" : ""}，却实现了高于全球中位预期寿命${globalMedianLE != null ? "（" + globalMedianLE.toFixed(1) + "岁）" : ""}的健康产出。共同经验：<b>强基层卫生网络</b>（社区卫生工作者、全科医生制度）、<b>高免疫覆盖率</b>、<b>重预防轻住院</b>的支出结构及良好的健康行为干预机制。这些可复制经验尤其适合向Q4低投入低产出国家推广。</p>
     </div>
   ` : "";
 
@@ -3403,19 +3715,19 @@ function renderDim3Context() {
     .sort((a, b) => (b.health_exp_per_capita ?? 0) - (a.health_exp_per_capita ?? 0))
     .slice(0, 5);
   const q3CaseBlock = q3Cases.length >= 3 ? `
-    <div class="context-method-block" style="font-size:0.79rem;line-height:1.6;padding:0.65rem 0.85rem;background:rgba(69,10,10,0.3);border-radius:8px;border-left:3px solid rgba(239,68,68,0.5);margin-bottom:0.75rem">
-      <strong style="display:block;margin-bottom:0.4rem;color:rgba(252,165,165,0.95)">Q3 效率警示：高投入低产出典型案例</strong>
+    <div class="context-method-block" style="font-size:0.79rem;line-height:1.6;padding:0.65rem 0.85rem;background:#FCF1EE;border-radius:8px;border-left:3px solid #C0432C;margin-bottom:0.75rem">
+      <strong style="display:block;margin-bottom:0.4rem;color:#8A2818">Q3 效率警示：高投入低产出典型案例</strong>
       <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:0.35rem 0.6rem;margin-bottom:0.5rem">
         ${q3Cases.map((c) => `
-          <div style="background:rgba(0,0,0,0.2);border-radius:5px;padding:0.3rem 0.5rem">
-            <div style="font-weight:600;color:rgba(226,232,240,0.92)">${escapeHtml(translateCountryIso3(c.iso3))}</div>
-            <div style="color:rgba(252,165,165,0.85)">支出：$${Math.round(c.health_exp_per_capita)}/人</div>
-            <div style="color:rgba(148,163,184,0.8)">寿命：${c.life_expectancy.toFixed(1)}岁</div>
-            ${c.efficiency != null ? `<div style="color:rgba(248,113,133,0.75)">效率：${c.efficiency.toFixed(2)}</div>` : ""}
+          <div style="background:#FFFFFF;border:1px solid #F1D3C9;border-radius:5px;padding:0.3rem 0.5rem">
+            <div style="font-weight:600;color:#0F172A">${escapeHtml(translateCountryIso3(c.iso3))}</div>
+            <div style="color:#B14A35">支出：$${Math.round(c.health_exp_per_capita)}/人</div>
+            <div style="color:#6B7280">寿命：${c.life_expectancy.toFixed(1)}岁</div>
+            ${c.efficiency != null ? `<div style="color:#C0432C">效率：${c.efficiency.toFixed(2)}</div>` : ""}
           </div>
         `).join("")}
       </div>
-      <p style="margin:0;color:rgba(203,213,225,0.82)">这些国家卫生投入高于全球中位数，却未能转化为相应的健康产出，是典型的<b>效率损失</b>情形。常见根因：资源过度集中于三级医疗、慢病管理薄弱（高BMI/高血压/糖尿病未控制）、预防投入不足、以及社会决定因素（不平等、贫困）阻碍投入转化。建议优先开展卫生系统效率审计，推进<b>价值导向支出改革</b>（Value-Based Healthcare）。</p>
+      <p style="margin:0;color:#4B5563">这些国家卫生投入高于全球中位数，却未能转化为相应的健康产出，是典型的<b>效率损失</b>情形。常见根因：资源过度集中于三级医疗、慢病管理薄弱（高BMI/高血压/糖尿病未控制）、预防投入不足、以及社会决定因素（不平等、贫困）阻碍投入转化。建议优先开展卫生系统效率审计，推进<b>价值导向支出改革</b>（Value-Based Healthcare）。</p>
     </div>
   ` : "";
 
@@ -3529,8 +3841,8 @@ function renderDim4Context() {
 
   const isChinaPersonnel = chinaScenario?.objective?.includes("personnel");
   const chinaMethodBlock = `
-    <div class="context-method-block" style="font-size:0.78rem;opacity:0.85;line-height:1.6;padding:0.5rem 0.75rem;background:rgba(15,23,42,0.4);border-radius:8px;border-left:3px solid rgba(251,191,36,0.5);margin-bottom:0.75rem">
-      <strong style="display:block;margin-bottom:0.25rem;color:rgba(226,232,240,0.9)">中国省级LP模型</strong>
+    <div class="context-method-block" style="font-size:0.78rem;line-height:1.6;padding:0.5rem 0.75rem;background:#FFF7E6;border-radius:8px;border-left:3px solid #E7A64A;margin-bottom:0.75rem">
+      <strong style="display:block;margin-bottom:0.25rem;color:#0F172A">中国省级LP模型</strong>
       ${isChinaPersonnel
         ? "决策变量：各省卫生人员数量 xᵢ。约束：Σxᵢ = 预算系数 × Σx₀ᵢ；xᵢ ≥ 0。"
         : "决策变量：各省人均卫生支出 xᵢ（元）。约束：Σxᵢ = 预算系数 × Σx₀ᵢ（省级总预算守恒）；xᵢ ≥ 0。"
@@ -3601,12 +3913,12 @@ function _chinaQuadrantRecommendations() {
 // ── dim5 Charts ─────────────────────────────────────────────────
 
 const REGION_COLORS = {
-  Africa: "#fb7185",
-  Americas: "#22d3ee",
-  Asia: "#fbbf24",
-  Europe: "#a78bfa",
-  Oceania: "#34d399",
-  "": "#64748b",
+  Africa: "#6D5FB0",
+  Americas: "#E86A4F",
+  Asia: "#E7A64A",
+  Europe: "#3A8CCF",
+  Oceania: "#4CB58F",
+  "": "#6B7280",
 };
 
 function renderBubbleChart() {
@@ -3638,7 +3950,7 @@ function renderBubbleChart() {
       opacity: 0.72,
       line: {
         color: rows.map((r) =>
-          r.iso3 === state.country ? "rgba(255,255,255,0.9)" : "rgba(0,0,0,0)",
+          r.iso3 === state.country ? "#0B6FB8" : "rgba(0,0,0,0)",
         ),
         width: rows.map((r) => (r.iso3 === state.country ? 2.5 : 0)),
       },
@@ -3738,7 +4050,7 @@ function renderRadarChart() {
         theta: [...labels, labels[0]],
         name: countryLabel({ iso3: state.country }),
         fill: "toself",
-        fillcolor: "rgba(34,211,238,0.12)",
+        fillcolor: "rgba(11,111,184,0.14)",
         line: { color: THEME.cyan, width: 2.5 },
         marker: { size: 6, color: THEME.cyan },
       },
@@ -3748,7 +4060,7 @@ function renderRadarChart() {
         theta: [...labels, labels[0]],
         name: "全球均值",
         fill: "toself",
-        fillcolor: "rgba(167,139,250,0.08)",
+        fillcolor: "rgba(109,95,176,0.14)",
         line: { color: THEME.violet, width: 2, dash: "dash" },
         marker: { size: 4, color: THEME.violet },
       },
@@ -3783,7 +4095,7 @@ function renderRadarChart() {
       },
       hoverlabel: {
         bgcolor: THEME.hover,
-        bordercolor: "rgba(34,211,238,0.20)",
+        bordercolor: THEME.line,
         font: { family: "system-ui, sans-serif", color: THEME.inkBright, size: 12 },
       },
     },
@@ -3827,7 +4139,7 @@ function renderQuadrantScatter() {
       opacity: 0.72,
       line: {
         color: rows.map((r) =>
-          r.iso3 === state.country ? "rgba(255,255,255,0.9)" : "rgba(0,0,0,0)",
+          r.iso3 === state.country ? "#0B6FB8" : "rgba(0,0,0,0)",
         ),
         width: rows.map((r) => (r.iso3 === state.country ? 2.5 : 0)),
       },
@@ -3847,7 +4159,7 @@ function renderQuadrantScatter() {
     yref: "y",
     text: a.text,
     showarrow: false,
-    font: { size: 11, color: "rgba(148,163,184,0.45)" },
+    font: { size: 11, color: "#6B7280" },
   }));
 
   // Render into context-panel as a plotly chart
@@ -3861,8 +4173,8 @@ function renderQuadrantScatter() {
       xaxis: { title: "人类发展指数 (HDI)", gridcolor: THEME.grid },
       yaxis: { title: "健康预期寿命 (HALE)", gridcolor: THEME.grid },
       shapes: [
-        { type: "line", x0: medianHDI, x1: medianHDI, y0: 0, y1: 1, yref: "paper", line: { color: "rgba(148,163,184,0.2)", width: 1, dash: "dot" } },
-        { type: "line", x0: 0, x1: 1, y0: medianHALE, y1: medianHALE, xref: "paper", line: { color: "rgba(148,163,184,0.2)", width: 1, dash: "dot" } },
+        { type: "line", x0: medianHDI, x1: medianHDI, y0: 0, y1: 1, yref: "paper", line: { color: "#CBD2DC", width: 1, dash: "dot" } },
+        { type: "line", x0: 0, x1: 1, y0: medianHALE, y1: medianHALE, xref: "paper", line: { color: "#CBD2DC", width: 1, dash: "dot" } },
       ],
       annotations: quadrantAnnotations,
       legend: { orientation: "h", yanchor: "bottom", y: 1.02, xanchor: "left", x: 0, font: { color: THEME.muted, size: 10 } },
@@ -4029,7 +4341,7 @@ function renderSpotlightChart(trend, optimalValue) {
       name: "预期寿命",
       line: { color: THEME.cyan, width: 2.5, shape: "spline" },
       fill: "tozeroy",
-      fillcolor: "rgba(34,211,238,0.08)",
+      fillcolor: "rgba(11,111,184,0.10)",
       hovertemplate: "<b>%{x}</b><br>%{y:.1f} 岁<extra></extra>",
     },
   ];
@@ -4064,7 +4376,7 @@ function renderSpotlightChart(trend, optimalValue) {
       },
       hoverlabel: {
         bgcolor: THEME.hover,
-        bordercolor: "rgba(34,211,238,0.20)",
+        bordercolor: THEME.line,
         font: { family: "system-ui, sans-serif", color: THEME.inkBright, size: 12 },
       },
     },
@@ -4193,6 +4505,7 @@ function startAnimation() {
     const slider = document.getElementById("year-slider");
     slider.value = state.year;
     document.getElementById("year-display").textContent = state.year;
+    updateSliderFill(slider);
     if (state.dimension === "dim5") {
       renderBubbleChart();
     } else {
@@ -4289,14 +4602,14 @@ function baseLayout(extra = {}) {
     font: { family: "system-ui, sans-serif", color: THEME.muted },
     xaxis: {
       gridcolor: THEME.grid,
-      zerolinecolor: "rgba(148,163,184,0.12)",
+      zerolinecolor: "#EEF1F6",
       linecolor: THEME.grid,
       ticks: "",
       tickfont: { family: "SFMono-Regular, ui-monospace, monospace", size: 11, color: THEME.dim },
     },
     yaxis: {
       gridcolor: THEME.grid,
-      zerolinecolor: "rgba(148,163,184,0.12)",
+      zerolinecolor: "#EEF1F6",
       linecolor: THEME.grid,
       ticks: "",
       tickfont: { family: "SFMono-Regular, ui-monospace, monospace", size: 11, color: THEME.dim },
@@ -4311,7 +4624,7 @@ function baseLayout(extra = {}) {
     },
     hoverlabel: {
       bgcolor: THEME.hover,
-      bordercolor: "rgba(34,211,238,0.20)",
+      bordercolor: THEME.line,
       font: { family: "system-ui, sans-serif", color: THEME.inkBright, size: 13 },
     },
     transition: { duration: 300, easing: "cubic-in-out" },
@@ -4320,7 +4633,7 @@ function baseLayout(extra = {}) {
 }
 
 function renderFailure(error) {
-  document.body.innerHTML = `<pre style="padding:24px;color:#fb7185;background:#0f172a;font-family:ui-monospace,monospace;min-height:100vh;">仪表盘加载失败：\n${escapeHtml(
+  document.body.innerHTML = `<pre style="padding:24px;color:#C0432C;background:#F7F8FB;font-family:ui-monospace,monospace;min-height:100vh;">仪表盘加载失败：\n${escapeHtml(
     String(error),
   )}</pre>`;
 }
