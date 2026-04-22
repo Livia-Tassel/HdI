@@ -52,10 +52,10 @@
 
   /* Elevation */
   --shadow-xs: 0 1px 2px rgba(15, 23, 42, 0.04);
-  --shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.05), 0 2px 6px rgba(15, 23, 42, 0.04);
-  --shadow-md: 0 1px 2px rgba(15, 23, 42, 0.05), 0 6px 18px rgba(15, 23, 42, 0.06);
-  --shadow-lg: 0 2px 4px rgba(15, 23, 42, 0.04), 0 16px 40px rgba(15, 23, 42, 0.08);
-  --shadow-xl: 0 24px 64px rgba(15, 23, 42, 0.12);
+  --shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.05), 0 2px 8px rgba(15, 23, 42, 0.04);
+  --shadow-md: 0 1px 3px rgba(15, 23, 42, 0.05), 0 8px 24px rgba(15, 23, 42, 0.07);
+  --shadow-lg: 0 2px 4px rgba(15, 23, 42, 0.04), 0 20px 48px rgba(15, 23, 42, 0.09);
+  --shadow-xl: 0 32px 80px rgba(15, 23, 42, 0.14), 0 4px 12px rgba(15, 23, 42, 0.06);
 
   /* Radius */
   --radius-xl: 16px;
@@ -74,17 +74,12 @@
   --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
   --ease-smooth: cubic-bezier(0.25, 0.1, 0.25, 1);
 
-  /* National / selection highlight — vivid cyan, universal contrast on all map colorscales */
-  --highlight: #00D2DC;
-  --highlight-soft: rgba(0, 210, 220, 0.10);
-  --highlight-ring: rgba(0, 210, 220, 0.22);
+  /* National / selection highlight — signal magenta, avoids all map colorscale hues */
+  --highlight: #D81B60;
+  --highlight-ink: #A01145;
+  --highlight-soft: rgba(216, 27, 96, 0.08);
+  --highlight-ring: rgba(216, 27, 96, 0.22);
 
-  /* Refined elevation with warmer tones */
-  --shadow-xs: 0 1px 2px rgba(15, 23, 42, 0.04);
-  --shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.05), 0 2px 8px rgba(15, 23, 42, 0.04);
-  --shadow-md: 0 1px 3px rgba(15, 23, 42, 0.05), 0 8px 24px rgba(15, 23, 42, 0.07);
-  --shadow-lg: 0 2px 4px rgba(15, 23, 42, 0.04), 0 20px 48px rgba(15, 23, 42, 0.09);
-  --shadow-xl: 0 32px 80px rgba(15, 23, 42, 0.14), 0 4px 12px rgba(15, 23, 42, 0.06);
 }
 
 /* ── Reset & Base ─────────────────────────────────────────────────── */
@@ -282,7 +277,7 @@ body {
   overflow: hidden;
 }
 
-/* Shimmer sweep over the logo */
+/* Shimmer sweep over the logo — runs 3× on load, then stops */
 .masthead-brand::after {
   content: "";
   position: absolute;
@@ -296,7 +291,7 @@ body {
     rgba(255,255,255,0.30) 50%,
     transparent 65%
   );
-  animation: logo-shimmer 5s ease 2.5s infinite;
+  animation: logo-shimmer 5s ease 2.5s 3;
   pointer-events: none;
 }
 
@@ -305,14 +300,9 @@ body {
   box-shadow: 0 7px 24px rgba(11, 111, 184, 0.32), 0 0 0 5px rgba(11, 111, 184, 0.09);
 }
 
-@keyframes logo-pulse {
-  0%, 100% { box-shadow: 0 4px 16px rgba(11, 111, 184, 0.25), 0 1px 4px rgba(11, 111, 184, 0.18); }
-  50%       { box-shadow: 0 6px 22px rgba(11, 111, 184, 0.40), 0 0 0 6px rgba(11, 111, 184, 0.08); }
-}
+/* logo-pulse removed — continuous pulse was distracting */
 
-body.ready .masthead-brand {
-  animation: logo-pulse 3.5s ease-in-out 1.2s infinite;
-}
+
 
 .masthead-brand small {
   font-size: 11px;
@@ -363,9 +353,9 @@ body.ready .masthead-brand {
   color: var(--ink);
 }
 
-/* Vivid multi-stop gradient on the main title */
+/* Restrained gradient on the main title — dark ink with a subtle blue undertone */
 .gradient-text {
-  background: linear-gradient(125deg, #071428 0%, #0B6FB8 30%, #2B9FD4 55%, #6D5FB0 80%, #B87FC0 100%);
+  background: linear-gradient(120deg, #0F172A 0%, #0B4F8C 60%, #1A6DB5 100%);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -435,7 +425,7 @@ body.ready .masthead-brand {
   gap: 16px;
   align-items: center;
   padding: 12px 18px;
-  background: rgba(255, 255, 255, 0.90);
+  background: rgba(255, 255, 255, 0.94);
   backdrop-filter: blur(20px) saturate(1.5);
   -webkit-backdrop-filter: blur(20px) saturate(1.5);
   border-color: rgba(255, 255, 255, 0.85);
@@ -706,7 +696,7 @@ body.ready .masthead-brand {
   content: "";
   width: 3px;
   height: 14px;
-  background: var(--primary);
+  background: var(--highlight);
   border-radius: 2px;
   margin-right: -6px;
 }
@@ -733,6 +723,11 @@ body.ready .masthead-brand {
 
 .dashboard-grid.dim-fading {
   opacity: 0.35;
+}
+
+/* Map card stays crisp during panel-fade transitions */
+.dashboard-grid.dim-fading .map-card {
+  opacity: 1;
 }
 
 .map-card {
@@ -838,7 +833,8 @@ body.ready .masthead-brand {
 }
 
 .micro-pill {
-  align-self: center;
+  align-self: flex-start;
+  margin-top: 3px;
   border-radius: 999px;
   padding: 4px 10px;
   background: var(--primary-50);
@@ -1011,8 +1007,8 @@ body.ready .masthead-brand {
   border-radius: inherit;
   background: linear-gradient(
     90deg,
-    var(--primary-50) 0%,
-    rgba(230, 240, 248, 0.5) 60%,
+    var(--bar-color, var(--primary-50)) 0%,
+    rgba(230, 240, 248, 0.4) 60%,
     transparent 100%
   );
   width: var(--progress, 0%);
@@ -1058,6 +1054,24 @@ body.ready .masthead-brand {
   color: #B15232;
 }
 
+/* Selected row bar inherits highlight tint */
+.ranking-row.is-selected::before {
+  background: linear-gradient(
+    90deg,
+    rgba(216, 27, 96, 0.1) 0%,
+    rgba(216, 27, 96, 0.04) 60%,
+    transparent 100%
+  );
+}
+
+/* Flag emoji in ranking rows */
+.row-flag {
+  display: inline;
+  margin-right: 4px;
+  font-style: normal;
+  letter-spacing: 0;
+}
+
 .ranking-row .row-info {
   position: relative;
   z-index: 1;
@@ -1093,18 +1107,18 @@ body.ready .masthead-brand {
 }
 
 .ranking-row.is-selected {
-  border-color: var(--primary);
-  background: var(--primary-50);
-  box-shadow: 0 0 0 1px var(--primary) inset;
+  border-color: var(--highlight);
+  background: var(--highlight-soft);
+  box-shadow: 0 0 0 1px var(--highlight) inset;
 }
 
 .ranking-row.is-selected .row-value {
-  color: var(--primary-ink);
+  color: var(--highlight-ink);
   font-weight: 600;
 }
 
 .ranking-row.is-selected .rank-badge {
-  background: var(--primary);
+  background: var(--highlight);
   color: #FFFFFF;
 }
 
@@ -1318,7 +1332,7 @@ body.ready .masthead-brand {
 }
 
 @keyframes country-flash {
-  0%   { color: var(--primary); }
+  0%   { color: var(--highlight); }
   100% { color: var(--ink); }
 }
 
@@ -1664,7 +1678,7 @@ body.ready .context-card { animation-delay: 360ms; }
   padding: 28px 24px 20px;
   padding-right: 64px; /* room for close button */
   border-radius: 18px 18px 0 0;
-  background: linear-gradient(180deg, rgba(11, 111, 184, 0.04) 0%, rgba(11, 111, 184, 0.01) 60%, transparent 100%);
+  background: linear-gradient(180deg, var(--surface-2) 0%, rgba(242, 244, 248, 0.5) 60%, transparent 100%);
   border-bottom: 1px solid var(--line-soft);
 }
 
@@ -1747,6 +1761,14 @@ body.ready .context-card { animation-delay: 360ms; }
   border: 1px solid var(--primary-100);
   color: var(--primary-ink);
 }
+
+/* WHO region-specific badge tints */
+.spotlight-badge[data-region="AFRO"] { background: rgba(109,95,176,0.10); border-color: rgba(109,95,176,0.25); color: #4A3D82; }
+.spotlight-badge[data-region="AMRO"] { background: rgba(232,106,79,0.10); border-color: rgba(232,106,79,0.25); color: #A34020; }
+.spotlight-badge[data-region="EMRO"] { background: rgba(184,127,192,0.10); border-color: rgba(184,127,192,0.25); color: #7D4B8A; }
+.spotlight-badge[data-region="EURO"] { background: rgba(58,140,207,0.10); border-color: rgba(58,140,207,0.25); color: #1E5E92; }
+.spotlight-badge[data-region="SEARO"] { background: rgba(76,181,143,0.10); border-color: rgba(76,181,143,0.25); color: #1D7A55; }
+.spotlight-badge[data-region="WPRO"] { background: rgba(231,166,74,0.10); border-color: rgba(231,166,74,0.25); color: #8A5B0A; }
 
 .spotlight-badge[data-type="income"] {
   background: #F4EFFB;
@@ -1891,8 +1913,8 @@ body.ready .context-card { animation-delay: 360ms; }
   transform-origin: left center;
   transform: scaleX(0);
   animation: risk-bar-grow 700ms var(--ease-out-expo) forwards;
-  /* Gradient for visual richness */
-  background: linear-gradient(90deg, var(--primary) 0%, var(--accent-6) 100%);
+  /* Risk bar gradient — warm amber → coral → rose (risk-themed) */
+  background: linear-gradient(90deg, #E7A64A 0%, #E86A4F 60%, #D81B60 100%);
 }
 
 @keyframes risk-bar-grow {

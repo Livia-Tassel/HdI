@@ -479,6 +479,8 @@ const THEME = {
   primaryInk: "#084E82",
   primarySoft: "#E6F0F8",
   cyan: "#0B6FB8",
+  highlight: "#D81B60",
+  highlightInk: "#A01145",
   teal: "#4CB58F",
   blue: "#3A8CCF",
   amber: "#E7A64A",
@@ -1574,6 +1576,13 @@ function renderPanels() {
   const grid = document.querySelector(".dashboard-grid");
   grid?.classList.add("dim-fading");
   window.clearTimeout(renderPanels._timer);
+
+  // Cap: if a fade batch has been running for >220ms, render immediately on next tick
+  const now = Date.now();
+  if (!renderPanels._fadeStart) renderPanels._fadeStart = now;
+  const elapsed = now - renderPanels._fadeStart;
+  const delay = elapsed > 220 ? 0 : 120;
+
   renderPanels._timer = window.setTimeout(() => {
     renderCountryPanel();
     renderRankingList();
@@ -1584,7 +1593,8 @@ function renderPanels() {
       renderSpotlightContent(state.dialogCountry || state.country);
     }
     grid?.classList.remove("dim-fading");
-  }, 120);
+    renderPanels._fadeStart = null;
+  }, delay);
 }
 
 function getCurrentScenario() {
@@ -1680,9 +1690,9 @@ function renderMap() {
         marker: {
           line: {
             color: records.map((row) =>
-              row.iso3 === state.country ? "rgba(0,210,220,0.95)" : "rgba(198,204,212,0.9)",
+              row.iso3 === state.country ? "rgba(241,174,40,0.92)" : "rgba(198,204,212,0.9)",
             ),
-            width: records.map((row) => (row.iso3 === state.country ? 3 : 0.4)),
+            width: records.map((row) => (row.iso3 === state.country ? 2.5 : 0.4)),
           },
         },
         colorbar: colorbarBase,
@@ -1700,7 +1710,7 @@ function renderMap() {
         zmax: bounds.zmax,
         zmid: bounds.zmid,
         marker: {
-          line: { color: "rgba(0,210,220,0.98)", width: 3.5 },
+          line: { color: "rgba(241,174,40,0.98)", width: 3 },
         },
       },
     ],
@@ -1868,7 +1878,7 @@ function renderChinaMap() {
       showlegend: false,
       line: {
         color: isSelected
-          ? "rgba(231,166,74,0.95)"
+          ? "rgba(20,184,166,0.90)"
           : hasData
             ? "#9AA3B2"
             : "#6B7280",
@@ -1939,10 +1949,10 @@ function updateMapHighlight(iso3) {
     {
       "marker.line.color": [
         records.map((row) =>
-          row.iso3 === iso3 ? "rgba(0,210,220,0.95)" : "rgba(198,204,212,0.9)",
+          row.iso3 === iso3 ? "rgba(241,174,40,0.92)" : "rgba(198,204,212,0.9)",
         ),
       ],
-      "marker.line.width": [records.map((row) => (row.iso3 === iso3 ? 3 : 0.4))],
+      "marker.line.width": [records.map((row) => (row.iso3 === iso3 ? 2.5 : 0.4))],
     },
     [0],
   );
@@ -2030,7 +2040,9 @@ function renderCountryPanel() {
   const meta = profile?.meta ?? {};
   const scenarioRow = getScenarioRow(state.country);
 
-  document.getElementById("country-title").textContent = countryLabel(meta) || state.country;
+  const flag = iso3ToFlag(state.country);
+  const nameText = countryLabel(meta) || state.country;
+  document.getElementById("country-title").textContent = flag ? `${flag} ${nameText}` : nameText;
   document.getElementById("country-tag").textContent = `${regionLabel(meta.who_region)} / ${
     incomeLabel(meta.wb_income)
   }`;
@@ -2173,18 +2185,22 @@ function renderRankingList() {
   const maxValue = Math.max(...topRows.map((row) => Math.abs(metric.accessor(row) ?? 0)), 1e-9);
   document.getElementById("ranking-list").innerHTML = topRows
     .map((row, index) => {
-      const progress = Math.round((Math.abs(metric.accessor(row) ?? 0) / maxValue) * 100);
+      const value = metric.accessor(row) ?? 0;
+      const progress = Math.round((Math.abs(value) / maxValue) * 100);
+      const barColor = metricBarColor(metric, value);
+      const flag = iso3ToFlag(row.iso3);
+      const flagHtml = flag ? `<span class="row-flag">${flag}</span>` : "";
       return `
         <button
           class="ranking-row ${row.iso3 === state.country ? "is-selected" : ""}"
           data-country="${escapeHtml(row.iso3)}"
           data-rank="${index + 1}"
-          style="--progress:${progress}%;animation-delay:${index * 45}ms"
+          style="--progress:${progress}%;--bar-color:${barColor};animation-delay:${index * 45}ms"
           type="button"
         >
           <span class="rank-badge">${index + 1}</span>
           <span class="row-info">
-            <b>${escapeHtml(countryLabel(row))}</b>
+            <b>${flagHtml}${escapeHtml(countryLabel(row))}</b>
             <small>${escapeHtml(row.who_region ? regionLabel(row.who_region) : (row.region || "")) } / ${escapeHtml(row.wb_income ? incomeLabel(row.wb_income) : (row.subregion || ""))}</small>
           </span>
           <span class="row-value">${escapeHtml(metric.formatter(metric.accessor(row)))}</span>
@@ -2221,15 +2237,15 @@ function renderDim4RankingList() {
   document.getElementById("ranking-list").innerHTML = rows
     .map((row, index) => {
       const progress = Math.round((Math.abs(row.value) / maxAbs) * 100);
-      const accent = metric.diverging
-        ? row.value >= 0 ? "style='--bar-color:rgba(11,111,184,0.55)'" : "style='--bar-color:rgba(232,106,79,0.55)'"
-        : "";
+      const barColor = metric.diverging
+        ? row.value >= 0 ? "rgba(11,111,184,0.45)" : "rgba(232,106,79,0.45)"
+        : "rgba(20,184,166,0.35)";
       return `
         <button
           class="ranking-row ${row.province === state.province ? "is-selected" : ""}"
           data-province="${escapeHtml(row.province)}"
           data-rank="${index + 1}"
-          style="--progress:${progress}%;animation-delay:${index * 45}ms"
+          style="--progress:${progress}%;--bar-color:${barColor};animation-delay:${index * 45}ms"
           type="button"
         >
           <span class="rank-badge">${index + 1}</span>
@@ -2277,7 +2293,7 @@ function renderChinaOptimizationDetail() {
         marker: {
           color: rows.map((r) =>
             r.province === selectedProv
-              ? THEME.amber
+              ? THEME.highlight
               : r.change_pct >= 0
               ? "rgba(11,111,184,0.65)"
               : "rgba(232,106,79,0.55)"
@@ -2370,10 +2386,10 @@ function renderDimension1Detail(profile) {
         y: trend.map((row) => row.life_expectancy),
         name: "预期寿命",
         mode: "lines+markers",
-        line: { color: THEME.cyan, width: 3, shape: "spline" },
-        marker: { size: 6, color: THEME.cyan },
+        line: { color: THEME.highlight, width: 3, shape: "spline" },
+        marker: { size: 6, color: THEME.highlight },
         fill: "tozeroy",
-        fillcolor: "rgba(11,111,184,0.10)",
+        fillcolor: "rgba(216,27,96,0.08)",
       },
       {
         x: trend.map((row) => row.year),
@@ -3122,7 +3138,7 @@ function renderGlobalQuadrantScatter() {
     y: cs.map((c) => c.output_index),
     marker: {
       size: cs.map((c) => c.iso3 === state.country ? 12 : 7),
-      color: cs.map((c) => c.iso3 === state.country ? THEME.amber : (QUADRANT_COLORS[q] ?? THEME.dim)),
+      color: cs.map((c) => c.iso3 === state.country ? THEME.highlight : (QUADRANT_COLORS[q] ?? THEME.dim)),
       opacity: 0.8,
       line: { color: "rgba(255,255,255,0.15)", width: 1 },
     },
@@ -3417,7 +3433,7 @@ function renderChinaQuadrantScatter() {
     textfont: { size: 9, color: "#4B5563" },
     marker: {
       size: provs.map((p) => p.province === state.province ? 14 : 9),
-      color: provs.map((p) => p.province === state.province ? THEME.amber : (QUADRANT_COLORS[q] ?? THEME.dim)),
+      color: provs.map((p) => p.province === state.province ? THEME.highlight : (QUADRANT_COLORS[q] ?? THEME.dim)),
       opacity: 0.85,
       line: { color: "rgba(255,255,255,0.2)", width: 1 },
     },
@@ -3950,7 +3966,7 @@ function renderBubbleChart() {
       opacity: 0.72,
       line: {
         color: rows.map((r) =>
-          r.iso3 === state.country ? "#0B6FB8" : "rgba(0,0,0,0)",
+          r.iso3 === state.country ? THEME.highlight : "rgba(0,0,0,0)",
         ),
         width: rows.map((r) => (r.iso3 === state.country ? 2.5 : 0)),
       },
@@ -4050,9 +4066,9 @@ function renderRadarChart() {
         theta: [...labels, labels[0]],
         name: countryLabel({ iso3: state.country }),
         fill: "toself",
-        fillcolor: "rgba(11,111,184,0.14)",
-        line: { color: THEME.cyan, width: 2.5 },
-        marker: { size: 6, color: THEME.cyan },
+        fillcolor: "rgba(216,27,96,0.10)",
+        line: { color: THEME.highlight, width: 2.5 },
+        marker: { size: 6, color: THEME.highlight },
       },
       {
         type: "scatterpolar",
@@ -4139,7 +4155,7 @@ function renderQuadrantScatter() {
       opacity: 0.72,
       line: {
         color: rows.map((r) =>
-          r.iso3 === state.country ? "#0B6FB8" : "rgba(0,0,0,0)",
+          r.iso3 === state.country ? THEME.highlight : "rgba(0,0,0,0)",
         ),
         width: rows.map((r) => (r.iso3 === state.country ? 2.5 : 0)),
       },
@@ -4268,7 +4284,7 @@ function renderSpotlightContent(iso3) {
   }
   document.getElementById("spotlight-badges").innerHTML = [
     meta.who_region
-      ? `<span class="spotlight-badge" data-type="region">${escapeHtml(regionLabel(meta.who_region))}</span>`
+      ? `<span class="spotlight-badge" data-type="region" data-region="${escapeHtml(meta.who_region)}">${escapeHtml(regionLabel(meta.who_region))}</span>`
       : "",
     meta.wb_income
       ? `<span class="spotlight-badge" data-type="income">${escapeHtml(incomeLabel(meta.wb_income))}</span>`
@@ -4339,10 +4355,9 @@ function renderSpotlightChart(trend, optimalValue) {
       y: trend.map((row) => row.life_expectancy),
       mode: "lines",
       name: "预期寿命",
-      line: { color: THEME.cyan, width: 2.5, shape: "spline" },
+      line: { color: THEME.highlight, width: 2.5, shape: "spline" },
       fill: "tozeroy",
-      fillcolor: "rgba(11,111,184,0.10)",
-      hovertemplate: "<b>%{x}</b><br>%{y:.1f} 岁<extra></extra>",
+      fillcolor: "rgba(216,27,96,0.08)",
     },
   ];
 
@@ -4768,7 +4783,7 @@ function getRiskName(riskCode) {
 }
 
 function colorFromPalette(index) {
-  const palette = [THEME.cyan, THEME.blue, THEME.teal, THEME.violet, THEME.amber, THEME.rose];
+  const palette = [THEME.teal, THEME.blue, THEME.violet, THEME.amber, THEME.rose, THEME.primary];
   return palette[index % palette.length];
 }
 
@@ -4938,6 +4953,19 @@ function iso3ToFlag(iso3) {
   return String.fromCodePoint(
     ...iso2.toUpperCase().split("").map((c) => 0x1f1e6 + c.charCodeAt(0) - 65)
   );
+}
+
+/** Derive a low-opacity bar colour from a metric's colorscale dominant hue. */
+function metricBarColor(metric, value) {
+  if (metric.diverging) {
+    return value >= 0 ? "rgba(11,111,184,0.40)" : "rgba(192,67,44,0.40)";
+  }
+  const lastStop = metric.colorscale?.[metric.colorscale.length - 1]?.[1];
+  if (!lastStop || lastStop.length < 7) return "rgba(11,111,184,0.30)";
+  const r = parseInt(lastStop.slice(1, 3), 16);
+  const g = parseInt(lastStop.slice(3, 5), 16);
+  const b = parseInt(lastStop.slice(5, 7), 16);
+  return `rgba(${r},${g},${b},0.28)`;
 }
 
 function debounce(fn, wait) {

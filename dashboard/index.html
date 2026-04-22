@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>健康洞察</title>
+    <title>Health Insight</title>
     <link rel="stylesheet" href="./styles.css" />
   </head>
   <body>
@@ -11,7 +11,7 @@
       <header class="masthead glass-card">
         <div class="masthead-brand"><span>H</span><small>d</small><span>I</span></div>
         <div class="masthead-identity">
-          <h1 class="gradient-text">健康洞察</h1>
+          <h1 class="gradient-text">Health Insight</h1>
         </div>
         <div class="masthead-spacer"></div>
         <div class="summary-strip" id="summary-strip"></div>
@@ -43,11 +43,25 @@
             <select id="budget-select"></select>
           </label>
           <label class="control-field search-field">
-            <span>定位国家</span>
-            <input id="country-search" list="country-list" placeholder="输入国家名称或三位国家代码" />
-            <datalist id="country-list"></datalist>
+            <span id="country-search-label">定位国家</span>
+            <div class="combobox" id="country-combobox" data-open="false">
+              <input
+                id="country-search"
+                class="combobox-input"
+                type="text"
+                role="combobox"
+                aria-expanded="false"
+                aria-autocomplete="list"
+                aria-controls="country-listbox"
+                aria-haspopup="listbox"
+                placeholder="搜索国家或地区"
+                autocomplete="off"
+                spellcheck="false"
+              />
+              <button class="combobox-clear" id="country-clear" type="button" aria-label="清除" hidden>×</button>
+              <ul id="country-listbox" class="combobox-listbox" role="listbox" aria-label="国家列表" hidden></ul>
+            </div>
           </label>
-          <button class="jump-button" id="country-jump" type="button">定位</button>
         </div>
         <div class="year-slider-group" id="year-slider-group" style="display:none">
           <button class="play-button" id="play-button" type="button" aria-label="播放动画">
