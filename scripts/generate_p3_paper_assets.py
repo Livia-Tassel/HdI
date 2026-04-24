@@ -185,10 +185,13 @@ def load_json(path: Path) -> dict:
         return json.load(handle)
 
 
-def save_matplotlib(fig: plt.Figure, filename: str, dpi: int = 260) -> Path:
+def save_matplotlib(fig: plt.Figure, filename: str, dpi: int = 260, *, tight: bool = True) -> Path:
     path = ASSETS / filename
     ASSETS.mkdir(parents=True, exist_ok=True)
-    fig.savefig(path, dpi=dpi, bbox_inches="tight", facecolor="white")
+    save_kwargs = {"dpi": dpi, "facecolor": "white"}
+    if tight:
+        save_kwargs["bbox_inches"] = "tight"
+    fig.savefig(path, **save_kwargs)
     plt.close(fig)
     print(f"[saved] {path.relative_to(ROOT)}")
     return path
@@ -342,17 +345,23 @@ def generate_global_gap_map(resource_gap: pd.DataFrame) -> None:
     fig.update_traces(
         hovertemplate="<b>%{hovertext}</b><br>缺口等级：%{customdata[3]}<br>资源缺口：%{customdata[0]:.2f}<br>WHO地区：%{customdata[1]}<br>收入组：%{customdata[2]}<extra></extra>"
     )
-    fig.update_geos(showframe=False, showcoastlines=True, coastlinecolor="#999999", bgcolor="white")
+    fig.update_geos(
+        showframe=False,
+        showcoastlines=True,
+        coastlinecolor="#999999",
+        bgcolor="white",
+        projection_scale=1.18,
+        domain=dict(x=[0.0, 0.90], y=[0.02, 0.98]),
+    )
     fig.update_layout(
-        title="图3-1 2023年全球卫生资源缺口五级分布",
-        title_x=0.5,
         paper_bgcolor="white",
         plot_bgcolor="white",
         legend_title_text="缺口等级",
+        legend=dict(x=0.92, y=0.95, xanchor="left", yanchor="top"),
         font=dict(family="PingFang SC, Hiragino Sans GB, Microsoft YaHei, SimHei, Arial", size=18),
-        margin=dict(l=10, r=10, t=80, b=20),
+        margin=dict(l=10, r=10, t=10, b=10),
     )
-    save_plotly(fig, "p3_01_global_gap_map.png", width=1480, height=860)
+    save_plotly(fig, "p3_01_global_gap_map.png", width=1440, height=1080)
 
 
 def generate_global_gap_top15(resource_gap: pd.DataFrame) -> None:
@@ -451,18 +460,16 @@ def generate_global_quadrant(efficiency: pd.DataFrame) -> None:
 def generate_global_equity_trends(global_story: dict) -> None:
     equity = pd.DataFrame(global_story["health_equity"])
     metric_specs = [
-        ("gini", "Gini系数", "#2E86AB"),
-        ("theil", "Theil指数", "#C73E1D"),
-        ("sigma", "σ-收敛指标", "#6C5B7B"),
+        ("theil", "#C73E1D"),
+        ("sigma", "#6C5B7B"),
     ]
-    fig, axes = plt.subplots(1, 3, figsize=(15.8, 4.8), sharex=True)
-    for ax, (column, title, color) in zip(axes, metric_specs, strict=False):
+    fig, axes = plt.subplots(2, 1, figsize=(10, 7.5), sharex=True)
+    for ax, (column, color) in zip(axes, metric_specs, strict=False):
         ax.plot(equity["year"], equity[column], color=color, linewidth=2.4)
         ax.fill_between(equity["year"], equity[column], color=color, alpha=0.12)
         ax.scatter([equity["year"].iloc[0], equity["year"].iloc[-1]], [equity[column].iloc[0], equity[column].iloc[-1]], color=color, s=34)
-        ax.set_title(title)
-        ax.set_xlabel("年份")
         ax.yaxis.set_major_formatter(FuncFormatter(lambda value, _: f"{value:.3f}"))
+        ax.tick_params(axis="x", labelbottom=True)
         ax.text(
             0.02,
             0.05,
@@ -472,9 +479,10 @@ def generate_global_equity_trends(global_story: dict) -> None:
             color="#555555",
         )
     axes[0].set_ylabel("指标值")
-    fig.suptitle("图3-4 2000–2023年全球健康公平性趋势", y=1.03, fontsize=15)
-    fig.tight_layout()
-    save_matplotlib(fig, "p3_04_global_equity_trends.png")
+    axes[1].set_ylabel("指标值")
+    axes[1].set_xlabel("年份")
+    fig.subplots_adjust(left=0.10, right=0.97, top=0.96, bottom=0.10, hspace=0.30)
+    save_matplotlib(fig, "p3_04_global_equity_trends.png", tight=False)
 
 
 def generate_global_group_fairness(equity_payload: dict) -> None:
