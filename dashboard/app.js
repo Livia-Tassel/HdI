@@ -1,3 +1,5 @@
+const DASHBOARD_SHELL_VERSION = "20260424-2";
+
 const DATA_SOURCES = {
   overview: "./data/overview.json",
   riskLatest: "./data/risk_latest.json",
@@ -684,11 +686,24 @@ const store = {
   chinaBudgetMultiplier: 1.0,
 };
 
+const PANEL_FADE_SELECTOR = ".insight-card, .chart-card, .context-card";
+const PLOT_STABILIZE_IDS = ["map-chart", "detail-chart", "companion-chart", "context-panel", "quadrant-chart", "spotlight-chart"];
+
+let plotlyReactImpl = null;
+let plotlyNewPlotImpl = null;
+let plotStabilizeTimer = null;
+let plotStabilizeFrame = null;
+const pendingPlotTargets = new Set();
+
 document.addEventListener("DOMContentLoaded", async () => {
   try {
     if (!window.Plotly) {
       throw new Error("Local Plotly bundle was not loaded.");
     }
+    if (!ensureDashboardShell()) {
+      return;
+    }
+    installPlotlyRenderGuard();
     await loadData();
     bindEvents();
     renderAll();
@@ -770,6 +785,204 @@ async function loadData() {
   }
 
   primeState();
+}
+
+function ensureDashboardShell() {
+  const requiredIds = [
+    "summary-strip",
+    "metric-select",
+    "risk-field",
+    "risk-select",
+    "objective-field",
+    "objective-select",
+    "budget-field",
+    "budget-select",
+    "country-search-label",
+    "country-combobox",
+    "country-search",
+    "country-clear",
+    "country-listbox",
+    "year-slider-group",
+    "play-button",
+    "year-slider",
+    "year-display",
+    "control-note",
+    "map-kicker",
+    "map-title",
+    "map-note",
+    "country-title",
+    "country-tag",
+    "country-metrics",
+    "ranking-caption",
+    "ranking-list",
+    "detail-title",
+    "detail-pill",
+    "companion-title",
+    "companion-pill",
+    "context-title",
+    "context-pill",
+    "context-panel",
+    "spotlight-close",
+    "spotlight-backdrop",
+    "spotlight-modal",
+  ];
+  const missing = requiredIds.filter((id) => !document.getElementById(id));
+  const reloadKey = `hdi-shell-reload-${DASHBOARD_SHELL_VERSION}`;
+
+  if (!missing.length) {
+    window.sessionStorage?.removeItem(reloadKey);
+    return true;
+  }
+
+  const url = new URL(window.location.href);
+  const hasFreshParam = url.searchParams.get("_shell") === DASHBOARD_SHELL_VERSION;
+
+  if (!hasFreshParam) {
+    window.sessionStorage?.setItem(reloadKey, missing.join(","));
+    url.searchParams.set("_shell", DASHBOARD_SHELL_VERSION);
+    window.location.replace(url.toString());
+    return false;
+  }
+
+  throw new Error(
+    `Dashboard shell mismatch. Missing DOM nodes: ${missing.join(", ")}. Please refresh the page.`,
+  );
+}
+
+function installPlotlyRenderGuard() {
+  if (window.Plotly.__hdiRenderGuardInstalled) {
+    return;
+  }
+  plotlyReactImpl = window.Plotly.react.bind(window.Plotly);
+  plotlyNewPlotImpl = window.Plotly.newPlot.bind(window.Plotly);
+  window.Plotly.react = (target, traces, layout, config) =>
+    safePlotlyRender(target, traces, layout, config);
+  window.Plotly.__hdiRenderGuardInstalled = true;
+}
+
+function safePlotlyRender(target, traces, layout, config) {
+  const container = resolvePlotContainer(target);
+  if (!container) {
+    return Promise.resolve();
+  }
+
+  const family = inferPlotFamily(target, traces, layout);
+  const previousFamily = container.dataset.plotFamily ?? "";
+  const familyChanged = previousFamily && previousFamily !== family;
+
+  if (familyChanged) {
+    resetPlotContainer(container);
+  }
+
+  const renderImpl = familyChanged ? plotlyNewPlotImpl : plotlyReactImpl;
+  return Promise.resolve(renderImpl(target, traces, layout, config))
+    .catch(() => {
+      resetPlotContainer(container);
+      return plotlyNewPlotImpl(target, traces, layout, config);
+    })
+    .then((result) => {
+      container.dataset.plotFamily = family;
+      schedulePlotStabilization([container.id || target]);
+      schedulePlotStabilization([container.id || target], 180);
+      return result;
+    });
+}
+
+function resolvePlotContainer(target) {
+  if (typeof target === "string") {
+    return document.getElementById(target);
+  }
+  return target ?? null;
+}
+
+function inferPlotFamily(target, traces, layout = {}) {
+  const targetId = typeof target === "string" ? target : target?.id ?? "";
+  const items = Array.isArray(traces) ? traces : [];
+  const types = items.map((trace) => safeLower(trace?.type));
+
+  if (!items.length) {
+    return "empty";
+  }
+  if (
+    targetId === "map-chart" ||
+    layout?.geo ||
+    layout?.mapbox ||
+    types.some((type) => type.includes("choropleth") || type.includes("scattergeo"))
+  ) {
+    return "geo";
+  }
+  if (layout?.polar || types.some((type) => type.includes("polar"))) {
+    return "polar";
+  }
+  if (types.includes("sankey")) {
+    return "sankey";
+  }
+  return "cartesian";
+}
+
+function resetPlotContainer(container) {
+  const target = container.classList.contains("js-plotly-plot")
+    ? container
+    : container.querySelector(".js-plotly-plot") ?? container;
+  try {
+    Plotly.purge(target);
+  } catch {}
+  if (target !== container) {
+    container.innerHTML = "";
+  }
+  delete container.dataset.plotFamily;
+}
+
+function setPanelFading(active) {
+  document.querySelectorAll(PANEL_FADE_SELECTOR).forEach((node) => {
+    node.classList.toggle("panel-fading", active);
+  });
+}
+
+function schedulePlotStabilization(ids = PLOT_STABILIZE_IDS, delay = 0) {
+  for (const id of ids) {
+    if (id) {
+      pendingPlotTargets.add(id);
+    }
+  }
+
+  const run = () => {
+    if (plotStabilizeFrame) {
+      window.cancelAnimationFrame(plotStabilizeFrame);
+    }
+    plotStabilizeFrame = window.requestAnimationFrame(() => {
+      plotStabilizeFrame = window.requestAnimationFrame(() => {
+        flushPlotStabilization();
+      });
+    });
+  };
+
+  if (delay > 0) {
+    window.clearTimeout(plotStabilizeTimer);
+    plotStabilizeTimer = window.setTimeout(run, delay);
+    return;
+  }
+  run();
+}
+
+function flushPlotStabilization() {
+  const ids = [...pendingPlotTargets];
+  pendingPlotTargets.clear();
+  ids.forEach((id) => {
+    const container = document.getElementById(id);
+    if (!container) {
+      return;
+    }
+    const plotNode = container.classList.contains("js-plotly-plot")
+      ? container
+      : container.querySelector(".js-plotly-plot");
+    if (!plotNode) {
+      return;
+    }
+    try {
+      Plotly.Plots.resize(plotNode);
+    } catch {}
+  });
 }
 
 async function loadJson(url) {
@@ -1010,12 +1223,8 @@ function bindEvents() {
   window.addEventListener(
     "resize",
     debounce(() => {
-      ["map-chart", "detail-chart", "companion-chart", "spotlight-chart", "quadrant-chart"].forEach((id) => {
-        const node = document.getElementById(id);
-        if (node) {
-          Plotly.Plots.resize(node);
-        }
-      });
+      schedulePlotStabilization();
+      schedulePlotStabilization(undefined, 180);
     }, 120),
   );
 }
@@ -1573,8 +1782,9 @@ function renderSummaryStrip() {
 }
 
 function renderPanels() {
-  const grid = document.querySelector(".dashboard-grid");
-  grid?.classList.add("dim-fading");
+  const token = (renderPanels._token ?? 0) + 1;
+  renderPanels._token = token;
+  setPanelFading(true);
   window.clearTimeout(renderPanels._timer);
 
   // Cap: if a fade batch has been running for >220ms, render immediately on next tick
@@ -1584,16 +1794,26 @@ function renderPanels() {
   const delay = elapsed > 220 ? 0 : 120;
 
   renderPanels._timer = window.setTimeout(() => {
-    renderCountryPanel();
-    renderRankingList();
-    renderDetailChart();
-    renderCompanionChart();
-    renderContextPanel();
-    if (state.dialogOpen) {
-      renderSpotlightContent(state.dialogCountry || state.country);
+    if (token !== renderPanels._token) {
+      return;
     }
-    grid?.classList.remove("dim-fading");
-    renderPanels._fadeStart = null;
+    try {
+      renderCountryPanel();
+      renderRankingList();
+      renderDetailChart();
+      renderCompanionChart();
+      renderContextPanel();
+      if (state.dialogOpen) {
+        renderSpotlightContent(state.dialogCountry || state.country);
+      }
+    } finally {
+      if (token === renderPanels._token) {
+        setPanelFading(false);
+        renderPanels._fadeStart = null;
+        schedulePlotStabilization();
+        schedulePlotStabilization(undefined, 180);
+      }
+    }
   }, delay);
 }
 
@@ -4642,7 +4862,6 @@ function baseLayout(extra = {}) {
       bordercolor: THEME.line,
       font: { family: "system-ui, sans-serif", color: THEME.inkBright, size: 13 },
     },
-    transition: { duration: 300, easing: "cubic-in-out" },
     ...extra,
   };
 }

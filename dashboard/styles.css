@@ -722,11 +722,6 @@ body {
 }
 
 .dashboard-grid.dim-fading {
-  opacity: 0.35;
-}
-
-/* Map card stays crisp during panel-fade transitions */
-.dashboard-grid.dim-fading .map-card {
   opacity: 1;
 }
 
@@ -757,6 +752,21 @@ body {
 .chart-card,
 .context-card {
   padding: 20px;
+}
+
+.insight-card,
+.chart-card,
+.context-card {
+  transition:
+    border-color 300ms var(--ease-smooth),
+    box-shadow 300ms var(--ease-smooth),
+    transform 220ms var(--ease-out-expo),
+    opacity 160ms var(--ease-smooth);
+}
+
+.panel-fading {
+  opacity: 0.72;
+  transform: translateY(1px);
 }
 
 .chart-card:nth-of-type(3) { grid-area: detail; }
@@ -1385,8 +1395,7 @@ body.ready .context-card { animation-delay: 360ms; }
 /* ── Dimension Switch Transition ──────────────────────────────────── */
 
 .dim-fading {
-  opacity: 0.4;
-  transition: opacity 180ms var(--ease-smooth);
+  opacity: 1;
 }
 
 /* ── Selection highlight ──────────────────────────────────────────── */
