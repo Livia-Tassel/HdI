@@ -1,36 +1,24 @@
 {
   "version": "2026-03-08",
-  "purpose": "Submission-facing index for the retained AI collaboration logs.",
+  "purpose": "面向提交的智能体协作材料索引。",
   "logs": [
     {
-      "file": "ai_agent/interaction_logs/001_project_architecture.json",
-      "topic": "Project architecture and competition strategy",
-      "status": "partially_adopted",
-      "notes": "三维结构、单一事实来源和模块化目录思路被保留；其中 GHRI、DEA 等早期扩展设想没有作为本次主线结果提交。"
+      "file": "ai_agent/submission_record.md",
+      "topic": "协作摘要",
+      "status": "available",
+      "notes": "概述 AI 在需求理解、方法取舍、代码生成、调试和结果包装中的实际贡献。"
     },
     {
-      "file": "ai_agent/interaction_logs/002_panel_regression.json",
-      "topic": "Panel regression approach for health determinants",
-      "status": "exploratory_only",
-      "notes": "属于方法探索记录。最终报告没有把该日志中的完整面板固定效应方案写成已交付主结果。"
+      "file": "ai_agent/workflow.md",
+      "topic": "协作流程",
+      "status": "available",
+      "notes": "按阶段说明从赛题理解到结果交付的完整协作链路。"
     },
     {
-      "file": "ai_agent/interaction_logs/003_causal_inference.json",
-      "topic": "Causal inference strategy",
-      "status": "exploratory_only",
-      "notes": "体现了早期差异化思路探索，但不构成当前 shipped pipeline 的核心结果。"
-    },
-    {
-      "file": "ai_agent/interaction_logs/004_ghri_index.json",
-      "topic": "GHRI composite index design",
-      "status": "not_delivered",
-      "notes": "GHRI 没有作为本次正式结果交付；仓库中的 metadata/ghri.json 仅为兼容占位。"
-    },
-    {
-      "file": "ai_agent/interaction_logs/005_shapley_attribution.json",
-      "topic": "Shapley value attribution for risk factors",
-      "status": "partially_adopted",
-      "notes": "该日志保留了方法讨论痕迹；最终 Dimension 2 的主口径仍是 attributable_share，相关排序结果作为兼容性输出保留。"
+      "file": "ai_agent/report.docx",
+      "topic": "提交版协作材料",
+      "status": "available",
+      "notes": "用于提交或归档的汇总版文档，替代独立的 interaction_logs JSON 样例。"
     }
   ]
 }
