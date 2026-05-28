@@ -1,0 +1,15 @@
+ D ai_agent/interaction_logs/001_project_architecture.json
+ D ai_agent/interaction_logs/002_panel_regression.json
+ D ai_agent/interaction_logs/003_causal_inference.json
+ D ai_agent/interaction_logs/004_ghri_index.json
+ D ai_agent/interaction_logs/005_shapley_attribution.json
+ M ai_agent/log_index.json
+ M ai_agent/submission_record.md
+ M dashboard/app.js
+ M dashboard/index.html
+ D reports/paper/docx/compact_report.docx
+ D reports/paper/docx/compact_report.md
+ M reports/paper/docx/integrated_report.docx
+ D reports/paper/p3/paper.md
+?? ai_agent/report.docx
+?? dashboard/report.docx
