@@ -1,4 +1,4 @@
-const DASHBOARD_SHELL_VERSION = "20260424-2";
+const DASHBOARD_SHELL_VERSION = "20260512-1";
 
 const DATA_SOURCES = {
   overview: "./data/overview.json",
@@ -11,6 +11,24 @@ const DATA_SOURCES = {
   panorama: "./data/panorama.json",
   bubbleTimeseries: "./data/bubble_timeseries.json",
   riskIndicators: "./data/risk_indicators.json",
+};
+
+const INITIAL_DATA_SOURCES = ["overview"];
+
+const DIMENSION_BLOCKING_SOURCES = {
+  dim1: ["overview"],
+  dim2: ["overview", "riskLatest", "profiles", "globalStory"],
+  dim3: ["overview", "globalStory", "profiles"],
+  dim4: ["chinaDeepDive", "chinaProvinces"],
+  dim5: ["overview", "panorama", "bubbleTimeseries", "riskIndicators"],
+};
+
+const DIMENSION_BACKGROUND_SOURCES = {
+  dim1: ["profiles", "timeseries", "globalStory"],
+  dim2: [],
+  dim3: [],
+  dim4: [],
+  dim5: [],
 };
 
 const DIMENSIONS = {
@@ -686,6 +704,12 @@ const store = {
   chinaBudgetMultiplier: 1.0,
 };
 
+const dataLoadState = Object.fromEntries(
+  Object.keys(DATA_SOURCES).map((key) => [key, "idle"]),
+);
+const dataLoadPromises = {};
+let dashboardBootstrapped = false;
+
 const PANEL_FADE_SELECTOR = ".insight-card, .chart-card, .context-card";
 const PLOT_STABILIZE_IDS = ["map-chart", "detail-chart", "companion-chart", "context-panel", "quadrant-chart", "spotlight-chart"];
 
@@ -704,9 +728,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       return;
     }
     installPlotlyRenderGuard();
-    await loadData();
-    bindEvents();
-    renderAll();
+    await bootstrapDashboard();
     document.body.classList.add("ready");
   } catch (error) {
     console.error(error);
@@ -714,16 +736,134 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 });
 
-async function loadData() {
-  const entries = await Promise.all(
-    Object.entries(DATA_SOURCES).map(async ([key, url]) => [key, await loadJson(url)]),
-  );
+async function bootstrapDashboard() {
+  await ensureDataSources(INITIAL_DATA_SOURCES);
+  bindEvents();
+  dashboardBootstrapped = true;
+  renderAll();
+  queueBackgroundLoad(DIMENSION_BACKGROUND_SOURCES[state.dimension] ?? []);
+}
 
-  for (const [key, value] of entries) {
-    store[key] = value;
+function requestDashboardRefresh() {
+  if (!dashboardBootstrapped) {
+    return;
+  }
+  scheduleDashboardRefresh();
+}
+
+const scheduleDashboardRefresh = debounce(() => {
+  if (!document.getElementById("summary-strip")) {
+    return;
+  }
+  renderAll();
+  if (state.dialogOpen && state.dialogCountry) {
+    renderSpotlightContent(state.dialogCountry);
+  }
+}, 24);
+
+function getPendingDataSources(keys) {
+  return [...new Set(keys)].filter((key) => DATA_SOURCES[key] && dataLoadState[key] !== "ready");
+}
+
+function isDataSourceReady(key) {
+  return dataLoadState[key] === "ready";
+}
+
+function isDataSourceLoading(key) {
+  return dataLoadState[key] === "loading";
+}
+
+async function ensureDataSources(keys) {
+  const pending = getPendingDataSources(keys);
+  if (!pending.length) {
+    return;
+  }
+  await Promise.all(pending.map((key) => loadDataSource(key)));
+}
+
+function queueBackgroundLoad(keys) {
+  const pending = getPendingDataSources(keys);
+  if (!pending.length) {
+    return;
   }
 
-  for (const country of store.overview.countries ?? []) {
+  const run = () => {
+    Promise.allSettled(pending.map((key) => loadDataSource(key))).then((results) => {
+      results.forEach((result) => {
+        if (result.status === "rejected") {
+          console.error(result.reason);
+        }
+      });
+    });
+  };
+
+  if (typeof window.requestIdleCallback === "function") {
+    window.requestIdleCallback(run, { timeout: 1200 });
+  } else {
+    window.setTimeout(run, 0);
+  }
+}
+
+async function loadDataSource(key) {
+  if (!DATA_SOURCES[key]) {
+    throw new Error(`Unknown data source: ${key}`);
+  }
+  if (dataLoadState[key] === "ready") {
+    return store[key];
+  }
+  if (dataLoadPromises[key]) {
+    return dataLoadPromises[key];
+  }
+
+  dataLoadState[key] = "loading";
+  dataLoadPromises[key] = loadJson(DATA_SOURCES[key])
+    .then((value) => {
+      applyLoadedDataSource(key, value);
+      dataLoadState[key] = "ready";
+      requestDashboardRefresh();
+      return store[key];
+    })
+    .catch((error) => {
+      dataLoadState[key] = "error";
+      throw error;
+    })
+    .finally(() => {
+      delete dataLoadPromises[key];
+    });
+
+  return dataLoadPromises[key];
+}
+
+function applyLoadedDataSource(key, value) {
+  store[key] = value;
+
+  if (key === "overview") {
+    refreshOverviewState();
+    refreshOptimizationState();
+  } else if (key === "riskLatest") {
+    refreshRiskState();
+  } else if (key === "globalStory") {
+    refreshOptimizationState();
+  } else if (key === "timeseries") {
+    refreshTimeseriesState();
+  } else if (key === "panorama") {
+    refreshPanoramaState();
+  } else if (key === "riskIndicators") {
+    refreshRiskIndicatorsState();
+  } else if (key === "bubbleTimeseries") {
+    refreshBubbleState();
+  } else if (key === "chinaDeepDive") {
+    refreshChinaState();
+  }
+
+  primeState();
+}
+
+function refreshOverviewState() {
+  store.overviewIndex.clear();
+  store.countryLookup.clear();
+
+  for (const country of store.overview?.countries ?? []) {
     store.overviewIndex.set(country.iso3, country);
     const isoKey = safeLower(country.iso3);
     const nameKey = safeLower(country.country_name);
@@ -740,51 +880,59 @@ async function loadData() {
       store.countryLookup.set(`${zhNameKey} (${isoKey})`, country.iso3);
     }
   }
+}
 
-  for (const risk of store.riskLatest.risks ?? []) {
+function refreshRiskState() {
+  store.riskIndex.clear();
+  for (const risk of store.riskLatest?.risks ?? []) {
     store.riskIndex.set(`${risk.iso3}|${risk.risk_code}`, risk);
   }
+}
 
+function refreshOptimizationState() {
   store.optimizationScenarios = normalizeOptimizationScenarios();
   store.scenarioIndex = new Map(
     store.optimizationScenarios.map((scenario) => [scenario.scenario_id, scenario]),
   );
+  syncScenarioSelection();
+}
 
-  if (store.timeseries?.years?.length) {
-    store.availableYears = store.timeseries.years;
+function refreshTimeseriesState() {
+  store.availableYears = store.timeseries?.years ?? [];
+  if (store.availableYears.length && !store.availableYears.includes(state.year)) {
     state.year = store.availableYears[store.availableYears.length - 1];
   }
+}
 
-  // Build panorama indexes
-  if (store.panorama?.countries) {
-    for (const c of store.panorama.countries) {
-      store.panoramaIndex.set(c.iso3, c);
-    }
+function refreshPanoramaState() {
+  store.panoramaIndex.clear();
+  for (const row of store.panorama?.countries ?? []) {
+    store.panoramaIndex.set(row.iso3, row);
   }
-  if (store.riskIndicators?.countries) {
-    for (const c of store.riskIndicators.countries) {
-      store.riskIndicatorIndex.set(c.iso3, c);
-    }
-  }
-  if (store.bubbleTimeseries?.years?.length) {
-    store.bubbleYears = store.bubbleTimeseries.years;
-  }
+}
 
-  // Build China province index (by Chinese province name)
+function refreshRiskIndicatorsState() {
+  store.riskIndicatorIndex.clear();
+  for (const row of store.riskIndicators?.countries ?? []) {
+    store.riskIndicatorIndex.set(row.iso3, row);
+  }
+}
+
+function refreshBubbleState() {
+  store.bubbleYears = store.bubbleTimeseries?.years ?? [];
+}
+
+function refreshChinaState() {
+  store.chinaProvinceIndex.clear();
   for (const prov of store.chinaDeepDive?.provinces ?? []) {
     store.chinaProvinceIndex.set(prov.province, prov);
   }
 
-  // Build China optimization scenarios index
   const chinaOpt = store.chinaDeepDive?.optimization;
-  if (chinaOpt?.scenarios?.length) {
-    store.chinaOptimizationScenarios = chinaOpt.scenarios;
-    store.chinaScenarioIndex = new Map(
-      chinaOpt.scenarios.map((sc) => [sc.scenario_id, sc])
-    );
-  }
-
-  primeState();
+  store.chinaOptimizationScenarios = chinaOpt?.scenarios ?? [];
+  store.chinaScenarioIndex = new Map(
+    store.chinaOptimizationScenarios.map((scenario) => [scenario.scenario_id, scenario]),
+  );
 }
 
 function ensureDashboardShell() {
@@ -998,8 +1146,13 @@ function primeState() {
     state.country = store.overview.countries?.[0]?.iso3 ?? "";
   }
 
-  state.risk = store.riskLatest.available_risks?.[0]?.risk_code ?? "";
-  syncScenarioSelection();
+  const availableRisks = store.riskLatest?.available_risks ?? [];
+  if (availableRisks.length && !availableRisks.some((risk) => risk.risk_code === state.risk)) {
+    state.risk = availableRisks[0]?.risk_code ?? "";
+  }
+  if (store.optimizationScenarios.length) {
+    syncScenarioSelection();
+  }
 
   // Default province: Beijing (北京市)
   if (!state.province && store.chinaDeepDive?.provinces?.length) {
@@ -1149,10 +1302,20 @@ function updateSliderFill(slider) {
 
 function bindEvents() {
   document.querySelectorAll("[data-dimension]").forEach((button) => {
-    button.addEventListener("click", () => {
-      state.dimension = button.dataset.dimension;
-      state.metric = DIMENSIONS[state.dimension].defaultMetric;
-      renderAll();
+    button.addEventListener("click", async () => {
+      const nextDimension = button.dataset.dimension;
+      if (!nextDimension || nextDimension === state.dimension) {
+        return;
+      }
+      try {
+        await ensureDataSources(DIMENSION_BLOCKING_SOURCES[nextDimension] ?? []);
+        state.dimension = nextDimension;
+        state.metric = DIMENSIONS[state.dimension].defaultMetric;
+        renderAll();
+        queueBackgroundLoad(DIMENSION_BACKGROUND_SOURCES[nextDimension] ?? []);
+      } catch (error) {
+        console.error(error);
+      }
     });
   });
 
@@ -1333,7 +1496,7 @@ function syncControls() {
   riskField.style.display = state.dimension === "dim2" ? "grid" : "none";
   if (state.dimension === "dim2") {
     const riskSelect = document.getElementById("risk-select");
-    riskSelect.innerHTML = (store.riskLatest.available_risks ?? [])
+    riskSelect.innerHTML = (store.riskLatest?.available_risks ?? [])
       .map(
         (risk) =>
           `<option value="${escapeHtml(risk.risk_code)}">${escapeHtml(translateRiskName(risk.risk_name))}</option>`,
@@ -2255,9 +2418,10 @@ function buildHoverText(row) {
 }
 
 function renderCountryPanel() {
-  const profile = store.profiles[state.country];
-  const latest = profile?.latest ?? {};
-  const meta = profile?.meta ?? {};
+  const profile = (store.profiles ?? {})[state.country];
+  const overviewRow = store.overviewIndex.get(state.country) ?? {};
+  const latest = profile?.latest ?? overviewRow;
+  const meta = profile?.meta ?? overviewRow;
   const scenarioRow = getScenarioRow(state.country);
 
   const flag = iso3ToFlag(state.country);
@@ -2551,7 +2715,7 @@ function renderChinaOptimizationDetail() {
 }
 
 function renderDetailChart() {
-  const profile = store.profiles[state.country];
+  const profile = (store.profiles ?? {})[state.country];
 
   if (state.dimension === "dim4") {
     document.getElementById("detail-title").textContent = "省级优化方案对比";
@@ -2560,8 +2724,20 @@ function renderDetailChart() {
     return;
   }
 
+  if (state.dimension === "dim5") {
+    document.getElementById("detail-title").textContent = "健康雷达对比";
+    document.getElementById("detail-pill").textContent = "国家与全球对比";
+    renderRadarChart();
+    return;
+  }
+
   if (!profile) {
-    emptyPlot("detail-chart", "暂无国家概况数据。");
+    emptyPlot(
+      "detail-chart",
+      isDataSourceLoading("profiles") || !isDataSourceReady("profiles")
+        ? "正在加载国家历史数据..."
+        : "暂无国家概况数据。",
+    );
     return;
   }
 
@@ -2576,13 +2752,6 @@ function renderDetailChart() {
     document.getElementById("detail-title").textContent = "最新风险构成";
     document.getElementById("detail-pill").textContent = "主要风险因素";
     renderDimension2Detail(profile);
-    return;
-  }
-
-  if (state.dimension === "dim5") {
-    document.getElementById("detail-title").textContent = "健康雷达对比";
-    document.getElementById("detail-pill").textContent = "国家与全球对比";
-    renderRadarChart();
     return;
   }
 
@@ -2778,6 +2947,13 @@ function renderChinaDetailChart() {
 
 function renderCompanionChart() {
   if (state.dimension === "dim1") {
+    if (!isDataSourceReady("globalStory")) {
+      emptyPlot(
+        "companion-chart",
+        isDataSourceLoading("globalStory") ? "正在加载全球趋势数据..." : "暂无全球趋势数据。",
+      );
+      return;
+    }
     const toggleHtml = `<span class="companion-toggle" id="companion-toggle">` +
       `<button class="companion-toggle-btn ${state.companionView === "transition" || !["equity","lorenz"].includes(state.companionView) ? "is-active" : ""}" data-view="transition">趋势</button>` +
       `<button class="companion-toggle-btn ${state.companionView === "equity" ? "is-active" : ""}" data-view="equity">公平</button>` +
@@ -2812,6 +2988,13 @@ function renderCompanionChart() {
   }
 
   if (state.dimension === "dim2") {
+    if (!isDataSourceReady("globalStory")) {
+      emptyPlot(
+        "companion-chart",
+        isDataSourceLoading("globalStory") ? "正在加载风险流向数据..." : "暂无桑基图数据。",
+      );
+      return;
+    }
     document.getElementById("companion-title").textContent = "风险-地区流向";
     document.getElementById("companion-pill").textContent = "桑基图概览";
     renderRiskSankey();
@@ -3775,7 +3958,7 @@ function renderDim2Context() {
 
 function renderDim3Context() {
   const scenario = getCurrentScenario();
-  const profile = store.profiles[state.country];
+  const profile = (store.profiles ?? {})[state.country];
   const latest = profile?.latest ?? {};
   const selected = getScenarioRow(state.country);
   // Use pre-computed top_recipients/top_donors from scenario summary if available
@@ -4478,14 +4661,26 @@ function openSpotlightModal(iso3) {
 
   document.body.style.overflow = "hidden";
   renderSpotlightContent(iso3);
+  if (!isDataSourceReady("profiles")) {
+    ensureDataSources(["profiles"])
+      .then(() => {
+        if (state.dialogOpen && state.dialogCountry === iso3) {
+          renderSpotlightContent(iso3);
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }
   window.requestAnimationFrame(() => {
     document.getElementById("spotlight-close").focus();
   });
 }
 
 function renderSpotlightContent(iso3) {
-  const profile = store.profiles[iso3];
+  const profile = (store.profiles ?? {})[iso3];
   if (!profile) {
+    renderSpotlightLoading(iso3);
     return;
   }
 
@@ -4561,6 +4756,35 @@ function renderSpotlightContent(iso3) {
   renderSpotlightRisks(risks);
   renderSpotlightAllocation(scenarioRow, latest);
   renderSpotlightRec(latest.quadrant);
+}
+
+function renderSpotlightLoading(iso3) {
+  const fallback = store.overviewIndex.get(iso3) ?? { iso3 };
+  document.getElementById("spotlight-name").textContent = countryLabel(fallback) || iso3;
+  const flagWrap = document.querySelector(".spotlight-flag-wrap");
+  const flagEmoji = iso3ToFlag(iso3);
+  flagWrap.innerHTML = flagEmoji
+    ? `<div class="spotlight-flag-emoji">${flagEmoji}</div>`
+    : `<div class="spotlight-flag-fallback">${escapeHtml(iso3)}</div>`;
+  document.getElementById("spotlight-badges").innerHTML = [
+    fallback.who_region
+      ? `<span class="spotlight-badge" data-type="region">${escapeHtml(regionLabel(fallback.who_region))}</span>`
+      : "",
+    fallback.wb_income
+      ? `<span class="spotlight-badge" data-type="income">${escapeHtml(incomeLabel(fallback.wb_income))}</span>`
+      : "",
+  ].join("");
+  document.getElementById("spotlight-metrics").innerHTML =
+    '<span class="empty-inline">正在加载国家详情...</span>';
+  emptyPlot("spotlight-chart", "正在加载国家详情...");
+  document.getElementById("spotlight-risks").innerHTML =
+    '<span class="empty-inline">正在加载风险因素...</span>';
+  document.getElementById("spotlight-allocation").innerHTML =
+    '<span class="empty-inline">正在加载资源方案...</span>';
+  const section = document.getElementById("spotlight-rec-section");
+  if (section) {
+    section.style.display = "none";
+  }
 }
 
 function renderSpotlightChart(trend, optimalValue) {
