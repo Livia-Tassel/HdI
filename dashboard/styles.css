@@ -172,10 +172,11 @@ body {
 }
 
 /* Thin accent top line per card type — adds character without noise */
-.map-card    { border-top: 2px solid var(--accent-1); }
+.map-card { border-top: 2px solid var(--accent-1); }
 .insight-card { border-top: 2px solid var(--accent-2); }
-.chart-card:nth-of-type(3) { border-top: 2px solid var(--accent-5); }
-.chart-card:nth-of-type(4) { border-top: 2px solid var(--accent-4); }
+.ranking-card { border-top: 2px solid var(--accent-6); }
+.detail-card { border-top: 2px solid var(--accent-5); }
+.companion-card { border-top: 2px solid var(--accent-4); }
 .context-card { border-top: 2px solid var(--accent-3); }
 
 .glass-card:hover {
@@ -712,12 +713,14 @@ body {
 
 .dashboard-grid {
   display: grid;
-  grid-template-columns: minmax(0, 1.6fr) minmax(0, 0.78fr);
+  grid-template-columns: minmax(0, 1.48fr) minmax(320px, 0.82fr);
   grid-template-areas:
     "map insight"
+    "ranking ranking"
     "detail companion"
     "context context";
   gap: 14px;
+  align-items: start;
   transition: opacity 200ms var(--ease-smooth);
 }
 
@@ -727,8 +730,18 @@ body {
 
 .map-card {
   grid-area: map;
-  min-height: 660px;
+  min-height: 0;
   padding: 20px;
+  align-self: start;
+}
+
+.dashboard-grid.dim4-layout {
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  grid-template-areas:
+    "map map"
+    "insight ranking"
+    "detail companion"
+    "context context";
 }
 
 .dashboard-grid.dim4-layout .map-card {
@@ -737,7 +750,7 @@ body {
 }
 
 .dashboard-grid.dim4-layout .plot-map {
-  min-height: clamp(500px, 58vh, 720px);
+  min-height: clamp(520px, 60vh, 760px);
 }
 
 .insight-card {
@@ -749,12 +762,22 @@ body {
   background: var(--surface);
 }
 
+.ranking-card {
+  grid-area: ranking;
+  padding: 20px;
+  display: grid;
+  gap: 12px;
+  align-content: start;
+  background: var(--surface);
+}
+
 .chart-card,
 .context-card {
   padding: 20px;
 }
 
 .insight-card,
+.ranking-card,
 .chart-card,
 .context-card {
   transition:
@@ -769,8 +792,8 @@ body {
   transform: translateY(1px);
 }
 
-.chart-card:nth-of-type(3) { grid-area: detail; }
-.chart-card:nth-of-type(4) { grid-area: companion; }
+.detail-card { grid-area: detail; }
+.companion-card { grid-area: companion; }
 
 .context-card {
   grid-area: context;
@@ -872,7 +895,7 @@ body {
 }
 
 .plot-map {
-  min-height: 578px;
+  min-height: clamp(440px, 50vh, 590px);
 }
 
 /* ── Metric Tiles ─────────────────────────────────────────────────── */
@@ -881,6 +904,10 @@ body {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 8px;
+}
+
+.dashboard-grid.dim4-layout .metric-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
 .metric-tile {
@@ -953,36 +980,18 @@ body {
 
 /* ── Ranking ──────────────────────────────────────────────────────── */
 
-.ranking-block {
-  display: grid;
-  gap: 10px;
-}
-
-.subhead {
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  gap: 12px;
-}
-
-.subhead h3 {
-  margin: 0;
-  font-family: var(--font-display);
-  font-size: 14px;
-  font-weight: 600;
-  color: var(--ink);
-}
-
-.subhead span {
-  color: var(--dim);
-  font-size: 11px;
-  font-family: var(--font-mono);
-  font-feature-settings: "tnum" 1;
+.ranking-note {
+  max-width: none;
 }
 
 .ranking-list {
   display: grid;
-  gap: 4px;
+  gap: 8px;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
+}
+
+.dashboard-grid.dim4-layout .ranking-list {
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
 }
 
 .ranking-row {
@@ -1377,9 +1386,10 @@ body.ready .masthead    { animation-delay: 0ms; }
 body.ready .control-bar { animation-delay: 60ms; }
 body.ready .map-card    { animation-delay: 120ms; }
 body.ready .insight-card { animation-delay: 180ms; }
-body.ready .chart-card:nth-of-type(3) { animation-delay: 240ms; }
-body.ready .chart-card:nth-of-type(4) { animation-delay: 300ms; }
-body.ready .context-card { animation-delay: 360ms; }
+body.ready .ranking-card { animation-delay: 240ms; }
+body.ready .detail-card { animation-delay: 300ms; }
+body.ready .companion-card { animation-delay: 360ms; }
+body.ready .context-card { animation-delay: 420ms; }
 
 @keyframes card-rise {
   from {
@@ -1431,6 +1441,7 @@ body.ready .context-card { animation-delay: 360ms; }
     grid-template-areas:
       "map"
       "insight"
+      "ranking"
       "detail"
       "companion"
       "context";
@@ -1460,6 +1471,7 @@ body.ready .context-card { animation-delay: 360ms; }
   .masthead,
   .map-card,
   .insight-card,
+  .ranking-card,
   .chart-card,
   .context-card,
   .control-bar {
@@ -1483,6 +1495,10 @@ body.ready .context-card { animation-delay: 360ms; }
   }
 
   .metric-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .dashboard-grid.dim4-layout .metric-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
@@ -1541,6 +1557,10 @@ body.ready .context-card { animation-delay: 360ms; }
   }
 
   .metric-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .dashboard-grid.dim4-layout .metric-grid {
     grid-template-columns: 1fr;
   }
 

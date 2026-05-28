@@ -1,4 +1,4 @@
-const DASHBOARD_SHELL_VERSION = "20260512-1";
+const DASHBOARD_SHELL_VERSION = "20260528-1";
 
 const DATA_SOURCES = {
   overview: "./data/overview.json",
@@ -961,6 +961,7 @@ function ensureDashboardShell() {
     "country-title",
     "country-tag",
     "country-metrics",
+    "ranking-title",
     "ranking-caption",
     "ranking-list",
     "detail-title",
@@ -1479,6 +1480,10 @@ function renderAll() {
 function syncLayoutMode() {
   const grid = document.querySelector(".dashboard-grid");
   grid?.classList.toggle("dim4-layout", state.dimension === "dim4");
+  if (grid) {
+    grid.dataset.dimension = state.dimension;
+  }
+  document.body.dataset.dimension = state.dimension;
 }
 
 function syncControls() {
@@ -2555,14 +2560,23 @@ function renderRankingList() {
     return (leftValue ?? Infinity) - (rightValue ?? Infinity);
   });
 
+  let title = "当前指标排名";
   let caption = "按当前地图指标排序";
   if (state.dimension === "dim2") {
+    title = "风险因素排名";
     caption = `${getRiskName(state.risk)} | ${metric.label}`;
   } else if (state.dimension === "dim3" && state.metric === "change_pct") {
+    title = "资源配置排序";
     caption = `${objectiveLabel(state.objective)} | ${budgetLabel(state.budgetMultiplier)}`;
   } else if (state.dimension === "dim3" && state.metric === "gap") {
+    title = "资源配置排序";
     caption = "最严重短缺";
+  } else if (state.dimension === "dim3") {
+    title = "资源配置排序";
+  } else if (state.dimension === "dim5") {
+    title = "健康全景排名";
   }
+  document.getElementById("ranking-title").textContent = title;
   document.getElementById("ranking-caption").textContent = caption;
 
   const topRows = rows.slice(0, 10);
@@ -2616,6 +2630,7 @@ function renderDim4RankingList() {
     .slice(0, 12);
 
   const maxAbs = rows.length ? Math.max(...rows.map((r) => Math.abs(r.value)), 1) : 1;
+  document.getElementById("ranking-title").textContent = "省级指标排名";
   document.getElementById("ranking-caption").textContent = `${metric.label} | 省级排名`;
 
   document.getElementById("ranking-list").innerHTML = rows
